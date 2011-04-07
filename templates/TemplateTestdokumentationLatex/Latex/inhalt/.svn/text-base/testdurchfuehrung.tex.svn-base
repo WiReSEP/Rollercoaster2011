@@ -1,0 +1,139 @@
+% Kapitel 3 mit den entsprechenden Unterkapiteln
+% Die Unterkapitel können auch in separaten Dateien stehen,
+% die dann mit dem \include-Befehl eingebunden werden.
+%----------------------------------------------------------------------------
+
+\chapter{Testdurchführung}
+
+In diesem Abschnitt werden die einzelnen Testfälle beschrieben und deren
+Durchführungen (=Testläufe) protokolliert.\\
+Ein Testfall ist eine Kombination von Eingabedaten, Bedingungen und erwarteten
+Ausgaben, die einen bestimmten Zweck erfüllen. Man prüft z.B., ob Vorgaben in
+einem Spezifikations-dokument eingehalten werden oder ob der Programmablauf
+tatsächlich dem erwarteten Pfad entspricht.\\
+Dieses Kapitel enthält drei Arten von Tabellen:\\
+1.  Die Übersichtstabelle zeigt an, welche Testfälle es gibt und welcher
+Testfall welche Objekte, Methoden oder Anforderungen testet. So hat man den
+Überblick, Verfolg-barkeit zwischen der Testdokumentation und anderen
+Dokumenten, und man kann sehen, ob die Testfälle vollständig sind.\\
+2.  Der Testfall beschreibt jeden einzelnen Testfall im Detail.\\
+3.  Der Testlauf beschreibt eine Durchführung eines Testfalls. Derselbe
+Testfall kann mit verschiedenen Eingabedaten oder auch mit verschiedenen
+Softwareversionen mehrmals durchgeführt werden.\\
+
+\section{Übersichtstabelle}
+  In der folgenden Tabelle sind entweder für alle Testfälle die zu testende
+  Komponente oder die zu testende Funktion angegeben werden. Oder beides. Die
+  Bezeichnungen der Komponenten müssen konsistent sein mit denen in Fein- und
+  Grobkonzept, um die Verfolgbarkeit zum Konzept sicherzustellen. Die IDs und
+  Bezeichnungen der Funktionen müssen denen im Pflichtenheft entsprechen, um
+  die Verfolgbarkeit zu den Anforderungen sicherzustellen. \\
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Testfall ID und Bezeichnung} &  \textbf {Zu testende Komponente} &
+\textbf {Zu testende Funktion}\\
+\hline
+z.B. /T100/ Lager anlegen &  z.B. Lagerdatenbank  & z.B. /F100/ Lager anlegen \\
+\hline
+&&
+\end{tabular}
+
+Im Folgenden sind so viele Unterkapitel einzufügen, wie es Testfälle gibt.\\
+
+\section{Testfall -- ID und Bezeichnung}
+Jeder Testfall erhält eine eindeutige Identifikation mit Kurzbezeichnung.\\
+Beispiel: /T100/ Lager anlegen\\
+Die folgende Tabelle beschreibt den Testfall. \\
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{Beispiel:
+                                                        /T100/ Lager anlegen} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{Hier sind alle Testobjekte
+und Methoden zu beschreiben, die von diesem Testfall ausgeführt werden.
+Testobjekte können dabei z.B. auch Komponenten oder einzelne Webseiten sein.}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Es sind die Kriterien anzugeben, mit denen man feststellt, dass der
+Testfall erfolgreich bzw. fehlgeschlagen ist. } \\
+\hline
+\textbf{Einzelschritte} &  \textit{Es ist zu beschreiben, was zu tun ist, um
+einen Testlauf vorzubereiten und ihn zu starten.
+Ggf. sind erforderliche Schritte während seiner Ausführung anzugeben (z.B.
+Benutzerinteraktion über ein User-Interface). Ferner ist zu beschreiben, was zu
+tun ist, um den Testlauf ordnungsgemäß oder im Falle unvorhergesehener
+Ereignisse anzuhalten (falls er nicht von selbst terminiert).
+Ggf. sind Aufräumarbeiten zu beschreiben, um nach den Tests den ursprünglichen
+Zustand wiederherzustellen (falls der Testlauf nicht seiteneffektfrei ist)
+} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Es sind alle speziellen Methoden oder
+Formate zu beschreiben, mit denen die Ergebnisse der Testläufe, die
+Zwischenfälle und sonstige wichtige Ereignisse aufgenommen werden sollen.
+Beispiel: Logdatei eines Servers, Messung der Antwortzeit eines Remote
+Terminals mittels Netzwerk Simulator, \ldots} \\
+\hline
+\textbf{Besonderheiten } &  \textit{optional; auszufüllen, falls es
+Besonderheiten in diesem Testfall gibt.
+Testfallspezifische Besonderheiten, z.B. Ausführungsvorschriften oder
+Abweichungen von der Testumgebung (siehe 2.5)  werden hier aufgelistet.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{optional; auszufüllen, falls es
+Abhängigkeiten in diesem Testfall gibt
+Ist dieser Testfall von der Ausführung anderer Testfälle abhängig, so werden
+diese Testfälle hier aufgelistet und kurz beschrieben, worin die Abhängigkeit
+besteht.} \\
+\hline
+
+ \end{longtable}
+
+Die folgenden Tabellen beschreiben, wie der Testfall ausgeführt wurde und
+welches Ergebnis er geliefert hat. Da es bei Korrektur von Softwarefehlern oder
+anderen Gegebenheiten notwendig ist, einen Test mehrfach durchzuführen
+(Testläufe), ist jede Testdurchführung zu dokumentieren. Daher ist diese
+Tabelle für \textbf{jeden Testlauf }  zu erstellen und \textbf{ fortlaufend zu
+nummerieren}. \\
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{Beispiel: /T100/ Lager
+anlegen} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{Beispiel: 1} \\
+\hline
+\textbf{Eingaben} & \textit{Es sind alle Eingabedaten bzw. andere Aktionen
+aufzufüh-ren, die für die Ausführung des Testfalls notwendig sind.
+Diese können sowohl als Wert angegeben werden (ggf. mit Toleranzen) als auch
+als Name, falls es sich um konstante Tabellen oder um Dateien handelt. Außerdem
+sind alle betroffenen Datenbanken, Dateien, Terminal Meldungen, etc. anzugeben.
+Hinweis: Es sind nicht noch mal die Einzelschritte aus 3.1.3 zu wiederholen.
+Während jene allgemeiner sind (z.B. "`Ein-loggen über das Login-Formular"')
+sind hier die konkreten eingegebenen Testdaten aufzuführen (z.B. "`Loginname:
+test; Passwort: xxxtest"'`). } \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Hier ist anzugeben, welches Ergebnis bzw.
+Ausgabe der Test haben soll.
+Hinweis: Es sind nicht noch mal die Erfolgskriterien aus 3.1.2 zu wiederholen.
+Während jene allgemeiner sind (z.B. "`Testnachricht wird über Netzwerkkanal
+empfangen"') sind hier die konkreten erhaltenen Testdaten aufzuführen (z.B.
+Konsole zeigt Meldung: "`Testnachricht 123 erhalten"').
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Hier ist anzugeben, welches Ergebnisdaten
+bzw. Ausgaben dieser Testlauf geliefert hat.} \\
+\hline
+\textbf{Ergebnis} & \textit{Für jeden Testlauf ist zu vermerken, ob der Test
+erfolgreich durchgeführt werden konnte oder nicht. Einen missglückten Test
+bitte begründen, sofern der Grund des Fehlschlags bekannt oder offensichtlich
+ist.} \\
+\hline
+\textbf{Unvorhergesehene Ereignisse während des Test-laufs } &
+\textit{optional; nur anzugeben, falls es unvorhergesehene Ereig-nisse gab} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Ist ein Testlauf nicht erfolgreich
+durchgeführt worden, so werden hier die erforderlichen Nacharbeiten aufgeführt
+(z.B. Bugfixes).} \\
+\hline
+ \end{longtable}

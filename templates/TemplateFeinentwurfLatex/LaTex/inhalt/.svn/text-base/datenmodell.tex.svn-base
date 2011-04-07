@@ -1,0 +1,28 @@
+% Kapitel 4 mit den entsprechenden Unterkapiteln
+% Die Unterkapitel können auch in separaten Dateien stehen,
+% die dann mit dem \include-Befehl eingebunden werden.
+%-------------------------------------------------------------------------------
+\chapter{Datenmodell}
+Falls in der Anwendung bestimmte Daten dauerhaft gespeichert werden, so sind
+die entsprechenden Entities und Beziehungen hier darzustellen und zu erläutern.
+Dies ist insbesondere relevant, falls der Einsatz einer (relationalen)
+Datenbank geplant ist.
+
+\section{Diagramm}
+
+Eigenes ER-Modell einsetzen
+\section{Erläuterung}
+Die Tabelle ist um so viele Einträge zu erweitern, wie es Entities im obigen
+ER-Modell gibt. Für jedes Entity sind so viele Einträge in der
+Beziehungs-Subtabelle einzufügen, wie es Beziehungen zu diesem Entity gibt.
+
+
+\begin{tabular}[ht]{|l|c|}
+  \hline
+  Entität & Beziehungen\\
+  \hline\hline
+  <Entity … ID>:  & Name der Beziehung |  Kardinalität\\
+  \hline\hline\hline
+  <Bezeichnung> & <Name der Beziehung> | <Kardinalität>\\
+  \hline
+\end{tabular}

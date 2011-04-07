@@ -1,0 +1,82 @@
+% Kapitel 2 mit den entsprechenden Unterkapiteln
+% Die Unterkapitel können auch in separaten Dateien stehen,
+% die dann mit dem \include-Befehl eingebunden werden.
+%----------------------------------------------------------------------------
+
+\chapter{Testplan}
+Der Testplan ist das zentrale Dokument der Qualitätssicherung und wird daher
+frühzeitig erstellt. Hier wird Umfang und Vorgehensweise der Qualitätssicherung
+beschrieben. Außer-dem werden Testgegenstände und deren zu testenden
+Eigenschaften bzw. Funktionen iden-tifiziert. Ferner werden die
+durchzuführenden Maßnahmen und die dafür verantwortlichen Personen definiert.
+Falls erforderlich sollte hier auch auf allgemeine Risiken eingegangen werden.
+
+\section{Zu testende Komponenten}
+Hier sind sämtliche zu testenden Objekte einschließlich der Versionsnummer bzw.
+Versions-nummer aufzuführen. Ebenso ist anzugeben, auf welchem Medium die
+Software vorliegt, ob dies einen Einfluss auf Hardwareanforderungen hat und ob
+die Software vor Testbeginn in irgendeiner Weise transformiert werden muss
+(z.B. ob sie von Tape auf Diskette kopiert wer-den muss). Außerdem wird auf zum
+Objekt gehörende Dokumentation der Komponente (Lasten-, Pflichtenheft, Grob-
+bzw. Feinentwurf) referenziert.
+
+\section{Zu testende Funktionen}
+Dieser Punkt beinhaltet alle Eigenschaften bzw. Funktionen und deren
+Kombinationen, die zu testen sind.
+
+Sämtliche Funktionalitäten, die getestet werden sollen, werden hier aufgeführt.
+Dabei sind auf die vorangegangenen Dokumentationen zu referenzieren
+(Pflichtenheft, Grob- und Fein-entwurf) und die dortigen Funktions-IDs zu
+verwenden!\\ Beispiel: /F100/ : Benutzer Login
+
+
+\section{Nicht zu testende Funktionen}
+(optional; auszufüllen, falls es Funktionen gibt, die nicht getestet werden
+sollen)\\
+
+Hier werden alle Eigenschaften bzw. Funktionen und Funktionskombinationen
+aufgelistet, die nicht getestet werden.
+\textbf{ Es sollte begründet werden, warum diese nicht getestet werden.} Es
+versteht sich von selber, dass alle Muss-Funktionalitäten des Pflichtenheftes
+(Abschnitt 1.1) getestet werden müssen.
+
+\section{Vorgehen}
+Die allgemeinen Vorgehensweisen für die einzelnen zu testenden Funktionen und
+Funkti-onskombinationen werden hier beschrieben. Die Beschreibung sollte
+detailliert genug sein, um die Hauptaktivitäten und deren Zeitbedarf abschätzen
+zu können.
+
+Es ist zu beachten, dass für alle wichtigen Funktionalitäten das Verfahren
+angegeben wird. Dies gewährleistet, dass diese Funktionalitäten adäquat
+getestet werden.
+
+Es ist zu dokumentieren, welche Aktivitäten, Techniken und Werkzeuge benötigt
+werden, damit die Funktionalitäten getestet werden können.
+
+Beispiel für Vorgehen (unvollständige Liste):\\
+a) Komponenten- und Integrationstests\\
+Klassen werden mit JUnit-Testfällen geprüft. Vor Beginn der Implementierung
+werden bereits Blackbox-Testfälle erstellt, die dann begleitend zur
+Implementierung genutzt werden ("`Test first"'). Nach Abschluss der
+Implementierung einer Komponente wird diese dann durch Whitebox-Tests
+geprüft.\\
+Der Integrationstest der Klassen und Komponenten erfolgt nach dem
+Bottom-Up-Prinzip. Anfangs muss die Integration der Datenbankanbindung und den
+entsprechenden Data-Access-Objects (DAO) geprüft werden, da das Mapping der
+Datenbank auf Objekte die unterste Schicht des Projektes bildet. Dieser
+Testabschnitt wird durch die Schnittstellentests abgedeckt.
+Die Komponenten werden damit unter Berücksichtigung ihrer Abhängigkeiten
+konkret in folgender Reihenfolge integriert: \ldots\\
+(Hier kommt das konkrete Vorgehen bei der Integration: Welche Klassen werden
+zusammen getestet, welche kommen dann dazu etc. Das kann man z.B. auch schön in
+Form eines Baumes aufzeigen.)
+b) Funktionstests\\
+Die Anwendungsfälle aus der Anforderungsspezifikation werden über das
+Web-Interface geprüft. Mindestanforderung hierfür ist es, jeden Fall einmal auf
+seine korrekte Funktionalität zu testen.\\
+c) \ldots
+
+\section{Testumgebung}
+Die genutzte Testumgebung(en) bitte hier angeben und kurz beschreiben.\\
+Beispiel: JUnit Testsuite, lokal installierter Web Application Server, \ldots
+

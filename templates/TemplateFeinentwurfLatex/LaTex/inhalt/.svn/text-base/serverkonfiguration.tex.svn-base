@@ -1,0 +1,8 @@
+% Kapitel 5
+%-------------------------------------------------------------------------------
+\chapter{Serverkonfiguration}
+Sollte ein Server (z. B. Tomcat) für die Bearbeitung und Nutzung des Produktes
+erforderlich sein, so ist hier dessen Konfiguration zu beschreiben. Dies
+geschieht durch explizite Nennung aller Konfigurationsdateien und notwendiger
+Einträge.
+

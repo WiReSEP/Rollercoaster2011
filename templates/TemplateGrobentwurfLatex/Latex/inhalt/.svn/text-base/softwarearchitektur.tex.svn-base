@@ -1,0 +1,51 @@
+% Kapitel 3 mit den entsprechenden Unterkapiteln
+% Die Unterkapitel können auch in separaten Dateien stehen,
+% die dann mit dem \include-Befehl eingebunden werden.
+%------------------------------------------------------------------------------------
+\chapter{Resultierende Softwarearchitektur}
+
+Dieser Abschnitt hat die Aufgabe, einen Überblick über die zu entwickelnden
+Komponenten und Subsysteme zu liefern.
+\section{Komponentenspezifikation}
+
+In diesem Abschnitt wird die aus der Analyse der Produktfunktionen (Kapitel 2)
+resultierende Komponentenstruktur zunächst überblickartig durch ein
+Komponentendiagramm beschrieben. Die Bezeichnungen und Anzahl der Komponenten
+muss natürlich konsistent sein mit der in Kapitel 2!
+
+\section{Schnittstellenspezifikation}
+
+Im Folgenden werden die einzelnen Schnittstellen der Komponenten aus der
+Komponentenspezifikation näher erläutert, d. h. die von Ihnen zur Verfügung
+gestellten Operationen werden dokumentiert. Die Tabelle ist dabei um so viele
+Zeilen zu erweitern, wie es Schnittstellen im Komponentendiagramm gibt. In der
+innen liegenden Aufteilung ist für jede Operation einer Schnittstelle eine
+Zeile einzufügen.  Reine Set- und Get-Aufrufe brauchen nicht aufgeführt zu
+werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
+
+\begin{tabular}[ht]{|l|c|}
+ \hline
+ Schnittstelle & Aufgabenbeschreibung\\
+ \hline\hline
+    <Schnittstellen – ID>: & Operation      |     Beschreibung\\
+ \hline\hline\hline
+    <Bezeichnung>  & <Signatur der Operation>|<Aufgabenbeschreibung der
+                                                                    Operation>\\
+    \hline
+  \end{tabular}
+
+
+
+
+
+\section{Protokolle für die Benutzung der Komponenten}
+
+In diesem Abschnitt wird mit Hilfe von Protokoll-Statecharts die korrekte
+Verwendung der zu entwickelnden Komponenten dokumentiert. Dies ist insbesondere
+für diejenigen Komponenten notwendig, für die eine Wiederverwendung möglich
+erscheint oder sogar bereits geplant ist.
+
+Begründen Sie für welche Komponenten eine Wiederverwendung sinnvoll erscheint
+und für welche nicht!
+
+Fügen Sie so viele Statechartdiagramme ein, wie sie Komponenten gefunden haben.
