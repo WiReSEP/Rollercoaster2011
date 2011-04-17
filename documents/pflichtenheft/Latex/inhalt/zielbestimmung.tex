@@ -4,22 +4,34 @@
 %-------------------------------------------------------------------------------
 
 \chapter{Zielbestimmung}
+Ziel dieses Projektes ist die Erstellung eines Simulators zur 3D-Visualisierung von Achterbahnfahrten. Der Simulator soll einem Ingenieur den schnellen Überblick über den Fahrtverlauf aus Sicht des Fahrgastes ermöglich. Neben der räumlichen Orientierung interessieren auch die Beschleunigungen, die auf die Passagiere während der Fahrt einwirken. Der Simulator wird auch zum Zwecke der Präsentationen beispielsweise gegenüber dem Auftraggeber zum Einsatz kommen.
 
-%Hier Einleitungstext einfügen, dabei die Formatierungen selber erstellen
-Dieser Abschnitt hat die Aufgabe, als eine Art Einleitung zu dienen. Es soll
-ein kurzer Umriss über Ziel und Motivation des Gesamt- und ggf. der
-Teilprojekte dargestellt werden. Beschrieben wird die Hauptaufgabe des Systems.
-Wichtig ist, den Grund für die Systementwicklung (Probleme oder Geschäftsidee)
-und damit ihre Ziele herauszuarbeiten.
 \section{Musskriterien}
+Die primäre Aufgabe des Simulators besteht in der physikalisch korrekten Wiedergabe des Fahrverhaltens der Achterbahn aus der Perspektive eines Fahrgasts. Die Berechnung und Darstellung der Fahrt muss in Echtzeit erfolgen.
 
-Hier wird aufgeführt, welche Funktionalitäten/Leistungen das Softwareprodukt in
-jedem Fall erfüllt sein müssen, damit es genutzt werden kann.
+Zur 3D-Visualisierung der Achterbahn gehört zwingend die Darstellung eines ebenen Bodens als Grundfläche, zweier parallel verlaufender Schienen und mindestens zweier Querbalken pro Streckenabschnitt.
+
+Zusätzlich ist zwingend eine 2D-Visualisierung der Beschleunigungen erforderlich, die während der Fahrt auf die Insassen des Achterbahnwaagen einwirken.
+
+Das Programm benötigt eine Oberfläche zum Einlesen der Achterbahn-Spezfikationen und zum Einstellen der Programmoptionen.
+
 \section{Wunschkriterien}
-Dies sind Kriterien, die für die Lauffähigkeit des Produkts nicht zwingend
-erforderlich sind, für die Erreichung der Projektziele aber erfüllt werden
-sollten.
+
+Um eine für Präsentationen attraktive 3D-Visualisierung der Achterbahnen umzusetzen, sind mehrere Ergänzungen wünschenswert. Neben den Schienen und den Querbalken sollten auch die Stützbalken für die Streckenabschnitte dargestellt werden. Eine Darstellung der Umgebung mit Gebäuden, Bepflanzung und Himmel verleiht dem Zuschauer der Simulation eine bessere Orientierungsmöglichkeit. Für einen realistischen Boden sollten Unebenheiten zulässig sein.
+
+Je nach Rechenleistung wäre neben einer Darstellung der Achterbahnfahrt aus der Passagierperspektive auch eine Außenperspektive mit verstellbarer Kamera wünschenswert. In diesem Fall müsste zwingend eine Modellierung des Achterbahnwagens erfolgen.
+
+Daneben bestehen verschiedene Verbessungsmöglichkeiten an der physikalischen Simulation der Achterbahn. Durch Berücksichtigung der Luft- und Bahnreibung kann der Energieverlust beim Fahrbetrieb erfasst werden, der für einen Dauerbetrieb durch zusätzlichen Antrieb ausgeglichen werden müsste. Entsprechendes gilt für die Berücksichtigung der Bremsvorgänge. Eine Berücksichtigung der Beschleunigungskäfte durch außeraxiale Massen wie Wagen und Passagiere ist denkbar.
+
+Eine Zeitrafferfunktion mit der Möglichkeit zum Vor- und Zurückspulen würde die Untersuchung bestimmter Streckenabschnitte erleichtern.
+
+Wünschenwert ist auch Aufnahmefunktion für Einzelbilder oder Filme, die in gängigen Dateiformaten exportiert und damit auch außerhalb des Simulators weiterverarbeitet werden könnten.
 
 \section{Abgrenzungskriterien}
-Hier ist zu verdeutlichen, welche Ziele mit dem Produkt bewusst nicht erreicht
-werden sollen oder werden können.
+Der Simulator besitzt keine eigenständige Funktionalität zum Erstellen oder Ändern der Achterbahnen. Für diese Aufgaben muss auf die Programmkomponenten aus dem Teilprojekt "Achterbahneditor" zurückgegriffen werden.
+
+Die statischen und dynamischen Belastungen auf das Achterbahntragwerk werden nicht simuliert. Insbesondere wird die Tragfähigkeit des Gerüstes nicht geprüft.
+
+Mögliche Einflüsse der Umgebung auf die Achterbahn werden nicht berücksichtigt. Beispielsweise werden Einschränkungen der Sicht durch Regen- oder Dunst nicht dargestellt. Die Auswirkungen des Windes auf das Fahrverhalten der Achterbahn werden ignoriert.
+
+Eine Simulation der Passagierbeförderung mit Ein- und Ausstieg findet nicht statt. Die Wirksamkeit von Sicherungsmaßnahmen wie Gurte oder Haltebügel wird nicht untersucht. 
