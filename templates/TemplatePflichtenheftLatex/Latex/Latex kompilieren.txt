@@ -1,0 +1,4 @@
+Hallo,
+ich hab das Problem, wenn ich TemplatePflichtenheft kompilieren möchte, dass ich den Fehler bekomme, dass setspace.sty installiert werden müsse, leider macht das weder das TEXniCcenter automatisch, noch gehts manuell -> fehler 404
+Geht das bei euch?
+Gruß Robin
