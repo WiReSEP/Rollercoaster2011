@@ -1,0 +1,87 @@
+% Kapitel 4
+%-------------------------------------------------------------------------------
+
+\chapter{Produktfunktionen}
+
+In Abhängigkeit von den gewählten Konzepten erfolgt hier eine Konkretisierung
+und Detaillierung der Funktionen aus den Use-Case-Diagrammen und ggf. dem
+Lastenheft.
+
+Wurde beispielsweise im Lastenheft die Funktionalität durch verbal beschriebene
+Geschäftsprozesse definiert, dann kann hier eine Detaillierung erfolgen.
+Mögliche Gliederung der Geschäftsfunktionen:\\
+-  Geschäftsprozesse\\
+-  Listen\\
+-  Reports\\
+Die nachfolgende Gliederung bitte für alle Funktionen übernehmen.\\
+
+/F100/ (/LF10/)\\
+-  F100 = Funktion mit eindeutiger Nummerierung in z. B. 100er Schritten, damit
+   mögliche Erweiterungen eingefügt werden können. Die Schrittweite richtet
+   sich nach der Anzahl möglicher Erweiterungen.\\
+-  LF10 = Anforderungsnummer aus dem Lastenheft. Sollte im Lastenheft keine
+   Anforderungsnummer angegeben sein, so erscheint unter Anforderung aus dem
+   Lastenheft die Beschreibung des Kriteriums.
+
+\begin{itemize}
+
+\item  Geschäftsprozess, der durch die Funktion unterstützt werden soll:
+\item   optional: Anforderung aus dem Lastenheft:
+\item   Ziel der Funktion:
+\item  Vorbedingung:
+\item  Nachbedingung Erfolg:
+\item  Nachbedingung Fehlschlag:
+\item  Akteure:
+\item  Auslösendes Ereignis:
+\item  Beschreibung:
+\item  optional: Erweiterung:
+\item  optional: Alternativen:
+\end{itemize}
+
+
+
+Beispiel (Lagerverwaltung):\\
+/F10/ (/LF10/)\\
+Geschäftsprozess: Automatisches Einlagern\\
+Ziel: Ein Reifen erscheint am Systemeingang (Scanner), erhält einen Lagerplatz
+zugewiesen und wird dort eingelagert
+Vorbedingung: Das Scannen des Barcode-Reifens muss erfolgreich sein, sonst kann
+der Typ nicht ermittelt werden. Solche unbekannten Reifen werden direkt in den
+Überlauf gefördert.\\
+Nachbedingung Erfolg: Reifen ist physikalisch eingelagert und logisch in der
+Datenbank verbucht.\\
+Nachbedingung Fehlschlag: Der Reifen wurde infolge gestörter Fördermechanik
+nicht eingelagert (liegt im Überlauf) oder produzierte aufgrund inkonsistenter
+Datenbank einen "`Platz belegt"' - Fehler beim Anfahren eines irrtümlich
+als frei angenommenen Platzes.\\
+Akteure: Produktion\\
+Auslösendes Ereignis: SPS meldet der Steuerung, dass am Eingangsscanner ein
+Reifen mit Seriennummer X des Typs Y eingetroffen ist.
+Beschreibung:\\
+1 Reifentypinformationen ermitteln (besonders Höhe des Reifens bei Wahl
+zwischen unterschiedlich hohen Lagerplätzen wichtig).\\
+2 Alle Module ermitteln, die\\
+-  Platz auf den Einlagerstichen haben\\
+-  momentan nicht im Störungszustand sind\\
+-  freie Lagerplätze in der geforderten Höhe aufweisen.\\
+3 Lagerplatz nach Gleichverteilungsgrundsatz bestimmen.\\
+4 Reifen auf den Einlagerstich des gewählten Moduls fördern.\\
+5 Sobald er auf dem vordersten Platz des Einlagerstichs steht, dem Modul den
+Befehl zur Reifenaufnahme und Einlagerung auf den gewählten Platz schicken.
+Erweiterung:\\
+2a Zur Effizienzsteigerung auch Module ansteuern, die momentan keinen Platz auf
+den Einlagerstichen haben, aber wahrscheinlich so schnell einlagern, dass der
+Reifen nach der Fahrtzeit zum Modul auf den Stich eingelagert werden kann
+(Überwachung des "`Unterwegsbestandes"' an Reifen für ein bestimmtes
+Modul).\\
+3a Lagerplatz des Reifens möglichst nah zum Einlagerstich im RBG wählen
+(kürzere RBG-Fahrtzeiten).\\
+Alternativen:\\
+2a Wenn kein Lagerplatz gefunden wird, Reifen zum Überlauf schicken (der
+Einlagerförderer wird niemals angehalten!).\\
+
+Beispiel für Listen\\
+/F60/ (/LF60/)\\
+Reifen-Bestandsliste für das Gesamtlager mit folgenden Daten:\\
+Reifentyp, Reifenanzahl, Verteilung auf Module, Datum ältester Reifen.\\
+
