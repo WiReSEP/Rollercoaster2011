@@ -3,34 +3,27 @@
 
 \chapter{Produktdaten}
 5  Produktdaten
-Die langfristig zu speichernden Daten sind aus Benutzersicht detaillierter zu
-beschreiben. Dabei bietet sich eine formale Beschreibung (z. B. in Form eines
-Data Dictionary) an, um eine größere Präzisierung zu erreichen.
 
-Bitte die Darstellung gemäß Beispiel verwenden:\\
--  /D10/: fortlaufende Nummerierung der Daten\\
--  /LD10/: vordefinierte Daten aus dem Lastenheft (falls vorhanden).\\
+/D10/ Daten der Achterbahnkonstruktion:\\
+-  Die Konstruktionsdaten der Achterbahnen werden aus dem Dateisystem eingelesen.\\
+-  Die Daten werden ausschließlich gelesen und nicht geschrieben.//
+-  Die Übergabe der Daten erfolgt durch eine schematisierte XML-Datei (Aufbau siehe Produktumgebung->Produktschnittstellen).//
+-  Bestandteile:
+--  geordnete Liste von Stützstellen (max. 1000)
+--  je Stützpunkt
+---  Position im 3D-System
+---  Orientierung durch Giervektor im 3D-System
 
-Beispiel: Lagerdaten\\
-/D10/ (/LD10/) Daten der Lagerplätze (max. 5.000):\\
--  Modulnummer,\\
--  Regalseite,\\
--  Regalspalte,\\
--  Regalzeile,\\
--  Fachhöhe,\\
--  Platzsperre (0 = nicht gesperrt, 1 = gesperrt für Einlagerung, 2 = gesperrt
-   für Auslagerung, 3 = gesperrt für alle Zugriffe),\\
--  Reifenstatus (0 = frei,1 = reserviert für Einlagerung, 2= belegt, 3 =
-   reserviert für Auslagerung),\\
--  Reifenseriennummer.\\
+/D20/ Auswertungsdaten der Simulation:\\
+-  Die Daten können optional im Dateisystem gespeichert werden.\\
+-  Bestandteile:
+--  Zeitpunkt,\\
+--  Position,\\
+--  Geschwindigkeit,\\
+--  Beschleunigung/Kräfte,\\
 
-/D40/ (/LD40/) Daten der Module (max. 20):\\
--  Modulnummer,\\
--  Sperrkennzeichen (0 = nicht gesperrt, 1 = gesperrt für Einlagerung, 2 =
-   gesperrt für Auslagerung, 3 = gesperrt für alle Zugriffe),\\
--  maximale Kapazität,\\
--  freie Kapazität,\\
--  belegte Plätze (ergibt sich aus Status und Zahl der zugeordneten
-   Lagerplätze, wird aus Geschwindigkeitsgründen allerdings redundant
-   mitgeführt).
+/D30/ Videodaten
+-  Optinal kann ein Video der Achterbahnsimulation im AVI-Format im Dateisystem abgelegt werden.//
 
+/D40/ Bilddaten
+-  Optional kann ein Screenshot im PNG-Format im Dateisystem abgelegt werden.
