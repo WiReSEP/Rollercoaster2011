@@ -2,28 +2,41 @@
 %------------------------------------------------------------------------------------------
 
 \chapter{Produktdaten}
-5  Produktdaten
 
-/D10/ Daten der Achterbahnkonstruktion:\\
--  Die Konstruktionsdaten der Achterbahnen werden aus dem Dateisystem eingelesen.\\
--  Die Daten werden ausschließlich gelesen und nicht geschrieben.//
--  Die Übergabe der Daten erfolgt durch eine schematisierte XML-Datei (Aufbau siehe Produktumgebung->Produktschnittstellen).//
--  Bestandteile:
---  geordnete Liste von Stützstellen (max. 1000)
---  je Stützpunkt
----  Position im 3D-System
----  Orientierung durch Giervektor im 3D-System
+/D10/ Daten der Achterbahnkonstruktion:
+\begin{itemize}
+\item Die Konstruktionsdaten der Achterbahnen werden aus dem Dateisystem eingelesen.
+\item Die Daten werden ausschließlich gelesen und nicht geschrieben.
+\item Die Übergabe der Daten erfolgt durch eine schematisierte XML-Datei (Aufbau siehe Produktumgebung->Produktschnittstellen).
+\item Bestandteile:
+	\begin{itemize}
+	\item geordnete Liste von Stützstellen (max. 1000)
+	\item je Stützpunkt
+		\begin{itemize}
+		\item Position im 3D-System
+		\item Orientierung durch Giervektor im 3D-System
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
 
-/D20/ Auswertungsdaten der Simulation:\\
--  Die Daten können optional im Dateisystem gespeichert werden.\\
--  Bestandteile:
---  Zeitpunkt,\\
---  Position,\\
---  Geschwindigkeit,\\
---  Beschleunigung/Kräfte,\\
+/D20/ Auswertungsdaten der Simulation:
+\begin{itemize}
+\item Die Daten können optional im Dateisystem gespeichert werden.
+\item Bestandteile:
+\begin{itemize}
+\item Zeitpunkt,
+\item Position,
+\item Geschwindigkeit,
+\item Beschleunigung/Kräfte,
+\end{itemize}
+\end{itemize}
 
 /D30/ Videodaten
--  Optinal kann ein Video der Achterbahnsimulation im AVI-Format im Dateisystem abgelegt werden.//
+\begin{itemize}
+\item  Optional kann ein Video der Achterbahnsimulation im AVI-Format im Dateisystem abgelegt werden.
+\end{itemize}
 
 /D40/ Bilddaten
--  Optional kann ein Screenshot im PNG-Format im Dateisystem abgelegt werden.
+\begin{itemize}
+\item  Optional kann ein Screenshot im PNG-Format im Dateisystem abgelegt werden.
+\end{itemize}
