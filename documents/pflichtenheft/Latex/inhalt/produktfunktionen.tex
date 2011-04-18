@@ -203,3 +203,16 @@ Das Stoppen führt zum Abbau von temporären Ergebnissen. Ein Fortsetzen der Sim
 \textbf{Beschreibung:} Bei der überschreitung von gefährlichen Grenzwerten bei den Beschleunigungen warnt das Programm mit entsprechenden Effekten bzw einer Nachricht\\
 \textbf{Erweiterungen:}\\
 \textbf{Alternativen:}\\
+
+/F1100/\\
+\textbf{Geschäftsprozess:} Erkennung von Veränderungen an der Ursprungsdatei\\
+\textbf{Ziel:} Eine Änderung(zB. durch den Editor) an der aktuell gelesenen Bahndatei wird erkannt und die Bahn neu geladen\\
+\textbf{Vorbedingung:} Eine Bahn ist geladen.\\
+\textbf{Nachbedingung Erfolg:} Die Bahn wird gemäß der neuen Daten aufgebaut. Es wird ein Versuch unternommen die aktuelle Position auf der Bahn zu recovern. Ggf wird die Simulation neu gestartet.\\
+\textbf{Nachbedingung Fehlschlag:} Der User wird informiert, dass sich die zugrunde liegende Datei verändert hat das einlesen der neuen Daten aber fehlgeschlagen ist\\
+\textbf{Akteure:} Dateisysteminformation\\
+\textbf{Auslösendes Ereignis:} Veränderung der geladenen Datei\\
+\textbf{Beschreibung:} Auf die Veränderung der für die aktuelle Bahn verwendeten Datei reagiert der Simulator mit erneutem einlesen der Daten um damit einen schnelleren Workflow zwischen Editor und Simulator zu erlauben. 
+Fehlerhafte Dateien vernichten dabei nicht den aktuell im Speicher befindlichen Datenbestand.\\
+\textbf{Erweiterungen:}\\
+\textbf{Alternativen:}\\
