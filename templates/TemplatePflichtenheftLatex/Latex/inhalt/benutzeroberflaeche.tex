@@ -2,14 +2,32 @@
 %-------------------------------------------------------------------------------
 
 \chapter{Benutzeroberfläche}
+%%Einleitung
+Es sind zwei unterschiedliche Oberflächen geplant, je nach Zustand des Programms. Die Erste zeigt nach dem Laden der Konstruktionsdatei eine grafische Übersicht der Konstruktion, sowie Informationen zu der geladenen Datei, die Zweite und wichtigere die Simulation und die dazugehörigen Messdaten. Die Unterteilung des Bildschirms ist in drei Bereiche vorgesehen, die je nach Programmzustand (Simulation oder Vorschau) unterschiedliche Informationen oder Einstellmöglichkeiten bieten.
+%%Bild
+\begin{figure}[!h]%
+\includegraphics[width=0.8\linewidth]{./bilder/GUI_v2.jpg}%
+\caption{Simulation}%
+\label{Simulation}%
+\end{figure}
+%%Beschreibung der Oberfläche und deren Unterteilung
+\section*{Simulation}
 
 Die Benutzeroberfläche ist in drei Bereiche unterteilt, die eigentliche Simulation der Achterbahn, eine Anzeige für die Messwerte und ein Bereich für die Steuerung während der Simulation. Die Felder zur Steuerung und Messung können bei Bedarf ein- bzw. ausgeblendet werden.\\
-Das Fenster mit den Steuerelementen umfasst Befehle zum Starten, Pausieren, Stoppen und Neustarten der Simulation, sowie\footnote{die folgenden Elemente gehören zu den Wunschkriterien und werden selbstverständlich nur umgesetzt, wenn diese innerhalb des Programms berücksichtigt wurden} zur Veränderung der Geschwindigkeit und Aufzeichnung der Simulation als Video.
+Das Fenster mit den Steuerelementen umfasst Befehle zum Starten, Pausieren, Stoppen und Neustarten der Simulation, sowie\footnote{die folgenden Elemente gehören zu den Wunschkriterien und werden nur umgesetzt, wenn diese innerhalb des Programms berücksichtigt wurden} zur Veränderung der Geschwindigkeit und Aufzeichnung der Simulation als Video.
+
 Das Messfenster beinhaltet ein Diagramm, das die Beschleunigung über die Zeit grafisch aufträgt, die Maximal- und Minimalwerte der Geschwindigkeit und Beschleunigung, die während der Simulation gemessen werden, sowie einen Bereich in dem die aktuellen Werte von Zeit, Ort, Geschwindigkeit, Beschleunigung und Drehwinkel ausgegeben werden.
-Ebenfalls ist eine Minikarte zur Übersicht vorhanden, in der sich ein Abbild der gesamten Achterbahnstrecke mit Start und Ziel, sowie der aktuellen Position des simulierten Wagens markiert werden.\\
+Ebenfalls ist eine Minikarte zur Übersicht vorhanden, in der sich ein Abbild der gesamten Achterbahnstrecke mit Start und Ziel, sowie der aktuellen Position des simulierten Wagens markiert werden.
+
 Direkt in dem Simulationsfenster befinden sich Anzeigen zu den wichtigsten Messwerten, wie vertikale und horizontale Beschleunigung, sowie die Drehwinkel um alle drei Raumachsen um das Gefühl der Bewegung zu unterstützen, diese sind bei Bedarf ebenfalls ein-/ausschaltbar. Ebenfalls ist ein Bereich für Hinweise oder Warnungen, die während der Fahrt auftreten können vorgesehen. 
+
+%%Bild
 \begin{figure}[!h]%
-\includegraphics[width=0.8\linewidth]{../bilder/GUI_v2.jpg}%
-\caption{Beispiel-GUI}%
-\label{}%
+\includegraphics[width=0.8\linewidth]{./bilder/GUI_v3.jpg}%
+\caption{Vorschau}%
+\label{Vorschau}%
 \end{figure}
+
+%%Beschreibung des Vorschaubiles
+\section*{Vorschau}
+Die Oberfläche ist wieder in drei Bereiche der gleichen Größe aufgeteilt. Im Mittleren wird eine Übersicht über die geladene Konstruktion geladen, auf der rechten Seite befinden sich Einstellungen zur Grafik und physikalischen Werten und der Bereich der Mitteilungen wird durch Informationen zur geladenen Datei ersetzt
