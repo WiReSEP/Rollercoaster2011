@@ -23,3 +23,19 @@ Realisierung der Funktion als Interaktion von Komponenten des zu entwickelnden
 Systems in einem Sequenzdiagramm. Das Diagramm bitte ebenfalls kurz
 beschreiben.
 
+\section{Analyse der Funktionalität /F100/: Spezifikation einlesen}
+Das Einlesen einer Spezifikation aus einem vom Nutzer angegebenen Dateipfad
+gliedert sich in mehrere Teilfunktionalutäten. Zunächst muss der Anwender den
+Dateipfad auswählen. Dafür sollte ein Datei-Dialog zum Einsatz kommen.
+Danach muss die ausgewählte Datei geöffnet, geprüft und geparst werden. Für
+diese Aufgaben bietet sich eine spezialisierte Komponente an, um alle
+Eigenheiten des Dateiformates von der Oberfläche und dem Simulator abzukapseln.
+Der ausgelesene Datensatz nun zum Starten einer neuen Simulation verwendet,
+dafür muss eine eventuell laufende Simulation beendet werden. Es bietet sich
+an, diese Funktionen als Schnittstelle zu kapseln und die konkrete Implementierung
+der Simulator-Komponente zu überlassen.
+
+(Bild einfügen)
+Sequenzdiagramm für den Geschäftsprozess "Spezifikation einlesen"
+Dargestellt ist die Interaktion des Nutzers mit der grafischen Benutzeroberfläche
+beim Öffnen einer Datei, das Auslesen der Datei und der Wechsel der Simulation
