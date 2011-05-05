@@ -8,10 +8,45 @@ Dieser Abschnitt hat die Aufgabe, einen Überblick über die zu entwickelnden
 Komponenten und Subsysteme zu liefern.
 \section{Komponentenspezifikation}
 
-In diesem Abschnitt wird die aus der Analyse der Produktfunktionen (Kapitel 2)
-resultierende Komponentenstruktur zunächst überblickartig durch ein
-Komponentendiagramm beschrieben. Die Bezeichnungen und Anzahl der Komponenten
-muss natürlich konsistent sein mit der in Kapitel 2!
+Aus der Analyse der Produktfunktionen ergeben sich sechs größere Teilbereiche,
+die als Komponenten dieser Anwendung umgesetzt werden soll.
+
+Im Kern der Anwendung steht die Simulator-Komponente, die für die Steuerung der
+Achterbahnbewegung verantwortlich ist und zwischen der physikalischen Berechnung
+und der grafischen Umsetzung koordiniert. Dieser Komponente wird von Außen die
+Spezifikation einer Achterbahn übergeben, welche als Simulation umgesetzt werden
+soll. Die Komponente hält über eine Endlosschleife (main loop) den Ablauf im Gang.
+
+Die dreidimensionale Visualisierung der Achterbahn mit Gerüst und Umgebung wird
+von der GraphicsEngine-Komponente übernommen. Sie kapselt die allgemeinen gehaltenen
+Funktionen der eingesetzten Grafikbibliothek und stellt eine einfache Schnittstelle
+für das Befüllen der virtuellen Welt mit Achterbahnkomponenten sowie zur Steuerung
+der Kamerafahrten entlang der befahrenen Strecke zur Verfügung.
+
+Die physikalische Berechnung der Achterbahnbewegung erfolgt in der PhysicsEngine-
+Komponente. Hier wird die Bewegung eines Massenpunktes auf der vorgegebenen Raumkurve
+nach den Gesetzen der klassischen Mechanik durch Lösen einer gewöhnlichen 
+Differentialgleichung bestimmt. Die berechnete Bahnkurve wird dem Simulator zur
+Umsetzung der Kamerafahrt bereitgestellt.
+
+Um die über Stützstellen definierte Achterbahn in eine ununterbrochene und hinreichend
+glatte Raumkurve umzurechnen, kommt die Komponente "Mathematics" zum Einsatz. Im
+Wesentlichen besteht die Komponente aus den Routinen zur näherungsweisen Berechnung
+von Beziérkurven.
+
+Für das Einlesen der Achterbahn-Spezifikationen aus den vom Editor bereitgestellten
+XML-Dateien kommt die Komponente "FileManagement" zum Einsatz. Diese kapselt alle
+am speziellen Serialisierung-Schema haftenden Eigenheiten ab und liefert einen
+von den anderen Komponenten einfach auslesbaren Datensatz mit dem Stützstellen der
+Bahn und weiteren Parametern.
+
+Das GraphicalUserInterface übernimmt die Interaktion zwischen dem Benutzer und
+der Simulation. Es übernimmt die Steuerung des Hauptmenüs, des Dateidialoges und
+des Optionen-Dialogs. Die aus dem FileManagement ausgelesenen Achterbahn-Datensätze
+werden an den Simulator zur Darstellung übergeben. Die Nutzeraktionen bezüglich des
+Simulationsablaufes werden durchgereicht.
+
+(Diagramm einfügen)
 
 \section{Schnittstellenspezifikation}
 
