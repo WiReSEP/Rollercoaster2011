@@ -1,33 +1,5 @@
-% Kapitel 10
-% Die Unterkapitel können auch in separaten Dateien stehen,
-% die dann mit dem \include-Befehl eingebunden werden.
-%-------------------------------------------------------------------------------
-
-\chapter{Technische Produktumgebung}
-
-\section{Software}
-Betriebssystem: Linux.\\
-Für die Erstellung und Bearbeitung der Achterbahnspezifikationen gibt es einen Achterbahneditor.\\
-
-
-\section{Hardware}
-Die Software soll auf einem Mittelklasse-PC mit 2 Jahre alter OpenGL-fähiger Grafikkarte laufen.
-
-
-%\section{Orgware}
-
-
-\newpage
-
-\section{Produktschnittstellen}
-Es existiert bereits ein Achterbahneditor, der die Achterbahnspezifikationen erstellt.\\
-Der Datenaustausch läuft über eine schematisierte XML-Datei.
-
-\begin{verbatim}
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="RollerCoaster" targetNamespace="xml-schema-rollercoaster.xsd" 
-elementFormDefault="qualified" attributeFormDefault="unqualified" 
-xmlns="xml-schema-rollercoaster.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema id="RollerCoaster" targetNamespace="xml-schema-rollercoaster.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="xml-schema-rollercoaster.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="RollerCoaster">
     <xs:complexType>
       <xs:sequence>
@@ -55,12 +27,6 @@ xmlns="xml-schema-rollercoaster.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-\end{verbatim}
-
-%Zeilenumbruch von Hand (nicht schoen aber selten)
-\newpage
-
-\begin{verbatim}
    <xs:element name="SimulationParameters">
     <xs:complexType>
       <xs:sequence>
@@ -91,5 +57,4 @@ xmlns="xml-schema-rollercoaster.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     </xs:complexType>
   </xs:element>
 </xs:schema>
-\end{verbatim}
 
