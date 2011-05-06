@@ -1,0 +1,21 @@
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.1.1)  20 APR 2011 19:35
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**pflichtenheft.tex
+
+! Emergency stop.
+<*> pflichtenheft.tex
+                     
+End of file on the terminal!
+
+ 
+Here is how much of TeX's memory you used:
+ 3 strings out of 493747
+ 107 string characters out of 3143547
+ 49070 words of memory out of 3000000
+ 3397 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 714 hyphenation exceptions out of 8191
+ 0i,0n,0p,20b,6s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!
