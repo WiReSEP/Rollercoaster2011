@@ -21,4 +21,5 @@
 *.mtc
 *.mtc1
 *.out
-
+*.backup
+*~
