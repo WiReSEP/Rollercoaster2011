@@ -4,23 +4,28 @@
 %-------------------------------------------------------------------------------
 \chapter{Analyse der Produktfunktionen}
 
-Dieser Abschnitt stellt die Basis für die Festlegung der Architektur dar. Die
-Festlegung einer geeigneten Architektur geschieht aufgrund der im Pflichtenheft
-analysierten Produktfunktionen und nicht-funktionalen Anforderungen, die
-realisiert werden müssen. Jede betrachtete Funktion wird in einem eigenen
-Unterkapitel dokumentiert.  Fügen Sie bitte so viele Unterkapitel ein, wie
-Produktfunktionen im Pflichtenheft vorhanden sind. Auch die nicht-funktionalen
-Anforderungen sind so weit möglich entsprechend darzustellen.
-
 %Die Kapitel müssen mit Inhalt gefüllt werden!. Eine Bereiche habe ich beuwsst schon bei der Verteildung der Diagramme zusammengefasst 
 %In diesen Bereichen möchte ich euch bitten die jeweiligen Unterpunkte kurz mit den Oberpunkten zu vergleichen und zu argumentieren 
 %warum es sich um triviale Spezialfälle handelt die keiner näheren beschreibung bedürfen
 %
 % Ich hab mal immer davon geschrieben welche Bereich von wem gemacht werden
 
+\section{Analyse der Funktionalität /F100/: Spezifikation einlesen}
+Das Einlesen einer Spezifikation aus einem vom Nutzer angegebenen Dateipfad
+gliedert sich in mehrere Teilfunktionalutäten. Zunächst muss der Anwender den
+Dateipfad auswählen. Dafür sollte ein Datei-Dialog zum Einsatz kommen.
+Danach muss die ausgewählte Datei geöffnet, geprüft und geparst werden. Für
+diese Aufgaben bietet sich eine spezialisierte Komponente an, um alle
+Eigenheiten des Dateiformates von der Oberfläche und dem Simulator abzukapseln.
+Der ausgelesene Datensatz nun zum Starten einer neuen Simulation verwendet,
+dafür muss eine eventuell laufende Simulation beendet werden. Es bietet sich
+an, diese Funktionen als Schnittstelle zu kapseln und die konkrete Implementierung
+der Simulator-Komponente zu überlassen.
 
-
-
+\begin{figure}
+\includegraphics[width=16cm]{bilder/spezifikation_einlesen}
+\caption{Sequenzdiagramm für \textit{Spezifikation einlesen}}
+\end{figure}
 
 %Christian/Matthias
 
@@ -28,8 +33,12 @@ Anforderungen sind so weit möglich entsprechend darzustellen.
 \section{Analyse von Funktionalität :  Renderloop}
 Da es sich um ein System handelt, indem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige die eine ständige aktualisierung erwartet und andererseits durch
 die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
-\includegraphics[width=16cm]{bilder/render_loop}
 
+\begin{figure}
+\includegraphics[width=16cm]{bilder/render_loop}
+\caption{Sequenzdiagramm für \textit{Renderloop}}
+\label{labelname}
+\end{figure}
 %Marco:
 \section{Analyse von Funktionalität /F100/ :  Spezifikation einlesen }
 %Simon:
@@ -93,3 +102,4 @@ Nun sind sie so lange frei positionierbar, bis er die Eingabe tätigt sie wieder
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %Marco:
 \section{Analyse von Funktionalität /F1100/ :  Erkennung von Veränderungen an der Ursprungsdatei}
+>>>>>>> 5ec14879051b53bf9cf970116c3d4394cdf9b460
