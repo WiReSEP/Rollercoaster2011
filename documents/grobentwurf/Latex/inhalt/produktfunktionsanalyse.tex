@@ -22,10 +22,10 @@ dafür muss eine eventuell laufende Simulation beendet werden. Es bietet sich
 an, diese Funktionen als Schnittstelle zu kapseln und die konkrete Implementierung
 der Simulator-Komponente zu überlassen.
 
-(Bild einfügen)
-Sequenzdiagramm für den Geschäftsprozess "Spezifikation einlesen"
-Dargestellt ist die Interaktion des Nutzers mit der grafischen Benutzeroberfläche
-beim Öffnen einer Datei, das Auslesen der Datei und der Wechsel der Simulation
+\begin{figure}
+\includegraphics[width=16cm]{bilder/spezifikation_einlesen}
+\caption{Sequenzdiagramm für \textit{Spezifikation einlesen}}
+\end{figure}
 
 %Christian/Matthias
 
@@ -33,8 +33,12 @@ beim Öffnen einer Datei, das Auslesen der Datei und der Wechsel der Simulation
 \section{Analyse von Funktionalität :  Renderloop}
 Da es sich um ein System handelt, indem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige die eine ständige aktualisierung erwartet und andererseits durch
 die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
-\includegraphics[width=16cm]{bilder/render_loop}
 
+\begin{figure}
+\includegraphics[width=16cm]{bilder/render_loop}
+\caption{Sequenzdiagramm für \textit{Renderloop}}
+\label{labelname}
+\end{figure}
 %Marco:
 \section{Analyse von Funktionalität /F100/ :  Spezifikation einlesen }
 %Simon:
