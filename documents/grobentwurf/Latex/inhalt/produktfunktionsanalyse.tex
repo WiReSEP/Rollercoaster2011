@@ -43,6 +43,13 @@ die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuch
 \section{Analyse von Funktionalität /F100/ :  Spezifikation einlesen }
 %Simon:
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
+Der Anwender kann über die 2D GUI die Simulation starten. Dabei wird die Information an die Render Loop weitergeleitet, die die das 3D Bild anzeigt, das HUD anzeigt, die Bahnberechnung startet und die Aufzeichnung startet. 
+Der Anwender kann außerdem über die 2D GUI die Simulation stoppen. Dabei wird die Information an die Render Loop weitergeleitet, die zuerst die Aufzeichnung beendet und speichert, danach die Bahnberechnung anhält, dann das HUD ausbledent und zum Schluss das 3D Bild ausblendet.
+\begin{figure}
+\includegraphics[width=16cm]{bilder/Simulator_Starten_Stoppen}
+\caption{Sequenzdiagramm für das \textit{Starten und Stoppen der Simulation}}
+\label{labelname}
+\end{figure}
 %Robin
 \section{Analyse von Funktionalität /F300/ :  Pausieren der Simulation}
 %Daniel
@@ -96,6 +103,12 @@ Nun sind sie so lange frei positionierbar, bis er die Eingabe tätigt sie wieder
 \includegraphics[width=16cm]{bilder/Interface_Neuanordnung}
 %Simon
 \subsubsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
+Der Anwender hat die Möglichkeit, sich die Beschleunigungsdaten anzeigen zu lassen. Dabei werden die Daten berechnet und an das HUD übergeben, dass die Beschleunigung dann anzeigt. Zusätzlich hat der Anwender die Möglichkeit die Beschleunigungsdaten wieder auszublenden. Dabei wird die Darstellung der Beschleunigungsdatei geschlossen.
+\begin{figure}
+\includegraphics[width=16cm]{bilder/Simulator_Beschleunigung}
+\caption{Sequenzdiagramm für \textit{Ein-/Ausblenden von Beschleunigunsdaten}}
+\label{labelname}
+\end{figure}
 %Robin
 \subsubsection{Analyse von Funktionalität /F533o/ :  Kameraperspektive ändern}
 %Konstantin
