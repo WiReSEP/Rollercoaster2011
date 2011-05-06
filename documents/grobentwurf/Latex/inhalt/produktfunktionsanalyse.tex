@@ -23,10 +23,12 @@ Anforderungen sind so weit möglich entsprechend darzustellen.
 
 
 %Christian/Matthias
+
+%kann man dies ggf Q40 zuordnen?
 \section{Analyse von Funktionalität :  Renderloop}
 Da es sich um ein System handelt, indem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige die eine ständige aktualisierung erwartet und andererseits durch
 die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
-\includegraphics[width=10cm]{bilder/render_loop}
+\includegraphics[width=16cm]{bilder/render_loop}
 
 %Marco:
 \section{Analyse von Funktionalität /F100/ :  Spezifikation einlesen }
@@ -41,24 +43,52 @@ Videoaufnahme beginnt. Dies geschieht so lange, bis der Anwender die Videoaufzei
 \includegraphics[width=16cm]{bilder/Video_aufzeichnen}
 %Matthias/Christian
 \section{Analyse von Funktionalität /F500/ :  Einstellungen ändern}
-\section{Analyse von Funktionalität /F510o/ :  Physikalische Paramter anpassen}
-\subsection{Analyse von Funktionalität /F511o/ :  Gravitation anpassen}
-\subsection{Analyse von Funktionalität /F512o/ :  Wagenmasse anpassen}
-\subsection{Analyse von Funktionalität /F520/ :  Simulationsparameter ändern}
+\subsection{Analyse von Funktionalität /F510o/ :  Physikalische Paramter anpassen}
+% Hier reicht ein Sequenzdiagramm, das zeigt das Änderungen an den physikalischen Paramtern das stoppen der Simulation zur Folge haben
+% die folgenden Kapitel würde ich daher in einem zusätzlichen Textkommentar zusammenfassen
+\subsubsection{Analyse von Funktionalität /F511o/ :  Gravitation anpassen}
+\subsubsection{Analyse von Funktionalität /F512o/ :  Wagenmasse anpassen}
 %Matthias
-\subsection{Analyse von Funktionalität /F521o/ :  Dekorative Umgebung anpassen}
-\subsection{Analyse von Funktionalität /F522o/ :  Simulatioszeit anpassen}
+\subsection{Analyse von Funktionalität /F520/ :  Simulationsparameter ändern}
+Die Veränderung von Parametern die die Simulation direkt betreffen fallen unter diese Oberklasse. Die einzelnen Unterpunkte werden in den 2 folgenden Kapiteln erläutert. Im wesentlichen Fallen hier 
+auch einfache Veränderungen an, die als atomistisch und somit unkritisch anzusehen sind. In der Folge werden diese Use-Cases nicht extra in Sequenzdiagrammen abgebildet.
+\subsubsection{Analyse von Funktionalität /F521o/ :  Dekorative Umgebung anpassen}
+Da diese Aktion in den Datenbestand des 3D-Kontext eingreift gibt es einen interessanten Fall in dem das direkte Setzen der Deko nicht möglich ist. 
+Der User fordert die Veränderung der Deko über die 2D-GUI an (2). Kurz zuvor wurde aber das Render eine Frames(1) angefordert. In der Folge muss die 3D Anzeige mit der Veränderung der Konfiguration (1.3)
+bis zum Abschluss des Rendervorgangs (1.2) warten. Dann kann die Deko gemäß der Uservorgaben geladen werden(1.4). In (1.5) meldet sich die 3D-Anzeige bei den anderen Komponenten zurück. 
+
+\includegraphics[width=16cm]{bilder/change_graphic_deko}
+
+Es wird hier in Kauf genommen, dass die Simulation für eine spürbare Zeit unterbrochen wird um die Deko zu laden. Dies wird als zumutbar angenommen um undefinierte Zustände zu verhindern. 
+Außerdem wird erwartet, dass die Funktionalität selten während der laufenden Simulation sondern vor dem Start genutzt wird wo auch Wartezeiten akzeptabel sind.
+
+\subsubsection{Analyse von Funktionalität /F522o/ :  Simulatioszeit anpassen}
+Die Simulationsgeschwindigkeit wird, aufgrund der Implementierung eines numerischen Lösungsverfahrens für die Berechnung der Daten ein diskreter Zeitschritt sein. Dieser Wert kann direkt und entsprechend
+den Anforderungen des Nutzers gesetzt werden. Das einfache Durchreichen über die GUI an den Simulator wird nicht in einem zusätzlichen Sequenzdiagramm dargestellt.
 %Matthias
 \subsection{Analyse von Funktionalität /F530/ :  Graphische Einstellungen ändern}
+Die Anpassung der grafischen Einstellung bezieht sich hier zunächst allgemein auf graphische Einstellungen. Besonders interessant ist dabei jedoch der Fall der Veränderung von Einstellungen die 
+die 3D-Anzeige betreffen. 
+
+\includegraphics[width=16cm]{bilder/change_graphic_config}
+
+Fordert der Nutzer die Veränderung von Einstellungen aus dem 3D-Kontext an (2), so besteht die Möglichkeit, dass zum gleichen Zeitpunkt ein Frame, initiiert durch den Simulator (1), gerendert wird. 
+Die GUI (hier für den 2D-Anteil) wird die Anfrage des Benutzer an die 3D-komponente weiterreichen(2.1) und eine etwaige Bestätigung (beispielsweise durch Statusveränderung des Konfigurationsdialogs) an den 
+User ausgeben (2.2). Die 3D-Komponente muss jetzt den Renderprozess abwarten und darf erst dann die veränderte Konfiguration anwenden um ungültige Zustände zu vermeiden. Die Anwendung der Konfiguration verzögert 
+die Rückmeldung der Bereitschaft an den Simulator(2.1.4) um sicherzustellen, dass nicht mit einem neuen Frame begonnen wird bevor die Einstellungen übernommen wurden. 
+
+Bei diesem Vorgehen wird in Kauf genommen, dass es für das Frame was auf die Einstellungsänderung folgt zu einer Verzögerung in der Darstellung kommt. Dies muss jedoch als zumutbar erachtet werden, da zum einen
+eine Zeitdauer im Millisekundenbereich zu erwartet ist. Die Alternativen beinhalten wesentlich störendere Artefakte oder aber das grundsätzliche Anhalten der Simulation nach Änderungen an den Einstellungen.
+
 %Daniel
 \subsection{Analyse von Funktionalität /F531/ :   Neuanordnung (Interface)}
 Der Anwender hat die Möglichkeit die Segmente innerhalb der GUI nach seinen eigenen Bedürfnissen einzurichten. Um dies zu tun, muss er nur die Eingabe in der GUI tätigen, die Segmente entsperren zu wollen.
 Nun sind sie so lange frei positionierbar, bis er die Eingabe tätigt sie wieder sperren zu wollen.
 \includegraphics[width=16cm]{bilder/Interface_Neuanordnung}
 %Simon
-\subsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
+\subsubsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
 %Robin
-\subsection{Analyse von Funktionalität /F533o/ :  Kameraperspektive ändern}
+\subsubsection{Analyse von Funktionalität /F533o/ :  Kameraperspektive ändern}
 %Konstantin
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %Marco:
