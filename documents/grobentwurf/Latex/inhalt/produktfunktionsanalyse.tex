@@ -45,6 +45,13 @@ die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuch
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
 %Robin
 \section{Analyse von Funktionalität /F300/ :  Pausieren der Simulation}
+Der Anwender hat während der Simulation die Möglichkeit diese anzuhalten und sie später fortzusetzen, ohne dass die Pausierung Auswirkungen auf das Simulationsergebnis hat.
+\begin{figure}
+\includegraphics[width=\linewidth]{bilder/Pausieren.jpg}
+\caption{Sequenzdiagramm für \textit{Pausieren der Simulation}
+\label{labelname}
+\end{figure}
+
 %Daniel
 \section{Analyse von Funktionalität /F400o/ :  Video aufzeichnen}
 Der Anwender kann über die GUI die Eingabe tätigen ein Video aufzeichnen zu wollen, sofern nicht gerade eine Aufnahme läuft. Die GUI gibt diese Anweisung an die 3D-Anzeige weiter, die nun mit der
@@ -115,6 +122,12 @@ Nun sind sie so lange frei positionierbar, bis er die Eingabe tätigt sie wieder
 \subsubsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
 %Robin
 \subsubsection{Analyse von Funktionalität /F533o/ :  Kameraperspektive ändern}
+Während der Simulation kann der Anwender die Perspektive der Kamera ändern, ohne dass dabei die Simulation unterbrochen wird. Um einen unterbrechungsfreien Ablauf zu erreichen, errechnet die Simulation zum nächstmöglichen Zeitpunkt die gewählte Kameraeinstellung und stellt sie ab diesem Zeitpunkt dar. 
+\begin{figure}
+\includegraphics[width=\linewidth]{bilder/Kameraperspektive.jpg}
+\caption{Änderung der Kameraperspektive}
+\label{Kameraperspektive}
+\end{figure}
 %Konstantin
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %Marco:
