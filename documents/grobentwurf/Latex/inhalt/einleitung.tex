@@ -32,3 +32,6 @@ Im Initialzustand ist es in Ermangelung von Daten nicht möglich eine Szene zu r
 bevor tatsächlich Regelmäßig Bilder erzeugt werden. Im Savestate ist es dazu von allen Zuständen ohne Zustandswechsel möglich Deko hinzuzufügen, die Grafischen Einstellungen zu ändern oder die Komponente zu terminieren.
 In der kritischen Phase des Renderings kann die Komponente nicht unterbrochen werden und auch die veränderung von Einstellungen oder der Deko ist unzulässig. Diese Restriktion dient der verhinderung undefinierter
 Zustände bei der Darstellung (im Bilderzeugungsprozess wird die Szene verändert)  und der sauberen Kommunikation mit dem 3D-Hardwarekontext.
+
+\subsection{Mathematics}
+Die Mathematik-Komponente stellt Hilfsmethoden zur Berechnung der physikalischen Größen zur Verfügung. Sie wird bei Bedarf durch die Physics Engine aufgerufen und hat daher keinen Lebenszyklus. Eine Visualisierung durch ein Statechart-Diagramm ist somit nicht angebracht.
