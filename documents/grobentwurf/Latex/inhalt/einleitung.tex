@@ -18,15 +18,15 @@ Ist dies geschehen, befindet sich der Anwender in der Vorschau. Hier wird ein 2D
 Wurde die Simulation gestartet, erscheint sie in dem dafür vorgesehenem Feld. Bei Bedarf kann sie auf Bildschirmgröße maximiert werden. Während der laufenden Simulation können die Simulationsparameter angepasst werden.
 Wird die Simulation gestoppt, befindet man sich wieder in der Vorschau, von wo aus man mit dem Schließen der Konstruktion wieder in den Initialzustand gelangt.
 
-\includegraphics[width=16cm]{bilder/StateChart_GUI}
+\includegraphics[width=\linewidth]{bilder/StateChart_GUI}
 
 \subsection{Simulator}
-Der Simulator dient zur Simulation der Achterbahnfahrt. Er bekommt die Bahndaten von der PhysicsEngine und modelliert daraus die Achterbahnstrecke während der Fahrt.
+Der Simulator dient zur Simulation der Achterbahnfahrt. Er bekommt die Bahndaten von der PhysicsEngine und reicht diese zur Darstellung an die 3D-GraphicsEngine weiter.
 \subsection{3D-GraphicsEngine}
 Die 3D-GraphicsEngine dient der Visualisierung der Achterbahnfahrt. Sie zeigt die Bahn als 3DModell an und aktualisiert die Kameraposition gemäß der Daten der PhysicsEngine. 
-Zudem werden wichtige Daten auf Wunsch in einem HUD dargestellt.
 
-\includegraphics[width=16cm]{bilder/statechart_3dgraphics}
+
+\includegraphics[width=\linewidth]{bilder/statechart_3dgraphics}
 
 Im Initialzustand ist es in Ermangelung von Daten nicht möglich eine Szene zu rendern. Durch eingabe der Bahndaten wird diese Möglichkeit erreicht, jedoch ist zusätzlich ein Startbefehl notwendig,
 bevor tatsächlich Regelmäßig Bilder erzeugt werden. Im Savestate ist es dazu von allen Zuständen ohne Zustandswechsel möglich Deko hinzuzufügen, die Grafischen Einstellungen zu ändern oder die Komponente zu terminieren.

@@ -30,12 +30,12 @@ Differentialgleichung bestimmt. Die berechnete Bahnkurve wird dem Simulator zur
 Umsetzung der Kamerafahrt bereitgestellt.
 
 Um die über Stützstellen definierte Achterbahn in eine ununterbrochene und hinreichend
-glatte Raumkurve umzurechnen, kommt die Komponente "Mathematics" zum Einsatz. Im
+glatte Raumkurve umzurechnen, kommt die Komponente ``Mathematics'' zum Einsatz. Im
 Wesentlichen besteht die Komponente aus den Routinen zur näherungsweisen Berechnung
-von Beziérkurven.
+von Beziérkurven.    
 
 Für das Einlesen der Achterbahn-Spezifikationen aus den vom Editor bereitgestellten
-XML-Dateien kommt die Komponente "FileManagement" zum Einsatz. Diese kapselt alle
+XML-Dateien kommt die Komponente ``FileManagement'' zum Einsatz. Diese kapselt alle
 am speziellen Serialisierung-Schema haftenden Eigenheiten ab und liefert einen
 von den anderen Komponenten einfach auslesbaren Datensatz mit dem Stützstellen der
 Bahn und weiteren Parametern.
@@ -58,16 +58,25 @@ innen liegenden Aufteilung ist für jede Operation einer Schnittstelle eine
 Zeile einzufügen.  Reine Set- und Get-Aufrufe brauchen nicht aufgeführt zu
 werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
 
-\begin{tabular}[ht]{|l|c|}
+\begin{tabular}[ht]{|l|p{0.35\linewidth}|p{0.35\linewidth}|}
  \hline
- Schnittstelle & Aufgabenbeschreibung\\
+ Schnittstelle & \multicolumn{2}{|c|}{Aufgabenbeschreibung}\\
  \hline\hline
-    <Schnittstellen – ID>: & Operation      |     Beschreibung\\
- \hline\hline\hline
-    <Bezeichnung>  & <Signatur der Operation>|<Aufgabenbeschreibung der
-                                                                    Operation>\\
-    \hline
-  \end{tabular}
+    <Schnittstellen – ID>: & \multicolumn{2}{|c|}{Überschrift über zwei Spalten}\\
+ \hline
+ & Name der Funktion1 & Beschreibung1\\ 
+ & Name der Funktion2 & Beschreibung2\\ 
+ & Name der Funktion3 & Beschreibung3\\ 
+ & Name der Funktion4 & Beschreibung4\\ 
+\hline
+    <Schnittstellen – ID>: & \multicolumn{2}{|c|}{Überschrift mal wieder}\\
+ \hline
+ & Name der Funktion & Beschreibung\\ 
+ & Name der Funktion & Beschreibung\\ 
+ & Name der Funktion & Beschreibung\\ 
+ & Name der Funktion & Beschreibung\\ 
+ \hline
+   \end{tabular}
 
 
 
