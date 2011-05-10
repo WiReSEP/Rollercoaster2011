@@ -71,17 +71,23 @@ werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
  \hline
     /S10/ Track & \multicolumn{2}{|c|}{Spezifikation der Achterbahn mit Stützstellen und Parametern}\\
  \hline
- & Name der Funktion1 & Beschreibung1\\ 
- & Name der Funktion2 & Beschreibung2\\ 
- & Name der Funktion3 & Beschreibung3\\ 
- & Name der Funktion4 & Beschreibung4\\ 
+ & getCurve() : Curve & Liefert die Achterbahnstrecke als mathematische Raumkurve zurück.\\ 
  \hline
-    /S20/ Curve & \multicolumn{2}{|c|}{Repräsentation einer Raumkurve als mathematische Funktion}\\
+    /S20/ Curve & \multicolumn{2}{|c|}{Repräsentation einer ortientierten Raumkurve}\\
  \hline
- & Name der Funktion1 & Beschreibung1\\ 
- & Name der Funktion2 & Beschreibung2\\ 
- & Name der Funktion3 & Beschreibung3\\ 
- & Name der Funktion4 & Beschreibung4\\ 
+ & getLength() : double & Liefert die Länge der Raumkurve.\\ 
+ & getPoint(l : double) : CurvePoint & Liefert den Repräsentanten für einen bestimmen Punkt auf der Raumkurve zurück,
+ wobei über die Bogenlänge parametrisiert wird.\\ 
+ & getPointSequence(maxDistance : double, maxAngle : double) : List<CurvePoint> &
+ 	Liefert eine Liste mit Punkten auf der Raumkurve wieder, die höchsten den angegebenen Abstand und die
+ 	Differenz im Raumwinkel haben dürfen. \\
+ \hline
+    /S21/ CurvePoint & \multicolumn{2}{|c|}{Repräsentation eines bestimmten Punktes auf einer Raumkurve}\\
+ \hline
+ & getPosition() : Vector & Liefert die Position. \\
+ & getRollAxis() : Vector & Liefert die Rollachse (Längsachse).\\ 
+ & getPitchAxis() : Vector & Liefert den Nickachse (Querachse). \\ 
+ & getYawAxis() : Vector & Liefert die Gierachse (Hochachse). \\
  \hline
  	/S30/ Trajectory & \multicolumn{2}{|c|}{Bahnkurve einer Punktmasse als Funktion der Zeit}\\
  \hline
