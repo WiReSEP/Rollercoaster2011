@@ -39,6 +39,9 @@ die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuch
 \caption{Sequenzdiagramm für \textit{Renderloop}}
 %\label{labelname}
 \end{figure}
+
+Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschritt bei der Simulation angefordert  wird. Die erhalten Daten werden dann zur 3D-Anzeige weitergereicht und werden dort visualisiert.
+
 %Simon:
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
 Der Anwender kann über die GUI die Simulation starten. Dabei wird die Information an den Simulator weitergeleitet, der das 3D Bild anzeigt, die 2D Statusanzeige einblendet, die Bahnberechnung startet und die Aufzeichnung startet. 
@@ -93,8 +96,8 @@ Die Veränderung von Parametern die die Simulation direkt betreffen fallen unter
 auch einfache Veränderungen an, die als atomistisch und somit unkritisch anzusehen sind. In der Folge werden diese Use-Cases nicht extra in Sequenzdiagrammen abgebildet.
 \subsubsection{Analyse von Funktionalität /F521o/ :  Dekorative Umgebung anpassen}
 Da diese Aktion in den Datenbestand des 3D-Kontext eingreift, gibt es einen interessanten Fall, in dem das direkte Setzen der Deko nicht möglich ist. 
-Der Nutzer fordert die Veränderung der Deko über die GUI an (2). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. In der Folge muss die 3D-Anzeige mit der Veränderung der Konfiguration (1.3)
-bis zum Abschluss des Rendervorgangs (1.2) warten. Dann kann die Deko gemäß der Nutzervorgaben geladen werden(1.4). In (1.5) meldet sich die 3D-Anzeige bei den anderen Komponenten zurück. 
+Der Nutzer fordert die Veränderung der Deko über die GUI an (3). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. 
+In der Folge muss die GUI warten bis der Simulator das Rendern des Frames abgeschlossen hat(2) und kann erst dann seine Änderungen melden (3.2) die an die 3D-Anzeige weitergereicht werden(3.2.1) und dort angewendet werden.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/change_graphic_deko}
@@ -103,6 +106,7 @@ bis zum Abschluss des Rendervorgangs (1.2) warten. Dann kann die Deko gemäß de
 \end{figure}
 Es wird hier in Kauf genommen, dass die Simulation für eine spürbare Zeit unterbrochen wird, um die Deko zu laden. Dies wird als zumutbar angenommen, um undefinierte Zustände zu verhindern. 
 Außerdem wird erwartet, dass die Funktionalität selten während der laufenden Simulation, sondern vor dem Start genutzt, wird wo auch Wartezeiten akzeptabel sind.
+Auch ist die notwendigkeit des Wartens der GUI auf den Simulator unkritisch, da die Berechnung eines Frames üblicherweise 20 mal pro Sekunde erfolgt, sodass die resultierende Verzögerung minimal ist.
 
 \subsubsection{Analyse von Funktionalität /F522o/ :  Simulationszeit anpassen}
 Die Simulationsgeschwindigkeit wird aufgrund der Implementierung eines numerischen Lösungsverfahrens für die Berechnung der Daten ein diskreter Zeitschritt sein. Dieser Wert kann direkt und entsprechend
@@ -117,10 +121,8 @@ die 3D-Anzeige betreffen.
 \caption{Sequenzdiagramm für \textit{Graphische Einstellungen ändern}}
 %\label{labelname}
 \end{figure}
-Fordert der Nutzer die Veränderung von Einstellungen aus dem 3D-Kontext an (2), so besteht die Möglichkeit, dass zum gleichen Zeitpunkt ein Frame, initiiert durch den Simulator (1), gerendert wird. 
-Die GUI (hier für den 2D-Anteil) wird die Anfrage des Benutzer an die 3D-Komponente weiterreichen(2.1) und eine etwaige Bestätigung (beispielsweise durch Statusveränderung des Konfigurationsdialogs) an den 
-Benutzer ausgeben (2.2). Die 3D-Komponente muss jetzt den Renderprozess abwarten und darf erst dann die veränderte Konfiguration anwenden um ungültige Zustände zu vermeiden. Die Anwendung der Konfiguration verzögert 
-die Rückmeldung der Bereitschaft an den Simulator(2.1.4) um sicherzustellen, dass nicht mit einem neuen Frame begonnen wird, bevor die Einstellungen übernommen wurden. 
+Fordert der Nutzer die Veränderung von Einstellungen aus dem 3D-Kontext an (3), so besteht die Möglichkeit, dass zum gleichen Zeitpunkt ein Frame, initiiert durch den Simulator (1), gerendert wird. 
+Die GUI (hier für den 2D-Anteil) wird die Anfrage des Benutzer an den Simulator weiterreichen (3.2) sobald der Renderprozess abgeschlossen ist (2). Die Änderungen an den Einstellungen können dann weitergemeldet (3.2.1) und angewandt (3.2.1.1) werden.
 
 Bei diesem Vorgehen wird in Kauf genommen, dass es für das Frame, welches auf die Einstellungsänderung folgt, zu einer Verzögerung in der Darstellung kommt. Dies muss jedoch als zumutbar erachtet werden, da eine Zeitdauer im Millisekundenbereich zu erwartet ist. Die Alternativen beinhalten wesentlich störendere Artefakte oder aber das grundsätzliche Anhalten der Simulation nach Änderungen an den Einstellungen.
 
@@ -151,7 +153,7 @@ Während der Simulation kann der Anwender die Perspektive der Kamera ändern, oh
 %Konstantin
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %zweiter Versuch
-Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben.
+Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde oder tötliche Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben.
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Warnung_Beschleunigung}
 \caption{Warnung vor zu hoher Beschleunigung}
