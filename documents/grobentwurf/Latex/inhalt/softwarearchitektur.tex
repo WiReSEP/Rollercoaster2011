@@ -76,7 +76,7 @@ werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
     /S20/ Curve & \multicolumn{2}{|c|}{Repräsentation einer ortientierten Raumkurve}\\
  \hline
  & getLength() : double & Liefert die Länge der Raumkurve.\\ 
- & getPoint(l : double) : CurvePoint & Liefert den Repräsentanten für einen bestimmen Punkt auf der Raumkurve zurück,
+ & getPoint(lengh : double) : CurvePoint & Liefert den Repräsentanten für einen bestimmen Punkt auf der Raumkurve zurück,
  wobei über die Bogenlänge parametrisiert wird.\\ 
  & getPointSequence(maxDistance : double, maxAngle : double) : List<CurvePoint> &
  	Liefert eine Liste mit Punkten auf der Raumkurve wieder, die höchsten den angegebenen Abstand und die
@@ -91,26 +91,27 @@ werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
  \hline
  	/S30/ Trajectory & \multicolumn{2}{|c|}{Bahnkurve einer Punktmasse als Funktion der Zeit}\\
  \hline
- & Name der Funktion1 & Beschreibung1\\ 
- & Name der Funktion2 & Beschreibung2\\ 
+ & getCurve() : Curve & Liefert den räumlichen Verlauf der Bahnkurve als Raumkurve zurück.\\ 
+ & getPoint(time : double) : TrajectoryPoint & Liefert den Repräsentanten für einen bestimmten Punkt auf der Bahnkurve zurück.\\ 
  & Name der Funktion3 & Beschreibung3\\ 
  & Name der Funktion4 & Beschreibung4\\ 
+ \hline
+ 	/S31/ TrajectoryPoint & \multicolumn{2}{|c|}{Repräsentation eines bestimmten Punktes auf der Bahnkurve}\\
+ \hline
+ & getPosition() : Vector & Liefert die momentane Position.\\ 
+ & getVelocity() : Vector & Liefert die momentane Geschwindigkeit.\\ 
+ & getAcceleration() : Vector & Liefert die momentane Beschleunigung. \\ 
  \hline
     /S40/ Simulation & \multicolumn{2}{|c|}{Repräsentant für eine konkrete Simulation}\\
  \hline
- & Name der Funktion1 & Beschreibung1\\ 
- & Name der Funktion2 & Beschreibung2\\ 
- & Name der Funktion3 & Beschreibung3\\ 
- & Name der Funktion4 & Beschreibung4\\ 
+ & start() : void & Startet die Simulation.\\ 
+ & stop() : void & Stoppt die Simulation. \\ 
 \hline
 	/S50/ View & \multicolumn{2}{|c|}{Repräsentant für die 3D-Welt mit bestimmter Kameraperspektive}\\
 \hline
- & Name der Funktion & Beschreibung\\ 
- & Name der Funktion & Beschreibung\\ 
- & Name der Funktion & Beschreibung\\ 
- & Name der Funktion & Beschreibung\\ 
+ & setCamera(positon : Vector, direction : Vector) & Setzt die Kamera auf die angegebene Position und Raumrichtung. \\ 
  \hline
-   \end{tabular}
+ \end{tabular}
 
 
 
