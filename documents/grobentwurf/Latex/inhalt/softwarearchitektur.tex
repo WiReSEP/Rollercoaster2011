@@ -4,8 +4,10 @@
 %------------------------------------------------------------------------------------
 \chapter{Resultierende Softwarearchitektur}
 
-Dieser Abschnitt hat die Aufgabe, einen Überblick über die zu entwickelnden
-Komponenten und Subsysteme zu liefern.
+Dieses Kapitel erläutert die geplante Architektur des Achterbahnsimulators und
+liefert eine grobe Spezifikation der Schnittstellen zwischen den geplanten
+Komponenten.
+
 \section{Komponentenspezifikation}
 
 Aus der Analyse der Produktfunktionen ergeben sich sechs größere Teilbereiche,
@@ -89,7 +91,35 @@ Verwendung der zu entwickelnden Komponenten dokumentiert. Dies ist insbesondere
 für diejenigen Komponenten notwendig, für die eine Wiederverwendung möglich
 erscheint oder sogar bereits geplant ist.
 
-Begründen Sie für welche Komponenten eine Wiederverwendung sinnvoll erscheint
-und für welche nicht!
+%Begründen Sie für welche Komponenten eine Wiederverwendung sinnvoll erscheint
+%und für welche nicht!
 
-Fügen Sie so viele Statechartdiagramme ein, wie sie Komponenten gefunden haben.
+Der Achterbahnsimulator setzt trotz seines (schon durch den Namen ersichtlichen)
+eingeschränkten Anwendungsbereiches bereits alle wesentlichen Teile für die
+Simulation anderer mechanischer Systeme um: die Berechnung der Bewegung von
+Punktmassen wird auch ohne Einschränkung auf konkrete Kurven abgedeckt. Es liegt
+deswegen nahe, diese Komponente sauber zu kapseln und wiederverwendbar zu gestalten.
+
+Die Benutzeroberfläche ist eine konkret auf die Funktionalität der Anwendung
+zugeschnittene Komponente. Allerdings dürfte die Oberfläche ohne größere
+Schwierigkeiten auf andere Simulatoren neben Achterbahnen verallgemeinerbar sein.
+Jede andere Art von Anwendung dürfte einen anderen Satz an Dialogfenstern und
+Menübefehlen benötigen und andere Informationen auf dem Bildschirm darstellen,
+so dass bei dieser Komponente ingesamt kein größerer Aufwand für eine
+Wiederverwertung aufgebracht werden sollte.
+
+Die 3D-Anzeige ist ebenfalls nicht auf bestimmte Modelle eingeschränkt, zumal in
+der geplanten Architektur alle Dekorationen dynamisch zugefügt werden können.
+Allerdings ist das zum Einsatz kommende 3D-Framework selber schon von sich aus 
+für die Wiederverwertung ausgelegt, so dass der Mehrwert der eigenen Komponente
+zumindest angezweifelt werden. Erst im Zusammenspiel mit dem Simulator und der 
+Benutzeroberfläche erscheint der Mehraufwand für eine allgemeinere Schnittstelle
+vertretbar.
+
+Die Dateiverwaltung ist eine auf das Einlesen der vorgegebenen XML-Spezifikation 
+zugeschnittene Spezialkomponente. Schon bei Änderung des Dateiformates wäre eine
+umfangreiche Änderung angebracht. Eine Wiederverwertbarkeit scheint ausgeschlossen.
+
+Alle mathematischen Routinen sollten selbstverständlich möglichst allgemein und
+wiederverwertbar entworfen werden, so lange die konkrete Implementierung nicht
+durch die allgemeinere Aufgabenstellung weniger effizient realisiert werden kann.
