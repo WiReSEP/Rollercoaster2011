@@ -12,12 +12,12 @@
 
 \section{Analyse der Funktionalität /F100/: Spezifikation einlesen}
 Das Einlesen einer Spezifikation aus einem vom Nutzer angegebenen Dateipfad
-gliedert sich in mehrere Teilfunktionalutäten. Zunächst muss der Anwender den
+gliedert sich in mehrere Teilfunktionalitäten. Zunächst muss der Anwender den
 Dateipfad auswählen. Dafür sollte ein Datei-Dialog zum Einsatz kommen.
 Danach muss die ausgewählte Datei geöffnet, geprüft und geparst werden. Für
 diese Aufgaben bietet sich eine spezialisierte Komponente an, um alle
 Eigenheiten des Dateiformates von der Oberfläche und dem Simulator abzukapseln.
-Der ausgelesene Datensatz nun zum Starten einer neuen Simulation verwendet,
+Der ausgelesene Datensatz wird nun zum Starten einer neuen Simulation verwendet,
 dafür muss eine eventuell laufende Simulation beendet werden. Es bietet sich
 an, diese Funktionen als Schnittstelle zu kapseln und die konkrete Implementierung
 der Simulator-Komponente zu überlassen.
@@ -31,7 +31,7 @@ der Simulator-Komponente zu überlassen.
 
 %kann man dies ggf Q40 zuordnen?
 \section{Analyse von Funktionalität :  Renderloop}
-Da es sich um ein System handelt, indem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige die eine ständige aktualisierung erwartet und andererseits durch
+Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige, die eine ständige Aktualisierung erwartet und andererseits durch
 die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
 
 \begin{figure}
@@ -41,8 +41,9 @@ die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuch
 \end{figure}
 %Simon:
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
-Der Anwender kann über die 2D GUI die Simulation starten. Dabei wird die Information an die Render Loop weitergeleitet, die die das 3D Bild anzeigt, das HUD anzeigt, die Bahnberechnung startet und die Aufzeichnung startet. 
-Der Anwender kann außerdem über die 2D GUI die Simulation stoppen. Dabei wird die Information an die Render Loop weitergeleitet, die zuerst die Aufzeichnung beendet und speichert, danach die Bahnberechnung anhält, dann das HUD ausbledent und zum Schluss das 3D Bild ausblendet.
+Der Anwender kann über die GUI die Simulation starten. Dabei wird die Information an den Simulator weitergeleitet, der das 3D Bild anzeigt, die 2D Statusanzeige einblendet, die Bahnberechnung startet und die Aufzeichnung startet. 
+Der Anwender kann außerdem über die GUI die Simulation stoppen. Dabei wird die Information ebenfalls an den Simulator weitergeleitet, der dann alles wieder schließt und die Aufzeichnung speichert.
+
 \begin{figure}
 \includegraphics[width=16cm]{bilder/Simulator_Starten_Stoppen}
 \caption{Sequenzdiagramm für das \textit{Starten und Stoppen der Simulation}}
@@ -82,8 +83,8 @@ Die Veränderung von Parametern die die Simulation direkt betreffen fallen unter
 auch einfache Veränderungen an, die als atomistisch und somit unkritisch anzusehen sind. In der Folge werden diese Use-Cases nicht extra in Sequenzdiagrammen abgebildet.
 \subsubsection{Analyse von Funktionalität /F521o/ :  Dekorative Umgebung anpassen}
 Da diese Aktion in den Datenbestand des 3D-Kontext eingreift gibt es einen interessanten Fall in dem das direkte Setzen der Deko nicht möglich ist. 
-Der User fordert die Veränderung der Deko über die 2D-GUI an (2). Kurz zuvor wurde aber das Render eine Frames(1) angefordert. In der Folge muss die 3D Anzeige mit der Veränderung der Konfiguration (1.3)
-bis zum Abschluss des Rendervorgangs (1.2) warten. Dann kann die Deko gemäß der Uservorgaben geladen werden(1.4). In (1.5) meldet sich die 3D-Anzeige bei den anderen Komponenten zurück. 
+Der Nutzer fordert die Veränderung der Deko über die GUI an (2). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. In der Folge muss die 3D-Anzeige mit der Veränderung der Konfiguration (1.3)
+bis zum Abschluss des Rendervorgangs (1.2) warten. Dann kann die Deko gemäß der Nutzervorgaben geladen werden(1.4). In (1.5) meldet sich die 3D-Anzeige bei den anderen Komponenten zurück. 
 
 \begin{figure}
 \includegraphics[width=16cm]{bilder/change_graphic_deko}
@@ -93,12 +94,12 @@ bis zum Abschluss des Rendervorgangs (1.2) warten. Dann kann die Deko gemäß de
 Es wird hier in Kauf genommen, dass die Simulation für eine spürbare Zeit unterbrochen wird um die Deko zu laden. Dies wird als zumutbar angenommen um undefinierte Zustände zu verhindern. 
 Außerdem wird erwartet, dass die Funktionalität selten während der laufenden Simulation sondern vor dem Start genutzt wird wo auch Wartezeiten akzeptabel sind.
 
-\subsubsection{Analyse von Funktionalität /F522o/ :  Simulatioszeit anpassen}
+\subsubsection{Analyse von Funktionalität /F522o/ :  Simulationszeit anpassen}
 Die Simulationsgeschwindigkeit wird, aufgrund der Implementierung eines numerischen Lösungsverfahrens für die Berechnung der Daten ein diskreter Zeitschritt sein. Dieser Wert kann direkt und entsprechend
 den Anforderungen des Nutzers gesetzt werden. Das einfache Durchreichen über die GUI an den Simulator wird nicht in einem zusätzlichen Sequenzdiagramm dargestellt.
 %Matthias
-\subsection{Analyse von Funktionalität /F530/ :  Graphische Einstellungen ändern}
-Die Anpassung der grafischen Einstellung bezieht sich hier zunächst allgemein auf graphische Einstellungen. Besonders interessant ist dabei jedoch der Fall der Veränderung von Einstellungen die 
+\subsection{Analyse von Funktionalität /F530/ :  Grafische Einstellungen ändern}
+Die Anpassung der grafischen Einstellung bezieht sich hier zunächst allgemein auf grafische Einstellungen. Besonders interessant ist dabei jedoch der Fall der Veränderung von Einstellungen die 
 die 3D-Anzeige betreffen. 
 
 \begin{figure}
@@ -107,12 +108,11 @@ die 3D-Anzeige betreffen.
 \label{labelname}
 \end{figure}
 Fordert der Nutzer die Veränderung von Einstellungen aus dem 3D-Kontext an (2), so besteht die Möglichkeit, dass zum gleichen Zeitpunkt ein Frame, initiiert durch den Simulator (1), gerendert wird. 
-Die GUI (hier für den 2D-Anteil) wird die Anfrage des Benutzer an die 3D-komponente weiterreichen(2.1) und eine etwaige Bestätigung (beispielsweise durch Statusveränderung des Konfigurationsdialogs) an den 
-User ausgeben (2.2). Die 3D-Komponente muss jetzt den Renderprozess abwarten und darf erst dann die veränderte Konfiguration anwenden um ungültige Zustände zu vermeiden. Die Anwendung der Konfiguration verzögert 
+Die GUI (hier für den 2D-Anteil) wird die Anfrage des Benutzer an die 3D-Komponente weiterreichen(2.1) und eine etwaige Bestätigung (beispielsweise durch Statusveränderung des Konfigurationsdialogs) an den 
+Benutzer ausgeben (2.2). Die 3D-Komponente muss jetzt den Renderprozess abwarten und darf erst dann die veränderte Konfiguration anwenden um ungültige Zustände zu vermeiden. Die Anwendung der Konfiguration verzögert 
 die Rückmeldung der Bereitschaft an den Simulator(2.1.4) um sicherzustellen, dass nicht mit einem neuen Frame begonnen wird bevor die Einstellungen übernommen wurden. 
 
-Bei diesem Vorgehen wird in Kauf genommen, dass es für das Frame was auf die Einstellungsänderung folgt zu einer Verzögerung in der Darstellung kommt. Dies muss jedoch als zumutbar erachtet werden, da zum einen
-eine Zeitdauer im Millisekundenbereich zu erwartet ist. Die Alternativen beinhalten wesentlich störendere Artefakte oder aber das grundsätzliche Anhalten der Simulation nach Änderungen an den Einstellungen.
+Bei diesem Vorgehen wird in Kauf genommen, dass es für das Frame was auf die Einstellungsänderung folgt zu einer Verzögerung in der Darstellung kommt. Dies muss jedoch als zumutbar erachtet werden, da eine Zeitdauer im Millisekundenbereich zu erwartet ist. Die Alternativen beinhalten wesentlich störendere Artefakte oder aber das grundsätzliche Anhalten der Simulation nach Änderungen an den Einstellungen.
 
 %Daniel
 \subsection{Analyse von Funktionalität /F531/ :   Neuanordnung (Interface)}
