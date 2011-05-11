@@ -20,70 +20,72 @@ Eigenheiten des Dateiformates von der Oberfläche und dem Simulator abzukapseln.
 Der ausgelesene Datensatz wird nun zum Starten einer neuen Simulation verwendet,
 dafür muss eine eventuell laufende Simulation beendet werden. Es bietet sich
 an, diese Funktionen als Schnittstelle zu kapseln und die konkrete Implementierung
-der Simulator-Komponente zu überlassen.
+der Simulator-Komponente zu überlassen. Graphisch dargestellt in Abbildung ~\ref{fig:spezifikation_einlesen}.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/spezifikation_einlesen}
 \caption{Sequenzdiagramm für \textit{Spezifikation einlesen}}
+\label{fig:spezifikation_einlesen}
 \end{figure}
 
 %Christian/Matthias
 
 %kann man dies ggf Q40 zuordnen?
 \section{Analyse von Funktionalität: Simulatorschleife}
-Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige, die eine ständige Aktualisierung erwartet und andererseits durch die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
+Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige, die eine ständige Aktualisierung erwartet und andererseits durch die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten. Siehe Abbildung ~\ref{fig:render_loop}.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/render_loop}
 \caption{Sequenzdiagramm für \textit{Renderloop}}
-%\label{labelname}
+\label{fig:render_loop}
 \end{figure}
 
 Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschritt bei der Simulation angefordert wird. Die erhalten Daten werden dann zur 3D-Anzeige weitergereicht und werden dort visualisiert.
 
 %Simon:
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
-Der Anwender kann über die GUI die Simulation starten. Dabei wird die Information an den Simulator weitergeleitet, der das 3D Bild anzeigt, die 2D Statusanzeige einblendet, die Bahnberechnung startet und die Aufzeichnung startet. 
+Der Anwender kann über die GUI, wie in Abbildung ~\ref{fig:Starten_Stoppen} zu sehen, die Simulation starten. Dabei wird die Information an den Simulator weitergeleitet, der das 3D Bild anzeigt, die 2D Statusanzeige einblendet, die Bahnberechnung startet und die Aufzeichnung startet. 
 Der Anwender kann außerdem über die GUI die Simulation stoppen. Dabei wird die Information ebenfalls an den Simulator weitergeleitet, der dann alles wieder schließt und die Aufzeichnung speichert.
 
 
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Starten_Stoppen.pdf}
 \caption{Sequenzdiagramm für das \textit{Starten und Stoppen der Simulation}}
-%\label{labelname}
+\label{fig:Starten_Stoppen}
 \end{figure}
 
 %Robin
 \section{Analyse von Funktionalität /F300/ :  Pausieren der Simulation}
 Der Anwender hat während der Simulation die Möglichkeit diese anzuhalten und sie später fortzusetzen, ohne dass die Pausierung Auswirkungen auf das Simulationsergebnis hat.
+Dies wird in Abbildung ~\ref{fig:Pausieren} dargestellt.
 \begin{figure}[!h]
 \includegraphics[viewport = 0 17.5cm 25cm 30cm, width=\linewidth]{bilder/Pausieren.pdf}
 \caption{Sequenzdiagramm für \textit{Pausieren der Simulation}}
-%\label{labelname}
+\label{fig:Pausieren}
 \end{figure}
 
 %Daniel
 \section{Analyse von Funktionalität /F400o/ :  Video aufzeichnen}
-Der Anwender kann über die GUI die Eingabe tätigen, ein Video aufzeichnen zu wollen, sofern nicht gerade eine Aufnahme läuft. Die GUI gibt diese Anweisung an die 3D-Anzeige weiter, die nun mit der
-Videoaufnahme beginnt. Dies geschieht so lange, bis der Anwender die Videoaufzeichnung stoppt. In diesem Fall wird die Aufzeichnung angehalten und die Videodatei wird gespeichert.
+Der Anwender kann über die GUI die Eingabe tätigen, ein Video aufzeichnen zu wollen, sofern nicht gerade eine Aufnahme läuft. Die GUI gibt diese Anweisung an den Simulator weiter, die nun mit Hilfe der 3D-Anzeige mit der
+Videoaufnahme beginnt. Dies geschieht so lange, bis der Anwender die Videoaufzeichnung stoppt. In diesem Fall wird die Aufzeichnung angehalten und die Videodatei wird gespeichert. Der Ablauf ist in Abbildung ~\ref{fig:Video_aufzeichnen} dargestellt.
 
 \begin{figure}[!h]
 \includegraphics[width=\linewidth]{bilder/Video_aufzeichnen}
 \caption{Sequenzdiagramm für \textit{Video aufzeichnen}}
-%\label{labelname}
+\label{fig:Video_aufzeichnen}
 \end{figure}
 
 \newpage
 %Matthias/Christian
 \section{Analyse von Funktionalität /F500/ :  Einstellungen ändern}
 \subsection{Analyse von Funktionalität /F510o/ :  Physikalische Parameter anpassen}
-Der Benutzer kann auf der GUI die physikalischen Parameter anpassen. Dabei wird allerdings die Simulation gestoppt, weil es nicht sinnvoll ist, während der Fahrt physikalische Parameter zu ändern. Der Benutzer muss deshalb die Simulation mit anderen Parametern neu starten.
+Der Benutzer kann auf der GUI die physikalischen Parameter anpassen. Dabei wird allerdings die Simulation gestoppt, weil es nicht sinnvoll ist, während der Fahrt physikalische Parameter zu ändern. Der Benutzer muss deshalb die Simulation mit anderen Parametern neu starten, wie in Abbilung ~\ref{fig:PhysikalischeParameter} ersichtlich.
 
 
 \begin{figure}[!h]
 \includegraphics[viewport = 0 25cm 20cm 30cm,width=\linewidth]{bilder/PhysikalischeParameter.pdf}
 \caption{Sequenzdiagramm für \textit{Physikalische Paramter anpassen}}
-%\label{labelname}
+\label{fig:PhysikalischeParameter}
 \end{figure}
 
 \subsubsection{Analyse von Funktionalität /F511o/ :  Gravitation anpassen}
@@ -95,14 +97,14 @@ Der Benutzer kann bei Bedarf die Wagenmasse verändern, indem er auf der GUI die
 Die Veränderung von Parametern die die Simulation direkt betreffen fallen unter diese Oberklasse. Die einzelnen Unterpunkte werden in den 2 folgenden Kapiteln erläutert. Im wesentlichen Fallen hier 
 auch einfache Veränderungen an, die als atomistisch und somit unkritisch anzusehen sind. In der Folge werden diese Use-Cases nicht extra in Sequenzdiagrammen abgebildet.
 \subsubsection{Analyse von Funktionalität /F521o/ :  Dekorative Umgebung anpassen}
-Da diese Aktion in den Datenbestand des 3D-Kontext eingreift, gibt es einen interessanten Fall, in dem das direkte Setzen der neuen Umgebung nicht möglich ist. 
+Da diese Aktion in den Datenbestand des 3D-Kontext eingreift, gibt es einen interessanten Fall, in dem das direkte Setzen der neuen Umgebung nicht möglich ist. Bildlich dargestellt in Abbildung ~\ref{fig:change_graphic_deko}.
 Der Nutzer fordert die Veränderung der Umgebung über die GUI an (3). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. 
 In der Folge muss die GUI warten bis der Simulator das Rendern des Frames abgeschlossen hat(2) und kann erst dann seine Änderungen melden (3.2) die an die 3D-Anzeige weitergereicht werden(3.2.1) und dort angewendet werden.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/change_graphic_deko}
 \caption{Sequenzdiagramm für \textit{Dekorative Umgebung anpassen}}
-%\label{labelname}
+\label{fig:change_graphic_deko}
 \end{figure}
 Es wird hier in Kauf genommen, dass die Simulation für eine spürbare Zeit unterbrochen wird, um die Deko zu laden. Dies wird als zumutbar angenommen, um undefinierte Zustände zu verhindern. 
 Außerdem wird erwartet, dass die Funktionalität selten während der laufenden Simulation, sondern vor dem Start genutzt, wird wo auch Wartezeiten akzeptabel sind.
@@ -114,12 +116,12 @@ den Anforderungen des Nutzers gesetzt werden. Das einfache Durchreichen über di
 %Matthias
 \subsection{Analyse von Funktionalität /F530/ :  Grafische Einstellungen ändern}
 Die Anpassung der grafischen Einstellung bezieht sich hier zunächst allgemein auf grafische Einstellungen. Besonders interessant ist dabei jedoch der Fall der Veränderung von Einstellungen, die 
-die 3D-Anzeige betreffen. 
+die 3D-Anzeige betreffen. Zu sehen in Abbildung ~\ref{fig:change_graphic_config}.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/change_graphic_config}
 \caption{Sequenzdiagramm für \textit{Graphische Einstellungen ändern}}
-%\label{labelname}
+\label{fig:change_graphic_config}
 \end{figure}
 Fordert der Nutzer die Veränderung von Einstellungen aus dem 3D-Kontext an (3), so besteht die Möglichkeit, dass zum gleichen Zeitpunkt ein Frame, initiiert durch den Simulator (1), gerendert wird. 
 Die GUI (hier für den 2D-Anteil) wird die Anfrage des Benutzer an den Simulator weiterreichen (3.2) sobald der Renderprozess abgeschlossen ist (2). Die Änderungen an den Einstellungen können dann weitergemeldet (3.2.1) und angewandt (3.2.1.1) werden.
@@ -128,42 +130,42 @@ Bei diesem Vorgehen wird in Kauf genommen, dass es für das Frame, welches auf d
 
 %Daniel
 \subsection{Analyse von Funktionalität /F531/ :   Neuanordnung (Interface)}
-Der Anwender hat die Möglichkeit, die Elemente der GUI nach seinen eigenen Bedürfnissen anzuordnen. Dafür ändert der Nutzer Einstellungen in der GUI.
+Der Anwender hat die Möglichkeit, die Elemente der GUI nach seinen eigenen Bedürfnissen anzuordnen. Dafür ändert der Nutzer Einstellungen in der GUI. (Abbildung ~\ref{fig:Interface_Neuanordnung})
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Interface_Neuanordnung}
 \caption{Sequenzdiagramm für \textit{Neuanordnung (Interface)}}
-%\label{labelname}
+\label{fig:Interface_Neuanordnung}
 \end{figure}
 %Simon
 \subsubsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
-Der Anwender hat die Möglichkeit, sich die Beschleunigungsdaten anzeigen zu lassen. Dabei werden die Daten berechnet und an die GUI übergeben, wo die Beschleunigung dann anzeigt wird. Zusätzlich hat der Anwender die Möglichkeit, die Beschleunigungsdaten wieder auszublenden.
+Der Anwender hat die Möglichkeit, sich die Beschleunigungsdaten anzeigen zu lassen. Dabei werden die Daten berechnet und an die GUI übergeben, wo die Beschleunigung dann anzeigt wird. Zusätzlich hat der Anwender die Möglichkeit, die Beschleunigungsdaten wieder auszublenden. Zu sehen in Abbildung ~\ref{fig:Simulator_Beschleunigung}.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Simulator_Beschleunigung}
 \caption{Sequenzdiagramm für \textit{Ein-/Ausblenden von Beschleunigunsdaten}}
-%\label{labelname}
+\label{fig:Simulator_Beschleunigung}
 \end{figure}
 %Robin
 
 \newpage
 
 \subsubsection{Analyse von Funktionalität /F533o/ :  Kameraperspektive ändern}
-Während der Simulation kann der Anwender die Perspektive der Kamera ändern, ohne dass dabei die Simulation unterbrochen wird. Um einen unterbrechungsfreien Ablauf zu erreichen, errechnet die Simulation zum nächstmöglichen Zeitpunkt die gewählte Kameraeinstellung und stellt sie ab diesem Zeitpunkt dar. 
+Während der Simulation kann der Anwender die Perspektive der Kamera ändern, ohne dass dabei die Simulation unterbrochen wird. Um einen unterbrechungsfreien Ablauf zu erreichen, errechnet die Simulation zum nächstmöglichen Zeitpunkt die gewählte Kameraeinstellung und stellt sie ab diesem Zeitpunkt dar. Die Vorgehensweise ist in Abbildung ~\ref{fig:Kameraperspektive} dargestellt.
 \begin{figure}[h!]
 \includegraphics[viewport = 0 17.5cm 25cm 30cm,width=\linewidth]{bilder/Kameraperspektive.pdf}
 \caption{Änderung der Kameraperspektive}
-\label{Kameraperspektive}
+\label{fig:Kameraperspektive}
 \end{figure}
 %Konstantin
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %zweiter Versuch
-Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde oder tötliche Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben.
+Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde oder tötliche Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben. Zu sehen in Abbildung ~\ref{fig:Warnung_Beschleunigung}.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Warnung_Beschleunigung}
 \caption{Warnung vor zu hoher Beschleunigung}
-%\label{labelname}
+\label{fig:Warnung_Beschleunigung}
 \end{figure}
 %Marco:
 \section{Analyse von Funktionalität /F1100/ :  Erkennung von Veränderungen an der Ursprungsdatei}

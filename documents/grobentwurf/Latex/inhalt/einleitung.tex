@@ -31,9 +31,12 @@ die physikalischen Simulationsparameter angepasst werden. Wird die Simulation ge
 wieder in die Vorschau zurück. Durch Schließen der Achterbahndatei gelangt der Benutzer wieder in den 
 Initialzustand.
 
+Der Ablauf ist in Abbildung ~\ref{fig:StateChart_GUI} dargestellt.
+
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/StateChart_GUI}
 \caption{Statechart für die \textit{Benutzeroberfläche}}
+\label{fig:StateChart_GUI}
 \end{figure}
 
 \subsection{Simulator}
@@ -49,12 +52,13 @@ Stoppen der Simulation kehrt auch der Simulator wieder in die Vorschau zurück.
 
 \subsection{3D-Anzeige}
 Die 3D-Anzeige dient zur Visualisierung der Achterbahnfahrt, also zur Darstellung der Bahn als 3D-Modell aus
-einer vorgegebenen Kameraperspektive. Vor der Bereitstellung eines konkreten Achterbahnmodells befindet sich
+einer vorgegebenen Kameraperspektive. Der Ablauf ist in Abbildung ~\ref{fig:statechart_3dgraphics} graphisch dargestellt. Vor der Bereitstellung eines konkreten Achterbahnmodells befindet sich
 die Anzeige in einem Initialzustand, in welchem es in Ermangelung von Daten nicht möglich ist, eine Szene darzustellen. 
 
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/statechart_3dgraphics}
 \caption{Statechart für die \textit{3D-Anzeige}}
+\label{fig:statechart_3dgraphics}
 \end{figure}
 
 Durch Übergabe der Bahndaten kann die 3D-Anzeige die Achterbahn und deren Umgebung für die Anzeige vorberechnen.
@@ -70,7 +74,7 @@ einer gewöhnlichen Differentialgleichung mit vorgegebenen Anfangswerten. Die L�
 Verfahren, welches über die Zeit integriert.
 
 Entsprechend wird der Zustand des Systems nach der Initialisierung mit den Bahndaten und den Anfangswerten von Zeitpunkt
-zu Zeitpunkt weiterentwickelt, bis die Simulation (z.B. über Programmende) beendet wird.
+zu Zeitpunkt weiterentwickelt, bis die Simulation (z.B. über Programmende) beendet wird. Ersichtlich in Abbildung ~\ref{fig:StateChart_physics}.
 
 Für die Berechnung der Bahnkurven kommen eine Reihe von Hilfsmethoden zum Einsatz. Diese Routinen sind zustandslos und
 besitzen keinen eigenen Lebenszyklus.
@@ -78,4 +82,5 @@ besitzen keinen eigenen Lebenszyklus.
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/StateChart_physics}
 \caption{Statechart für die \textit{Physik}}
+\label{fig:StateChart_physics}
 \end{figure}
