@@ -36,11 +36,11 @@ Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur La
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/render_loop}
-\caption{Sequenzdiagramm für \textit{Renderloop}}
+\caption{Sequenzdiagramm für \textit{Simulatorschleife}}
 \label{fig:render_loop}
 \end{figure}
 
-Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschritt bei der Simulation angefordert wird. Die erhalten Daten werden dann zur 3D-Anzeige weitergereicht und werden dort visualisiert.
+Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschritt bei der Simulation angefordert wird. Die erhaltenen Daten werden dann zur 3D-Anzeige weitergereicht und werden dort visualisiert.
 
 %Simon:
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
@@ -108,7 +108,7 @@ In der Folge muss die GUI warten bis der Simulator das Rendern des Frames abgesc
 \end{figure}
 Es wird hier in Kauf genommen, dass die Simulation für eine spürbare Zeit unterbrochen wird, um die Deko zu laden. Dies wird als zumutbar angenommen, um undefinierte Zustände zu verhindern. 
 Außerdem wird erwartet, dass die Funktionalität selten während der laufenden Simulation, sondern vor dem Start genutzt, wird wo auch Wartezeiten akzeptabel sind.
-Auch ist die notwendigkeit des Wartens der GUI auf den Simulator unkritisch, da die Berechnung eines Frames üblicherweise 20 mal pro Sekunde erfolgt, sodass die resultierende Verzögerung minimal ist.
+Auch ist die Notwendigkeit des Wartens der GUI auf den Simulator unkritisch, da die Berechnung eines Frames üblicherweise 20 mal pro Sekunde erfolgt, sodass die resultierende Verzögerung minimal ist.
 
 \subsubsection{Analyse von Funktionalität /F522o/ :  Simulationszeit anpassen}
 Die Simulationsgeschwindigkeit wird aufgrund der Implementierung eines numerischen Lösungsverfahrens für die Berechnung der Daten ein diskreter Zeitschritt sein. Dieser Wert kann direkt und entsprechend
@@ -139,7 +139,7 @@ Der Anwender hat die Möglichkeit, die Elemente der GUI nach seinen eigenen Bed�
 \end{figure}
 %Simon
 \subsubsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
-Der Anwender hat die Möglichkeit, sich die Beschleunigungsdaten anzeigen zu lassen. Dabei werden die Daten berechnet und an die GUI übergeben, wo die Beschleunigung dann anzeigt wird. Zusätzlich hat der Anwender die Möglichkeit, die Beschleunigungsdaten wieder auszublenden. Zu sehen in Abbildung ~\ref{fig:Simulator_Beschleunigung}.
+Der Anwender hat die Möglichkeit, sich die Beschleunigungsdaten anzeigen zu lassen. Dabei werden die Daten berechnet und an die GUI übergeben, wo die Beschleunigung dann angezeigt wird. Zusätzlich hat der Anwender die Möglichkeit, die Beschleunigungsdaten wieder auszublenden. Zu sehen in Abbildung ~\ref{fig:Simulator_Beschleunigung}.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Simulator_Beschleunigung}
