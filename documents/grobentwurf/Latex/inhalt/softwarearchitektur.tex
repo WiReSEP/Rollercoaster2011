@@ -57,13 +57,12 @@ Simulationsablaufes werden durchgereicht.
 
 \section{Schnittstellenspezifikation}
 
-Im Folgenden werden die einzelnen Schnittstellen der Komponenten aus der
-Komponentenspezifikation näher erläutert, d. h. die von ihnen zur Verfügung
-gestellten Operationen werden dokumentiert. Die Tabelle ist dabei um so viele
-Zeilen zu erweitern, wie es Schnittstellen im Komponentendiagramm gibt. In der
-innen liegenden Aufteilung ist für jede Operation einer Schnittstelle eine
-Zeile einzufügen.  Reine Set- und Get-Aufrufe brauchen nicht aufgeführt zu
-werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
+Die Komponenten der Anwendung sollen jeweils einen Teilbereich der 
+Gesamtfunktionalität kapseln und sich durch hohe innere Kohärenz und 
+geringe Kopplung zu anderen Komponenten auszeichnen. Die Kommunikation
+zwischen den Komponenten erfolgt über die folgenden Schnittstellen, wobei
+für diesen Grobentwurf nur die wesentlichen Funktionen aufgeführt worden 
+sind.
 
 \begin{tabular}[ht]{|l|p{0.35\linewidth}|p{0.35\linewidth}|}
  \hline
