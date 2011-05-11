@@ -30,9 +30,8 @@ der Simulator-Komponente zu überlassen.
 %Christian/Matthias
 
 %kann man dies ggf Q40 zuordnen?
-\section{Analyse von Funktionalität :  Renderloop}
-Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige, die eine ständige Aktualisierung erwartet und andererseits durch
-die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
+\section{Analyse von Funktionalität: Simulatorschleife}
+Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige, die eine ständige Aktualisierung erwartet und andererseits durch die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/render_loop}
@@ -40,7 +39,7 @@ die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuch
 %\label{labelname}
 \end{figure}
 
-Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschritt bei der Simulation angefordert  wird. Die erhalten Daten werden dann zur 3D-Anzeige weitergereicht und werden dort visualisiert.
+Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschritt bei der Simulation angefordert wird. Die erhalten Daten werden dann zur 3D-Anzeige weitergereicht und werden dort visualisiert.
 
 %Simon:
 \section{Analyse von Funktionalität /F200/ :  Starten/Stoppen der Simulation}
@@ -88,7 +87,7 @@ Der Benutzer kann auf der GUI die physikalischen Parameter anpassen. Dabei wird 
 \end{figure}
 
 \subsubsection{Analyse von Funktionalität /F511o/ :  Gravitation anpassen}
-Der Benutzer kann bei bedarf die Gravitation verändern, indem er auf der GUI die Einstellung vornimmt. Dabei wird, wie bei allen Änderungen der Physik, die Simulation gestoppt.
+Der Benutzer kann bei Bedarf die Gravitation verändern, indem er auf der GUI die Einstellung vornimmt. Dabei wird, wie bei allen Änderungen der Physik, die Simulation gestoppt.
 \subsubsection{Analyse von Funktionalität /F512o/ :  Wagenmasse anpassen}
 Der Benutzer kann bei Bedarf die Wagenmasse verändern, indem er auf der GUI die Einstellung vornimmt. Dabei wird, wie bei allen Änderungen der Physik, die Simulation gestoppt.
 %Matthias
@@ -159,7 +158,7 @@ Während der Simulation kann der Anwender die Perspektive der Kamera ändern, oh
 %Konstantin
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %zweiter Versuch
-Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde oder tödliche Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben.
+Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde oder tötliche Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben.
 
 \begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Warnung_Beschleunigung}
