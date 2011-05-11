@@ -34,7 +34,8 @@ Umsetzung der Kamerafahrt bereitgestellt.
 Um die über Stützstellen definierte Achterbahn in eine ununterbrochene und hinreichend
 glatte Raumkurve umzurechnen, kommt die Mathematik-Komponente (``Mathematics'') zum Einsatz. Im
 Wesentlichen besteht die Komponente aus den Routinen zur näherungsweisen Berechnung
-von Beziérkurven. 
+von Beziérkurven, dem Lösen von gewöhnlichen Differentialgleichungen (Anfangswertproblemen)
+und Algorithmen zum Lösen von linearen Gleichungssystemen.
 
 Für das Einlesen der Achterbahn-Spezifikationen aus den vom Editor bereitgestellten
 XML-Dateien kommt die Dateiverwaltungs-Komponente (``File Management'') zum Einsatz. Diese kapselt alle
@@ -89,18 +90,17 @@ werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
  & getPitchAxis() : Vector & Liefert die Nickachse (Querachse). \\ 
  & getYawAxis() : Vector & Liefert die Gierachse (Hochachse). \\
  \hline
- 	/S30/ Trajectory & \multicolumn{2}{|c|}{Bahnkurve einer Punktmasse als Funktion der Zeit}\\
+ 	/S30/ Trajectory & \multicolumn{2}{|c|}{Bahnkurve des Massenpunktes über die Zeit}\\
  \hline
- & getCurve() : Curve & Liefert den räumlichen Verlauf der Bahnkurve als Raumkurve zurück.\\ 
- & getPoint(time : double) : TrajectoryPoint & Liefert den Repräsentanten für einen bestimmten Punkt auf der Bahnkurve zurück.\\ 
- %& Name der Funktion3 & Beschreibung3\\ 
- %& Name der Funktion4 & Beschreibung4\\ 
+ & computeTimeStep(timeDiff : double) : void & Führt die Zeitentwicklung für den Massenpunkt durch. \\
+ & getState() : TrajectoryPoint & Liefert den Zustand des Massenpunktes zum aktuellen Zeitpunkt zurück. \\
  \hline
- 	/S31/ TrajectoryPoint & \multicolumn{2}{|c|}{Repräsentation eines bestimmten Punktes auf der Bahnkurve}\\
+ 	/S31/ TrajectoryPoint & \multicolumn{2}{|c|}{Momentaufnahme des Massenpunktes auf der Bahnkurve}\\
  \hline
- & getPosition() : Vector & Liefert die momentane Position.\\ 
- & getVelocity() : Vector & Liefert die m. Geschwindigkeit.\\ 
- & getAcceleration() : Vector & Liefert die m. Beschleunigung. \\ 
+ & getPosition() : Vector & Liefert die Position.\\ 
+ & getVelocity() : Vector & Liefert die Geschwindigkeit.\\ 
+ & getAcceleration() : Vector & Liefert die Beschleunigung. \\ 
+ & getJerk() : Vector & Liefert den Ruck. \\
  \hline
  \end{tabular}
 
@@ -119,7 +119,7 @@ werden (sollten auch möglichst nicht komponentenübergreifend auftauchen).
  & setCamera(positon : Vector, direction : Vector) & Setzt die Kamera auf die angegebene Position und Raumrichtung. \\ 
  \hline
 
- & setCurve(curve : Curve) & Setzt die Bahndaten die zur Darstellung kommen sollen. \\ 
+ & setCurve(curve : Curve) & Setzt die Bahndaten, die zur Darstellung kommen sollen. \\ 
  \hline
 
  \end{tabular}
@@ -160,8 +160,9 @@ Benutzeroberfläche erscheint der Mehraufwand für eine allgemeinere Schnittstel
 vertretbar.
 
 Die Dateiverwaltung ist eine auf das Einlesen der vorgegebenen XML-Spezifikation 
-zugeschnittene Spezialkomponente. Schon bei Änderung des Dateiformates wäre eine
-umfangreiche Änderung angebracht. Eine Wiederverwertbarkeit scheint ausgeschlossen.
+zugeschnittene Spezialkomponente. Da der eingesetzte XML-Parser die Funktionalität
+für allgemeine Fälle bereitstellt, scheint eine Wiederverwertung dieses Teils der
+Anwendung nicht sinnvoll.
 
 Alle mathematischen Routinen sollten selbstverständlich möglichst allgemein und
 wiederverwertbar entworfen werden. Es muss nur sichergestellt werden, dass die
