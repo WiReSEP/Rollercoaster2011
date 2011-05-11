@@ -22,7 +22,7 @@ dafür muss eine eventuell laufende Simulation beendet werden. Es bietet sich
 an, diese Funktionen als Schnittstelle zu kapseln und die konkrete Implementierung
 der Simulator-Komponente zu überlassen.
 
-\begin{figure}
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/spezifikation_einlesen}
 \caption{Sequenzdiagramm für \textit{Spezifikation einlesen}}
 \end{figure}
@@ -34,7 +34,7 @@ der Simulator-Komponente zu überlassen.
 Da es sich um ein System handelt, in dem eine ständige Berechnung (Loop) zur Laufzeit notwendig wird, einerseits durch die 3D-Anzeige, die eine ständige Aktualisierung erwartet und andererseits durch
 die Simulation an sich, ist es sinnig diesen Vorgang ebenfalls näher zu beleuchten.
 
-\begin{figure}
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/render_loop}
 \caption{Sequenzdiagramm für \textit{Renderloop}}
 %\label{labelname}
@@ -47,8 +47,13 @@ Der Simulator initiiert einen Simulationsschritt indem ein neuer Simulationsschr
 Der Anwender kann über die GUI die Simulation starten. Dabei wird die Information an den Simulator weitergeleitet, der das 3D Bild anzeigt, die 2D Statusanzeige einblendet, die Bahnberechnung startet und die Aufzeichnung startet. 
 Der Anwender kann außerdem über die GUI die Simulation stoppen. Dabei wird die Information ebenfalls an den Simulator weitergeleitet, der dann alles wieder schließt und die Aufzeichnung speichert.
 
+<<<<<<< HEAD
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Starten_Stoppen.pdf}
+=======
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{bilder/Simulator_Starten_Stoppen}
+>>>>>>> 1707a661acfb7fc7ebf6e25dc5e88812589d4610
 \caption{Sequenzdiagramm für das \textit{Starten und Stoppen der Simulation}}
 %\label{labelname}
 \end{figure}
@@ -70,7 +75,7 @@ Der Anwender kann über die GUI die Eingabe tätigen, ein Video aufzeichnen zu w
 Videoaufnahme beginnt. Dies geschieht so lange, bis der Anwender die Videoaufzeichnung stoppt. In diesem Fall wird die Aufzeichnung angehalten und die Videodatei wird gespeichert.
 
 
-\begin{figure}
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Video_aufzeichnen}
 \caption{Sequenzdiagramm für \textit{Video aufzeichnen}}
 %\label{labelname}
@@ -81,8 +86,11 @@ Videoaufnahme beginnt. Dies geschieht so lange, bis der Anwender die Videoaufzei
 \subsection{Analyse von Funktionalität /F510o/ :  Physikalische Parameter anpassen}
 Der Benutzer kann auf der GUI die physikalischen Parameter anpassen. Dabei wird allerdings die Simulation gestoppt, weil es nicht wissenschaftlich wertvoll ist, während der Fahrt physikalische Parameter zu ändern. Der Benutzer muss deshalb die Simulation mit anderen Parametern neu starten.
 
+
 \begin{figure}
 \includegraphics[viewport = 0 25cm 20cm 30cm,width=\linewidth]{bilder/PhysikalischeParameter.pdf}
+\begin{figure}[h!]
+\includegraphics[width=\linewidth]{bilder/Physikalische_Parameter_anpassen.jpg}
 \caption{Sequenzdiagramm für \textit{Physikalische Paramter anpassen}}
 %\label{labelname}
 \end{figure}
@@ -100,7 +108,7 @@ Da diese Aktion in den Datenbestand des 3D-Kontext eingreift, gibt es einen inte
 Der Nutzer fordert die Veränderung der Deko über die GUI an (3). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. 
 In der Folge muss die GUI warten bis der Simulator das Rendern des Frames abgeschlossen hat(2) und kann erst dann seine Änderungen melden (3.2) die an die 3D-Anzeige weitergereicht werden(3.2.1) und dort angewendet werden.
 
-\begin{figure}
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/change_graphic_deko}
 \caption{Sequenzdiagramm für \textit{Dekorative Umgebung anpassen}}
 %\label{labelname}
@@ -117,7 +125,7 @@ den Anforderungen des Nutzers gesetzt werden. Das einfache Durchreichen über di
 Die Anpassung der grafischen Einstellung bezieht sich hier zunächst allgemein auf grafische Einstellungen. Besonders interessant ist dabei jedoch der Fall der Veränderung von Einstellungen, die 
 die 3D-Anzeige betreffen. 
 
-\begin{figure}
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/change_graphic_config}
 \caption{Sequenzdiagramm für \textit{Graphische Einstellungen ändern}}
 %\label{labelname}
@@ -130,7 +138,8 @@ Bei diesem Vorgehen wird in Kauf genommen, dass es für das Frame, welches auf d
 %Daniel
 \subsection{Analyse von Funktionalität /F531/ :   Neuanordnung (Interface)}
 Der Anwender hat die Möglichkeit, die Elemente der GUI nach seinen eigenen Bedürfnissen anzuordnen. Dafür ändert der Nutzer Einstellungen in der GUI.
-\begin{figure}
+
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Interface_Neuanordnung}
 \caption{Sequenzdiagramm für \textit{Neuanordnung (Interface)}}
 %\label{labelname}
@@ -138,15 +147,19 @@ Der Anwender hat die Möglichkeit, die Elemente der GUI nach seinen eigenen Bed�
 %Simon
 \subsubsection{Analyse von Funktionalität /F532/ :  Ein-/Ausblenden von Beschleunigungsdaten}
 Der Anwender hat die Möglichkeit, sich die Beschleunigungsdaten anzeigen zu lassen. Dabei werden die Daten berechnet und an die GUI übergeben, wo die Beschleunigung dann anzeigt wird. Zusätzlich hat der Anwender die Möglichkeit, die Beschleunigungsdaten wieder auszublenden.
-\begin{figure}
+
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Simulator_Beschleunigung}
 \caption{Sequenzdiagramm für \textit{Ein-/Ausblenden von Beschleunigunsdaten}}
 %\label{labelname}
 \end{figure}
 %Robin
+
+\newpage
+
 \subsubsection{Analyse von Funktionalität /F533o/ :  Kameraperspektive ändern}
 Während der Simulation kann der Anwender die Perspektive der Kamera ändern, ohne dass dabei die Simulation unterbrochen wird. Um einen unterbrechungsfreien Ablauf zu erreichen, errechnet die Simulation zum nächstmöglichen Zeitpunkt die gewählte Kameraeinstellung und stellt sie ab diesem Zeitpunkt dar. 
-\begin{figure}[h]
+\begin{figure}[h!]
 \includegraphics[viewport = 0 17.5cm 25cm 30cm,width=\linewidth]{bilder/Kameraperspektive.pdf}
 \caption{Änderung der Kameraperspektive}
 \label{Kameraperspektive}
@@ -155,7 +168,8 @@ Während der Simulation kann der Anwender die Perspektive der Kamera ändern, oh
 \section{Analyse von Funktionalität /F1000/ :  Warnung vor hoher Beschleunigung}
 %zweiter Versuch
 Falls während der Simulation eine zu hohe, d.h. für Menschen ungesunde oder tötliche Beschleunigung auftritt, wird eine entsprechende Warnung in der GUI ausgegeben.
-\begin{figure}
+
+\begin{figure}[h!]
 \includegraphics[width=\linewidth]{bilder/Warnung_Beschleunigung}
 \caption{Warnung vor zu hoher Beschleunigung}
 %\label{labelname}
