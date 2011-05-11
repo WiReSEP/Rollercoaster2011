@@ -95,8 +95,8 @@ Der Benutzer kann bei Bedarf die Wagenmasse verändern, indem er auf der GUI die
 Die Veränderung von Parametern die die Simulation direkt betreffen fallen unter diese Oberklasse. Die einzelnen Unterpunkte werden in den 2 folgenden Kapiteln erläutert. Im wesentlichen Fallen hier 
 auch einfache Veränderungen an, die als atomistisch und somit unkritisch anzusehen sind. In der Folge werden diese Use-Cases nicht extra in Sequenzdiagrammen abgebildet.
 \subsubsection{Analyse von Funktionalität /F521o/ :  Dekorative Umgebung anpassen}
-Da diese Aktion in den Datenbestand des 3D-Kontext eingreift, gibt es einen interessanten Fall, in dem das direkte Setzen der Deko nicht möglich ist. 
-Der Nutzer fordert die Veränderung der Deko über die GUI an (3). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. 
+Da diese Aktion in den Datenbestand des 3D-Kontext eingreift, gibt es einen interessanten Fall, in dem das direkte Setzen der neuen Umgebung nicht möglich ist. 
+Der Nutzer fordert die Veränderung der Umgebung über die GUI an (3). Kurz zuvor wurde aber das Rendern eine Frames(1) angefordert. 
 In der Folge muss die GUI warten bis der Simulator das Rendern des Frames abgeschlossen hat(2) und kann erst dann seine Änderungen melden (3.2) die an die 3D-Anzeige weitergereicht werden(3.2.1) und dort angewendet werden.
 
 \begin{figure}[h!]
