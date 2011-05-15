@@ -1,0 +1,13 @@
+#Nur javacode
+*.class
+
+#Einige unserer .jar datein erzeugen uns diese wunderbaren sharedlibs 
+# Die Windowsfraktion muss ggf ihre Endung hinzufügen
+*.so
+
+# default:
+*~ 
+*.lock
+*.DS_Store
+*.swp
+*.out
