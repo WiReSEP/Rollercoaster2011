@@ -18,10 +18,9 @@ public class SwingFrame extends JFrame {
     
     JPanel panel = new JPanel(new FlowLayout()); // a panel
     // add JME canvas
-    EngineContainer ec = new EngineContainer (640,480);
+    EngineContainer ec = new EngineContainer (myframe, 640,480);
     panel.add (ec);
-    panel.add(new JButton("Swing Component"));      // add some Swing
-    
+    panel.add(new JButton("Swing Component"));      // add some Swing   
     myframe.add(panel);
     myframe.pack();
   }
