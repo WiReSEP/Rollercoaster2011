@@ -5,7 +5,7 @@ import de.rollercoaster.mathematics.Curve;
 import java.awt.Canvas;
 
 public interface View {
-    void setCamera(Vector3f position, Vector3f direction);
+    void setCamera(Vector3f location, Vector3f left, Vector3f up, Vector3f direction);
     void setCurve(Curve curve);
     
     void init();
