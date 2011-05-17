@@ -1,3 +1,5 @@
+package de.rollercoaster;
+
 import de.rollercoaster.graphics.RollercoasterView;
 import de.rollercoaster.graphics.View;
 import de.rollercoaster.gui.RollercoasterFrame;
