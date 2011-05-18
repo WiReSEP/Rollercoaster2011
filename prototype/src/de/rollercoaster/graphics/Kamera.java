@@ -2,12 +2,13 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
+import com.jme3.input.ChaseCamera;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
+import com.jme3.input.*;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
@@ -93,10 +94,14 @@ public class Kamera extends SimpleApplication {
             }
         }
         
-        player = teapot;
-        target = new Vector3f(40, 40, 40);
-        speed = 0.1f;
+        targets[maxCounter-1] = new float[]{0,0,0};
         
+        player = ninja;
+        target = new Vector3f(40, 40, 40);
+        speed = 0.5f;
+        
+        
+        ChaseCamera chasi= new ChaseCamera(cam, player, inputManager);
         
  
     }
@@ -107,7 +112,6 @@ public class Kamera extends SimpleApplication {
         guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
         helloText = new BitmapText(guiFont, false);
         helloText.setSize(guiFont.getCharSet().getRenderedSize());
-        helloText.setText("Hello World");
         helloText.setLocalTranslation(300, helloText.getLineHeight(), 2);
         guiNode.attachChild(helloText);
     }
@@ -214,11 +218,11 @@ public class Kamera extends SimpleApplication {
     if(!hasReachedPoint(player, target, speed)&&counter<maxCounter){
         moveToPoint(player, target, speed);
     }
-    else{
-        counter++;
+    else if (counter<maxCounter){
         target = new Vector3f(targets[counter][0], targets[counter][1], targets[counter][2]);
-        
+        counter++;
     }
+    
         helloText.setText("FTP: " + tpf);
     }
     
