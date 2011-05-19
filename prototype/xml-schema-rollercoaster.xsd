@@ -3,7 +3,7 @@
   <xs:element name="RollerCoaster">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="Track" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element ref="Track" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -19,11 +19,11 @@
   <xs:element name="General">
     <xs:complexType>
       <xs:sequence>
-           <xs:element name="Name" type="xs:string" minOccurs="0" maxOccurs="1"/>
-           <xs:element name="Author" type="xs:string" minOccurs="0" maxOccurs="1"/>
-           <xs:element name="CreationDate" type="xs:string" minOccurs="0" maxOccurs="1"/>
-           <xs:element name="Length" type="xs:double" minOccurs="0" maxOccurs="1"/>
-           <xs:element name="Comment" type="xs:string" minOccurs="0" maxOccurs="1"/>
+           <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+           <xs:element name="Author" type="xs:string" minOccurs="1" maxOccurs="1"/>
+           <xs:element name="CreationDate" type="xs:string" minOccurs="1" maxOccurs="1"/>
+           <xs:element name="Length" type="xs:double" minOccurs="1" maxOccurs="1"/>
+           <xs:element name="Comment" type="xs:string" minOccurs="1" maxOccurs="1"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
