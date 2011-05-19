@@ -1,5 +1,7 @@
 package de.rollercoaster.graphics;
 
+import de.rollercoaster.mathematics.*;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.Application;
 import com.jme3.material.Material;
@@ -14,6 +16,10 @@ import com.jme3.math.ColorRGBA;
 import java.awt.Dimension;
 import java.awt.event.*;
 import com.jme3.system.JmeContext.Type;
+
+//Ein bisschen Licht damit wir die Normalen auch bewundern können^^
+import com.jme3.light.DirectionalLight;
+import com.jme3.light.AmbientLight;
 
 //den windowlsitener gibt es vorerst damit 
 public class Graphics3D extends SimpleApplication {
@@ -30,14 +36,41 @@ public class Graphics3D extends SimpleApplication {
     public void simpleInitApp() {
         start(Type.Canvas);
         flyCam.setDragToRotate(true);
-        // display a cube
-        Box boxshape1 = new Box(new Vector3f(-3f, 1.1f, 0f), 1f, 1f, 1f);
-        Geometry cube = new Geometry("My Textured Box", boxshape1);
-        Material mat_stl = new Material(assetManager, "Common/MatDefs/Misc/SimpleTextured.j3md");
-        Texture tex_ml = assetManager.loadTexture("Interface/Logo/Monkey.jpg");
-        mat_stl.setTexture("m_ColorMap", tex_ml);
-        cube.setMaterial(mat_stl);
-        rootNode.attachChild(cube);
+        
+        //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
+        Curve curve = new DummyCurve();
+        Achterbahn bahn = new Achterbahn(curve);
+        Geometry geom_bahn = new Geometry("Bahn", bahn);
+
+        //Materials für die Darstellung
+        Material wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
+        Material showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
+        Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
+        Material mat2 = new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");  //mit Licht
+
+        wireMaterial.setColor("Color", ColorRGBA.Blue);
+        mat1.setColor("Color", ColorRGBA.Red);
+
+
+        //Schnell zum Umschalten:
+        //geom_bahn.setMaterial(wireMaterial);
+        geom_bahn.setMaterial(showNormalsMaterial);
+        //geom_bahn.setMaterial(mat1);
+        //geom_bahn.setMaterial(mat2);
+
+
+        rootNode.attachChild(geom_bahn);
+
+        
+        //Mit dem Normalenshader hat Licht keine Wirkung und mit dem Lighted Shader sieht die Beleuchtung merkwürdig aus
+        /* DirectionalLight sun = new DirectionalLight();
+          sun.setDirection(new Vector3f(1,0,-2).normalizeLocal());
+          sun.setColor(ColorRGBA.White);
+          rootNode.addLight(sun);
+
+          AmbientLight ambient = new AmbientLight();
+          ambient.setColor(ColorRGBA.Blue);
+          rootNode.addLight(ambient);*/
 
     }
 
