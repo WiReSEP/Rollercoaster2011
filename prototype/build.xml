@@ -61,7 +61,7 @@
     <delete dir="${dist}"/>
   </target>
 
-  <target name="run" description="start the application">
+  <target name="run" depends="dist" description="start the application"> 
     <java jar="${dist}/Rollercoaster.jar" fork="true" />
     <copy todir="${dist}/lib" flatten="true">
       <fileset refid="rollercoaster.libraries" />
