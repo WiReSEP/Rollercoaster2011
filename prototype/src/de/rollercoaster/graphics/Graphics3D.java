@@ -41,6 +41,8 @@ public class Graphics3D extends SimpleApplication {
         start(Type.Canvas);
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(20);  //mehr speed
+
+        viewPort.setBackgroundColor(ColorRGBA.Blue);
         
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
         Curve curve = new DummyCurve();

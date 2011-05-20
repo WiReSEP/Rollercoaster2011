@@ -226,10 +226,8 @@ public class Achterbahn extends Mesh {
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
           
           // Vorgänger und Nachfolger sicher merken (wir möchten eine geschlossene Bahn)
-          int vorgaengerpos = ((poscounter != 0) ? (poscounter-1): (points.size()-1));
-          int nachfolgerpos = ((poscounter != points.size()-1) ? (poscounter+1): (0));
-      
-          /*Einige Vektoren kürzen wir ein wenig ab, da wir sie häufiger bennötigen:
+
+         /*Einige Vektoren kürzen wir ein wenig ab, da wir sie häufiger bennötigen:
           pos: die Rohposition der Stützstelle aus der Curve. Der Ursprung unseres Pattern wird dorthin projiziert
           x: die X Koordinate des lokalen koordinatensystems in das wir projizieren (aus Weltsicht)
              eine XKoordinate im Pattern kann schnell umgerechnet werden in dem eine Multiplikation mit diesem Vektor vorgenommen wird
