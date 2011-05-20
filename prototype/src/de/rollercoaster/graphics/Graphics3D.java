@@ -24,6 +24,8 @@ import com.jme3.asset.plugins.FileLocator;
 //Ein bisschen Licht damit wir die Normalen auch bewundern können^^
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.AmbientLight;
+import de.rollercoaster.data.SerializedTrack;
+import java.io.File;
 
 //den windowlsitener gibt es vorerst damit 
 public class Graphics3D extends SimpleApplication {
@@ -39,6 +41,15 @@ public class Graphics3D extends SimpleApplication {
     }
     private boolean close = false;
 
+    private Curve readCurve() {
+         // Lade Probedatei
+        SerializedTrack reader = new SerializedTrack(new File("examples/colossos.xml"));
+        reader.read();
+        
+        return reader.getCurve();       
+        // return new DummyCurve();
+    }
+    
     @Override
     public void simpleInitApp() {
         start(Type.Canvas);
@@ -48,7 +59,7 @@ public class Graphics3D extends SimpleApplication {
         viewPort.setBackgroundColor(ColorRGBA.Blue);
         
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
-        Curve curve = new DummyCurve();
+        Curve curve = readCurve();
         points = curve.getPointSequence(0.0,0.0); //für die spätere benutzung
         Achterbahn bahn = new Achterbahn(curve);
         Geometry geom_bahn = new Geometry("Bahn", bahn);

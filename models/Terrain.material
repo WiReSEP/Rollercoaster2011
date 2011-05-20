@@ -1,0 +1,13 @@
+material SOLID/TEX/dummytexture.png
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture dummytexture.png
+			}
+		}
+	}
+}
