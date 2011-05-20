@@ -8,6 +8,7 @@ import de.rollercoaster.mathematics.CurvePoint;
 import de.rollercoaster.mathematics.DummyCurve;
 import de.rollercoaster.mathematics.DummyCurvePoint;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -40,7 +41,7 @@ public class SerializedTrack implements Track {
 
     
     private Vector3f vectorize(double x, double y, double z) {
-        return new Vector3f((float)x, (float)y, (float) z);
+        return new Vector3f((float)x, (float)z, (float) y);
     }
     
     private void parseData() {
@@ -62,6 +63,7 @@ public class SerializedTrack implements Track {
            points.add(new DummyCurvePoint(position, direction, left, up));
         }
         
+        Collections.reverse(points);
         this.curve = new DummyCurve(points);
     }
     
