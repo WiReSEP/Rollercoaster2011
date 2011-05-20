@@ -5,6 +5,7 @@
 package de.rollercoaster.graphics;
 
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.system.JmeCanvasContext;
 import de.rollercoaster.mathematics.Curve;
 import java.awt.Canvas;
@@ -22,8 +23,9 @@ public class RollercoasterView implements View {
     }
     
     @Override
-    public void setCamera(Vector3f position, Vector3f direction) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setCamera(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
+        Camera camera = graphics.getCamera();
+        camera.setFrame(location, left, up, direction);
     }
 
     @Override

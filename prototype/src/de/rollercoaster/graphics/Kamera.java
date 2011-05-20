@@ -1,5 +1,6 @@
 package mygame;
 
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
 import com.jme3.input.ChaseCamera;
@@ -13,44 +14,33 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.Node;
  
 /** Sample 3 - how to load an OBJ model, and OgreXML model,
  * a material/texture, or text. */
 public class Kamera extends SimpleApplication {
  
  
-    private Geometry geo1, geo2, geo3;
-    private Spatial sp1, sp2, sp3;
+
     private BitmapText helloText;
+    
+    private Geometry boxOfView;
+    private Node nodeOfView;
     private Vector3f target;
     private Spatial player;
-    private float speed;
+    //private float speed;
     private float [][] targets;
-    int counter =0, maxCounter = 50;
+    private int counter =0, maxCounter = 10;
+    private ChaseCamera chasi;
     
+    /**
+     * Intialmethode,wer hätts gedacht...
+     */
     @Override
     public void simpleInitApp() {
+
  
-        Spatial teapot = assetManager.loadModel("Models/Teapot/Teapot.obj");
-        
-        Material mat_default = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_default.setColor("Color", ColorRGBA.Blue);
-         Material mat_default2 = new Material(
-            assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-        
-        teapot.setMaterial(mat_default2);
-        rootNode.attachChild(teapot);
-        
-        sp1 = teapot;
-        
-        Box b = new Box(new Vector3f(1, 1, 1),1, 1, 1) ;
-       Geometry myBox = new Geometry("myBox", b) ;
-        myBox.setMaterial(mat_default2);
-        rootNode.attachChild(myBox);
-        
-        geo1 = myBox;
- 
-        // Create a wall with a simple texture from test_data
+        // Eine Mauer zur Orientierung
         Box box = new Box(Vector3f.ZERO, 2.5f,2.5f,1.0f);
         Spatial wall = new Geometry("Box", box );
         Material mat_brick = new Material(
@@ -60,27 +50,10 @@ public class Kamera extends SimpleApplication {
         wall.setMaterial(mat_brick);
         wall.setLocalTranslation(2.0f,-2.5f,0.0f);
         rootNode.attachChild(wall);
-        
-        sp2 = wall;
- 
-      
- 
-        // Load a model from test_data (OgreXML + material + texture)
-        Spatial ninja = assetManager.loadModel("Models/Ninja/Ninja.mesh.xml");
-        ninja.scale(0.05f, 0.05f, 0.05f);
-        ninja.rotate(0.0f, -3.0f, 0.0f);
-        ninja.setLocalTranslation(0.0f, -5.0f, -2.0f);
-        rootNode.attachChild(ninja);
-        // You must add a light to make the model visible
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
-        rootNode.addLight(sun);
+         
         
         this.loadHuD();   //was soll ich damit?
-        
-        sp3 = ninja;
-        
-        initKeys();
+
         makeGround();
         flyCam.setMoveSpeed(30);
         
@@ -96,16 +69,38 @@ public class Kamera extends SimpleApplication {
         
         targets[maxCounter-1] = new float[]{0,0,0};
         
-        player = ninja;
+
+        initBoxOfView(null);
+        chasi= new ChaseCamera(cam, boxOfView, inputManager);
+        chasi.setDefaultDistance(0.0f);
+        chasi.setDragToRotate(true);
+        player = boxOfView;
         target = new Vector3f(40, 40, 40);
-        speed = 0.5f;
-        
-        
-        ChaseCamera chasi= new ChaseCamera(cam, player, inputManager);
-        
+        speed = 0.2f;
  
     }
     
+    /**
+     * Erzegut das Objekt, dem die Kamera folgt.
+     * @param positionOfBox Offset der Kameraposition
+     */
+    private void initBoxOfView(Vector3f positionOfBox){
+        nodeOfView = new Node("nodeOfView");
+        
+        
+        Box theBoxOfView = new Box(positionOfBox, 0,0,0);
+        boxOfView = new Geometry("myBox", theBoxOfView) ;
+        boxOfView.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"));
+        nodeOfView.attachChild(boxOfView);
+        
+        rootNode.attachChild(nodeOfView);
+    }
+    
+
+    
+    /**
+     * eine unütze methode...
+     */
     private void loadHuD(){
           // Display a line of text with a default font
         guiNode.detachAllChildren();
@@ -117,49 +112,10 @@ public class Kamera extends SimpleApplication {
     }
     
     
-    private void initKeys(){
-        inputManager.addMapping("ClockWise", new KeyTrigger(keyInput.KEY_Y));
-        inputManager.addMapping("CClockWise", new KeyTrigger(keyInput.KEY_X));
-        inputManager.addMapping("SlowMove", new KeyTrigger(keyInput.KEY_V));
-        
-        inputManager.addListener(anaList1, new String[] {"ClockWise"});
-        inputManager.addListener(anaList2, new String[] {"CClockWise"});
-        inputManager.addListener(anaList3, new String[] {"SlowMove}"});
-    }
-    
-    private AnalogListener anaList1 = new AnalogListener() {
-
-        public void onAnalog(String name, float value, float tpf) {
-        geo1.rotate(tpf, tpf, tpf);
-        
-        sp1.rotate(0, 0, tpf);
-        
-        sp2.rotate(tpf, 0, tpf);
-        
-        sp3.rotate(0, 20*tpf, 0);
-        }
-    };
-     private AnalogListener anaList2 = new AnalogListener() {
-
-        public void onAnalog(String name, float value, float tpf) {
-        geo1.rotate(-tpf*0.5f, -tpf*0.5f, -tpf*0.5f);
-        
-        sp1.rotate(0, 0, -tpf*.5f);
-        
-        sp2.rotate(-tpf*.5f, 0, -tpf*.5f);
-        
-        sp3.rotate(0, -20*tpf*.5f, 0);
-        }
-    };
-     
-     private AnalogListener anaList3 = new AnalogListener() {
-
-        public void onAnalog(String name, float value, float tpf) {
-            System.out.printf("MoveSpeed\n");
-           flyCam.setMoveSpeed(10);
-        }
-    };
-     
+   
+     /**
+     * Erzeugt eine graue Grundfläche zur Orientierung bei z=0
+     */
      private void makeGround(){
          Box myGround = new Box(new Vector3f(0, -5, 0), 100, 0, 100);
          Geometry myGroundGeo = new Geometry("myGround", myGround);
@@ -170,6 +126,13 @@ public class Kamera extends SimpleApplication {
          this.rootNode.attachChild(myGroundGeo);
      }
      
+     /**
+      * Errechnet den Zielvektor aus aktueller Position und Ziel, bewegt
+      * das Objekt in Schrittgrößen auf diesem Vektor Richtung Ziel
+      * @param player das zu bewegende Objekt
+      * @param target das angestrebte Ziel
+      * @param speed Schrittgröße
+      */
      private void moveToPoint(Spatial player, Vector3f target, float speed){
          
              Vector3f nextPoint = new Vector3f();
@@ -202,7 +165,14 @@ public class Kamera extends SimpleApplication {
          
          
      }
-     
+     /**
+      * Prüft ob das Ziel erreicht wurde. DAbei wird von einer Ungenauigkeit in der 
+      * Größe eines Schrittes ausgegangen
+      * @param player das Objekt
+      * @param target der Zielpunkt
+      * @param speed Schrittgröße
+      * @return Ziel erreicht, oder Grenzen erreicht?
+      */
      private boolean hasReachedPoint(Spatial player, Vector3f target, float speed){
          return (Math.abs(target.x-player.getLocalTranslation().x)<speed)&&
                     (Math.abs(target.y-player.getLocalTranslation().y)<speed)&&
@@ -212,17 +182,30 @@ public class Kamera extends SimpleApplication {
     
     @Override
     public void simpleUpdate(float tpf){
-        
-    
-        
-    if(!hasReachedPoint(player, target, speed)&&counter<maxCounter){
+    //chasi= new ChaseCamera(cam, boxOfView, inputManager);
+    /*
+     * Wenn der Zielpunkt noch nciht erreicht ist, bewegt sich die Kamera
+     * weiter darauf zu
+     */
+    if(!hasReachedPoint(player, target, speed)&&counter<=maxCounter){
         moveToPoint(player, target, speed);
+        
+        //chasi.setDefaultDistance(0.01f);
     }
+    /**
+     * Zielpunkt erreicht, nächster wird aus dem Array geladen
+     */
     else if (counter<maxCounter){
         target = new Vector3f(targets[counter][0], targets[counter][1], targets[counter][2]);
         counter++;
     }
-    
+    /**
+     * Alle Ziele abgeflogen -> Fahrt zu Ende
+     */
+    else{
+        
+    }
+        //was für ein tpf haben wir?
         helloText.setText("FTP: " + tpf);
     }
     
