@@ -258,7 +258,7 @@ public class Achterbahn extends Mesh {
 
                 //Koordinaten in die Puffer schieben 
                 pb.put(tmpPos.x).put(tmpPos.y).put(tmpPos.z);   //Position
-                nb.put(tmpNormal.x).put(tmpNormal.x).put(tmpNormal.x);  //Normalen
+                nb.put(tmpNormal.x).put(tmpNormal.y).put(tmpNormal.z);  //Normalen
                 tb.put(vertexcounter/pattern_vertexdata.length).put(laenge); //Texturkoordinaten
           }
         }
