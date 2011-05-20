@@ -3,13 +3,18 @@ package de.rollercoaster.mathematics;
 import java.util.List;
 import java.util.LinkedList;
 import com.jme3.math.Vector3f;
+import java.util.ArrayList;
 
 /**Implementiert das Curveinterface mittels Dummydaten. Bis auf die für die 3DBahn notwendigen Anteile ist nichts implemntiert!*/
 
 public class DummyCurve implements Curve{
   
-    private LinkedList<CurvePoint> pointlist;
+    private List<CurvePoint> pointlist;
  
+    public DummyCurve(List<CurvePoint> points) {
+        this.pointlist = new ArrayList<CurvePoint>(points);
+    }
+    
     public DummyCurve () {
      Vector3f [] positions = new Vector3f[4];
      positions[0] = new Vector3f(-50f,0f,-50f);
@@ -37,10 +42,10 @@ public class DummyCurve implements Curve{
 
       pointlist = new LinkedList<CurvePoint>();
       //    public DummyCurvePoint(Vector3f pos, Vector3f roll, Vector3f pitch, Vector3f yaw ) {
-      pointlist.addLast(new DummyCurvePoint (positions[0],front[0],right[0],up[0]));
-      pointlist.addLast(new DummyCurvePoint (positions[1],front[1],right[1],up[1]));
-      pointlist.addLast(new DummyCurvePoint (positions[2],front[2],right[2],up[2]));
-      pointlist.addLast(new DummyCurvePoint (positions[3],front[3],right[3],up[3]));
+      pointlist.add(new DummyCurvePoint (positions[0],front[0],right[0],up[0]));
+      pointlist.add(new DummyCurvePoint (positions[1],front[1],right[1],up[1]));
+      pointlist.add(new DummyCurvePoint (positions[2],front[2],right[2],up[2]));
+      pointlist.add(new DummyCurvePoint (positions[3],front[3],right[3],up[3]));
     }
 
     public double getLength() {
