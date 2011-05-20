@@ -1,5 +1,7 @@
 package de.rollercoaster.graphics;
 
+import de.rollercoaster.mathematics.*;
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.Application;
 import com.jme3.material.Material;
@@ -13,10 +15,18 @@ import com.jme3.texture.Texture;
 import com.jme3.math.ColorRGBA;
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.util.List;
 import com.jme3.system.JmeContext.Type;
+
+//Ein bisschen Licht damit wir die Normalen auch bewundern können^^
+import com.jme3.light.DirectionalLight;
+import com.jme3.light.AmbientLight;
 
 //den windowlsitener gibt es vorerst damit 
 public class Graphics3D extends SimpleApplication {
+
+    private double time = 0;
+    private List<CurvePoint> points;
 
     private JmeCanvasContext ctx = null;
 
@@ -30,20 +40,76 @@ public class Graphics3D extends SimpleApplication {
     public void simpleInitApp() {
         start(Type.Canvas);
         flyCam.setDragToRotate(true);
-        // display a cube
-        Box boxshape1 = new Box(new Vector3f(-3f, 1.1f, 0f), 1f, 1f, 1f);
-        Geometry cube = new Geometry("My Textured Box", boxshape1);
-        Material mat_stl = new Material(assetManager, "Common/MatDefs/Misc/SimpleTextured.j3md");
-        Texture tex_ml = assetManager.loadTexture("Interface/Logo/Monkey.jpg");
-        mat_stl.setTexture("m_ColorMap", tex_ml);
-        cube.setMaterial(mat_stl);
-        rootNode.attachChild(cube);
+        flyCam.setMoveSpeed(20);  //mehr speed
+        
+        //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
+        Curve curve = new DummyCurve();
+        points = curve.getPointSequence(0.0,0.0); //für die spätere benutzung
+        Achterbahn bahn = new Achterbahn(curve);
+        Geometry geom_bahn = new Geometry("Bahn", bahn);
+
+        //Materials für die Darstellung
+        Material wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
+        Material showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
+        Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
+        Material mat2 = new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");  //mit Licht
+
+        wireMaterial.setColor("Color", ColorRGBA.Blue);
+        mat1.setColor("Color", ColorRGBA.Red);
+
+
+        //Schnell zum Umschalten:
+        //geom_bahn.setMaterial(wireMaterial);
+        geom_bahn.setMaterial(showNormalsMaterial);
+        //geom_bahn.setMaterial(mat1);
+        //geom_bahn.setMaterial(mat2);
+
+
+        rootNode.attachChild(geom_bahn);
+
+        
+        //Mit dem Normalenshader hat Licht keine Wirkung und mit dem Lighted Shader sieht die Beleuchtung merkwürdig aus
+        /* DirectionalLight sun = new DirectionalLight();
+          sun.setDirection(new Vector3f(1,0,-2).normalizeLocal());
+          sun.setColor(ColorRGBA.White);
+          rootNode.addLight(sun);
+
+          AmbientLight ambient = new AmbientLight();
+          ambient.setColor(ColorRGBA.Blue);
+          rootNode.addLight(ambient);*/
 
     }
 
     @Override
     public void simpleUpdate(float tpf) {
         //Dies wird aufgerufen bevor ein Frame gerendert wird
+
+        /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
+
+        time += tpf/4.0;
+        
+        int behind = (int) time;
+        int next = behind +1;
+
+        float isnext = (float)time-behind;
+
+        if (behind < 0) {behind = 0;}
+        if (next < 0) {next = 0;}
+
+        while (behind> points.size()-1) {behind -= points.size()-1;}
+        while (next> points.size()-1) {next -= points.size()-1;}
+
+        //System.out.printf ("<%d,%d>(%d)\n",behind,next,points.size());
+        
+        Vector3f pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
+        Vector3f yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
+        Vector3f roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
+        Vector3f loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5f));
+
+
+        this.getCamera().setFrame(loc,pitch ,yaw ,roll);
+
+        
     }
 
     public JmeCanvasContext getCanvasObject() {
