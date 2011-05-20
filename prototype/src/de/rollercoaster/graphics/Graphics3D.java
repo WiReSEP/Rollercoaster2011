@@ -17,6 +17,9 @@ import java.awt.Dimension;
 import java.awt.event.*;
 import java.util.List;
 import com.jme3.system.JmeContext.Type;
+import com.jme3.scene.Spatial;
+import com.jme3.asset.plugins.FileLocator;
+
 
 //Ein bisschen Licht damit wir die Normalen auch bewundern können^^
 import com.jme3.light.DirectionalLight;
@@ -62,23 +65,35 @@ public class Graphics3D extends SimpleApplication {
 
         //Schnell zum Umschalten:
         //geom_bahn.setMaterial(wireMaterial);
-        geom_bahn.setMaterial(showNormalsMaterial);
+       // geom_bahn.setMaterial(showNormalsMaterial);
         //geom_bahn.setMaterial(mat1);
-        //geom_bahn.setMaterial(mat2);
+        geom_bahn.setMaterial(mat2);
 
 
         rootNode.attachChild(geom_bahn);
 
+        //Dummygelände
+        assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
+
+        Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
+        //terrain.setMaterial(showNormalsMaterial);
+
+        terrain.scale(100,40,100);
+        terrain.move(0,-15,0);
+        rootNode.attachChild(terrain);
+
+
         
         //Mit dem Normalenshader hat Licht keine Wirkung und mit dem Lighted Shader sieht die Beleuchtung merkwürdig aus
-        /* DirectionalLight sun = new DirectionalLight();
-          sun.setDirection(new Vector3f(1,0,-2).normalizeLocal());
-          sun.setColor(ColorRGBA.White);
-          rootNode.addLight(sun);
+           DirectionalLight sun = new DirectionalLight();
+           sun.setDirection(new Vector3f(1,-2,0).normalizeLocal());
+           sun.setColor(ColorRGBA.White);
+           rootNode.addLight(sun);
+
 
           AmbientLight ambient = new AmbientLight();
           ambient.setColor(ColorRGBA.Blue);
-          rootNode.addLight(ambient);*/
+          rootNode.addLight(ambient);
 
     }
 
@@ -88,7 +103,7 @@ public class Graphics3D extends SimpleApplication {
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-        time += tpf/4.0;
+     /*   time += tpf/4.0;
         
         int behind = (int) time;
         int next = behind +1;
@@ -109,7 +124,7 @@ public class Graphics3D extends SimpleApplication {
         Vector3f loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5f));
 
 
-        this.getCamera().setFrame(loc,pitch ,yaw ,roll);
+        this.getCamera().setFrame(loc,pitch ,yaw ,roll);*/
 
         
     }
