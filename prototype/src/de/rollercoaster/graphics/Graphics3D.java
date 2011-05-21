@@ -129,6 +129,8 @@ public class Graphics3D extends SimpleApplication {
 
         //System.out.printf ("<%d,%d>(%d)\n",behind,next,points.size());
         
+				//setFrame nur mit  left, deshalb right spiegeln
+				
         Vector3f pitch = new Vector3f();
 				pitch.x= -points.get(behind).getPitchAxis().x;
 				pitch.y= -points.get(behind).getPitchAxis().y;
@@ -137,13 +139,13 @@ public class Graphics3D extends SimpleApplication {
 				
 				//mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
 				
-        Vector3f yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
-        Vector3f roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
+        Vector3f yaw = points.get(behind).getYawAxis();//.mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
+        Vector3f roll =  points.get(behind).getRollAxis();//.mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
         Vector3f loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5f));
 
 
         this.getCamera().setFrame(loc,pitch ,yaw ,roll);
-
+				cam.update();
         
     }
 
@@ -170,7 +172,7 @@ public class Graphics3D extends SimpleApplication {
     public void freeCanvas() {
         close = true;
     }
-
+	
     //Setzt HUD-Daten zur Anzeige
     public void setHUDData(/*Insert data here*/) {
     }
