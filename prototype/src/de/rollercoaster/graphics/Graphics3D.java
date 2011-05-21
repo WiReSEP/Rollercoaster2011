@@ -114,7 +114,7 @@ public class Graphics3D extends SimpleApplication {
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-     /*   time += tpf/4.0;
+     time += tpf/4.0;
         
         int behind = (int) time;
         int next = behind +1;
@@ -129,13 +129,20 @@ public class Graphics3D extends SimpleApplication {
 
         //System.out.printf ("<%d,%d>(%d)\n",behind,next,points.size());
         
-        Vector3f pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
+        Vector3f pitch = new Vector3f();
+				pitch.x= -points.get(behind).getPitchAxis().x;
+				pitch.y= -points.get(behind).getPitchAxis().y;
+				pitch.z= -points.get(behind).getPitchAxis().z;
+				
+				
+				//mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
+				
         Vector3f yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
         Vector3f roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
         Vector3f loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5f));
 
 
-        this.getCamera().setFrame(loc,pitch ,yaw ,roll);*/
+        this.getCamera().setFrame(loc,pitch ,yaw ,roll);
 
         
     }
