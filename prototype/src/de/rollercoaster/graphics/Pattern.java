@@ -1,8 +1,8 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Liest aus einer übergebenen Datei oder dem Standartpfad die Vektoren aus
+ * TODO -> Standartpfad ändern?
  */
-package mygame;
+package graphics;
 
 /**
  *
@@ -23,12 +23,26 @@ public class Pattern {
         private LinkedList<Vector3f> vertexs, normalVertexs;
 
 	
+	/**
+	*Lädt die Datei und initialisert die Buffer um aus der Datei zu lesen
+         * und die Listen
+	*/
 	private void init() throws FileNotFoundException{
-		f = new File("D:/Dokumente/Uni/SEP/course.obj");
+	//TODO DAteieingabe klären
+		f = (f==null)?new File("D:/Dokumente/Uni/SEP/course.obj"):f;
 		fr = new FileReader(f);
 		br = new BufferedReader(fr);
+                
+                this.trips = new LinkedList<Trip>();
+                this.vertexs = new LinkedList<Vector3f>();
+                this.normalVertexs = new LinkedList<Vector3f>();
 	}
 	
+	/**
+	*Liest die geladene Datei zeilenweise aus und gibt sie zur Weiterverarbeiung weiter
+	*@see interpredLine
+	*
+	*/
 	private void readLines() throws IOException{
 		String s;
 		//solange ich Zeilen habe:...
@@ -38,6 +52,12 @@ public class Pattern {
 		}
 	}
 	
+	/**
+	* Prüft was für eine Zeile es ist, zieht sie dementsprechend auseinander uns ordnet sie
+	* in den jeweiligen Listen an
+	*
+	*@param die zu lesende Zeile
+	*/
 	private void interpredLine(String inputLine){
 		//laufindex
 		int i = 0;
@@ -91,26 +111,66 @@ public class Pattern {
 			break;
 		
 		default:
-			System.out.printf("Do nothing at:%s\n", inputLine);
 			break;
 		}   //end of switch
                 
 	}
-        
+        /**
+		*Liefert den gefragten Trip aus der Liste
+		* @param welcher Trip
+		* @return der angeforderete Trip
+		*/
         public Trip getTrip(int count){
-            return (trips.size()>count?trips.get(count):null);
+            return count<0?null:(trips.size()>count?trips.get(count):null);
         }
         
+        /**
+         * Gibt die Anzahl der Trips zurück
+         * @return Anzahl
+         */
+        public int getAmountOfTrips(){
+            return this.trips==null?-1:trips.size();
+        }
+        
+		 /**
+		*Liefert den gefragten Vertex-Vektor aus der Liste
+		* @param welcher Vektor
+		* @return der angeforderete Vector3f
+		*/
         public Vector3f getVertextes(int count){
-            return (vertexs.size()>count?vertexs.get(count):null);
+            return count<0?null:(vertexs.size()>count?vertexs.get(count):null);
         }
         
+        /**
+         * Gibt die Anzahl der Vertex-Vektoren zurück
+         * @return Anzahl
+         */
+        public int getAmountOfVertexes(){
+            return this.vertexs==null?-1:vertexs.size();
+        }
+        
+		 /**
+		*Liefert den gefragten NormalVertex-Vektor aus der Liste
+		* @param welcher NormalVektor
+		* @return der angeforderete Vector3f
+		*/
         public Vector3f getNormalVertexes(int count){
-            return (normalVertexs.size()>count?normalVertexs.get(count):null);
+            return count<0?null:(normalVertexs.size()>count?normalVertexs.get(count):null);
+        }
+        
+        
+        /**
+         * Gibt die Anzahl der NormalenVertexes zurück
+         * @return Anzahl
+         */
+        public int getAmountOfNVertexes(){
+            return this.normalVertexs==null?-1:normalVertexs.size();          
         }
         
 
-	
+	/**
+	*Konstruktor ohne Argumente, vll die Datei übergeben
+	*/
 	public Pattern(){
 		try{
 			init();
@@ -120,15 +180,24 @@ public class Pattern {
 		}
 	}
 	
+	/**
+	*Die zu lesende Datei wird übergeben
+	*/
+	public Pattern(File f){
+		this.f = f;
+			try{
+			init();
+			readLines();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
+	/**
+	*Main-Methode zum starten/überprüfen, muss aber nicht drin bleiben
+	*/
 	public static void main(String args[]){
 		new Pattern();
-//		Scanner s = new Scanner("v 0.768166 -0.773011 -0.106110");
-//		String sa[] = "v 0.768166 -0.773011 -0.106110".split(" ");
-//		System.out.println(Arrays.toString(sa));
-//		while(s.hasNext()){
-//			System.out.printf("%s\n", s.next());
-//		}
 	}
 }
 
