@@ -1,8 +1,8 @@
 /*
- * Liest aus einer übergebenen Datei oder dem Standartpfad die Vektoren aus
- * TODO -> Standartpfad ändern?
+ * Liest aus einer bergebenen Datei oder dem Standartpfad die Vektoren aus
+ * TODO -> Standartpfad ndern?
  */
-package graphics;
+package de.rollercoaster.graphics.pattern;
 
 /**
  *
@@ -13,27 +13,28 @@ import java.io.*;
 import java.util.*;
 
 
-public class Pattern {
+public class PatternImpl {
 	private File f;
 	private BufferedReader br;
 	private FileReader fr;
 	//private LinkedList<float[]> v_list, vn_list;
 	//private LinkedList<int[]> f_list;
-        private LinkedList<Trip> trips;
+        private LinkedList<TripImpl> trips;
         private LinkedList<Vector3f> vertexs, normalVertexs;
 
 	
 	/**
-	*Lädt die Datei und initialisert die Buffer um aus der Datei zu lesen
+	*Lï¿½dt die Datei und initialisert die Buffer um aus der Datei zu lesen
          * und die Listen
 	*/
 	private void init() throws FileNotFoundException{
-	//TODO DAteieingabe klären
-		f = (f==null)?new File("D:/Dokumente/Uni/SEP/course.obj"):f;
+	//TODO DAteieingabe klren
+		//f = (f==null)?new File("D:/Dokumente/Uni/SEP/course.obj"):f;
+    f = (f==null)?new File("course.obj"):f;  //relativer pfad  damit alle spielen kÃ¶nnen
 		fr = new FileReader(f);
 		br = new BufferedReader(fr);
                 
-                this.trips = new LinkedList<Trip>();
+                this.trips = new LinkedList<TripImpl>();
                 this.vertexs = new LinkedList<Vector3f>();
                 this.normalVertexs = new LinkedList<Vector3f>();
 	}
@@ -53,7 +54,7 @@ public class Pattern {
 	}
 	
 	/**
-	* Prüft was für eine Zeile es ist, zieht sie dementsprechend auseinander uns ordnet sie
+	* Prï¿½ft was fï¿½r eine Zeile es ist, zieht sie dementsprechend auseinander uns ordnet sie
 	* in den jeweiligen Listen an
 	*
 	*@param die zu lesende Zeile
@@ -90,7 +91,7 @@ public class Pattern {
 			
 
 			//f_list.add(temp_int);
-                        trips.add(new Trip(temp_int));
+                        trips.add(new TripImpl(temp_int));
 			break;
 
 		case 'v':
@@ -120,12 +121,12 @@ public class Pattern {
 		* @param welcher Trip
 		* @return der angeforderete Trip
 		*/
-        public Trip getTrip(int count){
+        public TripImpl getTrip(int count){
             return count<0?null:(trips.size()>count?trips.get(count):null);
         }
         
         /**
-         * Gibt die Anzahl der Trips zurück
+         * Gibt die Anzahl der Trips zurï¿½ck
          * @return Anzahl
          */
         public int getAmountOfTrips(){
@@ -142,7 +143,7 @@ public class Pattern {
         }
         
         /**
-         * Gibt die Anzahl der Vertex-Vektoren zurück
+         * Gibt die Anzahl der Vertex-Vektoren zurï¿½ck
          * @return Anzahl
          */
         public int getAmountOfVertexes(){
@@ -160,7 +161,7 @@ public class Pattern {
         
         
         /**
-         * Gibt die Anzahl der NormalenVertexes zurück
+         * Gibt die Anzahl der NormalenVertexes zurï¿½ck
          * @return Anzahl
          */
         public int getAmountOfNVertexes(){
@@ -169,9 +170,9 @@ public class Pattern {
         
 
 	/**
-	*Konstruktor ohne Argumente, vll die Datei übergeben
+	*Konstruktor ohne Argumente, vll die Datei ï¿½bergeben
 	*/
-	public Pattern(){
+	public PatternImpl(){
 		try{
 			init();
 			readLines();
@@ -181,9 +182,9 @@ public class Pattern {
 	}
 	
 	/**
-	*Die zu lesende Datei wird übergeben
+	*Die zu lesende Datei wird ï¿½bergeben
 	*/
-	public Pattern(File f){
+	public PatternImpl(File f){
 		this.f = f;
 			try{
 			init();
@@ -194,10 +195,10 @@ public class Pattern {
 	}
 	
 	/**
-	*Main-Methode zum starten/überprüfen, muss aber nicht drin bleiben
+	*Main-Methode zum starten/ï¿½berprï¿½fen, muss aber nicht drin bleiben
 	*/
 	public static void main(String args[]){
-		new Pattern();
+		new PatternImpl();
 	}
 }
 

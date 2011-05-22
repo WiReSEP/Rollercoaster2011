@@ -1,7 +1,7 @@
 /*
- * Enthält die Nummern der Vektoren
+ * Enthlt die Nummern der Vektoren
  */
-package graphics;
+package de.rollercoaster.graphics.pattern;
 
 import com.jme3.math.Vector3f;
 
@@ -9,10 +9,10 @@ import com.jme3.math.Vector3f;
  *
  * @author Robin
  */
-public class Trip {
+public class TripImpl {
     private int[] f;
     
-    public Trip(int[] f){
+    public TripImpl(int[] f){
         this.f = f.clone();
     }
     
@@ -31,7 +31,8 @@ public class Trip {
 	* @return der WErt
 	*/
     public int getNormal(int count){
-        return count==0?f[1]:(count==1?f[7]:-1);
+       return count==0?f[1]:(count==1?f[7]:-1);
+
     }
 	
 	/**
@@ -40,6 +41,7 @@ public class Trip {
 	* @return der Wert
 	*/
 	public int getValue(int count){
-		return count<0=-1:count>7?-1:f[count];
+		//return count<0=-1:count>7?-1:f[count];   //Syntax?!
+    return 0;
 	}
 }
