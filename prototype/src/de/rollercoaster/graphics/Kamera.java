@@ -1,6 +1,10 @@
 package mygame;
 
 
+import java.util.List;	//Simons Änderung
+
+import de.rollercoaster.mathematics.*;	//Simons Änderung
+
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
 import com.jme3.input.ChaseCamera;
@@ -18,7 +22,7 @@ import com.jme3.scene.Node;
  
 /** Sample 3 - how to load an OBJ model, and OgreXML model,
  * a material/texture, or text. */
-public class Kamera extends SimpleApplication {
+public class Kamera extends SimpleApplication{
  
  
 
@@ -30,9 +34,11 @@ public class Kamera extends SimpleApplication {
     private Spatial player;
     //private float speed;
     private float [][] targets;
-    private int counter =0, maxCounter = 10;
+    private int counter =0, maxCounter;		//Simons Änderung: maxCounter nicht gesetzt
     private ChaseCamera chasi;
-    
+    private double maxDistance, maxAngle; 		//Simons Änderung: Übergabeparameter für getPointSequenz (brauchen wir noch nicht)
+		private List<CurvePoint> pointList;		//Simons Änderung: LinkedList erzeugt
+		
     /**
      * Intialmethode,wer hätts gedacht...
      */
@@ -57,14 +63,19 @@ public class Kamera extends SimpleApplication {
         makeGround();
         flyCam.setMoveSpeed(30);
         
-        
-        
+				Curve DummyCurve = new DummyCurve();	//Simons Änderung:
+        pointList = DummyCurve.getPointSequence(maxDistance, maxAngle) ;		//Simons Änderung: Pointlist geholt
+				maxCounter = pointList.size();		// Simons Änderung: MaxCounter auf die Länge der Pointlist gesetzt
+				
         targets = new float[maxCounter][3];
         for (int i = 0; i< maxCounter;i++){
-            targets[i] = new float[3];
-            for (int j = 0;j<3;j++){
-                targets[i][j] =(float) Math.random()*100;
-            }
+            targets[i][0] = pointList.get(i).getPosition().x;	//Simons Änderung
+						targets[i][1] = pointList.get(i).getPosition().y;	//Simons Änderung
+						targets[i][2] = pointList.get(i).getPosition().z;	//Simons Änderung
+								//for (int j = 0;j<3;j++){														//Simons Änderung
+                //targets[i][j] =(float) Math.random()*100;			//Simons Änderung
+							
+            //}
         }
         
         targets[maxCounter-1] = new float[]{0,0,0};
@@ -137,6 +148,7 @@ public class Kamera extends SimpleApplication {
          
              Vector3f nextPoint = new Vector3f();
              Vector3f distance = new Vector3f();
+						 Vector3f CameraDirection = new Vector3f();		//Simons Änderung
              distance.x = target.x - player.getLocalTranslation().x;
              distance.y = target.y - player.getLocalTranslation().y;
              distance.z = target.z - player.getLocalTranslation().z;
@@ -161,9 +173,12 @@ public class Kamera extends SimpleApplication {
              nextPoint.y = player.getLocalTranslation().y + new_y;
              nextPoint.z = player.getLocalTranslation().z + new_z;
              
+						 CameraDirection.x = player.getLocalTranslation().x - nextPoint.x;
+						 CameraDirection.y = player.getLocalTranslation().y - nextPoint.y;
+						 CameraDirection.z = player.getLocalTranslation().z - nextPoint.z;
+						 
              player.setLocalTranslation(nextPoint);
-         
-         
+						 cam.setDirection(CameraDirection);
      }
      /**
       * Prüft ob das Ziel erreicht wurde. DAbei wird von einer Ungenauigkeit in der 
@@ -210,3 +225,6 @@ public class Kamera extends SimpleApplication {
     }
     
 }
+
+
+ 
