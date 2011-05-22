@@ -17,20 +17,17 @@ public class PatternImpl {
 	private File f;
 	private BufferedReader br;
 	private FileReader fr;
-	//private LinkedList<float[]> v_list, vn_list;
-	//private LinkedList<int[]> f_list;
         private LinkedList<TripImpl> trips;
         private LinkedList<Vector3f> vertexs, normalVertexs;
 
 	
 	/**
 	*L�dt die Datei und initialisert die Buffer um aus der Datei zu lesen
-         * und die Listen
+    * und die Listen
 	*/
 	private void init() throws FileNotFoundException{
 	//TODO DAteieingabe klren
-		//f = (f==null)?new File("D:/Dokumente/Uni/SEP/course.obj"):f;
-    f = (f==null)?new File("course.obj"):f;  //relativer pfad  damit alle spielen können
+		f = (f==null)?new File("course.obj"):f;  //relativer pfad  damit alle spielen können
 		fr = new FileReader(f);
 		br = new BufferedReader(fr);
                 
@@ -69,7 +66,6 @@ public class PatternImpl {
 		//Welcher Typ von Zeile ist es?
 		switch (firstChar) {
 		case 'f':
-			//System.out.printf("Starts with \'f\':%s\n", inputLine);
 			temp_int = new int[8];
 			String temp1[] = inputLine.split("//");
 			
@@ -90,8 +86,7 @@ public class PatternImpl {
 			temp_int[7] = Integer.parseInt(temp1[4].trim());
 			
 
-			//f_list.add(temp_int);
-                        trips.add(new TripImpl(temp_int));
+			trips.add(new TripImpl(temp_int));
 			break;
 
 		case 'v':
@@ -106,7 +101,6 @@ public class PatternImpl {
 			else if (inputLine.charAt(1)==' '){
                                 normalVertexs.add(new Vector3f(temp_float[0], temp_float[1], temp_float[2]));
 			}else{
-				//System.out.printf("Do nothing at:%s\n", inputLine);
 			}
 			
 			break;
