@@ -221,6 +221,10 @@ public class Achterbahn extends Mesh {
         FloatBuffer tb = getFloatBuffer(Type.TexCoord);
         IndexBuffer ib = getIndexBuffer();
 
+        //Wir speichern uns die errechneten Positionen und Normalen für später zwischen (sonst müssen wir die beim cullcheck aus den buffern rekonstruieren)
+        Vector3f [][] positions = new Vector3f[points.size()][pattern_vertexdata.length];
+        Vector3f [][] normals   = new Vector3f[points.size()][pattern_vertexdata.length];
+
         /*In einem ersten Schritt erzeugen wir die Daten für die Eckpunkte. Dafür müssen wir alle Punkt der Bahn (poscounter) ablaufen und dort ein Pattern erstellen.
           Um Pattern zu erstellen legen wir alle Vertexdaten (Vertexcounter) im Puffer an.*/
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
@@ -256,6 +260,10 @@ public class Achterbahn extends Mesh {
                 tmpNormal.addLocal (y.mult(pattern_vertexdata_normal[vertexcounter].y));
                 tmpNormal.addLocal (z.mult(pattern_vertexdata_normal[vertexcounter].z));
 
+                //Position und Normale merken (da die Objekte nicht weiter verwendet werden, brauchen wir nicht clonen!)
+                positions[poscounter][vertexcounter] = tmpPos;
+                normals[poscounter][vertexcounter] = tmpNormal;
+
                 //Koordinaten in die Puffer schieben 
                 pb.put(tmpPos.x).put(tmpPos.y).put(tmpPos.z);   //Position
                 nb.put(tmpNormal.x).put(tmpNormal.y).put(tmpNormal.z);  //Normalen
@@ -269,21 +277,43 @@ public class Achterbahn extends Mesh {
         int index = 0; //wir müssen selbst für eine durchnummerierung sorgen
         int segmentlength = pattern_vertexdata.length; //wir merken uns, wieviele ecken wir überspringen müssen um zur "gleichen" Ecke im Pattern an der nächsten Position zu kommen
 
+        
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {   //für jede Psoition
+          Vector3f roll = points.get(poscounter).getRollAxis().normalize();
           for (int tripcounter = 0; tripcounter < pattern_index_trips.length; tripcounter++) { //für jeden Trip
             for (int indexcounter = 0; indexcounter < pattern_index_trips[tripcounter].length; indexcounter++) { //für jeden Knoten
-
+                    
                     int nextposcounter = ((poscounter+1)%points.size());  //"gleiche" Ecke an nächster Position
                     int nextindexcounter = (indexcounter+1)%pattern_index_trips[tripcounter].length; //nächste Ecke an gleicher Position
+
+
+                    //Wir schauen wo die Normale hinzeigt die man aus dem Kreuzprodukt erhält und vergleichen dann mit der vertexnormale
+                    //So können wir entscheiden welche Reihenfolge die richtige ist, sodass Backfaceculling aktiv bleiben kann
+                    Vector3f moveInPattern = positions[poscounter][pattern_index_trips[tripcounter][nextindexcounter]].subtract(positions[poscounter][pattern_index_trips[tripcounter][indexcounter]]);
+                    Vector3f crossNormal = roll.cross(moveInPattern).normalize();
+                    Vector3f normal = normals[poscounter][pattern_index_trips[tripcounter][indexcounter]].normalize();
+
+              
                     //Reihenfolge entgegen dem Uhrzeigersinn (Opengl ermittelt aus der Richtung der Definition der Eckpunkte welche Dreiecke sichtbar sind. Diese Reihefolge funktioniert zumindest mit diesem Pattern)
-                    ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);
-                    ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);                     
-                    ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);
+                    if (normal.dot(crossNormal) > 0) {
+                      ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);
+                      ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);                     
+                      ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);
                      
-                    ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);
-                    ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);  
-                    ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);  
-                    
+                      ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);
+                      ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);  
+                      ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);  
+                    }
+                    else {
+                      ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);
+                      ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);
+                      ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);                     
+
+                     
+                      ib.put(index++, poscounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);
+                      ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][nextindexcounter]);  
+                      ib.put(index++, nextposcounter*segmentlength+ pattern_index_trips [tripcounter][indexcounter]);  
+                    }
 
             }
           }
