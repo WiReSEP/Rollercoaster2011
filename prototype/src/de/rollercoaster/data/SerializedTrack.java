@@ -63,7 +63,7 @@ public class SerializedTrack implements Track {
            points.add(new DummyCurvePoint(position, direction, left, up));
         }
         
-        Collections.reverse(points);
+       // Collections.reverse(points);
         this.curve = new DummyCurve(points);
     }
     
