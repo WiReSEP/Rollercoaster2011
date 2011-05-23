@@ -148,6 +148,7 @@ public class Kamera extends SimpleApplication{
          
              Vector3f nextPoint = new Vector3f();
              Vector3f distance = new Vector3f();
+						 Vector3f CameraDirection = new Vector3f();		//Simons Änderung
              distance.x = target.x - player.getLocalTranslation().x;
              distance.y = target.y - player.getLocalTranslation().y;
              distance.z = target.z - player.getLocalTranslation().z;
@@ -172,9 +173,12 @@ public class Kamera extends SimpleApplication{
              nextPoint.y = player.getLocalTranslation().y + new_y;
              nextPoint.z = player.getLocalTranslation().z + new_z;
              
+						 CameraDirection.x = player.getLocalTranslation().x - nextPoint.x;
+						 CameraDirection.y = player.getLocalTranslation().y - nextPoint.y;
+						 CameraDirection.z = player.getLocalTranslation().z - nextPoint.z;
+						 
              player.setLocalTranslation(nextPoint);
-         
-         
+						 cam.setDirection(CameraDirection);
      }
      /**
       * Prüft ob das Ziel erreicht wurde. DAbei wird von einer Ungenauigkeit in der 
