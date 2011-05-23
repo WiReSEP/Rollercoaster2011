@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {2}{Zielsetzungen}{3}{0}{1}
+\beamer@subsectionintoc {2}{1}{Vor der Simulation}{4}{0}{1}
+\beamer@subsectionintoc {2}{2}{W\active@dq \dq@prtct {a}hrend der Simulation}{5}{0}{1}
+\beamer@sectionintoc {3}{Komponenten}{6}{0}{2}
