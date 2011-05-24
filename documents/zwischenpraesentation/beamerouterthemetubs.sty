@@ -1,0 +1,99 @@
+\ProvidesPackage{beamerouterthemetubs}[2010/06/16]
+
+\mode<presentation>
+
+\def\beamer@tubs@pageofpages{/}
+\DeclareOptionBeamer{pageofpages}{\def\beamer@tubs@pageofpages{#1}}
+
+\ProcessOptionsBeamer
+
+% Colors.
+\setbeamercolor*{page header}{parent=palette secondary}
+\setbeamercolor*{frametitle}{parent=palette secondary}
+\setbeamercolor*{footline}{parent=palette primary}
+
+% Lengths
+\newlength{\headerheight}
+\setlength{\headerheight}{.126\paperheight}
+
+\newlength{\beamer@tubs@foot@logowidth}
+\setlength{\beamer@tubs@foot@logowidth}{.19\paperwidth}
+
+\newlength{\beamer@tubs@foot@logoheight}
+\setlength{\beamer@tubs@foot@logoheight}{.1\paperheight}
+
+\newlength{\beamer@tubs@foot@logoheightr}
+\setlength{\beamer@tubs@foot@logoheightr}{.5\beamer@tubs@foot@logoheight}
+
+\newlength{\beamer@tubs@headsep}
+\setlength{\beamer@tubs@headsep}{0.5cm}
+
+\newlength{\beamer@tubs@headmargin}
+\setlength{\beamer@tubs@headmargin}{\beamer@tubs@normalmargin}
+\addtolength{\beamer@tubs@headmargin}{-\beamer@tubs@headsep}
+
+% Footer.
+\defbeamertemplate*{footline}{tubs theme}
+{
+  \leavevmode%
+  \includegraphics[width=\beamer@tubs@foot@logowidth]{\beamer@tubs@tulogo}
+  \vbox{}\vskip-.7\beamer@tubs@foot@logoheight
+
+  % line, text and second logo
+  \hbox{
+  	  \hskip\beamer@tubs@foot@logowidth%
+	  \hskip-2pt
+	  % line and text
+	  \vbox{
+		  \begin{beamercolorbox}[wd=.81\paperwidth,ht=1pt,dp=0pt]{footline}%
+		  \end{beamercolorbox}%
+
+		  \begin{beamercolorbox}[wd=.81\paperwidth,leftskip=0.5cm,sep=1pt,ht=.7\beamer@tubs@gaussmargin]{}
+			  \insertdate{} | \insertauthor{} | \insertshorttitle{} | Seite \insertframenumber{} \beamer@tubs@pageofpages{} \inserttotalframenumber
+		  \end{beamercolorbox}
+
+		\vspace{.7\beamer@tubs@foot@logoheight}
+	  	\vspace{.3\beamer@tubs@gaussmargin}  % (1 - 0.7)
+	  }
+
+	  % second logo
+	  \vbox{
+		  \if\beamer@tubs@institutelogo\@empty\else%
+			  \llap{\includegraphics[height=\beamer@tubs@foot@logoheightr]{\beamer@tubs@institutelogo}\hskip\beamer@tubs@gaussmargin\hskip.5\beamer@tubs@gaussmargin}
+		  \fi%
+		  \vspace{\beamer@tubs@gaussmargin}
+		}
+	}
+}
+
+\defbeamertemplate*{headline}{tubs theme}
+{}
+
+\defbeamertemplate*{frametitle}{tubs theme}[1][left]
+{
+  \ifbeamercolorempty[bg]{frametitle}{}{\nointerlineskip}%
+  \@tempdima=\textwidth%
+  \advance\@tempdima by\beamer@leftmargin%
+  \advance\@tempdima by\beamer@rightmargin%
+  \begin{beamercolorbox}[wd=\the\@tempdima,ht=\headerheight,leftskip=\beamer@tubs@headmargin,sep=\beamer@tubs@headsep]{frametitle}
+    \usebeamerfont{frametitle}%
+ 	 \vskip-1ex 
+    \if@tempswa\else\csname beamer@fte#1\endcsname\fi%
+    \strut\insertframetitle\strut\par%
+    {%
+      \ifx\insertframesubtitle\@empty%
+      \else%
+      {\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle\strut\par}%
+      \fi
+    }%
+    \vskip-1ex%
+    \if@tempswa\else\vskip-.3cm\fi% set inside beamercolorbox... evil here...
+  \end{beamercolorbox}%
+}
+
+
+% Frame title continuations, default
+\defbeamertemplate*{frametitle continuation}{tubs theme}{(\insertcontinuationcount)}
+
+\mode
+<all>
