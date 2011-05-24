@@ -1,6 +1,11 @@
 package de.rollercoaster.gui;
 
 import de.rollercoaster.graphics.View;
+
+//nur für die Präsentation wird dies importiert
+import de.rollercoaster.graphics.RollercoasterView;
+
+
 import java.awt.Canvas;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
@@ -29,7 +34,7 @@ public class RollercoasterFrame extends JFrame {
     private JButton jButton2 = new JButton("Stop");
   private JMenuBar jmb = new JMenuBar();
     private JMenu datei = new JMenu("Datei");
-      private JMenuItem datei1 = new JMenuItem("Konstruktion oeffnen");
+      private JMenuItem datei1 = new JMenuItem("Konstruktion öffnen");
       private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
       private JMenuItem datei3 = new JMenuItem("beenden");
     private JMenu simulation = new JMenu("Simulation");
@@ -140,7 +145,8 @@ public class RollercoasterFrame extends JFrame {
     
     
 
-    //Menue
+
+    //Menü
     setJMenuBar(jmb);
     MenuListener ml = new MenuListener();
     jmb.add(datei);
@@ -186,9 +192,15 @@ public class RollercoasterFrame extends JFrame {
     public void actionPerformed(ActionEvent e) {
       if (e.getSource() == jButton1) { //Simulation starten
         JOptionPane.showMessageDialog(null, "Starte Simulation.");
+
+        ((RollercoasterView)graphics).pause(false); //Kameraflug starten (Warnung nur für die Präsentation)
+
         jTextArea1.append("Simulation gestartet.");
       } else if (e.getSource() == jButton2) { //Simulation stoppen
         JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
+
+        ((RollercoasterView)graphics).pause(true);//Kameraflug stoppen (Warnung nur für die Präsentation)
+
         jTextArea1.append("Simulation gestoppt.");
       }
     }
@@ -203,7 +215,9 @@ public class RollercoasterFrame extends JFrame {
           //This is where a real application would open the file.
         }
       } else if (e.getSource() == datei2) { //Konstruktion laden
+
         JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
+
       } else if (e.getSource() == datei3) { //beenden
         System.exit(0);
       }

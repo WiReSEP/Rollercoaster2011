@@ -30,6 +30,8 @@ import java.io.File;
 //den windowlsitener gibt es vorerst damit 
 public class Graphics3D extends SimpleApplication {
 
+    public boolean pause = false;
+
     private double time = 0;
     private List<CurvePoint> points;
 
@@ -72,6 +74,7 @@ public class Graphics3D extends SimpleApplication {
 
         wireMaterial.setColor("Color", ColorRGBA.Blue);
         mat1.setColor("Color", ColorRGBA.Red);
+        
 
 
         //Schnell zum Umschalten:
@@ -86,7 +89,8 @@ public class Graphics3D extends SimpleApplication {
         //Dummygelände
         assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
 
-        Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
+        //Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
+        Spatial terrain = assetManager.loadModel("terrain2.mesh.xml");
         //terrain.setMaterial(showNormalsMaterial);
 
         terrain.scale(100,40,100);
@@ -106,6 +110,10 @@ public class Graphics3D extends SimpleApplication {
           ambient.setColor(ColorRGBA.Blue);
           rootNode.addLight(ambient);
 
+
+        //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
+        this.setPauseOnLostFocus(false);
+
     }
 
     @Override
@@ -114,7 +122,7 @@ public class Graphics3D extends SimpleApplication {
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-     time += tpf/4.0;
+        if (!pause) {time += tpf/3.0;}
         
         int behind = (int) time;
         int next = behind +1;
@@ -131,16 +139,13 @@ public class Graphics3D extends SimpleApplication {
         
 				//setFrame nur mit  left, deshalb right spiegeln
 				
-        Vector3f pitch = new Vector3f();
-				pitch.x= -points.get(behind).getPitchAxis().x;
-				pitch.y= -points.get(behind).getPitchAxis().y;
-				pitch.z= -points.get(behind).getPitchAxis().z;
+        Vector3f pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
+
+        //Spiegeln der pitch 
+        pitch.multLocal(-1.0f);
 				
-				
-				//mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
-				
-        Vector3f yaw = points.get(behind).getYawAxis();//.mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
-        Vector3f roll =  points.get(behind).getRollAxis();//.mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
+        Vector3f yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
+        Vector3f roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
         Vector3f loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5f));
 
 
@@ -150,12 +155,12 @@ public class Graphics3D extends SimpleApplication {
     }
 
     public JmeCanvasContext getCanvasObject() {
-//           AppSettings settings = new AppSettings(true);
-//           settings.setWidth(640);
-//           settings.setHeight(480);
-//           settings.setFrameRate(30);
-// 
-//           this.setSettings(settings);
+           AppSettings settings = new AppSettings(true);
+           settings.setWidth(640);
+           settings.setHeight(480);
+           settings.setFrameRate(30);
+ 
+           this.setSettings(settings);
 
         this.createCanvas(); // create canvas!
         ctx = (JmeCanvasContext) this.getContext();

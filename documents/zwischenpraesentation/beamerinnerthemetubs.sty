@@ -1,0 +1,140 @@
+\ProvidesPackage{beamerinnerthemetubs}[2010/06/16]
+
+\RequirePackage{tikz}
+\usetikzlibrary{fadings}
+\RequirePackage{ifthen}
+
+% This piece of code is just to make the code Babel-compliant with every
+% language.
+% It comes from:
+% http://forum.mathematex.net/latex-f6/beamer-et-shorthandoff-t3851.html
+\makeatletter
+\newboolean{@twopt} \setboolean{@twopt}{false}
+\newcommand*{\twoptoff}{\ifnum \catcode`\;=13 \catcode`\;=12 \setboolean{@twopt}{true} \fi}
+\newcommand*{\twopton}{\if@twopt \catcode`\;=13 \setboolean{@twopt}{false}  \fi}
+
+\mode<presentation>
+
+\def\beamer@tubs@tulogo{}
+\DeclareOptionBeamer{tulogo}{\def\beamer@tubs@tulogo{#1}}
+\def\beamer@tubs@institutelogo{}
+\DeclareOptionBeamer{institutelogo}{\def\beamer@tubs@institutelogo{#1}}
+
+\ProcessOptionsBeamer
+
+% Colors.
+\setbeamercolor*{title page bottom}{parent=palette primary}
+\setbeamercolor*{title page header}{parent=palette secondary}
+\setbeamercolor*{title page text}{parent=palette tertiary}
+
+% gauss
+\newlength{\beamer@tubs@gaussmargin}
+\setlength{\beamer@tubs@gaussmargin}{.03\paperwidth}
+\newlength{\beamer@tubs@gaussheight}
+\setlength{\beamer@tubs@gaussheight}{.79\paperheight}
+\addtolength{\beamer@tubs@gaussheight}{-\beamer@tubs@gaussmargin}
+\newlength{\beamer@tubs@gausswidth}
+\setlength{\beamer@tubs@gausswidth}{.94\paperwidth}
+
+\newlength{\beamer@tubs@gausstopfrst}
+\setlength{\beamer@tubs@gausstopfrst}{.52\beamer@tubs@gaussheight}
+\newlength{\beamer@tubs@gausstopscnd}
+\setlength{\beamer@tubs@gausstopscnd}{.48\beamer@tubs@gaussheight}
+
+\newlength{\beamer@tubs@logoheight}
+\setlength{\beamer@tubs@logoheight}{.14\paperheight}
+
+\newlength{\beamer@tubs@topmargin}
+\setlength{\beamer@tubs@topmargin}{.21\paperheight}
+
+\newlength{\beamer@tubs@logoheightr}
+\setlength{\beamer@tubs@logoheightr}{.4\beamer@tubs@topmargin}
+
+\newlength{\beamer@tubs@logovskip}
+\setlength{\beamer@tubs@logovskip}{.75\beamer@tubs@logoheight}
+\addtolength{\beamer@tubs@logovskip}{\beamer@tubs@gaussheight}
+
+
+% Margins.
+\newlength{\beamer@tubs@normalmargin}
+\setlength{\beamer@tubs@normalmargin}{.06\paperwidth}
+\setbeamersize{text margin left=\beamer@tubs@normalmargin}
+\setbeamersize{text margin right=\beamer@tubs@normalmargin}
+\setlength\leftmargini{.6\beamer@tubs@normalmargin}
+\setlength\leftmarginii{.6\beamer@tubs@normalmargin}
+\setlength\leftmarginiii{.6\beamer@tubs@normalmargin}
+
+\defbeamertemplate*{title page}{tubs theme}[1][]
+{
+  {\parskip0pt\offinterlineskip%
+  \hbox{\hskip-\Gm@lmargin\hbox{\vbox{%
+  \@tempdima=\textwidth\textwidth=\paperwidth\hsize=\textwidth\def\\{,}\vbox{}\vskip-1.5ex%
+
+  \begin{beamercolorbox}[ht=\beamer@tubs@topmargin]{}
+%    \vbox{}\vskip\beamer@tubs@topmargin
+	 \llap{\includegraphics[height=\beamer@tubs@logoheightr]{\beamer@tubs@institutelogo}\hskip-\paperwidth\hskip\beamer@tubs@gaussmargin}
+	 \vspace{\beamer@tubs@gaussmargin}
+  \end{beamercolorbox}
+
+	\hbox{}\hskip\beamer@tubs@gaussmargin
+	\vbox{
+	 % header / picture
+	 \begin{beamercolorbox}[wd=\beamer@tubs@gausswidth,ht=\beamer@tubs@gausstopfrst]{title page header}\includegraphics[height=\beamer@tubs@gausstopfrst]{titel.jpg}
+    \end{beamercolorbox}%
+
+	 % title area
+	 \begin{beamercolorbox}[wd=\beamer@tubs@gausswidth,ht=\beamer@tubs@gausstopscnd,leftskip=\beamer@tubs@normalmargin,sep=\beamer@tubs@gaussmargin]{title page text}
+		 \usebeamerfont{title}\inserttitle\par%
+       \ifx\insertsubtitle\@empty%
+       \else%
+         \vskip0.25em%
+         {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}%
+       \fi%  
+      \vspace{1em}%
+	 \end{beamercolorbox}
+
+	 \vbox{}\vskip-\beamer@tubs@gaussmargin%
+
+	 % bottom line
+    \begin{beamercolorbox}[wd=\beamer@tubs@gausswidth,ht=\beamer@tubs@gaussmargin,dp=0pt]{title page bottom}%
+    \end{beamercolorbox}%
+	}
+
+	\vbox{}\vskip-\beamer@tubs@logovskip
+	\includegraphics[height=\beamer@tubs@logoheight]{\beamer@tubs@tulogo}
+    
+    \vskip0pt%
+  }}%
+  \hskip-\Gm@rmargin%
+  }}\hfill%
+
+}
+
+%% Blocks
+
+%%
+%% A factorized code for blocks (strictly equivalent to the following
+%% commented one, but cleaner)... By Cédric Mauclair (Onera)
+%%
+
+\newbox\tubs@blockbox
+\newlength\tubs@blockboxwidth
+\newlength\tubs@blockboxheight
+
+\newcommand{\defblock}[1][]{
+  \setbeamertemplate{block \ifx#1\@empty\else#1\space\fi begin}{%
+  \setbox\tubs@blockbox=\hbox to 0.95\textwidth\bgroup\vbox\bgroup\raggedright\begin{minipage}{0.95\textwidth} \ifx\insertblocktitle\@empty\else{\usebeamerfont{block title\ifx#1\@empty\else\space#1\fi}\usebeamercolor[fg]{block title\ifx#1\@empty\else\space#1\fi}\insertblocktitle}\\[-0.3cm]\twoptoff{}% JustTo be "babel-safe"
+	  \usebeamercolor{block title\ifx#1\@empty\else\space#1\fi} \tikz\draw[fg!50!bg] (0,0) -- (\textwidth,0);\twopton{}\\\fi\usebeamerfont{block body\ifx#1\@empty\else\space#1\fi}\usebeamercolor[fg]{block body\ifx#1\@empty\else\space#1\fi} \ifx\insertblocktitle\@empty\else{\vbox{}\vskip-2.5em\vbox{}}\fi}  \setbeamertemplate{block \ifx#1\@empty\else#1\space\fi end}{%
+    \end{minipage}\egroup\egroup%
+    \usebeamercolor{block title\ifx#1\@empty\else\space#1\fi}
+    \begin{center}\begin{tikzpicture} \draw node[draw=fg!50!bg,fill=bg,rounded corners=2pt] {\box\tubs@blockbox};
+      \end{tikzpicture} \end{center} } }
+
+\defblock
+\defblock[example]
+\defblock[alerted]
+
+\setbeamertemplate{items}[square]
+
+\mode<all>
+
