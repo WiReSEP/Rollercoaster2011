@@ -22,15 +22,15 @@ public class RollercoasterFrame extends JFrame {
   private final View graphics;
   //private final JPanel panel;
   private JFileChooser fc = new JFileChooser();
-  private JPanel jPanel1 = new JPanel(null);
+  private JPanel jPanel1 = new JPanel();
     private JTextArea jTextArea1 = new JTextArea("");
   private JPanel jPanel2 = new JPanel(null);
     private JButton jButton1 = new JButton("Start");
     private JButton jButton2 = new JButton("Stop");
   private JMenuBar jmb = new JMenuBar();
     private JMenu datei = new JMenu("Datei");
-      private JMenuItem datei1 = new JMenuItem("Konstruktion öffen");
-      private JMenuItem datei2 = new JMenuItem("Konstruktion schließen");
+      private JMenuItem datei1 = new JMenuItem("Konstruktion oeffnen");
+      private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
       private JMenuItem datei3 = new JMenuItem("beenden");
     private JMenu simulation = new JMenu("Simulation");
       private JMenuItem sim1 = new JMenuItem("Simulation starten");
@@ -41,6 +41,24 @@ public class RollercoasterFrame extends JFrame {
       //private JMenuItem ansicht2 = new JMenuItem("Simulation stoppen");
     private JMenu hilfe = new JMenu("Hilfe");
       private JMenuItem hilfe1 = new JMenuItem("Info");
+    
+  
+    String[] columnNames ={"","Minima","Maxima"};
+    Object[] [] data = {
+    {"Geschwindigkeit", new Integer(1),new Integer(2)},
+    {">Zeit", new Integer(1),new Integer(2)},
+    {">Beschl.", new Integer(1),new Integer(2)},
+    {">Winkel", new Integer(1),new Integer(2)},
+    {"-----------------------","",""},
+    {"Beschleunigung", new Integer(1),new Integer(2)},
+    {">Zeit", new Integer(1),new Integer(2)},
+    {">Geschw.", new Integer(1),new Integer(2)},
+    {">Winkel", new Integer(1),new Integer(2)},
+    };
+    final JTable jTable1 = new JTable(data, columnNames);  
+    
+    
+    
 
   public RollercoasterFrame(String title, final View view) {
     super(title);
@@ -81,7 +99,7 @@ public class RollercoasterFrame extends JFrame {
     cp.add(graphicsCanvas,BorderLayout.WEST);
 
     jPanel1.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
-    jPanel1.setLayout(new FlowLayout());
+    jPanel1.setLayout(new BorderLayout());
     ResizeListener rl = new ResizeListener();
     jPanel1.addComponentListener(rl);
     cp.add(jPanel1, BorderLayout.CENTER);
@@ -102,9 +120,27 @@ public class RollercoasterFrame extends JFrame {
     jTextArea1.setEditable(false);
     jTextArea1.setLineWrap(true);
     jTextArea1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-    jPanel1.add(jTextArea1);
+    jPanel1.add(jTextArea1, BorderLayout.SOUTH);
+    
+//     jTable1.setBounds(8, 24, 128, 128);
+    jTable1.setShowHorizontalLines(false);
+    jTable1.setShowVerticalLines(false);
+//    jTable1.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+    
+    int maxWidth = 0;
+    for(int i = 0; i < 9; i++){
+      Object cellValue = jTable1.getValueAt(i, 0);
+      if(cellValue != null)
+      maxWidth = Math.max(jTable1.getCellRenderer(i, 0).getTableCellRendererComponent(jTable1, cellValue, false, false, i, 0).getPreferredSize().width + jTable1.getIntercellSpacing().width, maxWidth);
+    }
+    jTable1.getColumnModel().getColumn(0).setMinWidth(maxWidth+5);
+    jTable1.getColumnModel().getColumn(0).setMaxWidth(maxWidth+5);
 
-    //Menü
+    jPanel1.add(new JScrollPane(jTable1), BorderLayout.CENTER);
+    
+    
+
+    //Menue
     setJMenuBar(jmb);
     MenuListener ml = new MenuListener();
     jmb.add(datei);
@@ -167,7 +203,7 @@ public class RollercoasterFrame extends JFrame {
           //This is where a real application would open the file.
         }
       } else if (e.getSource() == datei2) { //Konstruktion laden
-        JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schließen.");
+        JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
       } else if (e.getSource() == datei3) { //beenden
         System.exit(0);
       }
