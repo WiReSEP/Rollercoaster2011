@@ -86,7 +86,8 @@ public class Graphics3D extends SimpleApplication {
         //Dummygelände
         assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
 
-        Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
+        //Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
+        Spatial terrain = assetManager.loadModel("terrain2.mesh.xml");
         //terrain.setMaterial(showNormalsMaterial);
 
         terrain.scale(100,40,100);
