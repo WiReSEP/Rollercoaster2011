@@ -35,6 +35,7 @@ Bibliotheksfunktionen brauchen nicht aufgeführt zu werden.
 \subsubsection{Implementierung von Komponente
          xx: Graphics3D:}
 
+\textbf {Dieser Bereich ist noch nicht entgültig fertig,bedarf einer Überarbeitung und steht zur Diskussion!}
 
 \includegraphics[width=\linewidth]{bilder/klassendiagramm_004}
 
@@ -45,14 +46,10 @@ zur Speicherung und Ordnung der Geometrieelemente verwendet. PatternCurve ist ei
 
 Im wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geomentrien die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und 
 Translation gesetzt werden, sodass die Mesh an unterschiedlichen Orten im 3D-Raum gezeichnet wird, ohne jedoch die Mesh im Speicher vollständig kopieren zu müssen. Poles enthält die Stützpfeiler der Bahn und ist analog strukturiert.
-Die Schienen werden in der visible_domain durch eine PatternCurve erzeugt. In der collision_domain liegt eine zweite PatternCurve, die ein BoundingVolume um die Bahn definiert um Kollisionen mit bereits geladener oder neu zu ladener
+Die Schienen werden in der visible\_domain durch eine PatternCurve erzeugt. In der collision\_domain liegt eine zweite PatternCurve, die ein BoundingVolume um die Bahn definiert um Kollisionen mit bereits geladener oder neu zu ladener
 Dekoration zu erkennen. Dieses BoundingVolume wird außerdem dazu verwendet die Stützpfeiler zu generieren, ohne dass diese in durch die Bahn ragen.
-\begin{verbatim}
-!!temporärer Inhalt!!:
 
-- basierend auf JMonkeyEngine3
- --> Scenegraphsystem
-\end{verbatim}
+
 
 \subsection{Paketdiagramm}
 \subsection{Erläuterung}
