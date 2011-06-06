@@ -1,6 +1,5 @@
 package de.rollercoaster.data;
 
-import com.jme3.math.Vector3f;
 import java.io.File;
 import de.rollercoaster.data.xml.*;
 import de.rollercoaster.mathematics.BezierCurve;
@@ -10,6 +9,8 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
+import de.rollercoaster.mathematics.Vector3d;
 
 public class SerializedTrack implements Track {
   private final File file;
@@ -36,18 +37,14 @@ public class SerializedTrack implements Track {
     this.rollercoasterData = (RollerCoaster) um.unmarshal(file);
   }
 
-  private Vector3f vectorize(double x, double y, double z) {
-    return new Vector3f((float) x, (float) z, (float) y);
-  }
-
   private void parseData() {
     List<Pillar> pillars = getPillars();
-    List<Vector3f> points = new ArrayList<Vector3f>();
-    List<Vector3f> orientations = new ArrayList<Vector3f>();
+    List<Vector3d> points = new ArrayList<Vector3d>();
+    List<Vector3d> orientations = new ArrayList<Vector3d>();
 
     for (Pillar pillar : pillars) {
-      Vector3f position = vectorize(pillar.getPosX(), pillar.getPosY(), pillar.getPosZ());
-      Vector3f up = vectorize(pillar.getYawX(), pillar.getYawY(), pillar.getYawZ());
+      Vector3d position = new Vector3d(pillar.getPosX(), pillar.getPosY(), pillar.getPosZ());
+      Vector3d up = new Vector3d(pillar.getYawX(), pillar.getYawY(), pillar.getYawZ());
 
       points.add(position);
       orientations.add(up);

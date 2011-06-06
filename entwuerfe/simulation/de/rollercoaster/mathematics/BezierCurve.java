@@ -47,9 +47,9 @@ public class BezierCurve implements Curve {
     double s2 = 3.0 * (1 - s) * s * s;
     double s3 = s * s * s;
 
-    float x = (float) (s0 * p0.x + s1 * p1.x + s2 * p2.x + s3 * p3.x);
-    float y = (float) (s0 * p0.y + s1 * p1.y + s2 * p2.y + s3 * p3.y);
-    float z = (float) (s0 * p0.z + s1 * p1.z + s2 * p2.z + s3 * p3.z);
+    double x = (s0 * p0.x + s1 * p1.x + s2 * p2.x + s3 * p3.x);
+    double y = (s0 * p0.y + s1 * p1.y + s2 * p2.y + s3 * p3.y);
+    double z = (s0 * p0.z + s1 * p1.z + s2 * p2.z + s3 * p3.z);
 
     return new Vector3d(x, y, z);
   }
@@ -60,9 +60,9 @@ public class BezierCurve implements Curve {
     double t2 = 6.0 * (1 - s) * s - 3.0 * s * s;
     double t3 = 3.0 * s * s;
 
-    float x = (float) (t0 * p0.x + t1 * p1.x + t2 * p2.x + t3 * p3.x);
-    float y = (float) (t0 * p0.y + t1 * p1.y + t2 * p2.y + t3 * p3.y);
-    float z = (float) (t0 * p0.z + t1 * p1.z + t2 * p2.z + t3 * p3.z);
+    double x = (t0 * p0.x + t1 * p1.x + t2 * p2.x + t3 * p3.x);
+    double y = (t0 * p0.y + t1 * p1.y + t2 * p2.y + t3 * p3.y);
+    double z = (t0 * p0.z + t1 * p1.z + t2 * p2.z + t3 * p3.z);
 
     return new Vector3d(x, y, z);
   }
@@ -73,9 +73,9 @@ public class BezierCurve implements Curve {
     double t2 = 6.0 * (1 - s) - 12.0 * s;
     double t3 = 6.0 * s;
 
-    float x = (float) (t0 * p0.x + t1 * p1.x + t2 * p2.x + t3 * p3.x);
-    float y = (float) (t0 * p0.y + t1 * p1.y + t2 * p2.y + t3 * p3.y);
-    float z = (float) (t0 * p0.z + t1 * p1.z + t2 * p2.z + t3 * p3.z);
+    double x = (t0 * p0.x + t1 * p1.x + t2 * p2.x + t3 * p3.x);
+    double y = (t0 * p0.y + t1 * p1.y + t2 * p2.y + t3 * p3.y);
+    double z = (t0 * p0.z + t1 * p1.z + t2 * p2.z + t3 * p3.z);
 
     return new Vector3d(x, y, z);
   }
