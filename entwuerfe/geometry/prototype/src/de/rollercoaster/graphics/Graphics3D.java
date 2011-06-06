@@ -27,8 +27,20 @@ import com.jme3.light.AmbientLight;
 import de.rollercoaster.data.SerializedTrack;
 import java.io.File;
 
+
+//niftytest
+import com.jme3.niftygui.NiftyJmeDisplay;
+import de.lessvoid.nifty.Nifty;
+
+
 //den windowlsitener gibt es vorerst damit 
 public class Graphics3D extends SimpleApplication {
+
+
+private Nifty nifty;
+
+
+
 
     public boolean pause = false;
 
@@ -55,6 +67,35 @@ public class Graphics3D extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         start(Type.Canvas);
+
+/////////Nifty Begin
+//         assetManager.registerLocator("./",FileLocator.class.getName());  //Custom-Path einrichten
+        NiftyJmeDisplay niftyDisplay = new NiftyJmeDisplay(assetManager,
+                                                          inputManager,
+                                                          audioRenderer,
+                                                          guiViewPort);
+        nifty = niftyDisplay.getNifty();
+
+        System.out.println ("****************************************************************");
+System.out.println ("****************************************************************");
+System.out.println ("****************************************************************");
+        nifty.fromXml("all/intro.xml", "start");
+
+
+
+        // attach the nifty display to the gui view port as a processor
+        guiViewPort.addProcessor(niftyDisplay);
+
+
+System.out.println ("****************************************************************");
+System.out.println ("****************************************************************");
+System.out.println ("****************************************************************");
+
+        
+        
+/////////Nifty end
+
+
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(70);  //mehr speed
 
