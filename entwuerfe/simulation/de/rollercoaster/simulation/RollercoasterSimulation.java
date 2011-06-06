@@ -33,7 +33,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
   }
 
   @Override
-  public void update(float timeStep) {
+  public void update(double timeStep) {
     double scaledTimeStep = this.timeScale * timeStep;
 
     updatePhysics(scaledTimeStep);

@@ -70,7 +70,7 @@ public class RollercoasterView implements View {
     return this.observers.remove(observer);
   }
   
-  public void notifyObservers(float timePerFrame) {
+  public void notifyObservers(double timePerFrame) {
     for (ViewObserver observer : observers) {
       observer.update(timePerFrame);
     }
