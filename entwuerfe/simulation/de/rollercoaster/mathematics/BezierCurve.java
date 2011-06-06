@@ -1,13 +1,12 @@
 package de.rollercoaster.mathematics;
 
-import com.jme3.math.Vector3f;
 import java.util.List;
 
 public class BezierCurve implements Curve {
   private final List<CurvePoint> controlPoints;
   private final double length;
 
-  public BezierCurve(List<Vector3f> interpolationPoints, List<Vector3f> orientations) {
+  public BezierCurve(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
     this.controlPoints = calculateControlPoints(interpolationPoints, orientations);
     this.length = interpolationPoints.size() - 1;
   }
@@ -34,15 +33,15 @@ public class BezierCurve implements Curve {
   }
 
   public static CurvePoint cubicInterpolation(CurvePoint p0, CurvePoint p1, CurvePoint p2, CurvePoint p3, double s) {
-    Vector3f position = getInterpolation(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
-    Vector3f up = getInterpolation(p0.getYawAxis(), p1.getYawAxis(), p2.getYawAxis(), p3.getYawAxis(), s);
-    Vector3f derivative = getDerivative(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
-    Vector3f secondDerivative = getSecondDerivative(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
+    Vector3d position = getInterpolation(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
+    Vector3d up = getInterpolation(p0.getYawAxis(), p1.getYawAxis(), p2.getYawAxis(), p3.getYawAxis(), s);
+    Vector3d derivative = getDerivative(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
+    Vector3d secondDerivative = getSecondDerivative(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
 
     return new SimpleCurvePoint(position, derivative, secondDerivative, up);
   }
 
-  public static Vector3f getInterpolation(Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3, double s) {
+  public static Vector3d getInterpolation(Vector3d p0, Vector3d p1, Vector3d p2, Vector3d p3, double s) {
     double s0 = (1 - s) * (1 - s) * (1 - s);
     double s1 = 3.0 * (1 - s) * (1 - s) * s;
     double s2 = 3.0 * (1 - s) * s * s;
@@ -52,10 +51,10 @@ public class BezierCurve implements Curve {
     float y = (float) (s0 * p0.y + s1 * p1.y + s2 * p2.y + s3 * p3.y);
     float z = (float) (s0 * p0.z + s1 * p1.z + s2 * p2.z + s3 * p3.z);
 
-    return new Vector3f(x, y, z);
+    return new Vector3d(x, y, z);
   }
 
-  public static Vector3f getDerivative(Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3, double s) {
+  public static Vector3d getDerivative(Vector3d p0, Vector3d p1, Vector3d p2, Vector3d p3, double s) {
     double t0 = -3.0 * (1 - s) * (1 - s);
     double t1 = 3.0 * (1 - s) * (1 - s) - 6.0 * (1 - s) * s;
     double t2 = 6.0 * (1 - s) * s - 3.0 * s * s;
@@ -65,10 +64,10 @@ public class BezierCurve implements Curve {
     float y = (float) (t0 * p0.y + t1 * p1.y + t2 * p2.y + t3 * p3.y);
     float z = (float) (t0 * p0.z + t1 * p1.z + t2 * p2.z + t3 * p3.z);
 
-    return new Vector3f(x, y, z);
+    return new Vector3d(x, y, z);
   }
 
-  public static Vector3f getSecondDerivative(Vector3f p0, Vector3f p1, Vector3f p2, Vector3f p3, double s) {
+  public static Vector3d getSecondDerivative(Vector3d p0, Vector3d p1, Vector3d p2, Vector3d p3, double s) {
     double t0 = 6.0 * (1 - s);
     double t1 = -12.0 * (1 - s) + 6.0 * s;
     double t2 = 6.0 * (1 - s) - 12.0 * s;
@@ -78,7 +77,7 @@ public class BezierCurve implements Curve {
     float y = (float) (t0 * p0.y + t1 * p1.y + t2 * p2.y + t3 * p3.y);
     float z = (float) (t0 * p0.z + t1 * p1.z + t2 * p2.z + t3 * p3.z);
 
-    return new Vector3f(x, y, z);
+    return new Vector3d(x, y, z);
   }
 
   @Override
@@ -86,7 +85,7 @@ public class BezierCurve implements Curve {
     throw new UnsupportedOperationException("Not supported yet.");
   }
 
-  private List<CurvePoint> calculateControlPoints(List<Vector3f> interpolationPoints, List<Vector3f> orientations) {
+  private List<CurvePoint> calculateControlPoints(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
     throw new UnsupportedOperationException("Not supported yet.");
   }
 }

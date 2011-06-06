@@ -47,10 +47,10 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
   private void updateCameraPosition() {
     TrajectoryPoint state = physics.getState();
 
-    Vector3f location = state.getPosition();
-    Vector3f left = state.getPitchAxis();
-    Vector3f up = state.getYawAxis();
-    Vector3f direction = state.getRollAxis();
+    Vector3f location = state.getPosition().toF();
+    Vector3f left = state.getPitchAxis().toF();
+    Vector3f up = state.getYawAxis().toF();
+    Vector3f direction = state.getRollAxis().toF();
 
     graphics.setCamera(location, left, up, direction);
   }

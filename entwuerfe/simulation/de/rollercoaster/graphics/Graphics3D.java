@@ -139,18 +139,15 @@ public class Graphics3D extends SimpleApplication {
         
 				//setFrame nur mit  left, deshalb right spiegeln
 				
-        Vector3f pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext));
-
-        //Spiegeln der pitch 
-        pitch.multLocal(-1.0f);
-				
-        Vector3f yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
-        Vector3f roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
-        Vector3f loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5f));
+        Vector3d pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext)).mult(-1.0);
+      				
+        Vector3d yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
+        Vector3d roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
+        Vector3d loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5));
 
 
-        this.getCamera().setFrame(loc,pitch ,yaw ,roll);
-				cam.update();
+        this.getCamera().setFrame(loc.toF(),pitch.toF() ,yaw.toF() ,roll.toF());
+        cam.update();
         
     }
 

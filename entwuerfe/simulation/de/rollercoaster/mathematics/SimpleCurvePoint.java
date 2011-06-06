@@ -1,56 +1,54 @@
 package de.rollercoaster.mathematics;
 
-import com.jme3.math.Vector3f;
-
 /** 
  * Einfache Implementierung eines unveränderlichen <tt>CurvePoint</tt>
  * @author mangelsdorf
  */
 public class SimpleCurvePoint implements CurvePoint {
-  private final Vector3f position;
-  private final Vector3f derivative;
-  private final Vector3f secondDerivative;
-  private final Vector3f roll;
-  private final Vector3f pitch;
-  private final Vector3f yaw;
+  private final Vector3d position;
+  private final Vector3d derivative;
+  private final Vector3d secondDerivative;
+  private final Vector3d roll;
+  private final Vector3d pitch;
+  private final Vector3d yaw;
 
-  public SimpleCurvePoint(Vector3f position, Vector3f derivative, Vector3f secondDerivative, Vector3f up) {
-    this.position = new Vector3f(position);
-    this.derivative = new Vector3f(derivative);
-    this.secondDerivative = new Vector3f(secondDerivative);
+  public SimpleCurvePoint(Vector3d position, Vector3d derivative, Vector3d secondDerivative, Vector3d up) {
+    this.position = position;
+    this.derivative = derivative;
+    this.secondDerivative = secondDerivative;
 
     this.roll = derivative.normalize();
-    this.pitch = new Vector3f(derivative.cross(up).normalize());
-    this.yaw = new Vector3f(up);
+    this.pitch = derivative.cross(up).normalize();
+    this.yaw = up.normalize();
   }
 
   @Override
-  public Vector3f getPosition() {
-    return new Vector3f(position);
+  public Vector3d getPosition() {
+    return position;
   }
 
   @Override
-  public Vector3f getDerivative() {
-    return new Vector3f(derivative);
+  public Vector3d getDerivative() {
+    return derivative;
   }
 
   @Override
-  public Vector3f getSecondDerivative() {
-    return new Vector3f(secondDerivative);
+  public Vector3d getSecondDerivative() {
+    return secondDerivative;
   }
 
   @Override
-  public Vector3f getRollAxis() {
-    return new Vector3f(roll);
+  public Vector3d getRollAxis() {
+    return roll;
   }
 
   @Override
-  public Vector3f getPitchAxis() {
-    return new Vector3f(pitch);
+  public Vector3d getPitchAxis() {
+    return pitch;
   }
 
   @Override
-  public Vector3f getYawAxis() {
-    return new Vector3f(yaw);
+  public Vector3d getYawAxis() {
+    return yaw;
   }
 }

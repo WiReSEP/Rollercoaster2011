@@ -1,10 +1,10 @@
 package de.rollercoaster.physics;
 
-import com.jme3.math.Vector3f;
 import de.rollercoaster.mathematics.CurvePoint;
+import de.rollercoaster.mathematics.Vector3d;
 
 public interface TrajectoryPoint extends CurvePoint {
-    Vector3f getVelocity();
-    Vector3f getAcceleration();
-    Vector3f getJerk();
+    Vector3d getVelocity();
+    Vector3d getAcceleration();
+    Vector3d getJerk();
 }

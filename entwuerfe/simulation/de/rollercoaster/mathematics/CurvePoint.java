@@ -1,13 +1,11 @@
 package de.rollercoaster.mathematics;
 
-import com.jme3.math.Vector3f;
-
 public interface CurvePoint {
-    Vector3f getPosition();
-    Vector3f getDerivative();
-    Vector3f getSecondDerivative();
+    Vector3d getPosition();
+    Vector3d getDerivative();
+    Vector3d getSecondDerivative();
     
-    Vector3f getRollAxis();
-    Vector3f getPitchAxis();
-    Vector3f getYawAxis();    
+    Vector3d getRollAxis();
+    Vector3d getPitchAxis();
+    Vector3d getYawAxis();    
 }
