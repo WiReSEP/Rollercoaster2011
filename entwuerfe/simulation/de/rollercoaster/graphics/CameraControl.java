@@ -11,7 +11,7 @@ import com.jme3.scene.shape.Box;
  */
 public class CameraControl extends SimpleApplication{
     private Vector3f carPosition;
-    
+    private char mode = 'i';			//at  the beginning the interiror Cam is activated
     /**
      * returns position of car for overview of way
      * @return 2D vector 
@@ -27,10 +27,9 @@ public class CameraControl extends SimpleApplication{
      * changes the camera Mode: Overview (o) or interior view (i)
      * @param mode: cmaera mode
      */
-    
-    //TODO: Überlegen ob boolean sinnvoll ist, zur überprüfung welcher Modus
     public void changeCameraMode(char mode){
-        switch(mode){
+			this.mode = mode;
+				switch(mode){
             case 'o': flyCam.setEnabled(true);
 													//TODO wagen sichtbar machen
                       break;  
@@ -59,5 +58,9 @@ public class CameraControl extends SimpleApplication{
         
     }
     
+		@Override
+		public void simpleUpdate(){
+		
+		}
     
 }
