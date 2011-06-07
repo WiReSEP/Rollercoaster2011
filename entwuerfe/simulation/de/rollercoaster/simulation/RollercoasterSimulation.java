@@ -4,6 +4,7 @@ import com.jme3.math.Vector3f;
 import de.rollercoaster.graphics.View;
 import de.rollercoaster.graphics.ViewObserver;
 import de.rollercoaster.physics.Trajectory;
+import de.rollercoaster.physics.TrajectoryObserver;
 import de.rollercoaster.physics.TrajectoryPoint;
 
 public class RollercoasterSimulation implements Simulation, ViewObserver {
@@ -11,7 +12,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
   public final View graphics;
   public double timeScale;
   public double currentTime;
-
+ 
   public RollercoasterSimulation(Trajectory physics, View graphics) {
     this.physics = physics;
     this.graphics = graphics;
@@ -37,7 +38,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
     double scaledTimeStep = this.timeScale * timeStep;
 
     updatePhysics(scaledTimeStep);
-    updateCameraPosition();
+    updateCameraPosition(); 
   }
 
   private void updatePhysics(double timeStep) {
@@ -54,4 +55,14 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
 
     graphics.setCamera(location, left, up, direction);
   }
+
+  @Override
+  public boolean addObserver(TrajectoryObserver observer) {
+    return physics.addObserver(observer);
+  }
+  
+  @Override
+  public boolean removeObserver(TrajectoryObserver observer) {
+    return physics.removeObserver(observer);
+  }  
 }

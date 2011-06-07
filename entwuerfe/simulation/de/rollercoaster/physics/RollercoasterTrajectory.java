@@ -2,6 +2,9 @@ package de.rollercoaster.physics;
 
 import de.rollercoaster.mathematics.*;
 import de.rollercoaster.mathematics.ode.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 public class RollercoasterTrajectory implements Trajectory, DifferentialEquations {
   private final Curve curve;
@@ -11,6 +14,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
   private Vector3d gravitation;
   private Integrator integrator;
   private final double DEFAULT_MINIMAL_STEP = 0.01;
+  private final List<TrajectoryObserver> observers = Collections.synchronizedList(new LinkedList<TrajectoryObserver>());
 
   public RollercoasterTrajectory(Curve curve, double s0, double v0) {
     this.curve = curve;
@@ -64,5 +68,21 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     double sDotDot = -(derivative.dot(gravitation) + sDot * sDot * derivative.dot(secondDerivative)) / (derivative.lengthSquared());
 
     return new double[]{sDot, sDotDot};
+  }
+ 
+  @Override
+  public boolean addObserver(TrajectoryObserver observer) {
+    return this.observers.add(observer);
+  }
+
+  @Override
+  public boolean removeObserver(TrajectoryObserver observer) {
+    return this.observers.remove(observer);
+  }
+
+  public void notifyObservers(TrajectoryPoint newState) {
+    for (TrajectoryObserver observer : observers) {
+      observer.update(newState);
+    }
   }
 }
