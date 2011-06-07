@@ -9,6 +9,11 @@ betrachtet. Für Entwurfsentscheidungen, die mehr als eine Komponente betreffen,
 wird mit Verweisen zwischen den Dokumentationen der Komponente gearbeitet.  Es
 sind dabei so viele Unterabschnitte einzufügen, wie Komponenten vorhanden sind.
 
+\begin{figure}
+	\includegraphics[width=\linewidth]{bilder/components.jpg}
+\caption{Komponentendiagramm}
+\end{figure}
+
 
 \section{Gesamtsystem}
 Fügen Sie hier bitte das Komponentendiagramm aus dem Grobentwurf ein und
@@ -37,12 +42,18 @@ Bibliotheksfunktionen brauchen nicht aufgeführt zu werden.
 
 \textbf {Dieser Bereich ist noch nicht entgültig fertig,bedarf einer Überarbeitung und steht zur Diskussion!}
 
+\begin{figure}
 \includegraphics[width=\linewidth]{bilder/klassendiagramm_004}
+\caption{Klassendiagrammname}
+\end{figure}
 
 Die JMonkeyEngine stellt eine Scenegraphenstruktur über Spatial zur Verfügung die hier kurz skizziert wird. Die Subklassen Geometry als Meshcontainer und Node als Strukturelement werden von unserer Hauptklasse Achterbahn 
 zur Speicherung und Ordnung der Geometrieelemente verwendet. PatternCurve ist eine Klasse die ein Pattern entlang einer Curve extrudiert.
 
+\begin{figure}
 \includegraphics[width=\linewidth]{bilder/objektdiagramm_004}
+\caption{Objektidagrammname}
+\end{figure}
 
 Im wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geomentrien die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und 
 Translation gesetzt werden, sodass die Mesh an unterschiedlichen Orten im 3D-Raum gezeichnet wird, ohne jedoch die Mesh im Speicher vollständig kopieren zu müssen. Poles enthält die Stützpfeiler der Bahn und ist analog strukturiert.
