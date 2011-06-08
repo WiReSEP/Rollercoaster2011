@@ -1,0 +1,51 @@
+% Kapitel 2 mit den entsprechenden Unterkapiteln
+% Die Unterkapitel können auch in separaten Dateien stehen,
+% die dann mit dem \include-Befehl eingebunden werden.
+%-------------------------------------------------------------------------------
+\chapter{Erfüllung der Kriterien}
+
+Nachfolgend wird beschrieben, wie die einzelnen Kriterien des Pflichtenheftes
+erfüllt werden und worauf zu achten ist.
+\section{Musskriterien}
+
+Folgende Kriterien werden für das Produkt erfüllt:
+\begin{description}
+	\item[/M10/] Die physikalisch korrekte Wiedergabe des Fahrverhaltens der Achterbahn aus der Perspektive eines Fahrgastes wird durch eine in Echtzeit modellierte Bahn und eine Umgebung visualisiert. Es wird darauf geachtet, dass der Boden bei z=0 ist: Diese Kriterien werden umgesetzt. Die enge Verzahnung von Physik, Grafik in der Simulation erfordert eine saubere Koppelung der entsprechenden Komponenten und
+eine Optimierung des Laufzeitverhalten. Die zeitintensive Grafikdarstellung gibt den Takt für die Updates der Bahnbewegung an, die Physik berechnet den nächsten Zustand auf Anfrage.
+	\item[/M20/] Berechnung und Darstellung der Bahn erfolgt in Echtzeit. Es werden Optionen(teilweise Ausblendung von Dekoration) implementiert, die das System skalierbar machen und Beschleunigungsstrukturen genutzt.
+	\item[/M30/] Zur Orientierung im 3DRaum wird ein texturierter Boden als Standartdekoration geladen. Durch Laden einer anderen Dekoration wird dieser Boden ersetzt.
+	\item[/M40/] Aus den Kurvendaten der Bezierkurve wird prozedural eine Bahn beliebigen Querschnitss erzeugt. Querstreben und Stützen werden nach festen Regeln eingefügt.
+	\item[/M50/] Der Verlauf der Beschleunigung wird in einem Graphen in Bezug auf die Zeit in der GUI dargestellt. Dadurch wird es dem Benutzer sofort ersichtlich gemacht, wenn es zu einer starken Beschleunigungsänderung in kurzer Zeit kommt, was für den Fahrgast als sehr unangenehm empfunden wird. Die Minimal- und Maximalwerte für die Beschleunigung, sowie der Geschwindigkeit werden in einer Tabelle festgehalten.
+\end{description}
+
+\section{Wunschkriterien}
+
+Die Erfüllung folgender Kriterien für das abzugebende Produkt wird angestrebt:
+\begin{description}
+	\item[/W10/] Berechnung der Luft- und Bahnreibung: Die Mathematik-Komponente stellt hinreichend allgemeine Integrationsmethoden für gewöhnliche Diffentialgleichungen zur Verfügung, so dass
+		     für die Berücksichtigung dieser Reibungskräfte nur die Implementierung in der Simulator-Komponente angepasst werden muss. Schwierigkeiten bereitet dagegen der Energieverlust über
+		     die Achterbahnstrecke, die ohne äußeren Antrieb zum eventuellen Stillstand der Bahn führen werden. Dieses Wunschkriterium wird sehr wahrscheinlich umgesetzt werden können.
+	\item[/W20/] Erfassung von Bremsvorgängen: Für die Beschreibung der Bremsvorgänge müssen Änderungen an mehreren Komponenten vorgenommen werden: Erweiterung des XML-Schemas und
+		     der Raumkurven-Schnittstelle zur Kennzeichnung der Bremswege sowie Anpassung der Differentialgleichung im Simulator. Dieses Wunschkriterium wird wahrscheinlich nicht umgesetzt werden.
+	\item[/W30/] Berücksichtigung der Beschleunigungskräfte durch Wagen und Passagiere: Die Berücksichtigung außeraxialer Kräfte auf die Bewegung der Achterbahn kann durch Anpassung der
+                     Differentialgleichung im Simulator erfolgen. Dieses Wunschkriterium wird wahrscheinlich umgesetzt werden.
+	\item[/W40/] Bei der Visualisierung von Stützbalken ist darauf zu achten, dass keine Stützbalken durch die Bahn gehen. Dafür wird ein zusätzliches Boundingvolumen im Achterbahnobjekt vorgesehen, dass eine Kollisionsprüfung gegen die dynamisch erzeugte Bahn erlaubt. Dieses Wunschkriterium wird sehr wahrscheinlich umgesetzt.
+	\item[/W50/] Die Darstellung der Umgebung mit Gebäuden, Bepflanzung und Himmel verschönert die Simulation und bietet dem Benutzer außerdem Orientierung. Wichtig dabei ist, dass keine Dekoration durch die Bahn geht. Es ist sehr wahrscheinlich, dass dieses Kriterium implementiert wird.
+	\item[/W60/] Die Verstellbare Kamera zwischen Innenansicht und Außenperspektive wird über eine Scrollbar in der 2D-GUI eingestellt und sofort geändert. Dieses Wunschkriterium wird sehr wahrscheinlich umgesetzt.
+	\item[/W70/] Der Achterbahnwagen wird modelliert und ist bei der Außenperspektive sichtbar. Bei der Innenansicht ist der Wagen nicht zu sehen. Es ist sehr wahrscheinlich, dass dieses Wunschkriterium erfüllt wird.
+	\item[/W80/] Implementierung einer Zeitrafferfunktion mit der Möglichkeit zum Vor- und Zurückspulen wird über die 2D-GUI eingestellt und ist sofort benutzbar.
+	\item[/W90/] Implementierung einer Aufnahmefunktion für Einzelbilder und Filme läuft nach dem Starten im Hintergrund und speichert den fertigen Film automatisch ab. Es ist sehr wahrscheinlich, dass dieses Kriterium übernommen wird.
+\end{description}
+
+\section{Abgrenzungskriterien}
+Folgende Funktionalitäten werden nicht durch das Produkt, sondern wie folgt
+beschrieben anderweitig erfüllt:
+\begin{description}
+	\item[/A10/] Keine eigenständige Funktionalität zum Erstellen oder Ändern der Achterbahnen: Obwohl diese Funktionalität von einem externen Editor geleistet wird, könnte die Berücksichtigung
+		     des Wunschkriteriums /W20/ eine Anpassung der Bahndaten erfordern. Der bestehende Editor wäre möglicherweise entsprechend zu erweitern.
+	\item[/A20/] Keine Simulation der statischen und dynamischen Belastungen auf das Achterbahntragwerk
+	\item[/A30/] Keine Überprüfung der Tragfähigkeit des Gerüstes
+	\item[/A40/] Keine Berücksichtigung äußerlicher Einflüsse auf die Achterbahn
+	\item[/A50/] Keine Passagiere
+	\item[/A60/] Keine Untersuchung von Sicherungsmaßnahmen
+\end{description}
