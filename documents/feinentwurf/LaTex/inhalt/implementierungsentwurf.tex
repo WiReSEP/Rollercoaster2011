@@ -160,8 +160,28 @@ der Bahnkurve durch numerische Integration zu bestimmen.
 \end{figure}
 
 \subsection{Erläuterung}
+Die Schnittstelle \emph{Curve} für Raumkurven wird durch die Klasse \emph{BezierCurve} 
+realisiert,welche im Konstruktor eine Liste mit Stützstellen und eine Liste mit der
+räumlichen Orientierung auf den Stützstellen als Argumente übergeben bekommt. Die Bahn
+ist bei dieser Implementierung glatt: wenn immer eine Zwischenstelle angefordert wird,
+erfolgt eine kubische Interpolation über die statische Methode \emph{cubicInterpolation}.
+Diese Methode bekommt die vier benachbarten Kontrollpunkte und einen Bahnparameter $s$
+übergeben und interpoliert die Position, die Orientierung sowie die ersten beiden 
+Ableitungen der Raumkurve. 
+Die Punkte auf der Raumkurve werden durch die Schnittstellenklasse \emph{CurvePoint}
+repräsentiert, welche mit \emph{SimpleCurvePoint} eine Realisierung als einfache
+Speicherklasse ohne weitere Funktionalität bekommen hat.
 
-Erläuterung folgt
+Für die Lösung der Differentialgleichungen wurden gegenüber des Grobentwurfs ein
+weitere Teilkomponente spezifiziert. Das Gleichungssystem wird über die Schnittstelle
+\emph{DifferentialEquations} repräsentiert, das Lösungsverfahren über die Schnittstelle
+\emph{Integrator}. Der Integrator bekommt ein Gleichungssystem, den aktuellen Zustand
+der unabhängigen und abhängigen Variablen (Zeit und Bahnparameter) und das gewünschte
+Ziel übergeben. Je nach Lösungsverfahren werden ein- oder mehrere Auffrufe für die
+Berechnung der rechten Seite des Diffentialgleichungssystem über die Methode 
+\emph{getDerivatives} durchgeführt, aus denen der Endzustand interpoliert wird.
+Als Realisierung wird \emph{RungeKutta} umgesetzt, welche eine lineare Interpolation
+\emph{linearCombination} als Hilfsmethode benötigt.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementierung von Komponente
@@ -183,8 +203,21 @@ Für jeden Zeitschritt wird der Zustand des Massenpunktes aktualisiert und an di
 
 \subsection{Erläuterung}
 
-Erläuterung folgt
+Die Entwicklung des physikalischen Systems wird als Bahnkurve durch die Schnittstelle
+\emph{Trajectory} zusammengefasst. Dabei wird für diskrete Zeitpunkte jeweils ein
+Zustand als \emph{TrajectoryPoint} gebündelt. Letzteres wird durch die eine
+einfache Speicherklasse  \emph{SimpleTrajectoryPoint} realisiert.
+Dagegen enthält die Klasse \emph{RollercoasterTrajectory} mehr Funktionalität: sie
+repräsentiert ein Differentialgleichungssystem für den Massenpunkt und implementiert
+deswegen die Schnittstelle \emph{DifferentialEquations} als Callback-Methode für
+die Auffrufe des eigenen \emph{Integrator} für die Lösung des Systems. Die Berechnung
+eines neuen Zustands wird von Außen durch Auffruf der Methode \emph{updateState} mit
+dem gewünschten Zeitschritt (in Millisekunden) als Argument. Die Klasse benötigt im 
+Konstruktor neben der Raumkurve auch die Anfangswerte Ort und Geschwindigkeit.
 
+Für Rückmeldungen an übergeordnete Komponenten wird in der Trajectory das Entwurfsmuster
+\textbf{Observer} umgesetzt. Dabei werden alle registrierten \emph{TrajectoryObserver}
+über Änderungen am Zustand des Systems informiert.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementierung der Komponente Simulator:}
@@ -206,4 +239,12 @@ Simulation nur verteilt.
 
 \subsection{Erläuterung}
 
-Erläuterung folgt
+Obwohl die Simulator-Komponente den Kern der Anwendung darstellt, ist ihre Funktionalität
+ziemlich einfach. Die Implementierung \emph{RollercoasterSimulation} lässt sich als
+\emph{ViewObserver} über die Fortschritte bei der grafischen Darstellung informieren
+und lässt in der Hilfsmethode \emph{updatePhysics} die Physik einen neuen Zustand 
+der \emph{Trajectory} berechnen. Anschließend wird in der Hilfsmethode \emph{updateCamera}
+die Grafik über die neue Kameraeinstellung informiert.
+
+Der Simulator ermöglicht der Benutzeroberfläche den Zugriff auf die \textbf{Observer}-
+Funktionalität der \emph{Trajectory}, in dem er die entsprechenen Methodenaufrufe durchreicht.
