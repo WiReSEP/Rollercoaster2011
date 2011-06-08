@@ -7,43 +7,25 @@
 In diesem Kapitel werden die Implementierungsdetails für die Umsetzung des
 Grobentwurfs vorgestellt. Gegenüber letzterem werden neben den Schnittstellen
 auch die Implementierungen spezifiziert. Die Abbildungen zeigen die 
-Klassenhierachie in den jeweiligen Paketen. Aus Gründen der Übersichtlichkeit
+Klassenhierarchie in den jeweiligen Paketen. Aus Gründen der Übersichtlichkeit
 wird in den Implementierungen auf die Auflistung der Operationen der Schnittstellen
 verzichtet.
 
+
+
+\newpage
+
+\section{Gesamtsystem}
 \begin{figure}[!h]
 	\includegraphics[width=0.8\linewidth]{bilder/components.png}
 \caption{Komponentendiagramm}
 \end{figure}
 
-
-\section{Gesamtsystem}
-Fügen Sie hier bitte das Komponentendiagramm aus dem Grobentwurf ein und
-erläutern Sie kurz die Funktionen der Komponenten.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Implementierung von Komponente
-         <ID aus Grobentwurf>: <Komponentenname>:}
-
-Beschreiben Sie hier bitte die Implementierung der Komponente. Erläutern Sie
-bitte dabei, welche Entwurfsmuster und Bibliotheken Sie verwenden. Die
-Implementierung wird dabei durch Klassendiagramme dokumentiert.
-
-\subsection{Paketdiagramm}
-\subsection{Erläuterung}
-
-Die verwendeten Attribute, Aufgaben und Kommunikationspartner sind für jede
-Klasse kurz zu erläutern. Die ankommenden Nachrichten beziehen sich dabei auf
-die Sequenzdiagramme der Feinanalyse im Grobentwurf und stellen meist
-aufzurufende Methoden der Klasse dar.  Reine get- / set-Methoden oder
-Bibliotheksfunktionen brauchen nicht aufgeführt zu werden.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementierung von Komponente
          Graphics3D: 3D-Anzeige:}
 
 Die  3D-Anzeige-Komponente übernimmt die dreidimensionale Visualisierung der Achterbahn
-mit Gerüst und Umgebung.Sie kapselt die allgemeinen gehaltenen Funktionen der eingesetzten
+mit Gerüst und Umgebung. Sie kapselt die allgemeinen gehaltenen Funktionen der eingesetzten
 Grafikbibliothek JMonkeyEngine und stellt eine einfache Schnittstelle für das Befüllen 
 der virtuellen Welt mit Achterbahnkomponenten sowie zur Steuerung der Kamerafahrten 
 entlang der befahrenen Strecke zur Verfügung.
@@ -55,16 +37,16 @@ entlang der befahrenen Strecke zur Verfügung.
 \caption{Klassendiagramm Graphics3D}
 \end{figure}
 
-Graphics3D erbt von SimpleApplication und stellt einen 3D-Kontext zur Verfügung der in die 2DGui eingebunden wird. Außerdem sorgen die simpleInit Methode für die Einrichtung aller Geometrien soweit es zur Startzeit möglich ist.
+Graphics3D erbt von SimpleApplication und stellt einen 3D-Kontext zur Verfügung der in die 2D-GUI eingebunden wird. Außerdem sorgen die simpleInit Methode für die Einrichtung aller Geometrien soweit es zur Startzeit möglich ist.
 Die JMonkeyEngine stellt eine Scenegraphenstruktur über Spatial zur Verfügung die hier kurz skizziert wird. Die Subklassen Geometry als Meshcontainer und Node als Strukturelement werden von unserer Klasse Achterbahn 
-zur Speicherung und Ordnung der Geometrieelemente verwendet. Mittels setTrack wird eine dabei ein Track übergeben der die Bahndaten einer Achterbahn enthält, die dann umgerechnet werden kann. PatternCurve ist eine Klasse die ein Pattern entlang einer Curve extrudiert. 
+zur Speicherung und Ordnung der Geometrieelemente verwendet. Mittels setTrack wird dabei ein Track übergeben der die Bahndaten einer Achterbahn enthält, die dann umgerechnet werden kann. PatternCurve ist eine Klasse die ein Pattern entlang einer Curve extrudiert. 
 Damit werden die Schienen anhand eines Profils (Pattern) entlang der Kurve erzeugt. 
 
 Auf die von der JMonkeyengine bereitgestellte Zeichenfl"ache wird ein \textsl{Head up Display} projeziert. Dieses dient dazu dem Benutzer einen schnellen 
 "Uberblick "uber den  aktuellen Status der Simulation zu erlauben, ohne erst die Messwerte numerisch auswerten zu m"ussen. Dem \textsl{HuD} können verschiedene Werte zur
 Anzeige "ubergeben werden.
 
-Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen existiert die Kameraklasse. In CameraControl wird über den Konstruktor ein Camera Objekt und ein Knoten übergeben. Das Camera Objekt wird bei changeCameraMode verändert, wie in der 2D-GUI festgelegt, also Wechsel zwischen overview und interior view. Diese Änderung wird sofort in der update Methode berücksichtigt, sodass die Kamera-Änderung aktualisiert wird ohne die Achterbahnfahrt zu stoppen. Die getOverwiePosition Methode gibt einen 2D-Vektor zurück, um auf der Übersichtskarte im HUD die Position in 2D anzuzeigen. Dort wird also der 3d Vektor carPosition in einen 2D Vektor umgerechnet.
+Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen existiert die Kameraklasse. CameraControl wird über den Konstruktor ein Camera Objekt und ein Knoten übergeben. Das Camera Objekt wird bei changeCameraMode verändert, wie in der 2D-GUI festgelegt, also Wechsel zwischen overview und interior view. Diese Änderung wird sofort in der update Methode berücksichtigt, sodass die Kamera-Änderung aktualisiert wird ohne die Achterbahnfahrt zu stoppen. Am Anfang der Simulation ist standardmäßig die interior view, also Die Kamera als Passagier ausgewählt. Die getOverwiePosition Methode gibt einen 2D-Vektor zurück, um auf der Übersichtskarte im HUD die Position in 2D anzuzeigen. Dort wird also der 3d Vektor carPosition in einen 2D Vektor umgerechnet.
 
 
 \begin{figure}
@@ -72,7 +54,7 @@ Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen existiert d
 \caption{Objektdiagramm Achterbahn}
 \end{figure}
 
-Im wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geomentrien die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und 
+Im wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geomentrien, die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und 
 Translation gesetzt werden, sodass die Mesh an unterschiedlichen Orten im 3D-Raum gezeichnet wird, ohne jedoch die Mesh im Speicher vollständig kopieren zu müssen. Poles enthält die Stützpfeiler der Bahn und ist analog strukturiert.
 Die Schienen werden in der visible\_domain durch eine PatternCurve erzeugt. In der collision\_domain liegt eine zweite PatternCurve, die ein BoundingVolume um die Bahn definiert um Kollisionen mit bereits geladener oder neu zu ladener
 Dekoration zu erkennen. Dieses BoundingVolume wird außerdem dazu verwendet die Stützpfeiler zu generieren, ohne dass diese in durch die Bahn ragen.
