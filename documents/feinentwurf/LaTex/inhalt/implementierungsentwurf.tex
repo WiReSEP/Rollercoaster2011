@@ -64,8 +64,7 @@ Auf die von der JMonkeyengine bereitgestellte Zeichenfl"ache wird ein \textsl{He
 "Uberblick "uber den  aktuellen Status der Simulation zu erlauben, ohne erst die Messwerte numerisch auswerten zu m"ussen. Dem \textsl{HuD} können verschiedene Werte zur
 Anzeige "ubergeben werden.
 
-Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen existiert die Kamerklassen
-[TODO: mehr infos]
+Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen existiert die Kameraklasse. In CameraControl wird über den Konstruktor ein Camera Objekt und ein Knoten übergeben. Das Camera Objekt wird bei changeCameraMode verändert, wie in der 2D-GUI festgelegt, also Wechsel zwischen overview und interior view. Diese Änderung wird sofort in der update Methode berücksichtigt, sodass die Kamera-Änderung aktualisiert wird ohne die Achterbahnfahrt zu stoppen. Die getOverwiePosition Methode gibt einen 2D-Vektor zurück, um auf der Übersichtskarte im HUD die Position in 2D anzuzeigen. Dort wird also der 3d Vektor carPosition in einen 2D Vektor umgerechnet.
 
 
 \begin{figure}
