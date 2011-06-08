@@ -11,9 +11,9 @@ Klassenhierarchie in den jeweiligen Paketen. Aus Gründen der Übersichtlichkeit
 wird in den Implementierungen auf die Auflistung der Operationen der Schnittstellen
 verzichtet.
 
+\section{Gesamtsystem}
 Abbildung \ref{fig:components} gibt eine Übersicht über die Komponenten der Anwendung.
 
-\section{Gesamtsystem}
 \begin{figure}[!h]
 	\includegraphics[width=0.8\linewidth]{bilder/components.png}
 \caption{Komponentendiagramm}
@@ -79,14 +79,27 @@ Simulationsablaufes werden durchgereicht. Die Benutzeroberfläche lässt sich ü
 wichtige Daten grafisch dar.
 
 \subsection{Paketdiagramm}
-Abbildung \ref{fig:gui} zeigt das Klassendiagramm der Benutzeroberfläche.
+
+Abbildung \ref{fig:guiClasses} zeigt das Klassendiagramm der Benutzeroberfläche,
+Abbildung \ref{fig:guiObjects} das Objektdiagramm.
+
+\begin{figure}
+\includegraphics[width=\linewidth]{bilder/GUI_Objektdiagramm}
+\caption{Objektdiagramm GUI}
+\label{fig:guiObjects}
+\end{figure}
+\begin{figure}
+\includegraphics[width=\linewidth]{bilder/GUI_Klassendiagramm}
+\label{fig:guiClasses}
+\caption{Klassendiagramm GUI}
+\end{figure}
+
 \subsection{Erläuterung}
 
-Die verwendeten Attribute, Aufgaben und Kommunikationspartner sind für jede
-Klasse kurz zu erläutern. Die ankommenden Nachrichten beziehen sich dabei auf
-die Sequenzdiagramme der Feinanalyse im Grobentwurf und stellen meist
-aufzurufende Methoden der Klasse dar.  Reine get- / set-Methoden oder
-Bibliotheksfunktionen brauchen nicht aufgeführt zu werden.
+Der RollercoasterFrame unterteilt sich in 4 Bereiche. In dem Menü jmb gibt es Zugriff auf alle umgesetzten Funktionen in 4 Kategorien (Datei, Ansicht, Simulation und Hilfe). Im rightPanel sind die wichtigen Informationen angeordnet (Graph, Extrema, Log). Im bottomPanel sind Schnellzugriffsfunktionen für Öffenen von Konstruktionen, Starten und Stoppen von Simulation, Zeitrafferfunktionen und Ändern der Kameraperspektive angesiedelt. Die eigentliche Simulation wird im graphics-Canvas dargestellt.
+
+Neben den Objekten, die im Objektdiagramm dargestellt sind und deshalb übersichtshalber nicht noch einmal im Klassendiagramm aufgeführt werden, hat der RollercoasterFrame nicht viele Funktionen. Für das Öffnen der Konstruktionen wird ein FileChooser benötigt. Im Konstruktor werden alle anzuzeigenden Objekte erzeugt. Die Klasse ButtonListener implementiert einen ActionListener und ist für die Steuerung sämtlicher Buttons verantwortlich. Der MenuListener übernimmt die Steuerung des Menüs. Ein ResizeListener passt Komponentengrößen beim Ändern der Fenstergrößen an.
+Der Graph wird direkt in der paintComponent-Methode gezeichnet. Das Attribut stepDistance gibt an, wieviele Pixel ein Zeitschritt sind. In dem Vektor curves werden die Daten zu den darzustellenden Kurven bereitgehalten (z.B. für Beschleunigung und Geschwindigkeit). Eine Kurve besteht aus einem Namen, einer Farbe der Kurve, der Wertebereich (yMax, yMin), und natürlich den Punkten, aus denen die Kurve aufgebaut ist, als TreeMap. Zum Hinzufügen von Kurven und Punkten in die Kurven stehen entsprechende Methoden zur Verfügung.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementierung der Komponente Dateiverwaltung:}
