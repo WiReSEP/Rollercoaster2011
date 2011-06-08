@@ -201,12 +201,12 @@ Abbildung \ref{fig:physics} zeigt das Klassendiagramm der Physik-Komponente.
 Die Entwicklung des physikalischen Systems wird als Bahnkurve durch die Schnittstelle
 \emph{Trajectory} zusammengefasst. Dabei wird für diskrete Zeitpunkte jeweils ein
 Zustand als \emph{TrajectoryPoint} gebündelt. Letzteres wird durch die eine
-einfache Speicherklasse  \emph{SimpleTrajectoryPoint} realisiert.
+einfache Speicherklasse \emph{SimpleTrajectoryPoint} realisiert.
 Dagegen enthält die Klasse \emph{RollercoasterTrajectory} mehr Funktionalität: sie
 repräsentiert ein Differentialgleichungssystem für den Massenpunkt und implementiert
 deswegen die Schnittstelle \emph{DifferentialEquations} als Callback-Methode für
-die Auffrufe des eigenen \emph{Integrator} für die Lösung des Systems. Die Berechnung
-eines neuen Zustands wird von Außen durch Auffruf der Methode \emph{updateState} mit
+die Aufrufe des eigenen \emph{Integrator} für die Lösung des Systems. Die Berechnung
+eines neuen Zustands wird von Außen durch Aufruf der Methode \emph{updateState} mit
 dem gewünschten Zeitschritt (in Millisekunden) als Argument. Die Klasse benötigt im 
 Konstruktor neben der Raumkurve auch die Anfangswerte Ort und Geschwindigkeit.
 
@@ -245,4 +245,4 @@ der \emph{Trajectory} berechnen. Anschließend wird in der Hilfsmethode \emph{up
 die Grafik über die neue Kameraeinstellung informiert.
 
 Der Simulator ermöglicht der Benutzeroberfläche den Zugriff auf die \textbf{Observer}-
-Funktionalität der \emph{Trajectory}, in dem er die entsprechenen Methodenaufrufe durchreicht.
+Funktionalität der \emph{Trajectory}, indem er die entsprechenen Methodenaufrufe durchreicht.
