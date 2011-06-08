@@ -11,13 +11,16 @@ Klassenhierarchie in den jeweiligen Paketen. Aus Gründen der Übersichtlichkeit
 wird in den Implementierungen auf die Auflistung der Operationen der Schnittstellen
 verzichtet.
 
-\newpage
+Abbildung \ref{fig:components} gibt eine Übersicht über die Komponenten der Anwendung.
 
 \section{Gesamtsystem}
 \begin{figure}[!h]
 	\includegraphics[width=0.8\linewidth]{bilder/components.png}
 \caption{Komponentendiagramm}
+\label{fig:components}
 \end{figure}
+
+\newpage
 
 \section{Implementierung der Komponente 3D-Anzeige:}
 
@@ -28,10 +31,12 @@ der virtuellen Welt mit Achterbahnkomponenten sowie zur Steuerung der Kamerafahr
 entlang der befahrenen Strecke zur Verfügung.
 
 \subsection{Paketdiagramm}
+Abbildung \ref{fig:graphics} zeigt das Klassendiagramm der 3D-Anzeige.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/klassendiagramm_006}
-\caption{Klassendiagramm Graphics3D}
+\caption{Klassendiagramm der 3D-Anzeige}
+\label{fig:graphics}
 \end{figure}
 
 \subsection{Erläuterung}
@@ -50,6 +55,7 @@ Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen existiert d
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/objektdiagramm_004}
 \caption{Objektdiagramm Achterbahn}
+\label{fig:achterbahnObjects}
 \end{figure}
 
 Im Wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geomentrien, die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und Translation gesetzt werden, sodass die Mesh an unterschiedlichen Orten im 3D-Raum gezeichnet wird, ohne jedoch die Mesh im Speicher vollständig kopieren zu müssen. Poles enthält die Stützpfeiler der Bahn und ist analog strukturiert.
@@ -73,6 +79,7 @@ Simulationsablaufes werden durchgereicht. Die Benutzeroberfläche lässt sich ü
 wichtige Daten grafisch dar.
 
 \subsection{Paketdiagramm}
+Abbildung \ref{fig:gui} zeigt das Klassendiagramm der Benutzeroberfläche.
 \subsection{Erläuterung}
 
 Die verwendeten Attribute, Aufgaben und Kommunikationspartner sind für jede
@@ -92,9 +99,12 @@ auslesbarer Parameter zur Verfügung gestellt.
 
 \subsection{Paketdiagramm}
 
+Abbildung \ref{fig:data} zeigt das Klassendiagramm der Dateiverwaltung.
+
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Data}
 \caption{Daten}
+\label{fig:data}
 \end{figure}
 
 \subsection{Erläuterung}
@@ -115,14 +125,18 @@ Achterbahn in eine glatte Raumkurve umzurechnen und die Bewegung auf
 der Bahnkurve durch numerische Integration zu bestimmen.
 
 \subsection{Paketdiagramm}
+Die Abbildungen \ref{fig:mathematics} und \ref{fig:ode} zeigen jeweils Ausschnitte
+aus dem Klassendiagramm der Mathematik-Komponente.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Mathematics}
 \caption{Mathematik (Raumkurven)}
+\label{fig:mathematics}
 \end{figure}
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Mathematics_ODE}
 \caption{Mathematik (Diffentialgleichungen)}
+\label{fig:ode}
 \end{figure}
 
 \subsection{Erläuterung}
@@ -149,7 +163,7 @@ Berechnung der rechten Seite des Diffentialgleichungssystem über die Methode
 Als Realisierung wird \emph{RungeKutta} umgesetzt, welche eine lineare Interpolation
 \emph{linearCombination} als Hilfsmethode benötigt.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementierung der Komponente Physik:}
 
 In der Physik-Komponente (Physics Engine) erfolgt die Berechnung der Achterbahnbewegung.
@@ -161,9 +175,12 @@ Für jeden Zeitschritt wird der Zustand des Massenpunktes aktualisiert und an di
 übergeordneten Komponenten weitergereicht.
 
 \subsection{Paketdiagramm}
+Abbildung \ref{fig:physics} zeigt das Klassendiagramm der Physik-Komponente.
+
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Physics}
 \caption{Physik}
+\label{fig:physics}
 \end{figure}
 
 \subsection{Erläuterung}
@@ -197,9 +214,12 @@ die Steuerung der Zeitschritte über die Grafikkomponente angetrieben und von de
 Simulation nur verteilt.
 
 \subsection{Paketdiagramm}
+Abbildung \ref{fig:simulation} zeigt das Klassendiagramm der Simulator-Komponente.
+
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/Simulation}
 \caption{Simulation}
+\label{fig:simulation}
 \end{figure}
 
 \subsection{Erläuterung}
