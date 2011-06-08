@@ -12,10 +12,10 @@ Folgende Kriterien werden für das Produkt erfüllt:
 \begin{description}
 	\item[/M10/] Die physikalisch korrekte Wiedergabe des Fahrverhaltens der Achterbahn aus der Perspektive eines Fahrgastes wird durch eine in Echtzeit modellierte Bahn und eine Umgebung visualisiert. Es wird darauf geachtet, dass der Boden bei z=0 ist: Diese Kriterien werden umgesetzt. Die enge Verzahnung von Physik, Grafik in der Simulation erfordert eine saubere Koppelung der entsprechenden Komponenten und
 eine Optimierung des Laufzeitverhalten. Die zeitintensive Grafikdarstellung gibt den Takt für die Updates der Bahnbewegung an, die Physik berechnet den nächsten Zustand auf Anfrage.
-	\item[/M20/] Berechnung und Darstellung der Bahn erfolgt in Echtzeit. Es werden Optionen(teilweise Ausblendung von Dekoration) implementiert, die das System skalierbar machen und Beschleunigungsstrukturen genutzt.
+	\item[/M20/] Berechnung und Darstellung der Bahn erfolgt in Echtzeit. Es werden Optionen (teilweise Ausblendung von Dekoration) implementiert, die das System skalierbar machen und Beschleunigungsstrukturen genutzt.
 	\item[/M30/] Zur Orientierung im 3D-Raum wird ein texturierter Boden als Standarddekoration geladen. Durch Laden einer anderen Dekoration wird dieser Boden ersetzt.
 	\item[/M40/] Aus den Kurvendaten der Bezierkurve wird prozedural eine Bahn beliebigen Querschnittes erzeugt. Querstreben und Stützen werden nach festen Regeln eingefügt.
-	\item[/M50/] Eine 2D-Visualisierung der Beschleunigung wird in der 2D-GUI angezeigt und wird in einem Textfeld ausgewertet.
+	\item[/M50/] Eine graphische Darstellung der Beschleunigung wird in der GUI im rechten Bereich angezeigt. Extrema und aktuelle Werte werden dort in einer Tabelle dargestellt.
 \end{description}
 
 \section{Wunschkriterien}
@@ -31,9 +31,9 @@ Die Erfüllung folgender Kriterien für das abzugebende Produkt wird angestrebt:
                      Differentialgleichung im Simulator erfolgen. Dieses Wunschkriterium wird wahrscheinlich umgesetzt werden.
 	\item[/W40/] Bei der Visualisierung von Stützbalken ist darauf zu achten, dass keine Stützbalken durch die Bahn gehen. Dafür wird ein zusätzliches Boundingvolumen im Achterbahnobjekt vorgesehen, dass eine Kollisionsprüfung gegen die dynamisch erzeugte Bahn erlaubt. Dieses Wunschkriterium wird sehr wahrscheinlich umgesetzt.
 	\item[/W50/] Die Darstellung der Umgebung mit Gebäuden, Bepflanzung und Himmel verschönert die Simulation und bietet dem Benutzer außerdem Orientierung. Wichtig dabei ist, dass keine Dekoration durch die Bahn geht. Es ist sehr wahrscheinlich, dass dieses Kriterium implementiert wird.
-	\item[/W60/] Die Verstellbare Kamera zwischen Innenansicht und Außenperspektive wird über eine Scrollbar in der 2D-GUI eingestellt und sofort geändert. Dieses Wunschkriterium wird sehr wahrscheinlich umgesetzt.
+	\item[/W60/] Die Kameraperspektiven Innenansicht bzw. Außenperspektive können in der GUI mittels einer Combobox im unteren Bereich der Oberfläche oder einem Submenü in dem Ansichtmenü durch Radiobuttons eingestellt werden. Die entsprechenden Einstellungen werden unmittelbar umgesetzt. Dieses Wunschkriterium wird sehr wahrscheinlich umgesetzt.
 	\item[/W70/] Der Achterbahnwagen wird modelliert und ist bei der Außenperspektive sichtbar. Bei der Innenansicht ist der Wagen nicht zu sehen. Es ist sehr wahrscheinlich, dass dieses Wunschkriterium erfüllt wird.
-	\item[/W80/] Implementierung einer Zeitrafferfunktion mit der Möglichkeit zum Vor- und Zurückspulen wird über die 2D-GUI eingestellt und ist sofort benutzbar.
+	\item[/W80/] Die Zeitrafferfunktion mit der Möglichkeit zum Vor- und Zurückspulen wird über Buttons im unteren Bereich der GUI oder über das Menü "Simulation" bedient.
 	\item[/W90/] Implementierung einer Aufnahmefunktion für Einzelbilder und Filme läuft nach dem Starten im Hintergrund und speichert den fertigen Film automatisch ab. Es ist sehr wahrscheinlich, dass dieses Kriterium übernommen wird.
 \end{description}
 
