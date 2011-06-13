@@ -10,6 +10,7 @@ public class BezierCurve implements Curve {
 
     private final List<CurvePoint> controlPoints;
     private final double length;
+    private double MAXIMAL_ANGLE_LOWER_LIMIT = Math.PI / 72.0;
 
     public BezierCurve(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
         this.controlPoints = calculateControlPoints(interpolationPoints, orientations);
@@ -95,6 +96,10 @@ public class BezierCurve implements Curve {
            maxDistance = MAXIMAL_DISTANCE_LOWER_LIMIT;
        }
        
+       if (maxAngle < MAXIMAL_ANGLE_LOWER_LIMIT) {
+           maxAngle = MAXIMAL_ANGLE_LOWER_LIMIT;
+       }
+       
        List<CurvePoint> points = new ArrayList<CurvePoint>(); 
        
        CurvePoint current = getPoint(0.0);      
@@ -103,22 +108,26 @@ public class BezierCurve implements Curve {
        while(position < length) {
            CurvePoint next = getPoint((position+delta) % length);          
            double distance = next.getPosition().subtract(current.getPosition()).length();
-           
-           if (distance <= maxDistance || delta < MINIMAL_DELTA) {
+           double angle = Math.acos(Vector3d.cos(next.getPosition(), current.getPosition()));
+                   
+           if ((distance <= maxDistance && angle <= maxAngle )|| delta < MINIMAL_DELTA) {
                position += delta;
                delta = 0.05;
-               points.add(next);
+               
+               if (position < length) {
+                points.add(next);
+                System.out.println(position + ";" + current.getPosition().x+";"+ current.getPosition().y + ";" + current.getPosition().z);
+          
+               }
+               
                current = next;
-           } else {
+               
+            } else {
                delta /= 2.0;
            }
            
        }
-//              
-//       for (CurvePoint point : points) {
-//           System.out.println(point.getPosition().x+";"+ point.getPosition().y + ";" + point.getPosition().z);
-//       }
-//               
+                    
        return points;
     }
 
