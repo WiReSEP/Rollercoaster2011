@@ -25,7 +25,7 @@ Abbildung \ref{fig:components} gibt eine Übersicht über die Komponenten der An
 \section{Implementierung der Komponente 3D-Anzeige:}
 
 Die 3D-Anzeige-Komponente (Graphics3D) übernimmt die dreidimensionale Visualisierung der Achterbahn
-mit Gerüst und Umgebung. Sie kapselt die allgemeinen gehaltenen Funktionen der eingesetzten
+mit Gerüst und Umgebung. Sie kapselt die allgemein gehaltenen Funktionen der eingesetzten
 Grafikbibliothek JMonkeyEngine und stellt eine einfache Schnittstelle für das Befüllen 
 der virtuellen Welt mit Achterbahnkomponenten sowie zur Steuerung der Kamerafahrten 
 entlang der befahrenen Strecke zur Verfügung.
@@ -50,7 +50,7 @@ Auf die von der JMonkeyEngine bereitgestellte Zeichenfl"ache wird ein \textsl{He
 "Uberblick "uber den aktuellen Status der Simulation zu erlauben, ohne erst die Messwerte numerisch auswerten zu m"ussen. Dem \textsl{HuD} können verschiedene Werte zur
 Anzeige "ubergeben werden.
 
-Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen, existiert die Kameraklasse. CameraControl wird über den Konstruktor ein Camera-Objekt und ein Knoten übergeben. Das Camera-Objekt wird bei changeCameraMode verändert, wie in der GUI festgelegt, also Wechsel zwischen overview und interior view. Diese Änderung wird sofort in der update-Methode berücksichtigt, sodass die Kamera-Änderung aktualisiert wird, ohne die Achterbahnfahrt zu stoppen. Am Anfang der Simulation ist standardmäßig die interior view, also Die Kamera als Passagier ausgewählt. Die getOverwiePosition-Methode gibt einen 2D-Vektor zurück, um auf der Übersichtskarte im HUD die Position in 2D anzuzeigen. Dort wird also der 3d Vektor carPosition in einen 2D Vektor umgerechnet.
+Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen, existiert die Kameraklasse. CameraControl wird über den Konstruktor ein Camera-Objekt und ein Knoten übergeben. Das Camera-Objekt wird bei changeCameraMode verändert, wie in der GUI festgelegt, also Wechsel zwischen overview und interior view. Diese Änderung wird sofort in der update-Methode berücksichtigt, sodass die Kamera-Änderung aktualisiert wird, ohne die Achterbahnfahrt zu stoppen. Am Anfang der Simulation ist standardmäßig die interior view, also die Kamera als Passagier ausgewählt. Die getOverwiePosition-Methode gibt einen 2D-Vektor zurück, um auf der Übersichtskarte im HUD die Position in 2D anzuzeigen. Dort wird also der 3d Vektor carPosition in einen 2D Vektor umgerechnet.
 
 \begin{figure}
 \includegraphics[width=\linewidth]{bilder/objektdiagramm_004}
@@ -58,7 +58,7 @@ Um zusätzliche unterschiedliche Sichtmodi zur Verfügung zu stellen, existiert 
 \label{fig:achterbahnObjects}
 \end{figure}
 
-Im Wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geomentrien, die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und Translation gesetzt werden, sodass die Mesh an unterschiedlichen Orten im 3D-Raum gezeichnet wird, ohne jedoch die Mesh im Speicher vollständig kopieren zu müssen. Poles enthält die Stützpfeiler der Bahn und ist analog strukturiert.
+Im Wesentlichen hält die Achterbahn 4 Knoten. Unter joints hängen alle n Geometrien, die auf die gleiche Mesh zeigen und die Verbindungsstücke der Bahn erzeugen. Das Konzept erlaubt, dass in jedem Geometry eigene Rotation und Translation gesetzt werden, sodass die Mesh an unterschiedlichen Orten im 3D-Raum gezeichnet wird, ohne jedoch die Mesh im Speicher vollständig kopieren zu müssen. Poles enthält die Stützpfeiler der Bahn und ist analog strukturiert.
 Die Schienen werden in der visible\_domain durch eine PatternCurve erzeugt. In der collision\_domain liegt eine zweite PatternCurve, die ein BoundingVolume um die Bahn definiert, um Kollisionen mit bereits geladener oder neu zu ladener Dekoration zu erkennen. Dieses BoundingVolume wird außerdem dazu verwendet die Stützpfeiler zu generieren, ohne dass diese in die Bahn ragen.
 
 % \begin{figure}
@@ -218,11 +218,11 @@ Für Rückmeldungen an übergeordnete Komponenten wird in der Trajectory das Ent
 \section{Implementierung der Komponente Simulator}
 
 Die Simulator-Komponente steht im Kern der Anwendung. Sie ist für die Steuerung der
-Achterbahnbewegung verantwortlich ist und koordieniert zwischen der physikalischen 
+Achterbahnbewegung verantwortlich und koordiniert zwischen der physikalischen 
 Berechnung und der grafischen Umsetzung. Dieser Komponente werden eine konkrete 
-Raumkurve für den Bahnnverlauf und die physikalischen Parameter übergeben, welche
+Raumkurve für den Bahnverlauf und die physikalischen Parameter übergeben, welche
 als Simulation umgesetzt werden sollen. Die Komponente wird über eine 
-Endlosschleife (``render loop'') im Gang gehalten. Aus Implementierungsgründen wird
+Endlosschleife (``render loop'') in Gang gehalten. Aus Implementierungsgründen wird
 die Steuerung der Zeitschritte über die Grafikkomponente angetrieben und von der
 Simulation nur verteilt.
 
