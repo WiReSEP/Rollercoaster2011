@@ -58,9 +58,4 @@ public class CameraControl extends SimpleApplication{
         
     }
     
-		@Override
-		public void simpleUpdate(){
-		
-		}
-    
 }

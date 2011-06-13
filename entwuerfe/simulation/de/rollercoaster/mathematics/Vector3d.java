@@ -50,4 +50,9 @@ public class Vector3d {
   public Vector3f toF() {
     return new Vector3f((float) x, (float) y, (float) z);
   }
+  
+  @Override
+  public String toString() {
+      return "<" + x + "," + y + "," + z + ">";
+  }
 }

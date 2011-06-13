@@ -43,8 +43,8 @@ public class SerializedTrack implements Track {
     List<Vector3d> orientations = new ArrayList<Vector3d>();
 
     for (Pillar pillar : pillars) {
-      Vector3d position = new Vector3d(pillar.getPosX(), pillar.getPosY(), pillar.getPosZ());
-      Vector3d up = new Vector3d(pillar.getYawX(), pillar.getYawY(), pillar.getYawZ());
+      Vector3d position = new Vector3d(pillar.getPosX(), pillar.getPosZ(), pillar.getPosY());
+      Vector3d up = new Vector3d(pillar.getYawX(), pillar.getYawZ(), pillar.getYawY());
 
       points.add(position);
       orientations.add(up);

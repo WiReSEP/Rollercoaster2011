@@ -122,7 +122,7 @@ public class Graphics3D extends SimpleApplication {
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-        if (!pause) {time += tpf/3.0;}
+        if (!pause) {time += tpf*3.0;}
         
         int behind = (int) time;
         int next = behind +1;
