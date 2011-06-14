@@ -1,7 +1,6 @@
 package de.rollercoaster.mathematics;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BezierCurve implements Curve {
@@ -11,7 +10,7 @@ public class BezierCurve implements Curve {
     private final List<CurvePoint> controlPoints;
     private final double length;
     private double MAXIMAL_ANGLE_LOWER_LIMIT = Math.PI / 72.0;
-
+    
     public BezierCurve(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
         this.controlPoints = calculateControlPoints(interpolationPoints, orientations);
         this.length = interpolationPoints.size();
@@ -23,10 +22,11 @@ public class BezierCurve implements Curve {
     }
 
     @Override
-    public CurvePoint getPoint(double length) {
+    public CurvePoint getPoint(double position) {
         CurvePoint p0, p1, p2, p3;
 
-        int s0 = (int) length;
+        
+        int s0 = (int) position % (int)length;
         int idx = 3 * s0;
         
         p0 = controlPoints.get(idx);
@@ -34,7 +34,7 @@ public class BezierCurve implements Curve {
         p2 = controlPoints.get(idx + 2);
         p3 = controlPoints.get(idx + 3);
 
-        double s = length - s0;
+        double s = position - s0;
 
         return cubicInterpolation(p0, p1, p2, p3, s);
     }
@@ -102,26 +102,22 @@ public class BezierCurve implements Curve {
        
        List<CurvePoint> points = new ArrayList<CurvePoint>(); 
        
-       CurvePoint current = getPoint(0.0);      
-       points.add(current);
+       CurvePoint previous = getPoint(0.0);      
        
        while(position < length) {
-           CurvePoint next = getPoint((position+delta) % length);          
-           double distance = next.getPosition().subtract(current.getPosition()).length();
-           double angle = Math.acos(Vector3d.cos(next.getPosition(), current.getPosition()));
+           CurvePoint current = getPoint(position+delta);          
+           double distance = current.getPosition().subtract(previous.getPosition()).length();
+           double angle = Math.acos(Vector3d.cos(current.getPosition(), previous.getPosition()));
                    
-           if ((distance <= maxDistance && angle <= maxAngle )|| delta < MINIMAL_DELTA) {
-               position += delta;
-               delta = 0.05;
-               
+           if ((distance <= maxDistance && angle <= maxAngle )|| delta < MINIMAL_DELTA) {               
                if (position < length) {
-                points.add(next);
-                System.out.println(position + ";" + current.getPosition().x+";"+ current.getPosition().y + ";" + current.getPosition().z);
-          
+                points.add(current);
+                System.out.println(position + ";" + previous.getPosition().x+";"+ previous.getPosition().y + ";" + previous.getPosition().z);          
                }
                
-               current = next;
-               
+               previous = current;
+               position += delta;
+               delta = 0.05;             
             } else {
                delta /= 2.0;
            }
