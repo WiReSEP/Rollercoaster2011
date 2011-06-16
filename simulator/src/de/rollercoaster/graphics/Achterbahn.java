@@ -56,8 +56,10 @@ public class Achterbahn extends Node {
       System.out.printf ("DBGData: CurveLenght %f\n",curve.getLength());
 
       System.out.printf ("*****\n\n\nSpatial: %s\n*****\n\n\n", joint3d);
-    //    Mesh b = new Box(Vector3f.ZERO, 5, 2, 0.1f);
-        Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();  
+
+        // Joint auswählen 
+        Mesh b = new Box(Vector3f.ZERO, 4, 2, 0.1f);                        // Debug joint
+        //    Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();   //designed Joint  
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
           Vector3f pos = points.get(poscounter).getPosition().toF();
           Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
@@ -72,26 +74,6 @@ public class Achterbahn extends Node {
           this.attachChild(geom);
         }
 
-      //Mesh myobj = ((Geometry)((Node)joint3d).getChild(0)).getMesh();
-//       
-// 
-//       for (int i = 0; i < number_of_joints-1; i++) {
-//            CurvePoint point = curve.getPoint(actual_distance*i);
-//            Node node = ((Node)joint3d).clone(false);
-//             Vector3f pos = points.get(i).getPosition().toF();
-//             Vector3f x = points.get(i).getPitchAxis().normalize().toF();
-//             Vector3f y = points.get(i).getYawAxis().normalize().toF();
-//             Vector3f z = points.get(i).getRollAxis().normalize().toF();
-// 
-//            node.setLocalTranslation(pos);
-//            Matrix3f rot = new Matrix3f();
-//            rot.fromAxes(x.mult(-1),y,z); //sollte eigentlich so klappen
-//            node.setLocalRotation(rot);
-//            joints.attachChild(node);
-//           
-//       }
-// 
-//       attachChild(joints);
 
   }
 
