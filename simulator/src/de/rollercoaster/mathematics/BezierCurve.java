@@ -7,6 +7,8 @@ public class BezierCurve implements Curve {
     private final double MAXIMAL_DISTANCE_LOWER_LIMIT = 10.0;
     private final double MINIMAL_DELTA = 0.01;
 
+    private final double DEFAULT_DELTA = 0.05;
+
     private final List<CurvePoint> controlPoints;
     private final double length;
     private double MAXIMAL_ANGLE_LOWER_LIMIT = Math.PI / 72.0;
@@ -90,7 +92,7 @@ public class BezierCurve implements Curve {
     @Override
     public List<CurvePoint> getPointSequence(double maxDistance, double maxAngle) {
        double position = 0.0;
-       double delta = 0.05;
+       double delta = DEFAULT_DELTA;
        
        if (maxDistance < MAXIMAL_DISTANCE_LOWER_LIMIT) {
            maxDistance = MAXIMAL_DISTANCE_LOWER_LIMIT;
@@ -112,12 +114,12 @@ public class BezierCurve implements Curve {
            if ((distance <= maxDistance && angle <= maxAngle )|| delta < MINIMAL_DELTA) {               
                if (position < length) {
                 points.add(current);
-                System.out.println(position + ";" + previous.getPosition().x+";"+ previous.getPosition().y + ";" + previous.getPosition().z);          
+                //System.out.println(position + ";" + previous.getPosition().x+";"+ previous.getPosition().y + ";" + previous.getPosition().z);          
                }
                
                previous = current;
                position += delta;
-               delta = 0.05;             
+               delta = DEFAULT_DELTA;             
             } else {
                delta /= 2.0;
            }

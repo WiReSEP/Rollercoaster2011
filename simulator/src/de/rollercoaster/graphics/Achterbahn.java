@@ -46,6 +46,9 @@ public class Achterbahn extends Mesh {
     /**Vertexdaten (Position und normalen). */
     private Pattern pattern;    
 
+    private int triangle_count = 0;
+ int vertexamount = 0;
+
     /**
      * Default constructor for serialization only. Do not use.
      */
@@ -74,6 +77,8 @@ public class Achterbahn extends Mesh {
         //Liste holen ... die Paramter tuen bis jetzt nix da nur die dummyliste erwartet wird
         List<CurvePoint> points = curve.getPointSequence(0.0,0.0);
 
+        points.remove (points.size()-1); //letztes Element ist schund    FIXME: remove!
+
         /*Wir müssen uns den Speicher für jedes Eckpunkt beschaffen und dessen Koordinaten festlegen. Mittels Indizes können diese Eckpunkte dann zu 
           Dreiecken zusammengebaut werden.*/
         // Vertices (count)   wir brauchen für jede Position in Positions einmal das gesamte Pattern
@@ -97,11 +102,11 @@ public class Achterbahn extends Mesh {
         //Wir speichern uns die errechneten Positionen und Normalen für später zwischen (sonst müssen wir die beim cullcheck aus den buffern rekonstruieren)
         Vertex3d [][] allvertices = new Vertex3d[points.size()][pattern.getVertexCount()];
         
-
+       
         /*In einem ersten Schritt erzeugen wir die Daten für die Eckpunkte. Dafür müssen wir alle Punkt der Bahn (poscounter) ablaufen und dort ein Pattern erstellen.
           Um Pattern zu erstellen legen wir alle Vertexdaten (Vertexcounter) im Puffer an.*/
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          
+//           if (poscounter < 200) continue;
           // Vorgänger und Nachfolger sicher merken (wir möchten eine geschlossene Bahn)
 
          /*Einige Vektoren kürzen wir ein wenig ab, da wir sie häufiger bennötigen:
@@ -116,7 +121,7 @@ public class Achterbahn extends Mesh {
           Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
 
 
-
+          System.out.println ("{dbg} Kurvenpunkt "+poscounter+" von "+(points.size()-1)+" >>> "+pos);
 
 
           //Die Länge wir bei uns nur für Texturkoordinaten benutzt. Da zunächst keine Textur vorgesehen ist, macht es nichts wenn hier zunächst die Stützstellennummer gewählt wird
@@ -140,6 +145,7 @@ public class Achterbahn extends Mesh {
                 pb.put(tmpPos.x).put(tmpPos.y).put(tmpPos.z);   //Position
                 nb.put(tmpNormal.x).put(tmpNormal.y).put(tmpNormal.z);  //Normalen
                 tb.put(vertexcounter/pattern.getVertexCount()).put(laenge); //Texturkoordinaten
+                vertexamount++;
           }
         }
        
@@ -151,13 +157,17 @@ public class Achterbahn extends Mesh {
 
         
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {   //für jede Psoition
+         // if ((poscounter < 1000) && (poscounter > 681)) continue;
           Vector3f roll = points.get(poscounter).getRollAxis().normalize().toF();
+
+        //fixme ... für trip3 geht es hier schief
           for (int tripcounter = 0; tripcounter < pattern.getTripCount(); tripcounter++) { //für jeden Trip
             for (int indexcounter = 0; indexcounter < pattern.getTripLength(tripcounter); indexcounter++) { //für jeden Knoten
                     
                     int nextposcounter = ((poscounter+1)%points.size());  //"gleiche" Ecke an nächster Position
                     int nextindexcounter = (indexcounter+1)%pattern.getTripLength(tripcounter); //nächste Ecke an gleicher Position
 
+                    //System.out.printf ("<%d,%d,%d> (%d,%d) \n", poscounter,tripcounter,indexcounter,nextposcounter,nextindexcounter);
 
                     //Wir schauen wo die Normale hinzeigt die man aus dem Kreuzprodukt erhält und vergleichen dann mit der vertexnormale
                     //So können wir entscheiden welche Reihenfolge die richtige ist, sodass Backfaceculling aktiv bleiben kann
@@ -175,6 +185,16 @@ public class Achterbahn extends Mesh {
                       ib.put(index++, poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter));
                       ib.put(index++, nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter));  
                       ib.put(index++, nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter));  
+
+                      System.out.printf ("+<%d,%d,%d> (%d,%d) --- (%d,%d,%d)(%d,%d,%d)\n", poscounter,tripcounter,indexcounter,nextposcounter,nextindexcounter,
+                                                                  poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter),
+                                                                  nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter),
+                                                                  poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter),
+                                                                  poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter),
+                                                                  nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter),
+                                                                  nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter));
+
+                      triangle_count+=2;
                     }
                     else {
                       ib.put(index++, poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter));
@@ -185,6 +205,16 @@ public class Achterbahn extends Mesh {
                       ib.put(index++, poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter));
                       ib.put(index++, nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter));  
                       ib.put(index++, nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter));  
+
+                      System.out.printf ("-<%d,%d,%d> (%d,%d) --- (%d,%d,%d)(%d,%d,%d)\n", poscounter,tripcounter,indexcounter,nextposcounter,nextindexcounter,
+                                                                  poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter),
+                                                                  nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter),
+                                                                  poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter),
+                                                                  poscounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter),
+                                                                  nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,indexcounter),
+                                                                  nextposcounter*segmentlength+ pattern.getVertexIndex (tripcounter,nextindexcounter));
+
+                      triangle_count+=2;
                     }
 
             }
@@ -192,6 +222,8 @@ public class Achterbahn extends Mesh {
         } 
 
         updateBound();
+
+        System.out.printf ("Faces: %d, Verticies: %d \n",triangle_count,vertexamount);
         
     }
 

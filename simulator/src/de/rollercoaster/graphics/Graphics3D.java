@@ -6,6 +6,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.Application;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
+import com.jme3.math.Matrix3f;
+
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Box;
@@ -14,11 +16,14 @@ import com.jme3.system.JmeCanvasContext;
 import com.jme3.texture.Texture;
 import com.jme3.math.ColorRGBA;
 import java.awt.Dimension;
-import java.awt.event.*;
+//import java.awt.event.*;
 import java.util.List;
 import com.jme3.system.JmeContext.Type;
 import com.jme3.scene.Spatial;
 import com.jme3.asset.plugins.FileLocator;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
 
 
 //Ein bisschen Licht damit wir die Normalen auch bewundern können^^
@@ -29,11 +34,32 @@ import java.io.File;
 
 //den windowlsitener gibt es vorerst damit 
 public class Graphics3D extends SimpleApplication {
+    private int counter = 0;
+
+    private ActionListener actionListener = new ActionListener() {
+      public void onAction(String name, boolean keyPressed, float tpf) {
+        if (name.equals("up") && !keyPressed ) {
+          geom[counter].removeFromParent();
+          rootNode.attachChild(geom[counter = (counter+1)%points.size()]);
+          System.out.println (""+points.get(counter).getPosition().toF());
+        }
+        if (name.equals("down") && !keyPressed) {
+          geom[counter].removeFromParent();
+          rootNode.attachChild(geom[counter = (counter-1+points.size())%points.size()]);
+          System.out.println (""+points.get(counter).getPosition().toF());
+        }
+      }
+    };
+
 
     public boolean pause = false;
 
+
+
     private double time = 0;
     private List<CurvePoint> points;
+
+    private Geometry[] geom; 
 
     private JmeCanvasContext ctx = null;
 
@@ -72,16 +98,16 @@ public class Graphics3D extends SimpleApplication {
         Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         Material mat2 = new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");  //mit Licht
 
-        wireMaterial.setColor("Color", ColorRGBA.Blue);
+        wireMaterial.setColor("Color", ColorRGBA.Yellow);
         mat1.setColor("Color", ColorRGBA.Red);
         
 
 
         //Schnell zum Umschalten:
-        //geom_bahn.setMaterial(wireMaterial);
-       // geom_bahn.setMaterial(showNormalsMaterial);
+//         geom_bahn.setMaterial(wireMaterial);
+        geom_bahn.setMaterial(showNormalsMaterial);
         //geom_bahn.setMaterial(mat1);
-        geom_bahn.setMaterial(mat2);
+//         geom_bahn.setMaterial(mat2);
 
 
         rootNode.attachChild(geom_bahn);
@@ -109,7 +135,34 @@ public class Graphics3D extends SimpleApplication {
           AmbientLight ambient = new AmbientLight();
           ambient.setColor(ColorRGBA.Blue);
           rootNode.addLight(ambient);
+    
+          geom = new Geometry[points.size()];
 
+///*********************************************
+        Box b = new Box(Vector3f.ZERO, 5, 2, 0.1f);
+        for (int poscounter = 0; poscounter < points.size(); poscounter++) {
+          Vector3f pos = points.get(poscounter).getPosition().toF();
+          Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
+          Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
+          Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
+          geom[poscounter] = new Geometry("Box"+poscounter, b);
+          geom[poscounter].setMaterial(mat1);
+          geom[poscounter].setLocalTranslation(pos);
+          Matrix3f matrix = new Matrix3f();
+          matrix.fromAxes(x.mult(-1),y,z);
+          geom[poscounter].setLocalRotation(matrix);
+          rootNode.attachChild(geom[poscounter]);
+        }
+//         rootNode.attachChild(geom[0]);
+
+
+inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
+inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
+
+inputManager.addListener(actionListener, new String[]{"up","down"});
+
+
+///********************************************
 
         //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
         this.setPauseOnLostFocus(false);
@@ -118,11 +171,20 @@ public class Graphics3D extends SimpleApplication {
 
     @Override
     public void simpleUpdate(float tpf) {
+
+//        if (!pause) { time+=tpf;}
+//         
+//         if (time > 1) {
+//           geom[counter].removeFromParent();
+//           rootNode.attachChild(geom[++counter]);
+//           time -=1;
+//         }
+
         //Dies wird aufgerufen bevor ein Frame gerendert wird
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-        if (!pause) {time += tpf*3.0;}
+      /*  if (!pause) {time += tpf*3.0;}
         
         int behind = (int) time;
         int next = behind +1;
@@ -147,7 +209,7 @@ public class Graphics3D extends SimpleApplication {
 
 
         this.getCamera().setFrame(loc.toF(),pitch.toF() ,yaw.toF() ,roll.toF());
-        cam.update();
+        cam.update();//*/
         
     }
 
