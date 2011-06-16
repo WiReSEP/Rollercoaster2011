@@ -110,10 +110,10 @@ public class Achterbahn extends Mesh {
              eine XKoordinate im Pattern kann schnell umgerechnet werden in dem eine Multiplikation mit diesem Vektor vorgenommen wird
           y: die Y Koordinate .... siehe X koordinatensystems
           z: die Z Koordinate .... siehe X koordinatensystems*/
-          Vector3f pos = points.get(poscounter).getPosition();
-          Vector3f x = points.get(poscounter).getPitchAxis().normalize();
-          Vector3f y = points.get(poscounter).getYawAxis().normalize();
-          Vector3f z = points.get(poscounter).getRollAxis().normalize();
+          Vector3f pos = points.get(poscounter).getPosition().toF();
+          Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
+          Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
+          Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
 
 
 
@@ -151,7 +151,7 @@ public class Achterbahn extends Mesh {
 
         
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {   //für jede Psoition
-          Vector3f roll = points.get(poscounter).getRollAxis().normalize();
+          Vector3f roll = points.get(poscounter).getRollAxis().normalize().toF();
           for (int tripcounter = 0; tripcounter < pattern.getTripCount(); tripcounter++) { //für jeden Trip
             for (int indexcounter = 0; indexcounter < pattern.getTripLength(tripcounter); indexcounter++) { //für jeden Knoten
                     
