@@ -50,6 +50,11 @@ public class SimplePattern implements Pattern {
           pattern_vertexdata[vertexcounter].z = 0f;
         }
 
+
+        //scale
+         for (int vertexcounter = 0; vertexcounter < pattern_vertexdata.length; vertexcounter++) {  
+           pattern_vertexdata[vertexcounter].multLocal(0.8f);          
+         }
         
 
         //Normalen erzeugen (nur debug) (es wird angenommen, dass nur x und y gesetzt sind und nach dem debugcode drüber ist das auch der fall)

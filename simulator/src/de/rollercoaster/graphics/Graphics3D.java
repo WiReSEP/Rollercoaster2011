@@ -89,8 +89,8 @@ public class Graphics3D extends SimpleApplication {
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
         Curve curve = readCurve();
         points = curve.getPointSequence(0.0,0.0); //für die spätere benutzung
-        Achterbahn bahn = new Achterbahn(curve);
-        Geometry geom_bahn = new Geometry("Bahn", bahn);
+       // Achterbahn bahn = new Achterbahn(curve);
+       // Geometry geom_bahn = new Geometry("Bahn", bahn);
 
         //Materials für die Darstellung
         Material wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
@@ -103,18 +103,16 @@ public class Graphics3D extends SimpleApplication {
         
 
 
-        //Schnell zum Umschalten:
-//         geom_bahn.setMaterial(wireMaterial);
-        geom_bahn.setMaterial(showNormalsMaterial);
-        //geom_bahn.setMaterial(mat1);
-//         geom_bahn.setMaterial(mat2);
+        
+        assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
+        Spatial joint = assetManager.loadModel("joint.mesh.xml");
 
 
-        rootNode.attachChild(geom_bahn);
+        Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
+// 
+         rootNode.attachChild(bahn); 
 
         //Dummygelände
-        assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
-
         //Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
         Spatial terrain = assetManager.loadModel("terrain2.mesh.xml");
         //terrain.setMaterial(showNormalsMaterial);
@@ -151,7 +149,7 @@ public class Graphics3D extends SimpleApplication {
           Matrix3f matrix = new Matrix3f();
           matrix.fromAxes(x.mult(-1),y,z);
           geom[poscounter].setLocalRotation(matrix);
-          rootNode.attachChild(geom[poscounter]);
+          //rootNode.attachChild(geom[poscounter]);
         }
 //         rootNode.attachChild(geom[0]);
 
