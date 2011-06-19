@@ -76,9 +76,13 @@ public class Achterbahn extends Node {
       System.out.printf ("DBGData: CurveLenght %f\n",curve.getLength());
 
       System.out.printf ("*****\n\n\nSpatial: %s\n*****\n\n\n", joint3d);
-    //    Mesh b = new Box(Vector3f.ZERO, 5, 2, 0.1f);
-        Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();  
+
+
+        // Joint auswählen 
+        Mesh b = new Box(Vector3f.ZERO, 4, 2, 0.1f);                        // Debug joint
+        //    Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();   //designed Joint  
         int lastpostcounter = 0;
+
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
           if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < MIN_JOINT_DISTANCE)) continue;
           lastpostcounter = poscounter;
@@ -115,6 +119,7 @@ public class Achterbahn extends Node {
           geom.setLocalRotation(matrix);
           this.attachChild(geom);
         }
+
 
   }
 
