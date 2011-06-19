@@ -29,6 +29,7 @@ import de.rollercoaster.graphics.pattern.*;
 public class Achterbahn extends Node {
 
   final static  int MIN_JOINT_DISTANCE = 5;
+  final static  int MIN_POLE_DISTANCE = 35;
 
   private Geometry geom_bahn;
   private Node joints;
@@ -101,7 +102,7 @@ public class Achterbahn extends Node {
         
         lastpostcounter = 0;
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < 35)) continue;
+          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < MIN_POLE_DISTANCE)) continue;
           lastpostcounter = poscounter;
 
           Vector3f pos = points.get(poscounter).getPosition().toF();
