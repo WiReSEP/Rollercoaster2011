@@ -15,6 +15,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Mesh;
 
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Cylinder;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ import de.rollercoaster.graphics.pattern.*;
 
 public class Achterbahn extends Node {
 
+  final static  int MIN_JOINT_DISTANCE = 5;
+
   private Geometry geom_bahn;
   private Node joints;
   private Node poles;
@@ -38,9 +41,11 @@ public class Achterbahn extends Node {
       
 
       PatternCurve bahn = null;
+      PatternCurve collisiondomain = null;
       //Bahn Extrude erzeugen
       try {
       bahn = new PatternCurve(curve, new FilePattern("../models/pattern.obj"));
+      collisiondomain = new PatternCurve(curve, new FilePattern("../models/bounding_pattern.obj"));
       }
       catch (Exception e) {
         System.out.println (e);
@@ -51,11 +56,15 @@ public class Achterbahn extends Node {
       geom_bahn = new Geometry("curve_geom", bahn);
       geom_bahn.setMaterial(mat);
 
-      attachChild(geom_bahn);
+      Geometry bounding_bahn = new Geometry("collision_volume", collisiondomain);
+      bounding_bahn.setMaterial(mat);
 
+      attachChild(geom_bahn);
+      attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
 
       //Joints erzeugen
       joints = new Node("joints");
+      this.attachChild(joints);
 
       int joint_distance = 20;
 
@@ -68,7 +77,11 @@ public class Achterbahn extends Node {
       System.out.printf ("*****\n\n\nSpatial: %s\n*****\n\n\n", joint3d);
     //    Mesh b = new Box(Vector3f.ZERO, 5, 2, 0.1f);
         Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();  
+        int lastpostcounter = 0;
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
+          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < MIN_JOINT_DISTANCE)) continue;
+          lastpostcounter = poscounter;
+
           Vector3f pos = points.get(poscounter).getPosition().toF();
           Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
           Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
@@ -79,29 +92,28 @@ public class Achterbahn extends Node {
           Matrix3f matrix = new Matrix3f();
           matrix.fromAxes(x.mult(-1),y,z);
           geom.setLocalRotation(matrix);
-          this.attachChild(geom);
+          joints.attachChild(geom);
         }
 
-      //Mesh myobj = ((Geometry)((Node)joint3d).getChild(0)).getMesh();
-//       
-// 
-//       for (int i = 0; i < number_of_joints-1; i++) {
-//            CurvePoint point = curve.getPoint(actual_distance*i);
-//            Node node = ((Node)joint3d).clone(false);
-//             Vector3f pos = points.get(i).getPosition().toF();
-//             Vector3f x = points.get(i).getPitchAxis().normalize().toF();
-//             Vector3f y = points.get(i).getYawAxis().normalize().toF();
-//             Vector3f z = points.get(i).getRollAxis().normalize().toF();
-// 
-//            node.setLocalTranslation(pos);
-//            Matrix3f rot = new Matrix3f();
-//            rot.fromAxes(x.mult(-1),y,z); //sollte eigentlich so klappen
-//            node.setLocalRotation(rot);
-//            joints.attachChild(node);
-//           
-//       }
-// 
-//       attachChild(joints);
+        //Poles  (erste Versuche)
+
+        Mesh p = new Cylinder(20,8,1.0f,6.0f,500.0f, true, false);
+        
+        lastpostcounter = 0;
+        for (int poscounter = 0; poscounter < points.size(); poscounter++) {
+          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < 35)) continue;
+          lastpostcounter = poscounter;
+
+          Vector3f pos = points.get(poscounter).getPosition().toF();
+          pos.y = pos.y-250-0.5f; //0.5f damit es nicht oben rausragt
+          Geometry geom = new Geometry("pole"+poscounter, p);
+          geom.setMaterial(mat);
+          geom.setLocalTranslation(pos);
+          Matrix3f matrix = new Matrix3f();
+          matrix.fromAxes(Vector3f.UNIT_Y,Vector3f.UNIT_X,Vector3f.UNIT_Y);
+          geom.setLocalRotation(matrix);
+          this.attachChild(geom);
+        }
 
   }
 

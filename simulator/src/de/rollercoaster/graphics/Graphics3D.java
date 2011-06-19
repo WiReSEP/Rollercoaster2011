@@ -33,21 +33,20 @@ import com.jme3.light.AmbientLight;
 import de.rollercoaster.data.SerializedTrack;
 import java.io.File;
 
-//den windowlsitener gibt es vorerst damit 
+
 public class Graphics3D extends SimpleApplication {
     private int counter = 0;
+
+
+
 
     private ActionListener actionListener = new ActionListener() {
       public void onAction(String name, boolean keyPressed, float tpf) {
         if (name.equals("up") && !keyPressed ) {
-          geom[counter].removeFromParent();
-          rootNode.attachChild(geom[counter = (counter+1)%points.size()]);
-          System.out.println (""+points.get(counter).getPosition().toF());
+          rootNode.getChild("collision_volume").setMaterial(wireMaterial);
         }
         if (name.equals("down") && !keyPressed) {
-          geom[counter].removeFromParent();
-          rootNode.attachChild(geom[counter = (counter-1+points.size())%points.size()]);
-          System.out.println (""+points.get(counter).getPosition().toF());
+          rootNode.getChild("collision_volume").setMaterial(showNormalsMaterial);
         }
       }
     };
@@ -55,12 +54,12 @@ public class Graphics3D extends SimpleApplication {
 
     public boolean pause = false;
 
+        private Material wireMaterial ;
+        private Material showNormalsMaterial;
 
 
     private double time = 0;
     private List<CurvePoint> points;
-
-    private Geometry[] geom; 
 
     private JmeCanvasContext ctx = null;
 
@@ -94,8 +93,8 @@ public class Graphics3D extends SimpleApplication {
        // Geometry geom_bahn = new Geometry("Bahn", bahn);
 
         //Materials für die Darstellung
-        Material wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
-        Material showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
+        wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
+        showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
         Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         Material mat2 = new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");  //mit Licht
 
@@ -135,25 +134,6 @@ public class Graphics3D extends SimpleApplication {
           ambient.setColor(ColorRGBA.Blue);
           rootNode.addLight(ambient);
     
-          geom = new Geometry[points.size()];
-
-///*********************************************
-        Box b = new Box(Vector3f.ZERO, 5, 2, 0.1f);
-        for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          Vector3f pos = points.get(poscounter).getPosition().toF();
-          Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
-          Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
-          Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
-          geom[poscounter] = new Geometry("Box"+poscounter, b);
-          geom[poscounter].setMaterial(mat1);
-          geom[poscounter].setLocalTranslation(pos);
-          Matrix3f matrix = new Matrix3f();
-          matrix.fromAxes(x.mult(-1),y,z);
-          geom[poscounter].setLocalRotation(matrix);
-          //rootNode.attachChild(geom[poscounter]);
-        }
-//         rootNode.attachChild(geom[0]);
-
 
 inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
 inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
@@ -183,7 +163,7 @@ inputManager.addListener(actionListener, new String[]{"up","down"});
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-      /*  if (!pause) {time += tpf*3.0;}
+  /*      if (!pause) {time += tpf*3.0;}
         
         int behind = (int) time;
         int next = behind +1;
