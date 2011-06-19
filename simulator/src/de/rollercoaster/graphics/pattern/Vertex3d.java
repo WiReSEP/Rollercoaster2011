@@ -14,6 +14,11 @@ public class Vertex3d {
     normal = new Vector3f(0f,0f,0f);
   }
 
+  public Vertex3d (Vector3f pos) {
+    position = pos.clone();
+    normal = new Vector3f(0f,0f,0f);
+  }
+
   public Vertex3d (Vector3f pos, Vector3f normal) {
     position = pos.clone();
     this.normal = normal.clone();

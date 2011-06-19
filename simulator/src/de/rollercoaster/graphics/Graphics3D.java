@@ -1,6 +1,7 @@
 package de.rollercoaster.graphics;
 
 import de.rollercoaster.mathematics.*;
+import de.rollercoaster.graphics.pattern.*;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.Application;

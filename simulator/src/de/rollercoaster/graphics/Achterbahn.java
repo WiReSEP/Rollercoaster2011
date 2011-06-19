@@ -21,6 +21,7 @@ import java.util.List;
 
 //Eigene Pakete
 import de.rollercoaster.mathematics.*;
+import de.rollercoaster.graphics.pattern.*;
 
 
 
@@ -34,9 +35,18 @@ public class Achterbahn extends Node {
       super(); //alles was Node kann
 
       List<CurvePoint> points = curve.getPointSequence(0.0,0.0); 
+      
 
+      PatternCurve bahn = null;
       //Bahn Extrude erzeugen
-      PatternCurve bahn = new PatternCurve(curve);
+      try {
+      bahn = new PatternCurve(curve, new FilePattern("../models/pattern.obj"));
+      }
+      catch (Exception e) {
+        System.out.println (e);
+        e.printStackTrace();
+        System.exit(-1);
+      } 
 
       geom_bahn = new Geometry("curve_geom", bahn);
       geom_bahn.setMaterial(mat);
