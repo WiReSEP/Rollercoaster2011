@@ -27,8 +27,8 @@ public class BezierCurve implements Curve {
     public CurvePoint getPoint(double position) {
         CurvePoint p0, p1, p2, p3;
 
-        
-        int s0 = (int) position % (int)length;
+        position = position % length; 
+        int s0 = (int) position;
         int idx = 3 * s0;
         
         p0 = controlPoints.get(idx);
