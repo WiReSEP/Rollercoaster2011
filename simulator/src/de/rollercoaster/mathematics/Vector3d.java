@@ -41,7 +41,7 @@ public class Vector3d {
     }
 
     public Vector3d cross(Vector3d other) {
-        return new Vector3d(this.y * other.z - this.z * other.y, this.z * other.x - this.x * other.z, this.x * other.y + this.y * other.x);
+        return new Vector3d(this.y * other.z - this.z * other.y, this.z * other.x - this.x * other.z, this.x * other.y - this.y * other.x);
     }
 
     public Vector3d normalize() {
