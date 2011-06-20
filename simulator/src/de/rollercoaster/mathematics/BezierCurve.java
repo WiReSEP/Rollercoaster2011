@@ -112,7 +112,7 @@ public class BezierCurve implements Curve {
            double angle = Math.acos(Vector3d.cos(current.getPosition(), previous.getPosition()));
                    
            if ((distance <= maxDistance && angle <= maxAngle )|| delta < MINIMAL_DELTA) {               
-               if (position < length) {
+               if (position + position < length) {
                 points.add(current);
                 //System.out.println(position + ";" + previous.getPosition().x+";"+ previous.getPosition().y + ";" + previous.getPosition().z);          
                }
