@@ -19,6 +19,11 @@ import com.jme3.scene.shape.Cylinder;
 
 import java.util.List;
 
+import com.jme3.collision.CollisionResults;
+import com.jme3.bullet.util.CollisionShapeFactory;
+
+
+
 
 //Eigene Pakete
 import de.rollercoaster.mathematics.*;
@@ -101,8 +106,12 @@ public class Achterbahn extends Node {
         }
 
         //Poles  (erste Versuche)
+        //Joints erzeugen
+        poles = new Node("poles");
+        this.attachChild(poles);
 
         Mesh p = new Cylinder(20,8,1.0f,6.0f,500.0f, true, false);
+
         
         lastpostcounter = 0;
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
@@ -117,7 +126,24 @@ public class Achterbahn extends Node {
           Matrix3f matrix = new Matrix3f();
           matrix.fromAxes(Vector3f.UNIT_Y,Vector3f.UNIT_X,Vector3f.UNIT_Y);
           geom.setLocalRotation(matrix);
-          this.attachChild(geom);
+
+/*        //Collisioncheck
+          CollisionResults results = new CollisionResults();
+
+          
+      //    int colls = geom.collideWith (CollisionShapeFactory.createMeshShape(tmpNode), results);
+          //int colls = bounding_bahn.collideWith (geom, results);
+            int colls = bounding_bahn.collideWith (geom.getWorldBound(), results);
+          //int colls = geom.collideWith (bounding_bahn, results);
+          System.out.printf ("***COLLISIONREPORT***:\nCollision detected contructing Pole %d \n  Found %d collisions \n Collision: \n %s \n **************************\n",poscounter, colls, "");
+          for (int i  = 0; i< results.size(); i++) {
+            System.out.printf ("Collision %d\nGeomnode %s\nPos: %s\nFace: %d\nDistance: %f\n\n",i,results.getCollision(i).getGeometry(),results.getCollision(i).getContactPoint(),results.getCollision(i).getTriangleIndex(),results.getCollision(i).getDistance());
+          }
+*/
+
+          poles.attachChild(geom);
+
+
         }
 
 
