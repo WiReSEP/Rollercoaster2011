@@ -18,6 +18,12 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
 
 import java.util.List;
+import com.jme3.collision.CollisionResults;
+
+import com.jme3.math.Triangle;
+
+import com.jme3.math.Ray;
+
 
 import com.jme3.collision.CollisionResults;
 import com.jme3.bullet.util.CollisionShapeFactory;
@@ -96,6 +102,11 @@ public class Achterbahn extends Node {
           Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
           Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
           Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
+
+          if ((x.cross(y).dot(z)) != 1) {
+            System.out.println (""+x+","+y+","+z+" ist merkwürdig: "+(x.cross(y).dot(z)));
+          }
+
           Geometry geom = new Geometry("Box"+poscounter, b);
           geom.setMaterial(mat);
           geom.setLocalTranslation(pos);
@@ -116,7 +127,7 @@ public class Achterbahn extends Node {
         lastpostcounter = 0;
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
           if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < MIN_POLE_DISTANCE)) continue;
-          lastpostcounter = poscounter;
+          
 
           Vector3f pos = points.get(poscounter).getPosition().toF();
           pos.y = pos.y-250-0.5f; //0.5f damit es nicht oben rausragt
@@ -124,10 +135,11 @@ public class Achterbahn extends Node {
           geom.setMaterial(mat);
           geom.setLocalTranslation(pos);
           Matrix3f matrix = new Matrix3f();
-          matrix.fromAxes(Vector3f.UNIT_Y,Vector3f.UNIT_X,Vector3f.UNIT_Y);
+          matrix.fromAxes(Vector3f.UNIT_Y,Vector3f.UNIT_X,Vector3f.UNIT_Y); //?!
           geom.setLocalRotation(matrix);
 
-/*        //Collisioncheck
+
+/*        //Old Collisioncheck
           CollisionResults results = new CollisionResults();
 
           
@@ -141,8 +153,31 @@ public class Achterbahn extends Node {
           }
 */
 
-          poles.attachChild(geom);
+          CollisionResults results= new CollisionResults();
+//           int colls = bounding_bahn.collideWith(geom.getWorldBound(),results);
+          int colls = bounding_bahn.collideWith(new Ray(points.get(poscounter).getPosition().toF(),Vector3f.UNIT_Z.mult(-1)),results);
+          Triangle nonsense = new Triangle();
+          boolean collision = false;
 
+          
+           for (int i = 0; i < results.size(); i++) {
+             //System.out.printf ("[Collision %d] Pole %d collides with Triangle %d with Distance %f (concerns Triangle %s)\n",i,poscounter,results.getCollision(i).getTriangleIndex(),results.getCollision(i).getDistance(), results.getCollision(i).getTriangle(nonsense).getCenter());
+             System.out.printf ("Colls-Hint %s \n",results.getCollision(i).getTriangle(nonsense).getCenter().subtract(points.get(poscounter).getPosition().toF()));
+             if (results.getCollision(i).getTriangle(nonsense).getCenter().subtract(points.get(poscounter).getPosition().toF()).y<=0) {
+                
+//                 collision = true;
+                break;
+             }
+           }
+          System.out.printf ("[Pole %d] Collisions: %d \n", poscounter, colls);
+          if (colls<=1) {
+            this.attachChild(geom);
+            lastpostcounter = poscounter;
+          }
+          else {
+            System.out.printf ("Pole %d skipped due to Collision!\n",poscounter);
+          }
+         // break;
 
         }
 
