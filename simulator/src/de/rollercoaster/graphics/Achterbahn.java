@@ -24,12 +24,8 @@ import com.jme3.math.Triangle;
 
 import com.jme3.math.Ray;
 
-
 import com.jme3.collision.CollisionResults;
 import com.jme3.bullet.util.CollisionShapeFactory;
-
-
-
 
 //Eigene Pakete
 import de.rollercoaster.mathematics.*;
@@ -41,6 +37,9 @@ public class Achterbahn extends Node {
 
   final static  int MIN_JOINT_DISTANCE = 5;
   final static  int MIN_POLE_DISTANCE = 35;
+
+  final static float POLE_UPPER_DIAMETER = 1.0f;
+  final static float POLE_LOWER_DIAMETER = 6.0f;
 
   private Geometry geom_bahn;
   private Node joints;
@@ -89,99 +88,92 @@ public class Achterbahn extends Node {
       System.out.printf ("*****\n\n\nSpatial: %s\n*****\n\n\n", joint3d);
 
 
-        // Joint auswählen 
-        Mesh b = new Box(Vector3f.ZERO, 4, 2, 0.1f);                        // Debug joint
-        //    Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();   //designed Joint  
-        int lastpostcounter = 0;
+      //*********************************************************************************//
+      //***                         Joints einfügen                                   ***//
+      //*********************************************************************************//
+      //Die Punkteliste wird durchlaufen wobei der nächste Punkt für das Einfügen        //
+      //eines Joints gewählt wird, der zum letzten Joint mindestens MIN_JOINT_DISTANCE   //
+      //Abstand hält                                                                     //
+      //*********************************************************************************//
+
+        //Mesh b = new Box(Vector3f.ZERO, 4, 2, 0.1f);                        // Debug joint
+        Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();   //designed Joint  
+        int lastposcounter = 0;
 
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < MIN_JOINT_DISTANCE)) continue;
-          lastpostcounter = poscounter;
+          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastposcounter).getPosition().toF()).length() < MIN_JOINT_DISTANCE)) continue;
+          lastposcounter = poscounter;
 
           Vector3f pos = points.get(poscounter).getPosition().toF();
           Vector3f x = points.get(poscounter).getPitchAxis().normalize().toF();
           Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
           Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
-
-          if ((x.cross(y).dot(z)) != 1) {
-            System.out.println (""+x+","+y+","+z+" ist merkwürdig: "+(x.cross(y).dot(z)));
-          }
-
+        
           Geometry geom = new Geometry("Box"+poscounter, b);
           geom.setMaterial(mat);
           geom.setLocalTranslation(pos);
           Matrix3f matrix = new Matrix3f();
+          //matrix.fromAxes(x.mult(-1),z,y);
           matrix.fromAxes(x.mult(-1),y,z);
+
+          System.out.printf ("Determinante (%d) %f\n",poscounter,matrix.determinant());
           geom.setLocalRotation(matrix);
           joints.attachChild(geom);
+          
         }
+
+
+      //*********************************************************************************//
+      //***                          Poles einfügen                                   ***//
+      //*********************************************************************************//
+      //Die Punkteliste wird durchlaufen wobei der nächste Punkt für das Einfügen        //
+      //eines Poles gewählt wird, der zum letzten Pole mindestens MIN_POLE_DISTANCE      //
+      //Abstand hält und der keine Kollision mit der Bahn aufweist.                      //
+      //*********************************************************************************//
+
 
         //Poles  (erste Versuche)
         //Joints erzeugen
         poles = new Node("poles");
         this.attachChild(poles);
 
-        Mesh p = new Cylinder(20,8,1.0f,6.0f,500.0f, true, false);
+
+
+        //Das ist vorerst unser Pole (ein einfacher Zylinder der unten ein bisschen dicker ist als oben)
+        // Der Zylinder ist sehr lang damit man nicht skalieren muss um ihn unter die Bahn zu setzen
+        Mesh p = new Cylinder(20,8,POLE_UPPER_DIAMETER,POLE_LOWER_DIAMETER,500.0f, true, false);
 
         
-        lastpostcounter = 0;
+        lastposcounter = 0;// wir merken uns wann das letzte mal ein Pole gesetzt wurde    
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastpostcounter).getPosition().toF()).length() < MIN_POLE_DISTANCE)) continue;
-          
+          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastposcounter).getPosition().toF()).length() < MIN_POLE_DISTANCE)) continue; //Abstandscheck
 
-          Vector3f pos = points.get(poscounter).getPosition().toF();
-          pos.y = pos.y-250-0.5f; //0.5f damit es nicht oben rausragt
-          Geometry geom = new Geometry("pole"+poscounter, p);
-          geom.setMaterial(mat);
-          geom.setLocalTranslation(pos);
-          Matrix3f matrix = new Matrix3f();
-          matrix.fromAxes(Vector3f.UNIT_Y,Vector3f.UNIT_X,Vector3f.UNIT_Y); //?!
-          geom.setLocalRotation(matrix);
-
-
-/*        //Old Collisioncheck
-          CollisionResults results = new CollisionResults();
-
-          
-      //    int colls = geom.collideWith (CollisionShapeFactory.createMeshShape(tmpNode), results);
-          //int colls = bounding_bahn.collideWith (geom, results);
-            int colls = bounding_bahn.collideWith (geom.getWorldBound(), results);
-          //int colls = geom.collideWith (bounding_bahn, results);
-          System.out.printf ("***COLLISIONREPORT***:\nCollision detected contructing Pole %d \n  Found %d collisions \n Collision: \n %s \n **************************\n",poscounter, colls, "");
-          for (int i  = 0; i< results.size(); i++) {
-            System.out.printf ("Collision %d\nGeomnode %s\nPos: %s\nFace: %d\nDistance: %f\n\n",i,results.getCollision(i).getGeometry(),results.getCollision(i).getContactPoint(),results.getCollision(i).getTriangleIndex(),results.getCollision(i).getDistance());
-          }
-*/
-
+          //CollisionCheck: (an 4 Ecken der BoundingBox wird gesampelt)
           CollisionResults results= new CollisionResults();
-//           int colls = bounding_bahn.collideWith(geom.getWorldBound(),results);
-          int colls = bounding_bahn.collideWith(new Ray(points.get(poscounter).getPosition().toF(),Vector3f.UNIT_Z.mult(-1)),results);
-          Triangle nonsense = new Triangle();
-          boolean collision = false;
 
+          int colls = 0;
+          //4Samples:
+          colls += bounding_bahn.collideWith(new Ray(points.get(poscounter).getPosition().toF().add(Vector3f.UNIT_X.mult( 1.0f*POLE_UPPER_DIAMETER/2.0f)),Vector3f.UNIT_Y.mult(-1)),results);
+          colls += bounding_bahn.collideWith(new Ray(points.get(poscounter).getPosition().toF().add(Vector3f.UNIT_X.mult(-1.0f*POLE_UPPER_DIAMETER/2.0f)),Vector3f.UNIT_Y.mult(-1)),results);
+          colls += bounding_bahn.collideWith(new Ray(points.get(poscounter).getPosition().toF().add(Vector3f.UNIT_Z.mult( 1.0f*POLE_UPPER_DIAMETER/2.0f)),Vector3f.UNIT_Y.mult(-1)),results);
+          colls += bounding_bahn.collideWith(new Ray(points.get(poscounter).getPosition().toF().add(Vector3f.UNIT_Z.mult(-1.0f*POLE_UPPER_DIAMETER/2.0f)),Vector3f.UNIT_Y.mult(-1)),results);
           
-           for (int i = 0; i < results.size(); i++) {
-             //System.out.printf ("[Collision %d] Pole %d collides with Triangle %d with Distance %f (concerns Triangle %s)\n",i,poscounter,results.getCollision(i).getTriangleIndex(),results.getCollision(i).getDistance(), results.getCollision(i).getTriangle(nonsense).getCenter());
-             System.out.printf ("Colls-Hint %s \n",results.getCollision(i).getTriangle(nonsense).getCenter().subtract(points.get(poscounter).getPosition().toF()));
-             if (results.getCollision(i).getTriangle(nonsense).getCenter().subtract(points.get(poscounter).getPosition().toF()).y<=0) {
-                
-//                 collision = true;
-                break;
-             }
-           }
-          System.out.printf ("[Pole %d] Collisions: %d \n", poscounter, colls);
-          if (colls<=1) {
+
+          //System.out.printf ("[Pole %d] Collisions: %d \n", poscounter, colls);
+          if (colls==4) { //min 4 Kollisionen entstehen, da wir in der aktuellen Position starten
+            Vector3f pos = points.get(poscounter).getPosition().toF();   
+            pos.y = pos.y-250-0.5f; //0.5f damit es nicht oben rausragt
+            Geometry geom = new Geometry("pole"+poscounter, p);
+            geom.setMaterial(mat);
+            geom.setLocalTranslation(pos);
+            Matrix3f matrix = new Matrix3f();
+            matrix.fromAxes(Vector3f.UNIT_Z,Vector3f.UNIT_X,Vector3f.UNIT_Y); //?!
+            geom.setLocalRotation(matrix);
+
             this.attachChild(geom);
-            lastpostcounter = poscounter;
+            lastposcounter = poscounter;
           }
-          else {
-            System.out.printf ("Pole %d skipped due to Collision!\n",poscounter);
-          }
-         // break;
-
         }
-
-
   }
 
 

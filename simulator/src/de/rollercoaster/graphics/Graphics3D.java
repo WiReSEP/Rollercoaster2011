@@ -41,12 +41,35 @@ public class Graphics3D extends SimpleApplication {
 
 
     private ActionListener actionListener = new ActionListener() {
+      private int pos = 0;
       public void onAction(String name, boolean keyPressed, float tpf) {
-        if (name.equals("up") && !keyPressed ) {
+        if (name.equals("wire") && !keyPressed ) {
           rootNode.getChild("collision_volume").setMaterial(wireMaterial);
         }
-        if (name.equals("down") && !keyPressed) {
+        if (name.equals("full") && !keyPressed) {
           rootNode.getChild("collision_volume").setMaterial(showNormalsMaterial);
+        }
+
+        if (name.equals("up") && !keyPressed ) {
+          Spatial node;
+          pos++;
+          while (((node=rootNode.getChild("pole"+pos))== null) && pos < 20000) {pos++;}
+          System.out.printf ("Selected Pole %d ...",pos);
+          if (node != null) node.setMaterial(redMat);
+          int lastpos = pos-1; 
+          while (((node=rootNode.getChild("pole"+lastpos))== null) && lastpos > -10) {lastpos--;}
+          if (node != null) node.setMaterial(showNormalsMaterial);
+          System.out.printf ("done \n");
+        }
+     
+        if (name.equals("down") && !keyPressed ) {
+          Spatial node;
+          pos--;
+          while (((node=rootNode.getChild("pole"+pos))== null) && pos > -10) {pos--;}
+          if (node != null) node.setMaterial(redMat);
+          int lastpos = pos+1; 
+          while (((node=rootNode.getChild("pole"+lastpos))== null) && lastpos < 20000) {lastpos++;}
+          if (node != null) node.setMaterial(showNormalsMaterial);
         }
       }
     };
@@ -56,6 +79,7 @@ public class Graphics3D extends SimpleApplication {
 
         private Material wireMaterial ;
         private Material showNormalsMaterial;
+        private Material redMat;
 
 
     private double time = 0;
@@ -97,18 +121,23 @@ public class Graphics3D extends SimpleApplication {
         showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
         Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         Material mat2 = new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");  //mit Licht
+        redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
 
         wireMaterial.setColor("Color", ColorRGBA.Yellow);
         mat1.setColor("Color", ColorRGBA.Red);
-        
+        redMat.setColor("Color", ColorRGBA.Red);
 
 
         
         assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
         Spatial joint = assetManager.loadModel("joint.mesh.xml");
+        Spatial gizzmo = assetManager.loadModel("Cylinder.mesh.xml");
 
 
         Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
+        
+        gizzmo.scale (20);
+        rootNode.attachChild(gizzmo);
 // 
          rootNode.attachChild(bahn); 
 
@@ -137,8 +166,10 @@ public class Graphics3D extends SimpleApplication {
 
 inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
 inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
+inputManager.addMapping("wire",  new KeyTrigger(KeyInput.KEY_M));
+inputManager.addMapping("full",  new KeyTrigger(KeyInput.KEY_N));
 
-inputManager.addListener(actionListener, new String[]{"up","down"});
+inputManager.addListener(actionListener, new String[]{"up","down","wire","full"});
 
 
 ///********************************************
