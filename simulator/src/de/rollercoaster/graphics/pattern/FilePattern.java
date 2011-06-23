@@ -28,7 +28,7 @@ public class FilePattern implements Pattern {
     }
 
     public void turn_links (int max) {
-      System.out.printf ("turn called for %d \n %s \n", value, this);
+      //System.out.printf ("turn called for %d \n %s \n", value, this);
       if (max <= 0) return;
       if (post != null) post.turn_links_post(max-1);
       if (pre != null) pre.turn_links_pre(max-1);
@@ -38,7 +38,7 @@ public class FilePattern implements Pattern {
     } 
 
     public void turn_links_pre (int max) {
-      System.out.printf ("turn_pre called for %d \n", value);
+//       System.out.printf ("turn_pre called for %d \n", value);
       if (max <= 0) return;
       if (pre != null) pre.turn_links_pre(max-1);
       Vertex tmp = pre;
@@ -47,7 +47,7 @@ public class FilePattern implements Pattern {
    } 
 
     public void turn_links_post (int max) {
-      System.out.printf ("turn_post called for %d \n", value);
+//       System.out.printf ("turn_post called for %d \n", value);
       if (max <= 0) return;
       if (post != null) post.turn_links_post(max-1);
       Vertex tmp = pre;
@@ -92,19 +92,19 @@ public class FilePattern implements Pattern {
                       for (int i = 0 ; i < vertexcircle.size(); i++) {
                         v= v.post;
                         //System.out.printf("<-- %d --- ( %d ) --- %d -->\n",v.pre.value,v.value,v.post.value);
-                        System.out.println (""+v);
+                        //System.out.println (""+v);
                         if (v== null) {throw new Exception ("Given Patten is no circle!");}
                         cycle[i] = v.value;
                       }
                       trips.addLast(cycle);
                     }
-                    System.out.println (line);
+                    //System.out.println (line);
                     vertexcircle = new LinkedList<Vertex>();
                     break;
 
           case 'v': verticies.addLast(new Vector3f((float)Double.parseDouble(line.split(" ")[1]),(float)Double.parseDouble(line.split(" ")[2]),(float)Double.parseDouble(line.split(" ")[3]))); break;
 
-          case 'f': System.out.println (""+vertexcircle);
+          case 'f': //System.out.println (""+vertexcircle);
                     int a = Integer.parseInt(line.split(" ")[1]);
                     int b = Integer.parseInt(line.split(" ")[2]);
                     int posa, posb;
@@ -118,12 +118,12 @@ public class FilePattern implements Pattern {
                           //Ggf müssen wir noch an einem Knoten umdrehen
                           if (va.pre == null) {
                             if (vb.post == null) {
-                               System.out.println ("case1");
+//                                System.out.println ("case1");
                                vb.post = va;
                                va.pre = vb;
                             }
                             else if (vb.pre == null) {
-                              System.out.println ("case2");
+//                               System.out.println ("case2");
                               va.pre = vb;
                               vb.turn_links(vertexcircle.size()); //umkehren dieses Strangs
                               vb.post = va;
@@ -132,12 +132,12 @@ public class FilePattern implements Pattern {
                           }
                           else if (va.post == null) {
                             if (vb.pre == null) {
-                               System.out.println ("case3");
+//                                System.out.println ("case3");
                                vb.pre = va;
                                va.post = vb;
                             }
                             else if (vb.post == null) {
-                              System.out.println ("case4");
+//                               System.out.println ("case4");
                               va.post = vb;
                               vb.turn_links(vertexcircle.size()); //umkehren dieses Strangs
                               vb.pre = va;
@@ -189,7 +189,7 @@ public class FilePattern implements Pattern {
                     }
                     break;
 
-          default:  System.err.println ("Unknown Fileformat - Token "+line.split(" ")[0].charAt(0)+" found where #/g/v/f was expected");
+          default:  System.err.println ("Skipping Line  - Unknown Token "+line.split(" ")[0].charAt(0)+" found where #/g/v/f was expected");
        }
     }
     
