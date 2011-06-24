@@ -131,13 +131,13 @@ public class Graphics3D extends SimpleApplication {
         
         assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
         Spatial joint = assetManager.loadModel("joint.mesh.xml");
-        Spatial gizzmo = assetManager.loadModel("Cylinder.mesh.xml");
+     //   Spatial gizzmo = assetManager.loadModel("Cylinder.mesh.xml");
 
 
         Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
         
-        gizzmo.scale (20);
-        rootNode.attachChild(gizzmo);
+      //  gizzmo.scale (20);
+        //rootNode.attachChild(gizzmo);
 // 
          rootNode.attachChild(bahn); 
 

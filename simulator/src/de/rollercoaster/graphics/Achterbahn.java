@@ -116,7 +116,7 @@ public class Achterbahn extends Node {
           //matrix.fromAxes(x.mult(-1),z,y);
           matrix.fromAxes(x.mult(-1),y,z);
 
-          System.out.printf ("Determinante (%d) %f\n",poscounter,matrix.determinant());
+          System.out.printf ("Determinante (%d) %f [%s,%s,%s]\n",poscounter,matrix.determinant(),x.mult(-1),y,z);
           geom.setLocalRotation(matrix);
           joints.attachChild(geom);
           
