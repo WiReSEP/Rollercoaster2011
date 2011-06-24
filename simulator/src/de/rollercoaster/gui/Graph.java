@@ -9,6 +9,7 @@ import javax.swing.event.*;
 import java.util.Vector;
 import java.util.TreeMap;
 import java.util.Map;
+import java.util.ConcurrentModificationException;
 
 public class Graph extends JPanel implements Runnable {
   class Curve {
@@ -57,6 +58,7 @@ public class Graph extends JPanel implements Runnable {
         g2d.setColor(c.color);
         Map.Entry<Double,Double> last = null;
         double scale = ((c.yMax-c.yMin)/h);
+        try {
         for (Map.Entry<Double,Double> p: c.points.entrySet()) {
           if (last != null) {
             double fromx = last.getKey() * stepDistance;
@@ -67,6 +69,7 @@ public class Graph extends JPanel implements Runnable {
           }
           last = p;
         }
+        }catch (ConcurrentModificationException e) {}
       }
     }
     public void mousePressed(MouseEvent e) {
