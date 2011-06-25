@@ -35,6 +35,8 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.LightScatteringFilter;
 
+import com.jme3.shadow.PssmShadowRenderer;
+import com.jme3.shadow.BasicShadowRenderer;
 
 
 //Ein bisschen Licht damit wir die Normalen auch bewundern können^^
@@ -175,7 +177,33 @@ public class Graphics3D extends SimpleApplication {
         terrain.scale(10,6,10);
         terrain.move(0,-15,100);
         rootNode.attachChild(terrain);
-        terrain.setShadowMode(ShadowMode.CastAndReceive);  //Schattenwurf
+        terrain.setShadowMode(ShadowMode.Receive);  //Schattenwurf
+
+        //GeländeMaterial laden
+        // mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
+        //  
+        //     /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
+        //     mat_terrain.setTexture("m_Alpha",
+        //                assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
+        //  
+        //     /** 1.2) Add GRASS texture into the red layer (m_Tex1). */
+        //     Texture grass = assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
+        //     grass.setWrap(WrapMode.Repeat);
+        //     mat_terrain.setTexture("m_Tex1", grass);
+        //     mat_terrain.setFloat("m_Tex1Scale", 64f);
+        //  
+        //     /** 1.3) Add DIRT texture into the green layer (m_Tex2) */
+        //     Texture dirt = assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
+        //     dirt.setWrap(WrapMode.Repeat);
+        //     mat_terrain.setTexture("m_Tex2", dirt);
+        //     mat_terrain.setFloat("m_Tex2Scale", 32f);
+        //  
+        //     /** 1.4) Add ROAD texture into the blue layer (m_Tex3) */
+        //     Texture rock = assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
+        //     rock.setWrap(WrapMode.Repeat);
+        //     mat_terrain.setTexture("m_Tex3", rock);
+        //     mat_terrain.setFloat("m_Tex3Scale", 128f);
+
 
       //*********************************************************************************//
       //***                             Licht und Schatten                            ***//
@@ -184,14 +212,28 @@ public class Graphics3D extends SimpleApplication {
       //*********************************************************************************//
         //Sonne 
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(new Vector3f(1,-2,0).normalizeLocal());
-        sun.setColor(ColorRGBA.White);
+        Vector3f lightdirection =new Vector3f(0.7366f,-0.44128f,-0.512525f).normalize();
+        sun.setDirection(lightdirection);
+        sun.setColor(ColorRGBA.White.mult(2.0f));
         rootNode.addLight(sun);
 
         //Approcimation indirekter Beleuchtung 
         AmbientLight ambient = new AmbientLight();
-        ambient.setColor(ColorRGBA.White);
-        rootNode.addLight(ambient);
+        ambient.setColor(ColorRGBA.White.mult(0.6f));
+//         rootNode.addLight(ambient);
+//         rootNode.setShadowMode(ShadowMode.Off);
+// 
+//         PssmShadowRenderer pssmRenderer = new PssmShadowRenderer(
+//         assetManager,1024,4,PssmShadowRenderer.EDGE_FILTERING_PCF);
+//         pssmRenderer.setDirection(lightdirection);
+//         viewPort.addProcessor(pssmRenderer);
+
+//         rootNode.setShadowMode(ShadowMode.Off);
+//         BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 256);
+//         bsr.setDirection(new Vector3f(-1, -1, -1).normalizeLocal());
+//         viewPort.addProcessor(bsr);
+
+
 
 
       //*********************************************************************************//

@@ -48,7 +48,7 @@ public class Achterbahn extends Node {
   public Achterbahn(Curve curve, Material mat, Spatial joint3d ) {
       super(); //alles was Node kann
 
-      List<CurvePoint> points = curve.getPointSequence(0.0,0.0); 
+      List<CurvePoint> points = curve.getPointSequence(0.0,0.0);  //anpassen
       
 
       PatternCurve bahn = null;
@@ -68,7 +68,7 @@ public class Achterbahn extends Node {
       geom_bahn.setMaterial(mat);
 
       Geometry bounding_bahn = new Geometry("collision_volume", collisiondomain);
-      bounding_bahn.setMaterial(mat);
+      
 
       attachChild(geom_bahn);
       //attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
