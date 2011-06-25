@@ -165,12 +165,12 @@ public class Graphics3D extends SimpleApplication {
         Spatial joint = assetManager.loadModel("joint.mesh.xml");
         
         //Gizzmo laden [DEBUG]
-        Spatial gizzmo = assetManager.loadModel("Cylinder.mesh.xml");
+        Spatial gizzmo = assetManager.loadModel("gizzmo.mesh.xml");
         gizzmo.scale (20);
         rootNode.attachChild(gizzmo);
 
         //Gelände laden
-        Spatial terrain = assetManager.loadModel("Grid.001.mesh.xml");
+        Spatial terrain = assetManager.loadModel("terrain.mesh.xml");
         terrain.setCullHint(Spatial.CullHint.Never); //nie verstecken
         terrain.scale(10,6,10);
         terrain.move(0,-15,100);
