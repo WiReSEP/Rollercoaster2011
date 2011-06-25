@@ -26,6 +26,16 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.KeyTrigger;
 
+import com.jme3.util.SkyFactory;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
+
+
+
+import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
+import com.jme3.post.filters.LightScatteringFilter;
+
+
 
 //Ein bisschen Licht damit wir die Normalen auch bewundern können^^
 import com.jme3.light.DirectionalLight;
@@ -104,79 +114,144 @@ public class Graphics3D extends SimpleApplication {
     
     @Override
     public void simpleInitApp() {
-        start(Type.Canvas);
+
+      //*********************************************************************************//
+      //***                      Einstellungen an der Engine                          ***//
+      //*********************************************************************************//
+      // Die Einstellungen die für unsere Zwecke angepasst werden müssen werden in dieer //
+      // Sektion getätigt                                                                //
+      //*********************************************************************************//
+
+        //lwjgl für ein AWT Canvas Objekt vorbereiten
+        start(Type.Canvas);  //TODO:  Prüfen ob diese Zeile hier wirklich so reingehört
+
+        //Debug-FlyByCamera-Controler einrichten
         flyCam.setDragToRotate(true);
-        flyCam.setMoveSpeed(20);  //mehr speed
+        flyCam.setMoveSpeed(50);  //mehr speed
 
-        viewPort.setBackgroundColor(ColorRGBA.Blue);
-        
-        //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
-        Curve curve = readCurve();
-        points = curve.getPointSequence(0.0,0.0); //für die spätere benutzung
-       // Achterbahn bahn = new Achterbahn(curve);
-       // Geometry geom_bahn = new Geometry("Bahn", bahn);
-
-        //Materials für die Darstellung
-        wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
-        showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
-        Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
-        Material mat2 = new Material(assetManager,"Common/MatDefs/Light/Lighting.j3md");  //mit Licht
-        redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
-
-        wireMaterial.setColor("Color", ColorRGBA.Yellow);
-        mat1.setColor("Color", ColorRGBA.Red);
-        redMat.setColor("Color", ColorRGBA.Red);
-
-
-        
-        assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
-        Spatial joint = assetManager.loadModel("joint.mesh.xml");
-     //   Spatial gizzmo = assetManager.loadModel("Cylinder.mesh.xml");
-
-
-        Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
-        
-      //  gizzmo.scale (20);
-        //rootNode.attachChild(gizzmo);
-// 
-         rootNode.attachChild(bahn); 
-
-        //Dummygelände
-        //Spatial terrain = assetManager.loadModel("Terrain.mesh.xml");
-        Spatial terrain = assetManager.loadModel("terrain2.mesh.xml");
-        //terrain.setMaterial(showNormalsMaterial);
-
-        terrain.scale(100,40,100);
-        terrain.move(0,-15,0);
-        rootNode.attachChild(terrain);
-
-
-        
-        //Mit dem Normalenshader hat Licht keine Wirkung und mit dem Lighted Shader sieht die Beleuchtung merkwürdig aus
-           DirectionalLight sun = new DirectionalLight();
-           sun.setDirection(new Vector3f(1,-2,0).normalizeLocal());
-           sun.setColor(ColorRGBA.White);
-           rootNode.addLight(sun);
-
-
-          AmbientLight ambient = new AmbientLight();
-          ambient.setColor(ColorRGBA.Blue);
-          rootNode.addLight(ambient);
-    
-
-inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
-inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
-inputManager.addMapping("wire",  new KeyTrigger(KeyInput.KEY_M));
-inputManager.addMapping("full",  new KeyTrigger(KeyInput.KEY_N));
-
-inputManager.addListener(actionListener, new String[]{"up","down","wire","full"});
-
-
-///********************************************
+        //Cameraeinstellungen
+        cam.setFrustumFar(20000);  //Farclipping ein bisschen erhöhen (damit unsere Landschaft bleibt
+        viewPort.setBackgroundColor(ColorRGBA.Red); //Hintergrundfarbe setzen (für Debug auf auffällige Farbe setzen damit Lücken sichtbar werden; Release auf Schwarz oä)
 
         //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
         this.setPauseOnLostFocus(false);
 
+      //*********************************************************************************//
+      //***                         Assets einrichten                                 ***//
+      //*********************************************************************************//
+      // In dieser Sektion werden notwendige Daten geladen die Inhalt oder Art der       //
+      // Darstellung beeinflussen. Im wesentlichen werden die Quellpfade gesetzt und     //
+      // Materialien, Objekte und Texturen geladen                                       //
+      //*********************************************************************************//
+
+        //Pfad um eigene AssetsOrdner erweitern
+        assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
+
+        //Materialien setzen
+        wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
+        wireMaterial.setColor("Color", ColorRGBA.Yellow);        
+        Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
+        mat1.setColor("Color", ColorRGBA.Red);        
+
+        //Debug-Materialien[DEBUG]
+        showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
+        redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
+        redMat.setColor("Color", ColorRGBA.Red);
+        
+        //Skybox
+        rootNode.attachChild(SkyFactory.createSky(assetManager,
+          assetManager.loadTexture("skybox/west.png"), //west
+          assetManager.loadTexture("skybox/east.png"), //east
+          assetManager.loadTexture("skybox/north.png"), //north
+          assetManager.loadTexture("skybox/south.png"), //south
+          assetManager.loadTexture("skybox/up.png"), //up
+          assetManager.loadTexture("skybox/down.png") //down
+        )); 
+
+        //Joint laden
+        Spatial joint = assetManager.loadModel("joint.mesh.xml");
+        
+        //Gizzmo laden [DEBUG]
+        Spatial gizzmo = assetManager.loadModel("Cylinder.mesh.xml");
+        gizzmo.scale (20);
+        rootNode.attachChild(gizzmo);
+
+        //Gelände laden
+        Spatial terrain = assetManager.loadModel("Grid.001.mesh.xml");
+        terrain.setCullHint(Spatial.CullHint.Never); //nie verstecken
+        terrain.scale(10,6,10);
+        terrain.move(0,-15,100);
+        rootNode.attachChild(terrain);
+
+      //*********************************************************************************//
+      //***                             Licht und Schatten                            ***//
+      //*********************************************************************************//
+      // Einrichtung der Lichtquellen und des Schattenwurfs                              //
+      //*********************************************************************************//
+        //Sonne 
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(1,-2,0).normalizeLocal());
+        sun.setColor(ColorRGBA.White);
+        rootNode.addLight(sun);
+
+        //Approcimation indirekter Beleuchtung 
+        AmbientLight ambient = new AmbientLight();
+        ambient.setColor(ColorRGBA.White);
+        rootNode.addLight(ambient);
+
+        //Schattenwurf
+        terrain.setShadowMode(ShadowMode.CastAndReceive);
+        bahn.setShadowMode(ShadowMode.CastAndReceive);
+
+      //*********************************************************************************//
+      //***           Kurvendaten erhalten und Bah erzeugen                           ***//
+      //*********************************************************************************//
+      // In dieser Sektion werden die Kurvendaten geholt und das Achterbahnobjekt        //
+      // dynamisch erzeugt                                                               //
+      //*********************************************************************************//
+        
+        //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
+        Curve curve = readCurve();
+        points = curve.getPointSequence(0.0,0.0); //für die spätere benutzung
+        Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
+        rootNode.attachChild(bahn); 
+
+        
+
+ 
+
+      //*********************************************************************************//
+      //***                   Userinteraktion                                         ***//
+      //*********************************************************************************//
+      // Tastaturevents abfangen und umleiten                                            //
+      //*********************************************************************************//
+
+        inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
+        inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
+        inputManager.addMapping("wire",  new KeyTrigger(KeyInput.KEY_M));
+        inputManager.addMapping("full",  new KeyTrigger(KeyInput.KEY_N));
+
+        inputManager.addListener(actionListener, new String[]{"up","down","wire","full"});
+
+      //*********************************************************************************//
+      //***                             GUI                                           ***//
+      //*********************************************************************************//
+      // Einrichtung der HUD Anzeigekomponente                                           //
+      //*********************************************************************************//
+
+        //TODO: HUD einfügen 
+
+
+      //*********************************************************************************//
+      //***                 Cameracontroler                                           ***//
+      //*********************************************************************************//
+      // Einrichtung des Cameracontroler zur Unterstützung unterschiedlicher Modi        //
+      //*********************************************************************************//
+
+        //TODO: Cameracontroler einfügen
+
+      //*********************************************************************************//
+      //*********************************************************************************//
     }
 
     @Override
@@ -194,7 +269,7 @@ inputManager.addListener(actionListener, new String[]{"up","down","wire","full"}
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-  /*      if (!pause) {time += tpf*3.0;}
+   /*    if (!pause) {time += tpf*12.0;}
         
         int behind = (int) time;
         int next = behind +1;
