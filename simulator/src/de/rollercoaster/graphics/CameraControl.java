@@ -2,7 +2,9 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 
 /**
@@ -11,12 +13,26 @@ import com.jme3.scene.shape.Box;
  */
 public class CameraControl extends SimpleApplication{
     private Vector3f carPosition;
-    private char mode = 'i';			//at  the beginning the interiror Cam is activated
+    private char mode = 'i';//at  the beginning the interiror Cam is activated
+    private Camera cam;
+    private Node car;
+		
+    /**
+    * Kontruktor
+    *
+    */
+		 
+    public CameraControl(Camera cam, Node car){
+        this.cam = cam;
+        this.car = car;
+    }
+		
+		
     /**
      * returns position of car for overview of way
      * @return 2D vector 
      */
-    public Vector2f getPosition(){
+    public Vector2f getOverviewPosition(){
         carPosition = cam.getLocation();
         Vector2f position2D = new Vector2f();
         //TODO: Vector3f in Vector 2f umwandeln
@@ -28,18 +44,7 @@ public class CameraControl extends SimpleApplication{
      * @param mode: cmaera mode
      */
     public void changeCameraMode(char mode){
-			this.mode = mode;
-				switch(mode){
-            case 'o': flyCam.setEnabled(true);
-													//TODO wagen sichtbar machen
-                      break;  
-                
-            case 'i': flyCam.setEnabled(false);
-												//TODO Wagen unsichtbar machen
-                      break;
-                
-            default: //TODO: Exception werfen
-        }      
+        this.mode = mode;
     }
     
     /**
@@ -48,14 +53,27 @@ public class CameraControl extends SimpleApplication{
      */
     public void initCar(Vector3f start){
         Box box = new Box(start, 1,1,1);
-        Geometry car = new Geometry("myBox", box) ;
-        car.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"));
-        rootNode.attachChild(car); 
+        Geometry wagon = new Geometry("myBox", box) ;
+        wagon.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"));
+        rootNode.attachChild(wagon); 
     }
+    
 
     @Override
     public void simpleInitApp() {
-        
+        switch(mode){
+            case 'o':
+                flyCam.setEnabled(true);
+                car.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"));  										//TODO wagen sichtbar machen
+                break;  
+                
+            case 'i': 
+                flyCam.setEnabled(false);
+                car.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Invisible.j3md"));
+                break;
+                
+            default: //TODO: Exception werfen
+        }
     }
     
 }
