@@ -55,8 +55,8 @@ public class Achterbahn extends Node {
       PatternCurve collisiondomain = null;
       //Bahn Extrude erzeugen
       try {
-      bahn = new PatternCurve(curve, new FilePattern("../models/pattern.obj"));
-      collisiondomain = new PatternCurve(curve, new FilePattern("../models/bounding_pattern.obj"));
+        bahn = new PatternCurve(points, new FilePattern("../models/pattern.obj"));
+        collisiondomain = new PatternCurve(points, new FilePattern("../models/bounding_pattern.obj"));
       }
       catch (Exception e) {
         System.out.println (e);
@@ -71,7 +71,7 @@ public class Achterbahn extends Node {
       bounding_bahn.setMaterial(mat);
 
       attachChild(geom_bahn);
-      attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
+      //attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
 
       //Joints erzeugen
       joints = new Node("joints");

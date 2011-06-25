@@ -27,8 +27,7 @@ import java.util.List;
 
 /**Achterbahn stellt ein MeshObjekt dar, welches nach den Daten einer Curve erzeugt wird. In jedem Punkt wird in die Ebene die durch Pitch und Yaw definiert ist ein vorgegebenes Pattern projiziert und mit dem gleichen 
  Pattern an der vorangegangenenen Stützstelle verbunden. Dadurch wird das Pattern entlang der Curve extrudiert. 
- <br> <br>
- Dev:  Aktuell wird das Pattern noch fest vorgegeben.
+ 
 
 @author Matthias
   
@@ -40,8 +39,8 @@ public class PatternCurve extends Mesh {
       <br> <br>
       Dev: Die gesamte Patternstruktur sollte eigentlich durch ein Objekt gekapselt werden*/
 
-    /**Lokaler >>Verweis<< auf die Kurve. */
-    private Curve curve;
+    /**Lokaler >>Verweis<< auf die Kurvedaten. */
+    private List<CurvePoint> points;
 
     /**Vertexdaten (Position und normalen). */
     private Pattern pattern;    
@@ -54,26 +53,22 @@ public class PatternCurve extends Mesh {
 
     /**Speichert das Bahnobjekt für die Erzeugung zwischen und erzeugt das Objekt mittels Aufruf von updateGeometry. 
     Es wird ein SimplePattern erzeugt.*/
-    public PatternCurve(Curve curve) {
-       this(curve,new SimplePattern());
+    public PatternCurve(List<CurvePoint> points) {
+       this(points,new SimplePattern());
     }
 
     /**Speichert das Bahnobjekt für die Erzeugung zwischen und erzeugt das Objekt mittels Aufruf von updateGeometry. 
     Ein Pattern für das Bahnprofil ist frei wählbar*/
-    public PatternCurve(Curve curve, Pattern pattern) {
+    public PatternCurve(List<CurvePoint> points, Pattern pattern) {
       super();
       //Referenz speichern
-      this.curve = curve;  
+      this.points = points;  
       this.pattern = pattern;
       updateGeometry();      
     }
 
     /**Erzeugt die Geometrie unserer Bahn wenn ein Update angefordert wird oder das Objekt erzeugt wird.  */
     public void updateGeometry() {
-
-        //Liste holen ... die Paramter tuen bis jetzt nix da nur die dummyliste erwartet wird
-        List<CurvePoint> points = curve.getPointSequence(0.0,0.0);
-
         /*Wir müssen uns den Speicher für jedes Eckpunkt beschaffen und dessen Koordinaten festlegen. Mittels Indizes können diese Eckpunkte dann zu 
           Dreiecken zusammengebaut werden.*/
         // Vertices (count)   wir brauchen für jede Position in Positions einmal das gesamte Pattern
@@ -194,20 +189,4 @@ public class PatternCurve extends Mesh {
         updateBound();
         
     }
-
-    /*Writer und Reader Methode:
-      JMonkey sieht vor, dass jedes Objekt geschrieben (in eine Datei) und auch wieder gelesen werden kann. Aktuell sind diese Methode nicht implementiert. 
-      TODO: Implementierung dieser Funktionen (soweit als Sinnig erachtet)*/
-
-    public void read(JmeImporter e) throws IOException {
-        super.read(e);
-        InputCapsule capsule = e.getCapsule(this);
-    }
-
-    public void write(JmeExporter e) throws IOException {
-        super.write(e);
-        OutputCapsule capsule = e.getCapsule(this);
-    }
-
-
 }

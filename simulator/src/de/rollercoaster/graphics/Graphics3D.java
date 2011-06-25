@@ -53,13 +53,6 @@ public class Graphics3D extends SimpleApplication {
     private ActionListener actionListener = new ActionListener() {
       private int pos = 0;
       public void onAction(String name, boolean keyPressed, float tpf) {
-        if (name.equals("wire") && !keyPressed ) {
-          rootNode.getChild("collision_volume").setMaterial(wireMaterial);
-        }
-        if (name.equals("full") && !keyPressed) {
-          rootNode.getChild("collision_volume").setMaterial(showNormalsMaterial);
-        }
-
         if (name.equals("up") && !keyPressed ) {
           Spatial node;
           pos++;
@@ -87,9 +80,9 @@ public class Graphics3D extends SimpleApplication {
 
     public boolean pause = false;
 
-        private Material wireMaterial ;
-        private Material showNormalsMaterial;
-        private Material redMat;
+    private Material wireMaterial ;
+    private Material showNormalsMaterial;
+    private Material redMat;
 
 
     private double time = 0;
@@ -182,6 +175,7 @@ public class Graphics3D extends SimpleApplication {
         terrain.scale(10,6,10);
         terrain.move(0,-15,100);
         rootNode.attachChild(terrain);
+        terrain.setShadowMode(ShadowMode.CastAndReceive);  //Schattenwurf
 
       //*********************************************************************************//
       //***                             Licht und Schatten                            ***//
@@ -199,9 +193,6 @@ public class Graphics3D extends SimpleApplication {
         ambient.setColor(ColorRGBA.White);
         rootNode.addLight(ambient);
 
-        //Schattenwurf
-        terrain.setShadowMode(ShadowMode.CastAndReceive);
-        bahn.setShadowMode(ShadowMode.CastAndReceive);
 
       //*********************************************************************************//
       //***           Kurvendaten erhalten und Bah erzeugen                           ***//
@@ -212,12 +203,11 @@ public class Graphics3D extends SimpleApplication {
         
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
         Curve curve = readCurve();
-        points = curve.getPointSequence(0.0,0.0); //für die spätere benutzung
         Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
         rootNode.attachChild(bahn); 
 
         
-
+        bahn.setShadowMode(ShadowMode.CastAndReceive);  //Schattenwurf
  
 
       //*********************************************************************************//
@@ -228,10 +218,8 @@ public class Graphics3D extends SimpleApplication {
 
         inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
         inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
-        inputManager.addMapping("wire",  new KeyTrigger(KeyInput.KEY_M));
-        inputManager.addMapping("full",  new KeyTrigger(KeyInput.KEY_N));
 
-        inputManager.addListener(actionListener, new String[]{"up","down","wire","full"});
+        inputManager.addListener(actionListener, new String[]{"up","down"});
 
       //*********************************************************************************//
       //***                             GUI                                           ***//
