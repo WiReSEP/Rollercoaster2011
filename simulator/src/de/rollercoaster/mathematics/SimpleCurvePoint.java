@@ -19,7 +19,32 @@ public class SimpleCurvePoint implements CurvePoint {
 
     this.roll = derivative.normalize();
     this.pitch = derivative.cross(up).normalize();
-    this.yaw = up.normalize();
+    this.yaw = up.subtract(roll.mult(roll.dot(up))).normalize();
+            
+    /*if (Math.abs(roll.dot(roll) - 1.0) > 0.001 ) {
+        throw new RuntimeException("Wrong Roll");
+    }
+    
+    if (Math.abs(pitch.dot(pitch) - 1.0) > 0.001 ) {
+        throw new RuntimeException("Wrong Roll");
+    }
+    
+    if (Math.abs(yaw.dot(yaw) - 1.0) > 0.001 ) {
+        throw new RuntimeException("Wrong Roll");
+    }
+    
+    if (Math.abs(pitch.dot(yaw)) > 0.001 ) {
+        throw new RuntimeException("Pith Yaw!");
+    }
+    
+    if (Math.abs(pitch.dot(roll)) > 0.001 ) {
+        throw new RuntimeException("Pitch Roll!");
+    }
+    
+    if (Math.abs(roll.dot(yaw)) > 0.001 ) {
+        throw new RuntimeException("Roll Yaw!");
+    }*/
+    
   }
 
   @Override
