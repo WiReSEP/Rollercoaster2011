@@ -35,11 +35,11 @@ import de.rollercoaster.graphics.pattern.*;
 
 public class Achterbahn extends Node {
 
-  final static  int MIN_JOINT_DISTANCE = 5;
-  final static  int MIN_POLE_DISTANCE = 35;
+  final static  int MIN_JOINT_DISTANCE = 1;
+  final static  int MIN_POLE_DISTANCE = 20;
 
-  final static float POLE_UPPER_DIAMETER = 1.0f;
-  final static float POLE_LOWER_DIAMETER = 6.0f;
+  final static float POLE_UPPER_DIAMETER = 0.2f;
+  final static float POLE_LOWER_DIAMETER = 2.5f;
 
   private Geometry geom_bahn;
   private Node joints;
@@ -162,7 +162,7 @@ public class Achterbahn extends Node {
           //System.out.printf ("[Pole %d] Collisions: %d \n", poscounter, colls);
           if (colls==4) { //min 4 Kollisionen entstehen, da wir in der aktuellen Position starten
             Vector3f pos = points.get(poscounter).getPosition().toF();   
-            pos.y = pos.y-250-0.5f; //0.5f damit es nicht oben rausragt
+            pos.y = pos.y-250-0.05f; //0.05f damit es nicht oben rausragt
             Geometry geom = new Geometry("pole"+poscounter, p);
             geom.setMaterial(mat);
             geom.setLocalTranslation(pos);
