@@ -1,59 +1,55 @@
 package de.rollercoaster.graphics;
-
+//eigene Packete
 import de.rollercoaster.mathematics.*;
 import de.rollercoaster.graphics.pattern.*;
+import de.rollercoaster.data.SerializedTrack;
+import de.rollercoaster.data.Track;
 
+//Fremdpackete (JMonkey)
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.Application;
-import com.jme3.material.Material;
-import com.jme3.math.Vector3f;
-import com.jme3.math.Matrix3f;
-
-import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Box;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
-import com.jme3.texture.Texture;
-import com.jme3.math.ColorRGBA;
-import java.awt.Dimension;
-//import java.awt.event.*;
-import java.util.List;
 import com.jme3.system.JmeContext.Type;
-import com.jme3.scene.Spatial;
-import com.jme3.asset.plugins.FileLocator;
-import com.jme3.input.controls.ActionListener;
-import com.jme3.input.KeyInput;
-import com.jme3.input.controls.KeyTrigger;
 
-import com.jme3.util.SkyFactory;
+import com.jme3.material.Material;
+
+import com.jme3.math.Vector3f;
+import com.jme3.math.Matrix3f;
+import com.jme3.math.ColorRGBA;
+
+import com.jme3.scene.Spatial;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
+
+import com.jme3.light.DirectionalLight;
+import com.jme3.light.AmbientLight;
+
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 
-
+import com.jme3.shadow.PssmShadowRenderer;
+import com.jme3.shadow.BasicShadowRenderer;
 
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.LightScatteringFilter;
 
-import com.jme3.shadow.PssmShadowRenderer;
-import com.jme3.shadow.BasicShadowRenderer;
-
-
-//Ein bisschen Licht damit wir die Normalen auch bewundern können^^
-import com.jme3.light.DirectionalLight;
-import com.jme3.light.AmbientLight;
-import de.rollercoaster.data.SerializedTrack;
-import de.rollercoaster.data.Track;
-import java.io.File;
-
+import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
 
-import com.jme3.scene.Node;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.KeyTrigger;
 
+import com.jme3.asset.plugins.FileLocator;
+import com.jme3.util.SkyFactory;
+
+//Fremdpackete (java)
+import java.util.List;
+import java.awt.Dimension;
 import java.io.FileNotFoundException;
-
-
-
+import java.io.File;
 
 public class Graphics3D extends SimpleApplication {
 
@@ -302,6 +298,12 @@ public class Graphics3D extends SimpleApplication {
     @Override
     public void simpleUpdate(float tpf) {
 
+        //ImplementMe: Simon+Robin   (das reinlinken des Observerpattern auf die Physik etc und Kameraupdates sind hier zu machen!)
+
+
+
+
+
 //        if (!pause) { time+=tpf;}
 //         
 //         if (time > 1) {
@@ -380,35 +382,35 @@ public class Graphics3D extends SimpleApplication {
 
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
     <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
-    public void setHUDData(/*Insert data here*/) {}
+    public void setHUDData(/*Insert data here*/) {//ImplementMe: Robin}
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
-    public void loadDeko(String filename) {}
+    public void loadDeko(String filename) {//ImplementMe: Matthias}
 
     /**Setzt den Track und damit die notwendigen Bahndaten. 
     <br><br>
 
     <DEV> Es ist zu entscheiden ob wir hier dann auch die Physik initialisieren wenn wir sowieso als Pumpe zuständig sind
     */
-    public void setTrack(Track track) {  }
+    public void setTrack(Track track) { //ImplementMe: Matthias  }
 
     /**Gibt das Pattern für die Achterbahn, also dessen Querschnitt vor. Das Pattern wird sofern verfügbar aus der Datei gelesen. 
     Gibt es die Datei nicht, wird eine FileNotFoundException geworfen.
     Wenn null anstatt eines String übergeben wird, dann wird ein SimplePattern initialisiert */
-    public void setPattern (String filename) throws FileNotFoundException {}
+    public void setPattern (String filename) throws FileNotFoundException {//ImplementMe: Matthias}
 
     /**Gibt einen Pfad für die Quelle der Joints vor. Der Pfad ist relativ zum Assetsverzeichnis models anzugeben. 
     Ist die Datei nicht auffindbar, wird eine Exception geworfen
     */
-    public void setJoint (String filename) throws FileNotFoundException {}
+    public void setJoint (String filename) throws FileNotFoundException {//ImplementMe: Matthias}
 
-    public boolean getShowStateDekoration ()  {return true;}
-    public void  setShowStateDekoration (boolean state)  {}
+    public boolean getShowStateDekoration ()  {return true;//ImplementMe: Matthias}
+    public void  setShowStateDekoration (boolean state)  {//ImplementMe: Matthias}
 
-    public boolean getShowStatePoles ()  { return true;}
-    public void setShowStatePoles (boolean state)  {}
+    public boolean getShowStatePoles ()  { return true;//ImplementMe: Matthias}
+    public void setShowStatePoles (boolean state)  {//ImplementMe: Matthias}
 
-    public void setCameraMode (char mode) {}
-    public char getCameraMode () {return 'i';}
+    public void setCameraMode (char mode) {//ImplementMe: Simon}
+    public char getCameraMode () {return 'i';//ImplementMe: Simon}
 
 }

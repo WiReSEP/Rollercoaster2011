@@ -38,6 +38,7 @@ public class Achterbahn extends Node {
   final static  int MIN_JOINT_DISTANCE = 1;
   final static  int MIN_POLE_DISTANCE = 20;
 
+  //TODO: Anhand des Patterns ermitteln
   final static float POLE_UPPER_DIAMETER = 0.2f;
   final static float POLE_LOWER_DIAMETER = 2.5f;
 
@@ -77,15 +78,20 @@ public class Achterbahn extends Node {
       joints = new Node("joints");
       this.attachChild(joints);
 
-      int joint_distance = 20;
+      //TODO: zu nahe Joints/Poles abfangen
 
-      int number_of_joints = (int) (1.0*curve.getLength()/joint_distance);
-      double actual_distance = 1.0*curve.getLength()/number_of_joints;
+      /*  Algorithmische Idee für die Joints:  
+      - Approximation der Kurvenlänge durch aufsummieren der Abstände von zwei aufeinanderfolgenden Punkten
+      - maxJoints = (int) approxlength/mmaxDistance;
+      - alter algorithmus plus zähler damit der letzte nicht überflüssiger weise gesetzt wird
+
+      Algorithmische Idee für die Poles
+      - wie oben nur, dass y Achse nicht beachtet wird (die höhe gilt nicht als Abstand) 
 
 
-      System.out.printf ("DBGData: CurveLenght %f\n",curve.getLength());
+      In beiden Fällen: Wird der Fehler an der Nahtstelle zu groß muss ggf die Konstante lockerer gehandhabt werden
+*/
 
-      System.out.printf ("*****\n\n\nSpatial: %s\n*****\n\n\n", joint3d);
 
 
       //*********************************************************************************//
