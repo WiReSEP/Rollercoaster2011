@@ -43,10 +43,22 @@ import com.jme3.shadow.BasicShadowRenderer;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.AmbientLight;
 import de.rollercoaster.data.SerializedTrack;
+import de.rollercoaster.data.Track;
 import java.io.File;
+
+import com.jme3.texture.Texture.WrapMode;
+
+import com.jme3.scene.Node;
+
+import java.io.FileNotFoundException;
+
+
 
 
 public class Graphics3D extends SimpleApplication {
+
+
+
     private int counter = 0;
 
 
@@ -165,6 +177,7 @@ public class Graphics3D extends SimpleApplication {
 
         //Joint laden
         Spatial joint = assetManager.loadModel("joint.mesh.xml");
+        Material bahn_material = ((Geometry)((Node)joint).getChild(0)).getMaterial();
         
         //Gizzmo laden [DEBUG]
         Spatial gizzmo = assetManager.loadModel("gizzmo.mesh.xml");
@@ -180,29 +193,31 @@ public class Graphics3D extends SimpleApplication {
         terrain.setShadowMode(ShadowMode.Receive);  //Schattenwurf
 
         //GeländeMaterial laden
-        // mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
-        //  
-        //     /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
-        //     mat_terrain.setTexture("m_Alpha",
-        //                assetManager.loadTexture("Textures/Terrain/splat/alphamap.png"));
-        //  
-        //     /** 1.2) Add GRASS texture into the red layer (m_Tex1). */
-        //     Texture grass = assetManager.loadTexture("Textures/Terrain/splat/grass.jpg");
-        //     grass.setWrap(WrapMode.Repeat);
-        //     mat_terrain.setTexture("m_Tex1", grass);
-        //     mat_terrain.setFloat("m_Tex1Scale", 64f);
-        //  
-        //     /** 1.3) Add DIRT texture into the green layer (m_Tex2) */
-        //     Texture dirt = assetManager.loadTexture("Textures/Terrain/splat/dirt.jpg");
-        //     dirt.setWrap(WrapMode.Repeat);
-        //     mat_terrain.setTexture("m_Tex2", dirt);
-        //     mat_terrain.setFloat("m_Tex2Scale", 32f);
-        //  
-        //     /** 1.4) Add ROAD texture into the blue layer (m_Tex3) */
-        //     Texture rock = assetManager.loadTexture("Textures/Terrain/splat/road.jpg");
-        //     rock.setWrap(WrapMode.Repeat);
-        //     mat_terrain.setTexture("m_Tex3", rock);
-        //     mat_terrain.setFloat("m_Tex3Scale", 128f);
+        Material mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
+         
+            /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
+            mat_terrain.setTexture("m_Alpha",
+                       assetManager.loadTexture("terrain_alpha.png"));
+         
+            /** 1.2) Add GRASS texture into the red layer (m_Tex1). */
+            Texture grass = assetManager.loadTexture("grass.jpg");
+            grass.setWrap(WrapMode.Repeat);
+            mat_terrain.setTexture("m_Tex1", grass);
+            mat_terrain.setFloat("m_Tex1Scale", 64f);
+         
+            /** 1.3) Add DIRT texture into the green layer (m_Tex2) */
+            Texture dirt = assetManager.loadTexture("dirt.jpg");
+            dirt.setWrap(WrapMode.Repeat);
+            mat_terrain.setTexture("m_Tex2", dirt);
+            mat_terrain.setFloat("m_Tex2Scale", 32f);
+         
+            /** 1.4) Add ROAD texture into the blue layer (m_Tex3) */
+            Texture rock = assetManager.loadTexture("dirt.jpg");
+            rock.setWrap(WrapMode.Repeat);
+            mat_terrain.setTexture("m_Tex3", rock);
+            mat_terrain.setFloat("m_Tex3Scale", 128f);
+
+         // terrain.setMaterial(mat_terrain);
 
 
       //*********************************************************************************//
@@ -214,13 +229,13 @@ public class Graphics3D extends SimpleApplication {
         DirectionalLight sun = new DirectionalLight();
         Vector3f lightdirection =new Vector3f(0.7366f,-0.44128f,-0.512525f).normalize();
         sun.setDirection(lightdirection);
-        sun.setColor(ColorRGBA.White.mult(2.0f));
+        sun.setColor(ColorRGBA.White.mult(1.0f));
         rootNode.addLight(sun);
 
         //Approcimation indirekter Beleuchtung 
         AmbientLight ambient = new AmbientLight();
-        ambient.setColor(ColorRGBA.White.mult(0.6f));
-//         rootNode.addLight(ambient);
+        ambient.setColor(ColorRGBA.White.mult(0.9f));
+        rootNode.addLight(ambient);
 //         rootNode.setShadowMode(ShadowMode.Off);
 // 
 //         PssmShadowRenderer pssmRenderer = new PssmShadowRenderer(
@@ -245,7 +260,7 @@ public class Graphics3D extends SimpleApplication {
         
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
         Curve curve = readCurve();
-        Achterbahn bahn = new Achterbahn(curve,showNormalsMaterial,joint);
+        Achterbahn bahn = new Achterbahn(curve,bahn_material,joint);
         rootNode.attachChild(bahn); 
 
         
@@ -299,7 +314,9 @@ public class Graphics3D extends SimpleApplication {
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-   /*    if (!pause) {time += tpf*12.0;}
+/*        if (points == null) return;
+
+       if (!pause) {time += tpf*12.0;}
         
         int behind = (int) time;
         int next = behind +1;
@@ -352,15 +369,46 @@ public class Graphics3D extends SimpleApplication {
         close = true;
     }
 	
-    //Setzt HUD-Daten zur Anzeige
-    public void setHUDData(/*Insert data here*/) {
-    }
 
-    //Lädt (ggf nur eine Config-) Datei die die Deko enth#ält (oder auf sie verweist)
-    public void loadDeko(String filename) {
-    }
+    //*********************************************************************************//
+    //***                 Interaktionsmethoden zur GUI                              ***//
+    //*********************************************************************************//
+    // Die nachfolgenden Methoden dienen zum Informationsaustausch zwischen GUi und    //
+    //3D-Komponente.                                                                   //
+    //*********************************************************************************//
 
-    //Bekommt eine Bahn und generiert das 3d Bahn object entsprechend
-    public void setTrack() {
-    }
+
+    /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
+    <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
+    public void setHUDData(/*Insert data here*/) {}
+
+    /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
+    public void loadDeko(String filename) {}
+
+    /**Setzt den Track und damit die notwendigen Bahndaten. 
+    <br><br>
+
+    <DEV> Es ist zu entscheiden ob wir hier dann auch die Physik initialisieren wenn wir sowieso als Pumpe zuständig sind
+    */
+    public void setTrack(Track track) {  }
+
+    /**Gibt das Pattern für die Achterbahn, also dessen Querschnitt vor. Das Pattern wird sofern verfügbar aus der Datei gelesen. 
+    Gibt es die Datei nicht, wird eine FileNotFoundException geworfen.
+    Wenn null anstatt eines String übergeben wird, dann wird ein SimplePattern initialisiert */
+    public void setPattern (String filename) throws FileNotFoundException {}
+
+    /**Gibt einen Pfad für die Quelle der Joints vor. Der Pfad ist relativ zum Assetsverzeichnis models anzugeben. 
+    Ist die Datei nicht auffindbar, wird eine Exception geworfen
+    */
+    public void setJoint (String filename) throws FileNotFoundException {}
+
+    public boolean getShowStateDekoration ()  {return true;}
+    public void  setShowStateDekoration (boolean state)  {}
+
+    public boolean getShowStatePoles ()  { return true;}
+    public void setShowStatePoles (boolean state)  {}
+
+    public void setCameraMode (char mode) {}
+    public char getCameraMode () {return 'i';}
+
 }
