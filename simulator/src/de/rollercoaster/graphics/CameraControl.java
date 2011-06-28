@@ -1,5 +1,6 @@
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
+import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -16,6 +17,7 @@ public class CameraControl extends SimpleApplication{
     private char mode = 'i';//at  the beginning the interiror Cam is activated
     private Camera cam;
     private Node car;
+    private Matrix3f matrix = new Matrix3f();
 		
     /**
     * Kontruktor
@@ -64,7 +66,7 @@ public class CameraControl extends SimpleApplication{
         switch(mode){
             case 'o':
                 flyCam.setEnabled(true);
-                car.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"));  										//TODO wagen sichtbar machen
+                car.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md"));  									
                 break;  
                 
             case 'i': 
@@ -72,7 +74,7 @@ public class CameraControl extends SimpleApplication{
                 car.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/Invisible.j3md"));
                 break;
                 
-            default: //TODO: Exception werfen
+            default:
         }
     }
     
