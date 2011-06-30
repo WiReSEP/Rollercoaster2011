@@ -54,77 +54,78 @@ import java.io.File;
 
 public class Graphics3D extends SimpleApplication {
 
-
-
+    private final RollercoasterView view;
+    private CameraControl cameraControl;
+    private Achterbahn bahn;
     private int counter = 0;
-
-
-
-
     private ActionListener actionListener = new ActionListener() {
-      private int pos = 0;
-      public void onAction(String name, boolean keyPressed, float tpf) {
-        if (name.equals("up") && !keyPressed ) {
-          Spatial node;
-          pos++;
-          while (((node=rootNode.getChild("pole"+pos))== null) && pos < 20000) {pos++;}
-          System.out.printf ("Selected Pole %d ...",pos);
-          if (node != null) node.setMaterial(redMat);
-          int lastpos = pos-1; 
-          while (((node=rootNode.getChild("pole"+lastpos))== null) && lastpos > -10) {lastpos--;}
-          if (node != null) node.setMaterial(showNormalsMaterial);
-          System.out.printf ("done \n");
+
+        private int pos = 0;
+
+        public void onAction(String name, boolean keyPressed, float tpf) {
+            if (name.equals("up") && !keyPressed) {
+                Spatial node;
+                pos++;
+                while (((node = rootNode.getChild("pole" + pos)) == null) && pos < 20000) {
+                    pos++;
+                }
+                System.out.printf("Selected Pole %d ...", pos);
+                if (node != null) {
+                    node.setMaterial(redMat);
+                }
+                int lastpos = pos - 1;
+                while (((node = rootNode.getChild("pole" + lastpos)) == null) && lastpos > -10) {
+                    lastpos--;
+                }
+                if (node != null) {
+                    node.setMaterial(showNormalsMaterial);
+                }
+                System.out.printf("done \n");
+            }
+
+            if (name.equals("down") && !keyPressed) {
+                Spatial node;
+                pos--;
+                while (((node = rootNode.getChild("pole" + pos)) == null) && pos > -10) {
+                    pos--;
+                }
+                if (node != null) {
+                    node.setMaterial(redMat);
+                }
+                int lastpos = pos + 1;
+                while (((node = rootNode.getChild("pole" + lastpos)) == null) && lastpos < 20000) {
+                    lastpos++;
+                }
+                if (node != null) {
+                    node.setMaterial(showNormalsMaterial);
+                }
+            }
         }
-     
-        if (name.equals("down") && !keyPressed ) {
-          Spatial node;
-          pos--;
-          while (((node=rootNode.getChild("pole"+pos))== null) && pos > -10) {pos--;}
-          if (node != null) node.setMaterial(redMat);
-          int lastpos = pos+1; 
-          while (((node=rootNode.getChild("pole"+lastpos))== null) && lastpos < 20000) {lastpos++;}
-          if (node != null) node.setMaterial(showNormalsMaterial);
-        }
-      }
     };
-
-
     public boolean pause = false;
-
-    private Material wireMaterial ;
+    private Material wireMaterial;
     private Material showNormalsMaterial;
     private Material redMat;
-
-
     private double time = 0;
     private List<CurvePoint> points;
-
     private JmeCanvasContext ctx = null;
 
-    public Graphics3D() {
+    public Graphics3D(RollercoasterView view) {
         super();
+        this.view = view;
         //simpleInitApp();
     }
     private boolean close = false;
 
-    private Curve readCurve() {
-         // Lade Probedatei
-        SerializedTrack reader = new SerializedTrack(new File("examples/colossos.xml"));
-        reader.read();
-        
-        return reader.getCurve();       
-        // return new DummyCurve();
-    }
-    
     @Override
     public void simpleInitApp() {
 
-      //*********************************************************************************//
-      //***                      Einstellungen an der Engine                          ***//
-      //*********************************************************************************//
-      // Die Einstellungen die für unsere Zwecke angepasst werden müssen werden in dieer //
-      // Sektion getätigt                                                                //
-      //*********************************************************************************//
+        //*********************************************************************************//
+        //***                      Einstellungen an der Engine                          ***//
+        //*********************************************************************************//
+        // Die Einstellungen die für unsere Zwecke angepasst werden müssen werden in dieer //
+        // Sektion getätigt                                                                //
+        //*********************************************************************************//
 
         
 
@@ -142,52 +143,52 @@ public class Graphics3D extends SimpleApplication {
         //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
         this.setPauseOnLostFocus(false);
 
-      //*********************************************************************************//
-      //***                         Assets einrichten                                 ***//
-      //*********************************************************************************//
-      // In dieser Sektion werden notwendige Daten geladen die Inhalt oder Art der       //
-      // Darstellung beeinflussen. Im wesentlichen werden die Quellpfade gesetzt und     //
-      // Materialien, Objekte und Texturen geladen                                       //
-      //*********************************************************************************//
+        //*********************************************************************************//
+        //***                         Assets einrichten                                 ***//
+        //*********************************************************************************//
+        // In dieser Sektion werden notwendige Daten geladen die Inhalt oder Art der       //
+        // Darstellung beeinflussen. Im wesentlichen werden die Quellpfade gesetzt und     //
+        // Materialien, Objekte und Texturen geladen                                       //
+        //*********************************************************************************//
 
         //Pfad um eigene AssetsOrdner erweitern
-        assetManager.registerLocator("../models/",FileLocator.class.getName());  //Custom-Path einrichten
+        assetManager.registerLocator("../models/", FileLocator.class.getName());  //Custom-Path einrichten
 
         //Materialien setzen
         wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
-        wireMaterial.setColor("Color", ColorRGBA.Yellow);        
+        wireMaterial.setColor("Color", ColorRGBA.Yellow);
         Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
-        mat1.setColor("Color", ColorRGBA.Red);        
+        mat1.setColor("Color", ColorRGBA.Red);
 
         //Debug-Materialien[DEBUG]
         showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
         redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         redMat.setColor("Color", ColorRGBA.Red);
-        
+
         //Skybox
         rootNode.attachChild(SkyFactory.createSky(assetManager,
-          assetManager.loadTexture("skybox/west.png"), //west
-          assetManager.loadTexture("skybox/east.png"), //east
-          assetManager.loadTexture("skybox/north.png"), //north
-          assetManager.loadTexture("skybox/south.png"), //south
-          assetManager.loadTexture("skybox/up.png"), //up
-          assetManager.loadTexture("skybox/down.png") //down
-        )); 
+                assetManager.loadTexture("skybox/west.png"), //west
+                assetManager.loadTexture("skybox/east.png"), //east
+                assetManager.loadTexture("skybox/north.png"), //north
+                assetManager.loadTexture("skybox/south.png"), //south
+                assetManager.loadTexture("skybox/up.png"), //up
+                assetManager.loadTexture("skybox/down.png") //down
+                ));
 
         //Joint laden
         Spatial joint = assetManager.loadModel("joint.mesh.xml");
-        Material bahn_material = ((Geometry)((Node)joint).getChild(0)).getMaterial();
-        
+        Material bahn_material = ((Geometry) ((Node) joint).getChild(0)).getMaterial();
+
         //Gizzmo laden [DEBUG]
         Spatial gizzmo = assetManager.loadModel("gizzmo.mesh.xml");
-        gizzmo.scale (20);
+        gizzmo.scale(20);
         rootNode.attachChild(gizzmo);
 
         //Gelände laden
         Spatial terrain = assetManager.loadModel("terrain.mesh.xml");
         terrain.setCullHint(Spatial.CullHint.Never); //nie verstecken
-        terrain.scale(10,6,10);
-        terrain.move(0,-15,100);
+        terrain.scale(10, 6, 10);
+        terrain.move(0, -15, 100);
         rootNode.attachChild(terrain);
         terrain.setShadowMode(ShadowMode.Receive);  //Schattenwurf
 
@@ -224,9 +225,10 @@ public class Graphics3D extends SimpleApplication {
       //*********************************************************************************//
       // Einrichtung der Lichtquellen und des Schattenwurfs                              //
       //*********************************************************************************//
+
         //Sonne 
         DirectionalLight sun = new DirectionalLight();
-        Vector3f lightdirection =new Vector3f(0.7366f,-0.44128f,-0.512525f).normalize();
+        Vector3f lightdirection = new Vector3f(0.7366f, -0.44128f, -0.512525f).normalize();
         sun.setDirection(lightdirection);
         sun.setColor(ColorRGBA.White.mult(1.0f));
         rootNode.addLight(sun);
@@ -250,60 +252,61 @@ public class Graphics3D extends SimpleApplication {
 
 
 
-      //*********************************************************************************//
-      //***           Kurvendaten erhalten und Bah erzeugen                           ***//
-      //*********************************************************************************//
-      // In dieser Sektion werden die Kurvendaten geholt und das Achterbahnobjekt        //
-      // dynamisch erzeugt                                                               //
-      //*********************************************************************************//
-        
+        //*********************************************************************************//
+        //***           Kurvendaten erhalten und Bah erzeugen                           ***//
+        //*********************************************************************************//
+        // In dieser Sektion werden die Kurvendaten geholt und das Achterbahnobjekt        //
+        // dynamisch erzeugt                                                               //
+        //*********************************************************************************//
+
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
-        Curve curve = readCurve();
-        Achterbahn bahn = new Achterbahn(curve,bahn_material,joint);
-        rootNode.attachChild(bahn); 
+        bahn = new Achterbahn(view.getCurve(), bahn_material, joint);
+        rootNode.attachChild(bahn);
 
-        
+
         bahn.setShadowMode(ShadowMode.CastAndReceive);  //Schattenwurf
- 
 
-      //*********************************************************************************//
-      //***                   Userinteraktion                                         ***//
-      //*********************************************************************************//
-      // Tastaturevents abfangen und umleiten                                            //
-      //*********************************************************************************//
 
-        inputManager.addMapping("up",  new KeyTrigger(KeyInput.KEY_ADD));
-        inputManager.addMapping("down",  new KeyTrigger(KeyInput.KEY_SUBTRACT));
+        //*********************************************************************************//
+        //***                   Userinteraktion                                         ***//
+        //*********************************************************************************//
+        // Tastaturevents abfangen und umleiten                                            //
+        //*********************************************************************************//
 
-        inputManager.addListener(actionListener, new String[]{"up","down"});
+        inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_ADD));
+        inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_SUBTRACT));
 
-      //*********************************************************************************//
-      //***                             GUI                                           ***//
-      //*********************************************************************************//
-      // Einrichtung der HUD Anzeigekomponente                                           //
-      //*********************************************************************************//
+        inputManager.addListener(actionListener, new String[]{"up", "down"});
+
+        //*********************************************************************************//
+        //***                             GUI                                           ***//
+        //*********************************************************************************//
+        // Einrichtung der HUD Anzeigekomponente                                           //
+        //*********************************************************************************//
 
         //TODO: HUD einfügen 
 
 
-      //*********************************************************************************//
-      //***                 Cameracontroler                                           ***//
-      //*********************************************************************************//
-      // Einrichtung des Cameracontroler zur Unterstützung unterschiedlicher Modi        //
-      //*********************************************************************************//
+        //*********************************************************************************//
+        //***                 Cameracontroler                                           ***//
+        //*********************************************************************************//
+        // Einrichtung des Cameracontroler zur Unterstützung unterschiedlicher Modi        //
+        //*********************************************************************************//
 
-        //TODO: Cameracontroler einfügen
+        this.cameraControl = new CameraControl(this, cam);
 
-      //*********************************************************************************//
-      //*********************************************************************************//
+        //*********************************************************************************//
+        //*********************************************************************************//
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-
-        //ImplementMe: Simon+Robin   (das reinlinken des Observerpattern auf die Physik etc und Kameraupdates sind hier zu machen!)
-
-
+        //*********************************************************************************//
+        //*** MainLoop                                                                  ***//
+        //*********************************************************************************//
+        // Teile allen Observern den nächsten Zeitschritt mit                              //
+        //*********************************************************************************//
+        view.notifyObservers(tpf);
 
 
 
@@ -319,52 +322,52 @@ public class Graphics3D extends SimpleApplication {
 
         /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
 
-/*        if (points == null) return;
-
-       if (!pause) {time += tpf*12.0;}
+        /*        if (points == null) return;
+        
+        if (!pause) {time += tpf*12.0;}
         
         int behind = (int) time;
         int next = behind +1;
-
+        
         float isnext = (float)time-behind;
-
+        
         if (behind < 0) {behind = 0;}
         if (next < 0) {next = 0;}
-
+        
         while (behind> points.size()-1) {behind -= points.size()-1;}
         while (next> points.size()-1) {next -= points.size()-1;}
-
+        
         //System.out.printf ("<%d,%d>(%d)\n",behind,next,points.size());
         
         //setFrame nur mit  left, deshalb right spiegeln
         
         Vector3d pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext)).mult(-1.0);
-              
+        
         Vector3d yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
         Vector3d roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
         Vector3d loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5));
-
-
+        
+        
         this.getCamera().setFrame(loc.toF(),pitch.toF() ,yaw.toF() ,roll.toF());
         cam.update();//*/
-        
+
     }
 
     public JmeCanvasContext getCanvasObject() {
-           AppSettings settings = new AppSettings(true);
-           settings.setWidth(640);
-           settings.setHeight(480);
-           settings.setFrameRate(30);
- 
-           this.setSettings(settings);
+        AppSettings settings = new AppSettings(true);
+        settings.setWidth(640);
+        settings.setHeight(480);
+        settings.setFrameRate(30);
+
+        this.setSettings(settings);
 
         this.createCanvas(); // create canvas!
         ctx = (JmeCanvasContext) this.getContext();
         Dimension dim = new Dimension(640, 480);
         ctx.getCanvas().setPreferredSize(dim);
         // this.startCanvas(); // create canvas!
-        
-        
+
+
 
         return ctx;
     }
@@ -373,7 +376,6 @@ public class Graphics3D extends SimpleApplication {
     public void freeCanvas() {
         close = true;
     }
-  
 
     //*********************************************************************************//
     //***                 Interaktionsmethoden zur GUI                              ***//
@@ -381,8 +383,6 @@ public class Graphics3D extends SimpleApplication {
     // Die nachfolgenden Methoden dienen zum Informationsaustausch zwischen GUi und    //
     //3D-Komponente.                                                                   //
     //*********************************************************************************//
-
-
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
     <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
     public void setHUDData(/*Insert data here*/) {//ImplementMe: Robin
@@ -392,39 +392,49 @@ public class Graphics3D extends SimpleApplication {
     public void loadDeko(String filename) {//ImplementMe: Matthias
     }
 
-    /**Setzt den Track und damit die notwendigen Bahndaten. 
+    /**Setzt die Bahnkurve. 
     <br><br>
-
+    
     <DEV> Es ist zu entscheiden ob wir hier dann auch die Physik initialisieren wenn wir sowieso als Pumpe zuständig sind
-    */
-    public void setTrack(Track track) { //ImplementMe: Matthias
+     */
+    public void setCurve(Curve curve) { //ImplementMe: Matthias
     }
 
     /**Gibt das Pattern für die Achterbahn, also dessen Querschnitt vor. Das Pattern wird sofern verfügbar aus der Datei gelesen. 
     Gibt es die Datei nicht, wird eine FileNotFoundException geworfen.
     Wenn null anstatt eines String übergeben wird, dann wird ein SimplePattern initialisiert */
-    public void setPattern (String filename) throws FileNotFoundException {//ImplementMe: Matthias
+    public void setPattern(String filename) throws FileNotFoundException {//ImplementMe: Matthias
     }
 
     /**Gibt einen Pfad für die Quelle der Joints vor. Der Pfad ist relativ zum Assetsverzeichnis models anzugeben. 
     Ist die Datei nicht auffindbar, wird eine Exception geworfen
-    */
-    public void setJoint (String filename) throws FileNotFoundException {//ImplementMe: Matthias
+     */
+    public void setJoint(String filename) throws FileNotFoundException {//ImplementMe: Matthias
     }
 
-    public boolean getShowStateDekoration ()  {return true;//ImplementMe: Matthias
-    }
-    public void  setShowStateDekoration (boolean state)  {//ImplementMe: Matthias
-    }
-
-    public boolean getShowStatePoles ()  { return true;//ImplementMe: Matthias
-    }
-    public void setShowStatePoles (boolean state)  {//ImplementMe: Matthias
+    public boolean getShowStateDekoration() {
+        return true;//ImplementMe: Matthias
     }
 
-    public void setCameraMode (char mode) {//ImplementMe: Simon
-    }
-    public char getCameraMode () {return 'i';//ImplementMe: Simon
+    public void setShowStateDekoration(boolean state) {//ImplementMe: Matthias
     }
 
+    public boolean getShowStatePoles() {
+        return true;//ImplementMe: Matthias
+    }
+
+    public void setShowStatePoles(boolean state) {//ImplementMe: Matthias
+    }
+
+    public void setCameraMode(CameraMode mode) {
+        cameraControl.setCameraMode(mode);
+    }
+
+    public CameraMode getCameraMode() {
+        return cameraControl.getCameraMode();
+    }
+
+    void setCamera(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
+        cameraControl.setCarPosition(location, left, up, direction);
+    }
 }

@@ -4,4 +4,5 @@ import de.rollercoaster.mathematics.Curve;
 
 public interface Track {
     Curve getCurve();
+    double getInitialVelocity();
 }
