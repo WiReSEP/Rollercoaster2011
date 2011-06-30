@@ -52,9 +52,11 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     CurvePoint point = curve.getPoint(s);
     Vector3d velocity = point.getDerivative().mult(sDerivative);
     Vector3d acceleration = point.getDerivative().mult(sDotDot).add(point.getSecondDerivative().mult(sDerivative * sDerivative));
-    Vector3d jerk = acceleration.subtract(previousState.getAcceleration()).divide(deltaTime);
+    Vector3d jerk = null; // acceleration.subtract(previousState.getAcceleration()).divide(deltaTime);
 
     state = new SimpleTrajectoryPoint(point, velocity, acceleration, jerk);
+    
+    notifyObservers(state);
   }
 
   @Override

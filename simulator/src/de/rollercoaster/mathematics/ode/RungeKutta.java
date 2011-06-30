@@ -27,9 +27,11 @@ public class RungeKutta implements Integrator {
       for (int i = 0; i < x0.length; i++) {
         x[i] += dt / 6.0 * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]);
       }
+      
+      t += dt;
     }
 
-    return null;
+    return x;
   }
 
   private static double[] linearCombination(double[] x, double s, double[] k) {

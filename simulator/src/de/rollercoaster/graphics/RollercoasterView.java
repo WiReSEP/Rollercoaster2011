@@ -38,8 +38,7 @@ public class RollercoasterView implements View {
     public void setCurve(Curve curve) {
         graphics.setCurve(curve);
     }
-    
-    
+
     public Curve getCurve() {
         return curve;
     }

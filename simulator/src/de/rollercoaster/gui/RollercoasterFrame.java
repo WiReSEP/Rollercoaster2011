@@ -206,12 +206,12 @@ public class RollercoasterFrame extends JFrame {
   class ButtonListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
       if (e.getSource() == startButton) { //Simulation starten
-        JOptionPane.showMessageDialog(null, "Starte Simulation.");
+       // JOptionPane.showMessageDialog(null, "Starte Simulation.");
 
         sim.start();
         log.append("Simulation gestartet.");
       } else if (e.getSource() == stopButton) { //Simulation stoppen
-        JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
+       // JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
         sim.stop();
         log.append("Simulation gestoppt.");
       }

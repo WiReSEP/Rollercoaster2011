@@ -435,6 +435,7 @@ public class Graphics3D extends SimpleApplication {
     }
 
     void setCamera(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
-        cameraControl.setCarPosition(location, left, up, direction);
+        Vector3f pos = location.add(up.normalize().mult(2.0f));
+        cameraControl.setCarPosition(pos, left.mult(-1.0f), up, direction);
     }
 }

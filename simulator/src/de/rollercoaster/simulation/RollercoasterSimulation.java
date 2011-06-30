@@ -25,8 +25,6 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
         this.graphics = new RollercoasterView(curve);
         this.physics = new RollercoasterTrajectory(curve, s0, track.getInitialVelocity());
         this.timeScale = 1.0;
-
-        graphics.addObserver(this);
     }
 
     @Override
@@ -90,8 +88,9 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
     public void setTrack(Track track) {
         Curve curve = track.getCurve();
         double s0 = 0;
+        double v0 = 0.01; // track.getInitialVelocity();
 
         graphics.setCurve(curve);
-        physics = new RollercoasterTrajectory(curve, s0, track.getInitialVelocity());
+        physics = new RollercoasterTrajectory(curve, s0, v0);
     }
 }

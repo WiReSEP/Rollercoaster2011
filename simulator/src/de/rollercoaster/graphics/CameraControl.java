@@ -84,5 +84,7 @@ public class CameraControl {
     }
 
     void setCarPosition(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
+        // Fallunterscheidung;
+        cam.setFrame(location, left, up, direction);
     }
 }
