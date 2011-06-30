@@ -333,10 +333,10 @@ public class Graphics3D extends SimpleApplication {
 
         //System.out.printf ("<%d,%d>(%d)\n",behind,next,points.size());
         
-				//setFrame nur mit  left, deshalb right spiegeln
-				
+        //setFrame nur mit  left, deshalb right spiegeln
+        
         Vector3d pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext)).mult(-1.0);
-      				
+              
         Vector3d yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
         Vector3d roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
         Vector3d loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5));
@@ -370,7 +370,7 @@ public class Graphics3D extends SimpleApplication {
     public void freeCanvas() {
         close = true;
     }
-	
+  
 
     //*********************************************************************************//
     //***                 Interaktionsmethoden zur GUI                              ***//
@@ -382,35 +382,46 @@ public class Graphics3D extends SimpleApplication {
 
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
     <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
-    public void setHUDData(/*Insert data here*/) {//ImplementMe: Robin}
+    public void setHUDData(/*Insert data here*/) {//ImplementMe: Robin
+    }
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
-    public void loadDeko(String filename) {//ImplementMe: Matthias}
+    public void loadDeko(String filename) {//ImplementMe: Matthias
+    }
 
     /**Setzt den Track und damit die notwendigen Bahndaten. 
     <br><br>
 
     <DEV> Es ist zu entscheiden ob wir hier dann auch die Physik initialisieren wenn wir sowieso als Pumpe zuständig sind
     */
-    public void setTrack(Track track) { //ImplementMe: Matthias  }
+    public void setTrack(Track track) { //ImplementMe: Matthias
+    }
 
     /**Gibt das Pattern für die Achterbahn, also dessen Querschnitt vor. Das Pattern wird sofern verfügbar aus der Datei gelesen. 
     Gibt es die Datei nicht, wird eine FileNotFoundException geworfen.
     Wenn null anstatt eines String übergeben wird, dann wird ein SimplePattern initialisiert */
-    public void setPattern (String filename) throws FileNotFoundException {//ImplementMe: Matthias}
+    public void setPattern (String filename) throws FileNotFoundException {//ImplementMe: Matthias
+    }
 
     /**Gibt einen Pfad für die Quelle der Joints vor. Der Pfad ist relativ zum Assetsverzeichnis models anzugeben. 
     Ist die Datei nicht auffindbar, wird eine Exception geworfen
     */
-    public void setJoint (String filename) throws FileNotFoundException {//ImplementMe: Matthias}
+    public void setJoint (String filename) throws FileNotFoundException {//ImplementMe: Matthias
+    }
 
-    public boolean getShowStateDekoration ()  {return true;//ImplementMe: Matthias}
-    public void  setShowStateDekoration (boolean state)  {//ImplementMe: Matthias}
+    public boolean getShowStateDekoration ()  {return true;//ImplementMe: Matthias
+    }
+    public void  setShowStateDekoration (boolean state)  {//ImplementMe: Matthias
+    }
 
-    public boolean getShowStatePoles ()  { return true;//ImplementMe: Matthias}
-    public void setShowStatePoles (boolean state)  {//ImplementMe: Matthias}
+    public boolean getShowStatePoles ()  { return true;//ImplementMe: Matthias
+    }
+    public void setShowStatePoles (boolean state)  {//ImplementMe: Matthias
+    }
 
-    public void setCameraMode (char mode) {//ImplementMe: Simon}
-    public char getCameraMode () {return 'i';//ImplementMe: Simon}
+    public void setCameraMode (char mode) {//ImplementMe: Simon
+    }
+    public char getCameraMode () {return 'i';//ImplementMe: Simon
+    }
 
 }
