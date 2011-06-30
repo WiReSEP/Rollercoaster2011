@@ -38,7 +38,6 @@ public class Achterbahn extends Node {
   final static float MIN_JOINT_DISTANCE = 1;
   final static float MIN_POLE_DISTANCE = 20;
 
-  //TODO: Anhand des Patterns ermitteln
   final static float POLE_UPPER_DIAMETER = 0.2f;
   final static float POLE_LOWER_DIAMETER = 2.5f;
 
@@ -79,25 +78,14 @@ public class Achterbahn extends Node {
       joints = new Node("joints");
       this.attachChild(joints);
 
-      //TODO: zu nahe Joints/Poles abfangen
-
-      /*  Algorithmische Idee für die Joints:  
-      - Approximation der Kurvenlänge durch aufsummieren der Abstände von zwei aufeinanderfolgenden Punkten
-      - maxJoints = (int) approxlength/mmaxDistance;
-      - alter algorithmus plus zähler damit der letzte nicht überflüssiger weise gesetzt wird
-
-      Algorithmische Idee für die Poles
-      - wie oben nur, dass y Achse nicht beachtet wird (die höhe gilt nicht als Abstand) 
 
 
-      In beiden Fällen: Wird der Fehler an der Nahtstelle zu groß muss ggf die Konstante lockerer gehandhabt werden
-*/
+
+
 
       double curvelength = points.get(0).getPosition().toF().subtract(points.get(points.size()-1).getPosition().toF()).length();
-      //double groundcurvelength = getGroundDistance(points.get(0).getPosition().toF(),points.get(points.size()-1).getPosition().toF());
       for (int poscounter = 0; poscounter < points.size()-1; poscounter++) {
         curvelength += points.get(poscounter).getPosition().toF().subtract(points.get(poscounter+1).getPosition().toF()).length();
-        //groundcurvelength += getGroundDistance(points.get(poscounter).getPosition().toF(),points.get(poscounter+1).getPosition().toF());
       }
 
       int jointCount = (int)(curvelength/MIN_JOINT_DISTANCE);
