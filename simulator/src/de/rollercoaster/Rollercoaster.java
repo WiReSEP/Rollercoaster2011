@@ -9,8 +9,17 @@ import java.io.File;
 public class Rollercoaster {
 
     public static void main(String[] args) {
+        
+        // TODO: Die Initialisierung muss von der GUI übernommen werden!
+        // TODO: Es muss ein Simulator erzeugt werden.
+        
+        SerializedTrack reader = new SerializedTrack(new File("examples/colossos.xml"));
+        reader.read();
+        
+        View graphics = new RollercoasterView(reader.getCurve());
+       
         // Starte Swing
-        View graphics = new RollercoasterView();
+        
         RollercoasterFrame frame = new RollercoasterFrame("Rollercoaster 2011", graphics);
 
         frame.setSize(1024, 768);
