@@ -1,9 +1,12 @@
 package de.rollercoaster.gui;
 
+import de.rollercoaster.data.SerializedTrack;
+import de.rollercoaster.data.Track;
 import de.rollercoaster.graphics.View;
 
 //nur für die Präsentation wird dies importiert
 import de.rollercoaster.graphics.RollercoasterView;
+import de.rollercoaster.simulation.Simulation;
 
 
 import java.awt.Canvas;
@@ -38,6 +41,7 @@ public class RollercoasterFrame extends JFrame {
     {">Winkel", new Integer(1),new Integer(2)},
     };
 	
+  private final Simulation sim;
   private final View graphics;
   //private final JPanel panel;
   private JFileChooser fc = new JFileChooser();
@@ -68,9 +72,11 @@ public class RollercoasterFrame extends JFrame {
     
     
 
-  public RollercoasterFrame(String title, final View view) {
+  public RollercoasterFrame(String title, Simulation sim) {
     super(title);
 
+    this.sim = sim;
+    View view = sim.getView();
     this.graphics = view;
     //this.panel = new JPanel(new FlowLayout());
     view.init();
@@ -202,14 +208,11 @@ public class RollercoasterFrame extends JFrame {
       if (e.getSource() == startButton) { //Simulation starten
         JOptionPane.showMessageDialog(null, "Starte Simulation.");
 
-        ((RollercoasterView)graphics).pause(false); //Kameraflug starten (Warnung nur für die Präsentation)
-
+        sim.start();
         log.append("Simulation gestartet.");
       } else if (e.getSource() == stopButton) { //Simulation stoppen
         JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
-
-        ((RollercoasterView)graphics).pause(true);//Kameraflug stoppen (Warnung nur für die Präsentation)
-
+        sim.stop();
         log.append("Simulation gestoppt.");
       }
     }
@@ -222,6 +225,8 @@ public class RollercoasterFrame extends JFrame {
           File file = fc.getSelectedFile();
           JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
           //This is where a real application would open the file.
+          Track track = new SerializedTrack(file);
+          sim.setTrack(track);
         }
       } else if (e.getSource() == datei2) { //Konstruktion laden
 

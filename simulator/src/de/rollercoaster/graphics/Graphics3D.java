@@ -56,7 +56,6 @@ public class Graphics3D extends SimpleApplication {
     private final RollercoasterView view;
     private CameraControl cameraControl;
     private Achterbahn bahn;
-    
     private int counter = 0;
     private ActionListener actionListener = new ActionListener() {
 
@@ -195,7 +194,7 @@ public class Graphics3D extends SimpleApplication {
 
         /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
         mat_terrain.setTexture("m_Alpha",
-                assetManager.loadTexture("terrain_alpha.png"));
+        assetManager.loadTexture("terrain_alpha.png"));
 
         /** 1.2) Add GRASS texture into the red layer (m_Tex1). */
         Texture grass = assetManager.loadTexture("grass.jpg");

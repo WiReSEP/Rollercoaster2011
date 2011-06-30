@@ -19,9 +19,11 @@ public class SerializedTrack implements Track {
 
   public SerializedTrack(File file) {
     this.file = file;
+    
+    read();
   }
 
-  public void read() {
+  private void read() {
     try {
       readDataFromFile();
       parseData();
@@ -63,5 +65,10 @@ public class SerializedTrack implements Track {
   @Override
   public Curve getCurve() {
     return this.curve;
+  }
+  
+  @Override
+  public double getInitialVelocity() {
+      return rollercoasterData.getTrack().getSimulationParameters().getSpeed();
   }
 }
