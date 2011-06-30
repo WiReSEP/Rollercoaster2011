@@ -72,8 +72,8 @@ public class Achterbahn extends Node {
       
 
       attachChild(geom_bahn);
-      attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
-      bounding_bahn.setMaterial(mat);
+      // attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
+      // bounding_bahn.setMaterial(mat);
       //Joints erzeugen
       joints = new Node("joints");
       this.attachChild(joints);
@@ -183,7 +183,7 @@ public class Achterbahn extends Node {
 
         //Bis 0.6 Abstandsmaß geht in Ordnung (empirischer Wert)
 
-        if getGroundDistance(points.get(0).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE*0.6) {
+        if (getGroundDistance(points.get(0).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE*0.6) {
           poles.getChild("pole"+lastposcounter).removeFromParent();
         }
         

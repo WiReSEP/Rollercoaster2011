@@ -51,6 +51,7 @@ import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import java.io.File;
 
+
 public class Graphics3D extends SimpleApplication {
 
 
@@ -125,6 +126,8 @@ public class Graphics3D extends SimpleApplication {
       // Sektion getätigt                                                                //
       //*********************************************************************************//
 
+        
+
         //lwjgl für ein AWT Canvas Objekt vorbereiten
         start(Type.Canvas);  //TODO:  Prüfen ob diese Zeile hier wirklich so reingehört
 
@@ -189,31 +192,31 @@ public class Graphics3D extends SimpleApplication {
         terrain.setShadowMode(ShadowMode.Receive);  //Schattenwurf
 
         //GeländeMaterial laden
-        Material mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
+       /* Material mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
          
-            /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
+            // 1.1) Add ALPHA map (for red-blue-green coded splat textures) 
             mat_terrain.setTexture("m_Alpha",
                        assetManager.loadTexture("terrain_alpha.png"));
          
-            /** 1.2) Add GRASS texture into the red layer (m_Tex1). */
+            // 1.2) Add GRASS texture into the red layer (m_Tex1). 
             Texture grass = assetManager.loadTexture("grass.jpg");
             grass.setWrap(WrapMode.Repeat);
             mat_terrain.setTexture("m_Tex1", grass);
             mat_terrain.setFloat("m_Tex1Scale", 64f);
          
-            /** 1.3) Add DIRT texture into the green layer (m_Tex2) */
+            // 1.3) Add DIRT texture into the green layer (m_Tex2) 
             Texture dirt = assetManager.loadTexture("dirt.jpg");
             dirt.setWrap(WrapMode.Repeat);
             mat_terrain.setTexture("m_Tex2", dirt);
             mat_terrain.setFloat("m_Tex2Scale", 32f);
          
-            /** 1.4) Add ROAD texture into the blue layer (m_Tex3) */
+            // 1.4) Add ROAD texture into the blue layer (m_Tex3) 
             Texture rock = assetManager.loadTexture("dirt.jpg");
             rock.setWrap(WrapMode.Repeat);
             mat_terrain.setTexture("m_Tex3", rock);
             mat_terrain.setFloat("m_Tex3Scale", 128f);
 
-         // terrain.setMaterial(mat_terrain);
+          terrain.setMaterial(mat_terrain);*/
 
 
       //*********************************************************************************//
