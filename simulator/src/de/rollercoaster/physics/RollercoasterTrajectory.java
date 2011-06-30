@@ -37,10 +37,10 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     positions = integrator.integrate(this, time, positions, time + deltaTime);
     time = time + deltaTime;
 
-    updateState(deltaTime);
+    updateState();
   }
 
-  private void updateState(double deltaTime) {
+  private void updateState() {
     TrajectoryPoint previousState = state;
 
     double[] derivatives = getDerivatives(time, positions);
@@ -54,7 +54,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     Vector3d acceleration = point.getDerivative().mult(sDotDot).add(point.getSecondDerivative().mult(sDerivative * sDerivative));
     Vector3d jerk = null; // acceleration.subtract(previousState.getAcceleration()).divide(deltaTime);
 
-    state = new SimpleTrajectoryPoint(point, velocity, acceleration, jerk);
+    state = new SimpleTrajectoryPoint(point, time, velocity, acceleration, jerk);
     
     notifyObservers(state);
   }

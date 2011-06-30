@@ -6,6 +6,8 @@ import de.rollercoaster.graphics.View;
 
 //nur für die Präsentation wird dies importiert
 import de.rollercoaster.graphics.RollercoasterView;
+import de.rollercoaster.physics.TrajectoryObserver;
+import de.rollercoaster.physics.TrajectoryPoint;
 import de.rollercoaster.simulation.Simulation;
 
 
@@ -76,6 +78,7 @@ public class RollercoasterFrame extends JFrame {
     super(title);
 
     this.sim = sim;
+    
     View view = sim.getView();
     this.graphics = view;
     //this.panel = new JPanel(new FlowLayout());
@@ -132,9 +135,18 @@ public class RollercoasterFrame extends JFrame {
     bottomPanel.add(stopButton);
     
     graph.setBounds(10,10,100,100);
-    graph.addCurve(1,-1,Color.yellow,"test");
-    graph.addCurve(2,-.8,Color.blue,"test2");
-    new Thread(graph).start();
+    graph.addCurve(1,-1,Color.yellow,"v");
+    graph.addCurve(2,-.8,Color.blue,"a");
+    
+  //  new Thread(graph).start();
+    sim.addObserver(new TrajectoryObserver() {
+            @Override
+            public void update(TrajectoryPoint newState) {
+             //   graph.addPoint(1, newState.getTime(), newState.getVelocity().length());
+             //   graph.addPoint(2, newState.getTime(), newState.getAcceleration().length());
+            }
+        
+    });    
     rightPanel.add(graph,BorderLayout.NORTH);
 
     log.setEditable(false);
