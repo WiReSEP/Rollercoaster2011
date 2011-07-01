@@ -66,9 +66,4 @@ public class SerializedTrack implements Track {
   public Curve getCurve() {
     return this.curve;
   }
-  
-  @Override
-  public double getInitialVelocity() {
-      return rollercoasterData.getTrack().getSimulationParameters().getSpeed();
-  }
 }

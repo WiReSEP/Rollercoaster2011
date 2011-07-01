@@ -13,17 +13,17 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
   private double time;
   private Vector3d gravitation;
   private Integrator integrator;
-  private final double DEFAULT_MINIMAL_STEP = 0.01;
+  private final double DEFAULT_STEP = 0.01;
   private final List<TrajectoryObserver> observers = Collections.synchronizedList(new LinkedList<TrajectoryObserver>());
 
   public RollercoasterTrajectory(Curve curve, double s0, double v0) {
     this.curve = curve;
-    this.gravitation = new Vector3d(0, 0, -9.81f);
-    this.integrator = new RungeKutta(DEFAULT_MINIMAL_STEP);
+    this.gravitation = new Vector3d(0, 9.81f, 0);
+    this.integrator = new RungeKutta(DEFAULT_STEP);
 
     CurvePoint startPoint = curve.getPoint(s0);
 
-    this.positions = new double[]{s0, v0 / startPoint.getPitchAxis().length()};
+    this.positions = new double[]{s0, v0 / startPoint.getDerivative().length()};
     this.time = 0.0;
   }
 
@@ -46,14 +46,14 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     double[] derivatives = getDerivatives(time, positions);
 
     float s = (float) positions[0];
-    float sDerivative = (float) derivatives[0];
+    float sDot = (float) derivatives[0];
     float sDotDot = (float) derivatives[1];
 
     CurvePoint point = curve.getPoint(s);
-    Vector3d velocity = point.getDerivative().mult(sDerivative);
-    Vector3d acceleration = point.getDerivative().mult(sDotDot).add(point.getSecondDerivative().mult(sDerivative * sDerivative));
+    Vector3d velocity = point.getDerivative().mult(sDot);
+    Vector3d acceleration = point.getDerivative().mult(sDotDot).add(point.getSecondDerivative().mult(sDot * sDot));
     Vector3d jerk = null; // acceleration.subtract(previousState.getAcceleration()).divide(deltaTime);
-
+    
     state = new SimpleTrajectoryPoint(point, time, velocity, acceleration, jerk);
     
     notifyObservers(state);

@@ -21,7 +21,7 @@ public class RollercoasterView implements View {
 
     private final Graphics3D graphics;
     private JmeCanvasContext context;
-    private final List<ViewObserver> observers = Collections.synchronizedList(new LinkedList<ViewObserver>());
+    private final List<ViewObserver> observers = new LinkedList<ViewObserver>();
     private Curve curve;
 
     public RollercoasterView(Curve curve) {
@@ -68,17 +68,23 @@ public class RollercoasterView implements View {
 
     @Override
     public boolean addObserver(ViewObserver observer) {
-        return this.observers.add(observer);
+        synchronized (observers) {
+            return this.observers.add(observer);
+        }
     }
 
     @Override
     public boolean removeObserver(ViewObserver observer) {
-        return this.observers.remove(observer);
+        synchronized (observers) {
+            return this.observers.remove(observer);
+        }
     }
 
     public void notifyObservers(double timePerFrame) {
-        for (ViewObserver observer : observers) {
-            observer.update(timePerFrame);
+        synchronized (observers) {
+            for (ViewObserver observer : observers) {
+                observer.update(timePerFrame);
+            }
         }
     }
 

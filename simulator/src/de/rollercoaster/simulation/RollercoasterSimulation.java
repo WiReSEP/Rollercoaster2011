@@ -16,14 +16,14 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
     public Trajectory physics;
     public View graphics;
     public double timeScale;
-    public double currentTime;
-
+     
     public RollercoasterSimulation(Track track) {
         Curve curve = track.getCurve();
         double s0 = 0;
+        double v0 = 20.0;
 
         this.graphics = new RollercoasterView(curve);
-        this.physics = new RollercoasterTrajectory(curve, s0, track.getInitialVelocity());
+        this.physics = new RollercoasterTrajectory(curve, s0, v0);
         this.timeScale = 1.0;
     }
 
