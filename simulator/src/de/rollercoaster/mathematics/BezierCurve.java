@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BezierCurve implements Curve {
+
     private final double MAXIMAL_DISTANCE_LOWER_LIMIT = 10.0;
     private final double MINIMAL_DELTA = 0.01;
-
     private final double DEFAULT_DELTA = 0.05;
-
     private final List<CurvePoint> controlPoints;
     private final double length;
     private double MAXIMAL_ANGLE_LOWER_LIMIT = Math.PI / 72.0;
-    
+
     public BezierCurve(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
         this.controlPoints = calculateControlPoints(interpolationPoints, orientations);
         this.length = interpolationPoints.size();
@@ -27,10 +26,15 @@ public class BezierCurve implements Curve {
     public CurvePoint getPoint(double position) {
         CurvePoint p0, p1, p2, p3;
 
-        position = position % length; 
+        position = position % length;
+        if (position < 0) {
+            position += length;
+        }
+
+
         int s0 = (int) position;
         int idx = 3 * s0;
-        
+
         p0 = controlPoints.get(idx);
         p1 = controlPoints.get(idx + 1);
         p2 = controlPoints.get(idx + 2);
@@ -91,42 +95,42 @@ public class BezierCurve implements Curve {
 
     @Override
     public List<CurvePoint> getPointSequence(double maxDistance, double maxAngle) {
-       double position = 0.0;
-       double delta = DEFAULT_DELTA;
-       
-       if (maxDistance < MAXIMAL_DISTANCE_LOWER_LIMIT) {
-           maxDistance = MAXIMAL_DISTANCE_LOWER_LIMIT;
-       }
-       
-       if (maxAngle < MAXIMAL_ANGLE_LOWER_LIMIT) {
-           maxAngle = MAXIMAL_ANGLE_LOWER_LIMIT;
-       }
-       
-       List<CurvePoint> points = new ArrayList<CurvePoint>(); 
-       
-       CurvePoint previous = getPoint(0.0);      
-       
-       while(position < length) {
-           CurvePoint current = getPoint(position+delta);          
-           double distance = current.getPosition().subtract(previous.getPosition()).length();
-           double angle = Math.acos(Vector3d.cos(current.getPosition(), previous.getPosition()));
-                   
-           if ((distance <= maxDistance && angle <= maxAngle )|| delta < MINIMAL_DELTA) {               
-               if (position + delta < length) {
-                points.add(current);
-                //System.out.println(position + ";" + previous.getPosition().x+";"+ previous.getPosition().y + ";" + previous.getPosition().z);          
-               }
-               
-               previous = current;
-               position += delta;
-               delta = DEFAULT_DELTA;             
+        double position = 0.0;
+        double delta = DEFAULT_DELTA;
+
+        if (maxDistance < MAXIMAL_DISTANCE_LOWER_LIMIT) {
+            maxDistance = MAXIMAL_DISTANCE_LOWER_LIMIT;
+        }
+
+        if (maxAngle < MAXIMAL_ANGLE_LOWER_LIMIT) {
+            maxAngle = MAXIMAL_ANGLE_LOWER_LIMIT;
+        }
+
+        List<CurvePoint> points = new ArrayList<CurvePoint>();
+
+        CurvePoint previous = getPoint(0.0);
+
+        while (position < length) {
+            CurvePoint current = getPoint(position + delta);
+            double distance = current.getPosition().subtract(previous.getPosition()).length();
+            double angle = Math.acos(Vector3d.cos(current.getPosition(), previous.getPosition()));
+
+            if ((distance <= maxDistance && angle <= maxAngle) || delta < MINIMAL_DELTA) {
+                if (position + delta < length) {
+                    points.add(current);
+                    //System.out.println(position + ";" + previous.getPosition().x+";"+ previous.getPosition().y + ";" + previous.getPosition().z);          
+                }
+
+                previous = current;
+                position += delta;
+                delta = DEFAULT_DELTA;
             } else {
-               delta /= 2.0;
-           }
-           
-       }
-                    
-       return points;
+                delta /= 2.0;
+            }
+
+        }
+
+        return points;
     }
 
     private static List<CurvePoint> calculateControlPoints(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
@@ -138,12 +142,12 @@ public class BezierCurve implements Curve {
         List<Vector3d> cp = calculateControlPoints(decomposition, interpolationPoints);
         List<Vector3d> op = calculateControlPoints(decomposition, orientations);
 
-        Vector3d dummy = new Vector3d(1.0,1.0,1.0);
-        
+        Vector3d dummy = new Vector3d(1.0, 1.0, 1.0);
+
         for (int i = 0; i < cp.size(); i++) {
             controlPoints.add(new SimpleCurvePoint(cp.get(i), dummy, dummy, op.get(i)));
         }
-        
+
         return controlPoints;
     }
 
@@ -156,11 +160,11 @@ public class BezierCurve implements Curve {
         double[] bz = new double[n * 2];
 
         for (int i = 0; i < n; i++) {
-            bx[2 * i] = 2.0 * points.get((i+1) % n).x;
+            bx[2 * i] = 2.0 * points.get((i + 1) % n).x;
             bx[2 * i + 1] = 0.0;
-            by[2 * i] = 2.0 * points.get((i+1) % n).y;
+            by[2 * i] = 2.0 * points.get((i + 1) % n).y;
             by[2 * i + 1] = 0.0;
-            bz[2 * i] = 2.0 * points.get((i+1) % n).z;
+            bz[2 * i] = 2.0 * points.get((i + 1) % n).z;
             bz[2 * i + 1] = 0.0;
         }
 

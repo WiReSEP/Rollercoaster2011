@@ -4,15 +4,19 @@ import com.jme3.math.Vector3f;
 import java.util.LinkedList;
 import java.io.*;
 
-/**Lädt ein Pattern aus einer Datei. */ 
+/**Lädt ein Pattern aus einer Datei. Das Pattern muss aus Blender als OBJ-Wavefront exportiert werden. Zur Trennung von Objekten müssen Groups eingestellt werden. 
+Jede Gruppe wird als eigner Trip aufgefasst der im Pattern dann als eigene Extrudeform betrachtet wird.  */ 
 
 public class FilePattern implements Pattern {
 
+  /**Hilfsklasse Vertex. Vertex ist eine Struktur einer doppeltverketteten mitunter zirkulären Liste im Aufbau. Es können die diversen Fragmente eingefügt und ggf umgedreht werden.
+  Die Umdrehmethode auf eine fertige zyklische Referenzierung wird Fehlerhafte resultate liefern (außer max= |V|/2) und V ungerade. Die Klasse ist ansonsten ein einfacher Container und hat daher keine Getter/Setter*/
   class Vertex {
     public Vertex pre;
     public Vertex post;
     public int value;
 
+    /**Einfacher Konstruktor zum Verpacken der Daten.*/
     public Vertex (int value, Vertex pre, Vertex post) {
       this.value = value;
       this.pre = pre;
@@ -27,8 +31,9 @@ public class FilePattern implements Pattern {
       return (this.value==v.value);
     }
 
+
+    /**Dreht alle an die aufrufende Instanz angehängten Objekte bzgl ihrer Vorgänger und Nachfolgereingenschaft um. Bildlicher bedeutet das, dass jedes Objekt in dem Segment sich umdreht*/
     public void turn_links (int max) {
-      //System.out.printf ("turn called for %d \n %s \n", value, this);
       if (max <= 0) return;
       if (post != null) post.turn_links_post(max-1);
       if (pre != null) pre.turn_links_pre(max-1);
@@ -37,17 +42,16 @@ public class FilePattern implements Pattern {
       post = tmp;
     } 
 
-    public void turn_links_pre (int max) {
-//       System.out.printf ("turn_pre called for %d \n", value);
+    /**Rekursive Methode die das Umdrehen in Richtung der Vorgänger weiterreicht.*/
+    private void turn_links_pre (int max) {
       if (max <= 0) return;
       if (pre != null) pre.turn_links_pre(max-1);
       Vertex tmp = pre;
       pre= post;
       post = tmp;
    } 
-
-    public void turn_links_post (int max) {
-//       System.out.printf ("turn_post called for %d \n", value);
+    /**Rekursive Methode die das Umdrehen in Richtung der Nachfolger weiterreicht.*/
+    private void turn_links_post (int max) {
       if (max <= 0) return;
       if (post != null) post.turn_links_post(max-1);
       Vertex tmp = pre;
@@ -58,7 +62,6 @@ public class FilePattern implements Pattern {
 
     @Override 
     public String toString() {
-
       return String.format("<-- %s --- ( %s ) --- %s -->\n",(pre!= null)?pre.value:"null" ,value,(post!= null)?post.value:"null");
     }
 
@@ -68,6 +71,7 @@ public class FilePattern implements Pattern {
   private int [][] pattern_index_trips;
   private Vertex3d [] vertexdata;
 
+  /**Lädt das Pattern aus der Datei. Es werden Exceptions geworfen wenn das Pattern der Datei kein Kreis ist. Völlig unlesbare Zeilen werden ignoriert.*/
   public FilePattern (String filename) throws Exception {
     //Datei laden und öffnen
     File file_handle = new File(filename);
@@ -85,26 +89,26 @@ public class FilePattern implements Pattern {
        switch (line.split(" ")[0].charAt(0)) {
           case '#': continue; //Kommentare
           case 'g': // nächsten trip anfangen 
-                
                     if (vertexcircle != null) {
                       int[] cycle = new int[vertexcircle.size()];
                       Vertex v = vertexcircle.get(0).pre;
                       for (int i = 0 ; i < vertexcircle.size(); i++) {
                         v= v.post;
-                        //System.out.printf("<-- %d --- ( %d ) --- %d -->\n",v.pre.value,v.value,v.post.value);
-                        //System.out.println (""+v);
                         if (v== null) {throw new Exception ("Given Patten is no circle!");}
                         cycle[i] = v.value;
                       }
                       trips.addLast(cycle);
                     }
-                    //System.out.println (line);
                     vertexcircle = new LinkedList<Vertex>();
                     break;
 
-          case 'v': verticies.addLast(new Vector3f((float)Double.parseDouble(line.split(" ")[1]),(float)Double.parseDouble(line.split(" ")[2]),(float)Double.parseDouble(line.split(" ")[3]))); break;
+          case 'v': //Verticies können direkt in die Liste geladen werden; Indizes werden fortlaufend Vergeben (Dateiformatspezifikation)
+                    verticies.addLast(new Vector3f((float)Double.parseDouble(line.split(" ")[1]),(float)Double.parseDouble(line.split(" ")[2]),(float)Double.parseDouble(line.split(" ")[3]))); break;
 
-          case 'f': //System.out.println (""+vertexcircle);
+          case 'f': //Ein Face wird interpretiert
+                    //Ein Face (hier also eine Kante) besteht aus 2 Knoten a und b. Es muss unterschieden werden ob a oder b bereits vorhanden sind und somit potenziell schon einen Vorgänger oder Nachfolger haben
+                    //entsprechend muss der jeweils andere an die Segmente angefügt werden. Außerdem gibt es den Fall, dass beide bereits vorhanden sind und die Segmente verbunden werden müssen. Dabei muss ggf ein Segment
+                    // gedreht werden. Da a und b nur die Indizes von faces sind stellen va und vb die zugehörigen Vertex-Objekte dar
                     int a = Integer.parseInt(line.split(" ")[1]);
                     int b = Integer.parseInt(line.split(" ")[2]);
                     int posa, posb;
@@ -118,12 +122,10 @@ public class FilePattern implements Pattern {
                           //Ggf müssen wir noch an einem Knoten umdrehen
                           if (va.pre == null) {
                             if (vb.post == null) {
-//                                System.out.println ("case1");
                                vb.post = va;
                                va.pre = vb;
                             }
                             else if (vb.pre == null) {
-//                               System.out.println ("case2");
                               va.pre = vb;
                               vb.turn_links(vertexcircle.size()); //umkehren dieses Strangs
                               vb.post = va;
@@ -132,12 +134,10 @@ public class FilePattern implements Pattern {
                           }
                           else if (va.post == null) {
                             if (vb.pre == null) {
-//                                System.out.println ("case3");
                                vb.pre = va;
                                va.post = vb;
                             }
                             else if (vb.post == null) {
-//                               System.out.println ("case4");
                               va.post = vb;
                               vb.turn_links(vertexcircle.size()); //umkehren dieses Strangs
                               vb.pre = va;
@@ -193,24 +193,20 @@ public class FilePattern implements Pattern {
        }
     }
     
-    //letzten trip schließen
+    //Normalerweise wird das Schließen der Trips beim Fund eines neuen Trips vorgenommen. Der letzte Trip braucht damit eine Sonderbehandlung
     if (vertexcircle != null) {
       int[] cycle = new int[vertexcircle.size()];
       Vertex v = vertexcircle.get(0).pre;
       for (int i = 0 ; i < vertexcircle.size(); i++) {
         v= v.post;
-        //System.out.printf("<-- %d --- ( %d ) --- %d -->\n",v.pre.value,v.value,v.post.value);
-        System.out.println (""+v);
         if (v== null) {throw new Exception ("Given Patten is no circle!");}
         cycle[i] = v.value;
       }
       trips.addLast(cycle);
     }
 
-// private int [][] pattern_index_trips;
-//   private Vertex3d [] vertexdata;
    
-   //Trips kopieren
+   //Trips kopieren - in das Array einfügen 
    pattern_index_trips = new int[trips.size()][] ;
    for (int i = 0; i < trips.size(); i++) {
       pattern_index_trips[i] = new int[trips.get(i).length];
@@ -222,16 +218,14 @@ public class FilePattern implements Pattern {
       System.out.printf ("\n");
    }
 
-  //verticies kopieren
+  //Verticies kopieren
    vertexdata = new Vertex3d[verticies.size()];
    for (int i = 0; i < verticies.size(); i++) 
     vertexdata[i] = new Vertex3d(verticies.get(i));
 
   //Normalen berechnen
   //Für die Normalenerzeugung wird ein Trick angewandt: Suche den Mittelpunkt einer Zusammenhangskomponente (trip) und verlängere den vektor von dort zu einem Vertex auf die Länge 1 
-  // Dieses Verfahren funktioniert nur, da alle Trips symmetrisch bzw Kreisförmig sind.
-
-  //TODO: Dieser Code muss angepasst werden, sodass ggf auch kokave pattern korrekt berechnet werden
+  // Dieses Verfahren ist nicht sehr robust gegenüber rapiden Formabweichungen, jedoch deutlich schneller als alle Varianten die das Problem allgemein lösen (vgl Point in Polygon-problem (PIP))
   Vector3f [] pattern_vertexdata_normal = new Vector3f[vertexdata.length];
 
   for (int tripcounter = 0; tripcounter < pattern_index_trips.length; tripcounter++) {
@@ -245,7 +239,7 @@ public class FilePattern implements Pattern {
     
     //Vektoren erzeugen, normalisieren und zuweisen
     for (int indexcounter = 0; indexcounter < pattern_index_trips[tripcounter].length; indexcounter++) {
-      pattern_vertexdata_normal[pattern_index_trips[tripcounter][indexcounter]]= vertexdata[pattern_index_trips[tripcounter][indexcounter]].position.subtract(center).normalize();//.mult(-1f);            
+      pattern_vertexdata_normal[pattern_index_trips[tripcounter][indexcounter]]= vertexdata[pattern_index_trips[tripcounter][indexcounter]].position.subtract(center).normalize();
     }          
   }
 

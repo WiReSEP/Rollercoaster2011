@@ -19,9 +19,11 @@ public class SerializedTrack implements Track {
 
   public SerializedTrack(File file) {
     this.file = file;
+    
+    read();
   }
 
-  public void read() {
+  private void read() {
     try {
       readDataFromFile();
       parseData();

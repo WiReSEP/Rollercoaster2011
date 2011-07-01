@@ -35,10 +35,9 @@ import de.rollercoaster.graphics.pattern.*;
 
 public class Achterbahn extends Node {
 
-  final static  int MIN_JOINT_DISTANCE = 1;
-  final static  int MIN_POLE_DISTANCE = 20;
+  final static float MIN_JOINT_DISTANCE = 1;
+  final static float MIN_POLE_DISTANCE = 20;
 
-  //TODO: Anhand des Patterns ermitteln
   final static float POLE_UPPER_DIAMETER = 0.2f;
   final static float POLE_LOWER_DIAMETER = 2.5f;
 
@@ -46,10 +45,11 @@ public class Achterbahn extends Node {
   private Node joints;
   private Node poles;
 
+
   public Achterbahn(Curve curve, Material mat, Spatial joint3d ) {
       super(); //alles was Node kann
 
-      List<CurvePoint> points = curve.getPointSequence(0.0,0.0);  //anpassen
+      List<CurvePoint> points = curve.getPointSequence(MIN_JOINT_DISTANCE/2,0.0);  //Auflösung ausreichend wählen
       
 
       PatternCurve bahn = null;
@@ -72,27 +72,27 @@ public class Achterbahn extends Node {
       
 
       attachChild(geom_bahn);
-      //attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
-
+      // attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
+      // bounding_bahn.setMaterial(mat);
       //Joints erzeugen
       joints = new Node("joints");
       this.attachChild(joints);
 
-      //TODO: zu nahe Joints/Poles abfangen
-
-      /*  Algorithmische Idee für die Joints:  
-      - Approximation der Kurvenlänge durch aufsummieren der Abstände von zwei aufeinanderfolgenden Punkten
-      - maxJoints = (int) approxlength/mmaxDistance;
-      - alter algorithmus plus zähler damit der letzte nicht überflüssiger weise gesetzt wird
-
-      Algorithmische Idee für die Poles
-      - wie oben nur, dass y Achse nicht beachtet wird (die höhe gilt nicht als Abstand) 
 
 
-      In beiden Fällen: Wird der Fehler an der Nahtstelle zu groß muss ggf die Konstante lockerer gehandhabt werden
-*/
 
 
+
+      double curvelength = points.get(0).getPosition().toF().subtract(points.get(points.size()-1).getPosition().toF()).length();
+      for (int poscounter = 0; poscounter < points.size()-1; poscounter++) {
+        curvelength += points.get(poscounter).getPosition().toF().subtract(points.get(poscounter+1).getPosition().toF()).length();
+      }
+
+      int jointCount = (int)(curvelength/MIN_JOINT_DISTANCE);
+      double realJointDistance = curvelength/(jointCount);
+      
+
+         
 
       //*********************************************************************************//
       //***                         Joints einfügen                                   ***//
@@ -107,7 +107,7 @@ public class Achterbahn extends Node {
         int lastposcounter = 0;
 
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastposcounter).getPosition().toF()).length() < MIN_JOINT_DISTANCE)) continue;
+          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastposcounter).getPosition().toF()).length() < realJointDistance)) continue;
           lastposcounter = poscounter;
 
           Vector3f pos = points.get(poscounter).getPosition().toF();
@@ -122,7 +122,7 @@ public class Achterbahn extends Node {
           //matrix.fromAxes(x.mult(-1),z,y);
           matrix.fromAxes(x.mult(-1),y,z);
 
-          System.out.printf ("Determinante (%d) %f [%s,%s,%s]\n",poscounter,matrix.determinant(),x.mult(-1),y,z);
+          //System.out.printf ("Determinante (%d) %f [%s,%s,%s]\n",poscounter,matrix.determinant(),x.mult(-1),y,z);
           geom.setLocalRotation(matrix);
           joints.attachChild(geom);
           
@@ -152,7 +152,7 @@ public class Achterbahn extends Node {
         
         lastposcounter = 0;// wir merken uns wann das letzte mal ein Pole gesetzt wurde    
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          if ((poscounter != 0) && (points.get(poscounter).getPosition().toF().subtract(points.get(lastposcounter).getPosition().toF()).length() < MIN_POLE_DISTANCE)) continue; //Abstandscheck
+          if ((poscounter != 0) && (getGroundDistance(points.get(poscounter).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE)) continue; //Abstandscheck
 
           //CollisionCheck: (an 4 Ecken der BoundingBox wird gesampelt)
           CollisionResults results= new CollisionResults();
@@ -176,11 +176,27 @@ public class Achterbahn extends Node {
             matrix.fromAxes(Vector3f.UNIT_Z,Vector3f.UNIT_X,Vector3f.UNIT_Y); //?!
             geom.setLocalRotation(matrix);
 
-            this.attachChild(geom);
+            poles.attachChild(geom);
             lastposcounter = poscounter;
           }
         }
+
+        //Bis 0.6 Abstandsmaß geht in Ordnung (empirischer Wert)
+
+        if (getGroundDistance(points.get(0).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE*0.6) {
+          poles.getChild("pole"+lastposcounter).removeFromParent();
+        }
+        
+
   }
 
+
+  private static double getGroundDistance(Vector3f v1, Vector3f v2) {
+    Vector3f v1clone = v1.clone();
+    Vector3f v2clone = v2.clone();
+    v1clone.y = 0;
+    v2clone.y = 0;
+    return v1clone.subtract(v2clone).length();
+  }
 
 } 

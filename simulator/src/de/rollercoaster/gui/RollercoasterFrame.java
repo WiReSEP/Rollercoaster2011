@@ -1,9 +1,14 @@
 package de.rollercoaster.gui;
 
+import de.rollercoaster.data.SerializedTrack;
+import de.rollercoaster.data.Track;
 import de.rollercoaster.graphics.View;
 
 //nur für die Präsentation wird dies importiert
 import de.rollercoaster.graphics.RollercoasterView;
+import de.rollercoaster.physics.TrajectoryObserver;
+import de.rollercoaster.physics.TrajectoryPoint;
+import de.rollercoaster.simulation.Simulation;
 
 
 import java.awt.Canvas;
@@ -37,43 +42,42 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {">Geschw.", new Integer(1),new Integer(2)},
     {">Winkel", new Integer(1),new Integer(2)},
     };
-  
-  private final View graphics;
+    private final Simulation sim;
+    private final View graphics;
   //private final JPanel panel;
   private JFileChooser fc = new JFileChooser();
   private JPanel rightPanel = new JPanel();
     private Graph graph = new Graph();
     private JTextArea log = new JTextArea("");
     private final JTable minMaxTable = new JTable(data, columnNames);
-  private JPanel bottomPanel = new JPanel(null);
+    private JPanel bottomPanel = new JPanel(null);
     private JButton startButton = new JButton("Start");
     private JButton stopButton = new JButton("Stop");
-  private JMenuBar jmb = new JMenuBar();
+    private JMenuBar jmb = new JMenuBar();
     private JMenu datei = new JMenu("Datei");
-      private JMenuItem datei1 = new JMenuItem("Konstruktion öffnen");
-      private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
-      private JMenuItem datei3 = new JMenuItem("beenden");
+    private JMenuItem datei1 = new JMenuItem("Konstruktion öffnen");
+    private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
+    private JMenuItem datei3 = new JMenuItem("beenden");
     private JMenu simulation = new JMenu("Simulation");
-      private JMenuItem sim1 = new JMenuItem("Simulation starten");
-      private JMenuItem sim2 = new JMenuItem("Simulation stoppen");
-      //private JMenuItem sim1 = new JMenuItem("Simulation starten");
+    private JMenuItem sim1 = new JMenuItem("Simulation starten");
+    private JMenuItem sim2 = new JMenuItem("Simulation stoppen");
+    //private JMenuItem sim1 = new JMenuItem("Simulation starten");
     private JMenu ansicht = new JMenu("Ansicht");
-      private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken.");
-      //private JMenuItem ansicht2 = new JMenuItem("Simulation stoppen");
+    private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken.");
+    //private JMenuItem ansicht2 = new JMenuItem("Simulation stoppen");
     private JMenu hilfe = new JMenu("Hilfe");
-      private JMenuItem hilfe1 = new JMenuItem("Info");
-    
+    private JMenuItem hilfe1 = new JMenuItem("Info");
 
-    
-    
-    
+    public RollercoasterFrame(String title, Simulation sim) {
+        super(title);
 
-  public RollercoasterFrame(String title, final View view) {
-    super(title);
+     this.sim = sim;
 
-    this.graphics = view;
-    view.init();
-    Canvas graphicsCanvas = view.getCanvas();
+        View view = sim.getView();
+        this.graphics = view;
+        //this.panel = new JPanel(new FlowLayout());
+        view.init();
+        Canvas graphicsCanvas = view.getCanvas();
         this.addWindowListener(new WindowAdapter() {
 
             @Override
@@ -95,7 +99,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     // Anfang Komponenten
 
     //graphicsCanvas.setPreferredSize(new Dimension(640,480));
-    //cp.add(graphicsCanvas,BorderLayout.WEST);
+    cp.add(graphicsCanvas,BorderLayout.WEST);
 
     rightPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     rightPanel.setLayout(new BorderLayout());
@@ -116,39 +120,56 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     stopButton.addActionListener(this);
     bottomPanel.add(stopButton);
     
-    graph.setBounds(10,10,100,100);
-    graph.addCurve(1,-1,Color.yellow,"test");
-    graph.addCurve(2,-.8,Color.blue,"test2");
-    new Thread(graph).start();
-    rightPanel.add(graph,BorderLayout.NORTH);
+        graph.setBounds(10, 10, 100, 100);
+        graph.addCurve(100, 0, Color.yellow, "v");
+        graph.addCurve(300, 0, Color.blue, "a");
 
-    log.setEditable(false);
-    log.setLineWrap(true);
-    log.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-    rightPanel.add(log, BorderLayout.SOUTH);
-    
+        //  new Thread(graph).start();
+        sim.addObserver(new TrajectoryObserver() {
+
+            private double lastTime = 0.0;
+
+            @Override
+            public void update(TrajectoryPoint newState) {
+                if (newState.getTime() > lastTime + 1.0) {
+                    lastTime = newState.getTime();
+
+                    graph.addPoint(0, newState.getTime(), newState.getVelocity().length());
+                    graph.addPoint(1, newState.getTime(), newState.getAcceleration().length());
+                }
+
+            }
+        });
+        rightPanel.add(graph, BorderLayout.NORTH);
+
+  
+
+
+        log.setEditable(false);
+        log.setLineWrap(true);
+        log.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
+        rightPanel.add(log, BorderLayout.SOUTH);
+
 //     minMaxTable.setBounds(8, 24, 128, 128);
-    minMaxTable.setShowHorizontalLines(false);
-    minMaxTable.setShowVerticalLines(false);
+        minMaxTable.setShowHorizontalLines(false);
+        minMaxTable.setShowVerticalLines(false);
 //    minMaxTable.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-    
-    int maxWidth = 0;
-    for(int i = 0; i < 9; i++){
-      Object cellValue = minMaxTable.getValueAt(i, 0);
-      if(cellValue != null)
-      maxWidth = Math.max(minMaxTable.getCellRenderer(i, 0).getTableCellRendererComponent(minMaxTable, cellValue, false, false, i, 0).getPreferredSize().width + minMaxTable.getIntercellSpacing().width, maxWidth);
-    }
-    minMaxTable.getColumnModel().getColumn(0).setMinWidth(maxWidth+5);
-    minMaxTable.getColumnModel().getColumn(0).setMaxWidth(maxWidth+5);
 
-    rightPanel.add(new JScrollPane(minMaxTable), BorderLayout.CENTER);
-    
-    
+        int maxWidth = 0;
+        for (int i = 0; i < 9; i++) {
+            Object cellValue = minMaxTable.getValueAt(i, 0);
+            if (cellValue != null) {
+                maxWidth = Math.max(minMaxTable.getCellRenderer(i, 0).getTableCellRendererComponent(minMaxTable, cellValue, false, false, i, 0).getPreferredSize().width + minMaxTable.getIntercellSpacing().width, maxWidth);
+            }
+        }
+        minMaxTable.getColumnModel().getColumn(0).setMinWidth(maxWidth + 5);
+        minMaxTable.getColumnModel().getColumn(0).setMaxWidth(maxWidth + 5);
+
+        rightPanel.add(new JScrollPane(minMaxTable), BorderLayout.CENTER);
 
 
     //Menü
     setJMenuBar(jmb);
-    //MenuListener ml = new MenuListener();
     jmb.add(datei);
 
     datei1.addActionListener(this);
@@ -156,13 +177,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
     datei2.addActionListener(this);
     datei.add(datei2);
-
-    datei.addSeparator();
-
     datei3.addActionListener(this);
     datei.add(datei3);
-
-    jmb.add(simulation);
+        datei.addSeparator();
 
     sim1.addActionListener(this);
     simulation.add(sim1);
@@ -170,9 +187,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     sim2.addActionListener(this);
     simulation.add(sim2);
 
-    jmb.add(ansicht);
+        jmb.add(simulation);
 
-    jmb.add(hilfe);
 
     hilfe1.addActionListener(this);
     hilfe.add(hilfe1);
@@ -180,70 +196,69 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     ansicht1.addItemListener(this);
     ansicht1.setSelected(true);// .isSelected()
     ansicht.add(ansicht1);
+        jmb.add(ansicht);
 
+        jmb.add(hilfe);
+        // Ende Komponenten
 
-    // Ende Komponenten
-
-    setResizable(true);
-    setVisible(true);
-  }
-  
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == startButton) { //Simulation starten
-      JOptionPane.showMessageDialog(null, "Starte Simulation.");
-
-      ((RollercoasterView)graphics).pause(false); //Kameraflug starten (Warnung nur für die Präsentation)
-
-      log.append("Simulation gestartet.");
-    } else if (e.getSource() == stopButton) { //Simulation stoppen
-      JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
-
-      ((RollercoasterView)graphics).pause(true);//Kameraflug stoppen (Warnung nur für die Präsentation)
-
-      log.append("Simulation gestoppt.");
-    } else if (e.getSource() == datei1) { //Konstruktion laden
-      if (fc.showOpenDialog(RollercoasterFrame.this)==JFileChooser.APPROVE_OPTION) {
-        File file = fc.getSelectedFile();
-        JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
-        //This is where a real application would open the file.
-      }
-    } else if (e.getSource() == datei2) { //Konstruktion laden
-
-      JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
-
-    } else if (e.getSource() == datei3) { //beenden
-      System.exit(0);
+        setResizable(true);
+        setVisible(true);
     }
-  }
 
-  public void itemStateChanged(ItemEvent e) {
-    if (e.getSource() == ansicht1) {
-      if (ansicht1.isSelected()) {
-        /*try {
-          rightPanel.remove(log);
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == startButton) { //Simulation starten
+                // JOptionPane.showMessageDialog(null, "Starte Simulation.");
+
+                sim.start();
+                log.append("Simulation gestartet.");
+            } else if (e.getSource() == stopButton) { //Simulation stoppen
+                // JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
+                sim.stop();
+                log.append("Simulation gestoppt.");
+            } else if (e.getSource() == datei1) { //Konstruktion laden
+                if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
+                    File file = fc.getSelectedFile();
+                    JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
+                    //This is where a real application would open the file.
+                    Track track = new SerializedTrack(file);
+                    sim.setTrack(track);
+                }
+            } else if (e.getSource() == datei2) { //Konstruktion schließen
+
+                JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
+
+            } else if (e.getSource() == datei3) { //beenden
+                System.exit(0);
+            }
         }
-        catch (Exception ex) {
-          JOptionPane.showMessageDialog(gui.this, "konnte nicht entfernen. "+ex);
+
+        public void itemStateChanged(ItemEvent e) {
+            if (e.getSource() == ansicht1) {
+                if (ansicht1.isSelected()) {
+                    /*try {
+                    rightPanel.remove(log);
+                    }
+                    catch (Exception ex) {
+                    JOptionPane.showMessageDialog(gui.this, "konnte nicht entfernen. "+ex);
+                    }
+                    //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
+                    //rightPanel.add(log);     */
+                    //JOptionPane.showMessageDialog(gui.this, "selected.");
+                } else {
+                    //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
+                    //JFrame test = new JFrame();
+                    //test.getContentPane().add(log, BorderLayout.CENTER);
+                    //JOptionPane.showMessageDialog(gui.this, "not selected.");
+                }
+            }
         }
-        //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
-        //rightPanel.add(log);     */
-        //JOptionPane.showMessageDialog(gui.this, "selected.");
-      } else {
-        //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
-        //JFrame test = new JFrame();
-        //test.getContentPane().add(log, BorderLayout.CENTER);
+    
 
-        //JOptionPane.showMessageDialog(gui.this, "not selected.");
-      }
+    class ResizeListener extends ComponentAdapter {
+        public void componentResized(ComponentEvent e) {
+            log.setPreferredSize(new Dimension(rightPanel.getWidth() - 10, rightPanel.getHeight() / 3 - 5));
+            graph.setPreferredSize(new Dimension(rightPanel.getWidth() - 10, rightPanel.getHeight() / 3 - 5));
+        }
     }
-  }
 
-
-
-  class ResizeListener extends ComponentAdapter {
-    public void componentResized(ComponentEvent e) {
-      log.setPreferredSize(new Dimension(rightPanel.getWidth()-10,rightPanel.getHeight()/3-5));
-      graph.setPreferredSize(new Dimension(rightPanel.getWidth()-10,rightPanel.getHeight()/3-5));
-    }
-  }
 }
