@@ -24,6 +24,14 @@ public class Graph extends JPanel implements Runnable {
       points.put(x,y);
     }
     
+    public void removePoint(double x) {
+      points.remove(x);
+    }
+    
+    public void clear() {
+      points.clear();
+    }
+    
     public Curve(double yMax, double yMin, Color color, String name) {
       this.yMax = yMax;
       this.yMin = yMin;
@@ -147,6 +155,27 @@ public class Graph extends JPanel implements Runnable {
   
   public void addCurve(double yMax, double yMin, Color color, String name) {
     curves.add(new Curve(yMax,yMin,color,name));
+  }
+  
+  public void removePoint(int curveID, double x) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.elementAt(curveID).removePoint(x);
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+  }
+  
+  public void clearCurve(int curveID) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.elementAt(curveID).clear();
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+  }
+  
+  public void removeCurve(int curveID) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.remove(curveID);
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
   }
   
   public void print() {

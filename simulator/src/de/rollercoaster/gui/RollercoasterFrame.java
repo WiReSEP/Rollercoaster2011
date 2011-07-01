@@ -23,8 +23,8 @@ import java.awt.Color.*;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 
-public class RollercoasterFrame extends JFrame {
-	  
+public class RollercoasterFrame extends JFrame implements ActionListener, ItemListener {
+    
     String[] columnNames ={"","Minima","Maxima"};
     Object[] [] data = {
     {"Geschwindigkeit", new Integer(1),new Integer(2)},
@@ -37,7 +37,7 @@ public class RollercoasterFrame extends JFrame {
     {">Geschw.", new Integer(1),new Integer(2)},
     {">Winkel", new Integer(1),new Integer(2)},
     };
-	
+  
   private final View graphics;
   //private final JPanel panel;
   private JFileChooser fc = new JFileChooser();
@@ -72,18 +72,8 @@ public class RollercoasterFrame extends JFrame {
     super(title);
 
     this.graphics = view;
-    //this.panel = new JPanel(new FlowLayout());
     view.init();
     Canvas graphicsCanvas = view.getCanvas();
-
-    /*panel.add(graphicsCanvas);
-    panel.add(new JButton("Swing Component"));      // add some Swing
-
-        add(panel);
-        pack();
-
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    */
         this.addWindowListener(new WindowAdapter() {
 
             @Override
@@ -93,6 +83,7 @@ public class RollercoasterFrame extends JFrame {
         });
     int frameWidth = 800;
     int frameHeight = 600;
+    //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setSize(frameWidth, frameHeight);
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     int x = (d.width - getSize().width) / 2;
@@ -104,7 +95,7 @@ public class RollercoasterFrame extends JFrame {
     // Anfang Komponenten
 
     //graphicsCanvas.setPreferredSize(new Dimension(640,480));
-    cp.add(graphicsCanvas,BorderLayout.WEST);
+    //cp.add(graphicsCanvas,BorderLayout.WEST);
 
     rightPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     rightPanel.setLayout(new BorderLayout());
@@ -116,13 +107,13 @@ public class RollercoasterFrame extends JFrame {
     bottomPanel.setLayout(new FlowLayout());
     cp.add(bottomPanel, BorderLayout.SOUTH);
 
-    ButtonListener bl = new ButtonListener();
+    //ButtonListener bl = new ButtonListener();
     startButton.setMargin(new Insets(2, 2, 2, 2));
-    startButton.addActionListener(bl);
+    startButton.addActionListener(this);
     bottomPanel.add(startButton);
 
     stopButton.setMargin(new Insets(2, 2, 2, 2));
-    stopButton.addActionListener(bl);
+    stopButton.addActionListener(this);
     bottomPanel.add(stopButton);
     
     graph.setBounds(10,10,100,100);
@@ -157,36 +148,36 @@ public class RollercoasterFrame extends JFrame {
 
     //Menü
     setJMenuBar(jmb);
-    MenuListener ml = new MenuListener();
+    //MenuListener ml = new MenuListener();
     jmb.add(datei);
 
-    datei1.addActionListener(ml);
+    datei1.addActionListener(this);
     datei.add(datei1);
 
-    datei2.addActionListener(ml);
+    datei2.addActionListener(this);
     datei.add(datei2);
 
     datei.addSeparator();
 
-    datei3.addActionListener(ml);
+    datei3.addActionListener(this);
     datei.add(datei3);
 
     jmb.add(simulation);
 
-    sim1.addActionListener(ml);
+    sim1.addActionListener(this);
     simulation.add(sim1);
 
-    sim2.addActionListener(ml);
+    sim2.addActionListener(this);
     simulation.add(sim2);
 
     jmb.add(ansicht);
 
     jmb.add(hilfe);
 
-    hilfe1.addActionListener(ml);
+    hilfe1.addActionListener(this);
     hilfe.add(hilfe1);
 
-    ansicht1.addItemListener(ml);
+    ansicht1.addItemListener(this);
     ansicht1.setSelected(true);// .isSelected()
     ansicht.add(ansicht1);
 
@@ -196,64 +187,57 @@ public class RollercoasterFrame extends JFrame {
     setResizable(true);
     setVisible(true);
   }
+  
+  public void actionPerformed(ActionEvent e) {
+    if (e.getSource() == startButton) { //Simulation starten
+      JOptionPane.showMessageDialog(null, "Starte Simulation.");
 
-  class ButtonListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-      if (e.getSource() == startButton) { //Simulation starten
-        JOptionPane.showMessageDialog(null, "Starte Simulation.");
+      ((RollercoasterView)graphics).pause(false); //Kameraflug starten (Warnung nur für die Präsentation)
 
-        ((RollercoasterView)graphics).pause(false); //Kameraflug starten (Warnung nur für die Präsentation)
+      log.append("Simulation gestartet.");
+    } else if (e.getSource() == stopButton) { //Simulation stoppen
+      JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
 
-        log.append("Simulation gestartet.");
-      } else if (e.getSource() == stopButton) { //Simulation stoppen
-        JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
+      ((RollercoasterView)graphics).pause(true);//Kameraflug stoppen (Warnung nur für die Präsentation)
 
-        ((RollercoasterView)graphics).pause(true);//Kameraflug stoppen (Warnung nur für die Präsentation)
+      log.append("Simulation gestoppt.");
+    } else if (e.getSource() == datei1) { //Konstruktion laden
+      if (fc.showOpenDialog(RollercoasterFrame.this)==JFileChooser.APPROVE_OPTION) {
+        File file = fc.getSelectedFile();
+        JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
+        //This is where a real application would open the file.
+      }
+    } else if (e.getSource() == datei2) { //Konstruktion laden
 
-        log.append("Simulation gestoppt.");
+      JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
+
+    } else if (e.getSource() == datei3) { //beenden
+      System.exit(0);
+    }
+  }
+
+  public void itemStateChanged(ItemEvent e) {
+    if (e.getSource() == ansicht1) {
+      if (ansicht1.isSelected()) {
+        /*try {
+          rightPanel.remove(log);
+        }
+        catch (Exception ex) {
+          JOptionPane.showMessageDialog(gui.this, "konnte nicht entfernen. "+ex);
+        }
+        //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
+        //rightPanel.add(log);     */
+        //JOptionPane.showMessageDialog(gui.this, "selected.");
+      } else {
+        //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
+        //JFrame test = new JFrame();
+        //test.getContentPane().add(log, BorderLayout.CENTER);
+
+        //JOptionPane.showMessageDialog(gui.this, "not selected.");
       }
     }
   }
 
-  class MenuListener implements ActionListener, ItemListener {
-    public void actionPerformed(ActionEvent e) {
-      if (e.getSource() == datei1) { //Konstruktion laden
-        if (fc.showOpenDialog(RollercoasterFrame.this)==JFileChooser.APPROVE_OPTION) {
-          File file = fc.getSelectedFile();
-          JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
-          //This is where a real application would open the file.
-        }
-      } else if (e.getSource() == datei2) { //Konstruktion laden
-
-        JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
-
-      } else if (e.getSource() == datei3) { //beenden
-        System.exit(0);
-      }
-    }
-
-    public void itemStateChanged(ItemEvent e) {
-      if (e.getSource() == ansicht1) {
-        if (ansicht1.isSelected()) {
-          /*try {
-            rightPanel.remove(log);
-          }
-          catch (Exception ex) {
-            JOptionPane.showMessageDialog(gui.this, "konnte nicht entfernen. "+ex);
-          }
-          //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
-          //rightPanel.add(log);     */
-          //JOptionPane.showMessageDialog(gui.this, "selected.");
-        } else {
-          //if (log.getRootPane() != null) log.getRootPane().getContentPane().remove(log);
-          //JFrame test = new JFrame();
-          //test.getContentPane().add(log, BorderLayout.CENTER);
-
-          //JOptionPane.showMessageDialog(gui.this, "not selected.");
-        }
-      }
-    }
-  }
 
 
   class ResizeListener extends ComponentAdapter {
