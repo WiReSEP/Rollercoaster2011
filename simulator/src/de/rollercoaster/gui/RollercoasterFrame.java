@@ -42,17 +42,25 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {">Geschw.", new Integer(1),new Integer(2)},
     {">Winkel", new Integer(1),new Integer(2)},
     };
+    String[] cameras = { "Outer", "Inner"};
     private final Simulation sim;
     private final View graphics;
   //private final JPanel panel;
   private JFileChooser fc = new JFileChooser();
   private JPanel rightPanel = new JPanel();
+    private JSplitPane sp1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+    private JSplitPane sp2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT); 
     private Graph graph = new Graph();
     private JTextArea log = new JTextArea("");
     private final JTable minMaxTable = new JTable(data, columnNames);
+    //private final View overview;
+    
+    
     private JPanel bottomPanel = new JPanel(null);
     private JButton startButton = new JButton("Start");
     private JButton stopButton = new JButton("Stop");
+    private JComboBox cameraBox = new JComboBox(cameras);
+    
     private JMenuBar jmb = new JMenuBar();
     private JMenu datei = new JMenu("Datei");
     private JMenuItem datei1 = new JMenuItem("Konstruktion öffnen");
@@ -120,9 +128,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     stopButton.addActionListener(this);
     bottomPanel.add(stopButton);
     
+    cameraBox.addActionListener(this);
+    bottomPanel.add(cameraBox);
+    
+    
         graph.setBounds(10, 10, 100, 100);
         graph.addCurve(100, 0, Color.yellow, "v");
         graph.addCurve(300, 0, Color.blue, "a");
+        graph.setPreferredSize(new Dimension(100,100));
 
         //  new Thread(graph).start();
         sim.addObserver(new TrajectoryObserver() {
@@ -140,7 +153,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
             }
         });
-        rightPanel.add(graph, BorderLayout.NORTH);
+        
+        sp1.setDividerSize(8);
+      sp1.setDividerLocation(0.4);
+      sp1.setTopComponent(graph);
+      sp1.setBottomComponent(sp2);
+        rightPanel.add(sp1, BorderLayout.CENTER);
+        
+        //rightPanel.add(graph, BorderLayout.NORTH);
 
   
 
@@ -148,7 +168,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         log.setEditable(false);
         log.setLineWrap(true);
         log.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
-        rightPanel.add(log, BorderLayout.SOUTH);
+        //rightPanel.add(log, BorderLayout.SOUTH);
 
 //     minMaxTable.setBounds(8, 24, 128, 128);
         minMaxTable.setShowHorizontalLines(false);
@@ -165,7 +185,11 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         minMaxTable.getColumnModel().getColumn(0).setMinWidth(maxWidth + 5);
         minMaxTable.getColumnModel().getColumn(0).setMaxWidth(maxWidth + 5);
 
-        rightPanel.add(new JScrollPane(minMaxTable), BorderLayout.CENTER);
+			sp2.setDividerSize(8);
+      sp2.setTopComponent(minMaxTable);
+      sp2.setBottomComponent(log);
+        rightPanel.add(sp1, BorderLayout.CENTER);
+        //rightPanel.add(new JScrollPane(minMaxTable), BorderLayout.CENTER);
 
 
     //Menü
@@ -218,17 +242,28 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             } else if (e.getSource() == datei1) { //Konstruktion laden
                 if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
-                    JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
+                    //JOptionPane.showMessageDialog(RollercoasterFrame.this, "Lade Datei.");
                     //This is where a real application would open the file.
                     Track track = new SerializedTrack(file);
                     sim.setTrack(track);
+                    log.append("Konstruktion "+file+" geladen.");
                 }
             } else if (e.getSource() == datei2) { //Konstruktion schließen
 
-                JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
-
+                //JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
+                    sim.setTrack(null);
+                    log.append("Konstruktion geschlossen.");
             } else if (e.getSource() == datei3) { //beenden
                 System.exit(0);
+            } else if (e.getSource() == cameraBox) { //Camera
+                int cam = cameraBox.getSelectedIndex();
+                if (cam == 0) {
+									//setCameraMode('o');
+									log.append("Kamera auf Außenansicht gesetzt.");
+								} else {
+									//setCameraMode('i');
+									log.append("Kamera auf Innenansicht gesetzt.");
+								}
             }
         }
 
@@ -256,8 +291,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
     class ResizeListener extends ComponentAdapter {
         public void componentResized(ComponentEvent e) {
-            log.setPreferredSize(new Dimension(rightPanel.getWidth() - 10, rightPanel.getHeight() / 3 - 5));
-            graph.setPreferredSize(new Dimension(rightPanel.getWidth() - 10, rightPanel.getHeight() / 3 - 5));
+            //log.setPreferredSize(new Dimension(rightPanel.getWidth() - 10, rightPanel.getHeight() / 3 - 5));
+           // graph.setPreferredSize(new Dimension(rightPanel.getWidth() - 10, rightPanel.getHeight() / 3 - 5));
         }
     }
 
