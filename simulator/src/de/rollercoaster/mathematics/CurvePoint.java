@@ -7,5 +7,7 @@ public interface CurvePoint {
     
     Vector3d getRollAxis();
     Vector3d getPitchAxis();
-    Vector3d getYawAxis();    
+    Vector3d getYawAxis(); 
+    
+    double getYawAngle();
 }

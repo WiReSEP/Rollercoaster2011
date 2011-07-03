@@ -64,4 +64,34 @@ public class Vector3d {
 
         return x.dot(y) / (x.length() * y.length());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Vector3d other = (Vector3d) obj;
+        if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 23 * hash + (int) (Double.doubleToLongBits(this.x) ^ (Double.doubleToLongBits(this.x) >>> 32));
+        hash = 23 * hash + (int) (Double.doubleToLongBits(this.y) ^ (Double.doubleToLongBits(this.y) >>> 32));
+        hash = 23 * hash + (int) (Double.doubleToLongBits(this.z) ^ (Double.doubleToLongBits(this.z) >>> 32));
+        return hash;
+    } 
 }

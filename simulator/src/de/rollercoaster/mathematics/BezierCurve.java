@@ -12,7 +12,7 @@ public class BezierCurve implements Curve {
     private final double length;
     private double MAXIMAL_ANGLE_LOWER_LIMIT = Math.PI / 72.0;
 
-    public BezierCurve(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
+    public BezierCurve(List<Vector3d> interpolationPoints, List<Double> orientations) {
         this.controlPoints = calculateControlPoints(interpolationPoints, orientations);
         this.length = interpolationPoints.size();
     }
@@ -47,11 +47,12 @@ public class BezierCurve implements Curve {
 
     public static CurvePoint cubicInterpolation(CurvePoint p0, CurvePoint p1, CurvePoint p2, CurvePoint p3, double s) {
         Vector3d position = getInterpolation(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
-        Vector3d up = getInterpolation(p0.getYawAxis(), p1.getYawAxis(), p2.getYawAxis(), p3.getYawAxis(), s);
         Vector3d derivative = getDerivative(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
         Vector3d secondDerivative = getSecondDerivative(p0.getPosition(), p1.getPosition(), p2.getPosition(), p3.getPosition(), s);
 
-        return new SimpleCurvePoint(position, derivative, secondDerivative, up);
+        double yawAngle = getInterpolation(p0.getYawAngle(), p1.getYawAngle(), p2.getYawAngle(), p3.getYawAngle(), s);
+        
+        return new SimpleCurvePoint(position, derivative, secondDerivative, yawAngle);
     }
 
     public static Vector3d getInterpolation(Vector3d p0, Vector3d p1, Vector3d p2, Vector3d p3, double s) {
@@ -65,6 +66,17 @@ public class BezierCurve implements Curve {
         double z = (s0 * p0.z + s1 * p1.z + s2 * p2.z + s3 * p3.z);
 
         return new Vector3d(x, y, z);
+    }
+    
+    public static double getInterpolation(double p0, double p1, double p2, double p3, double s) {
+        double s0 = (1 - s) * (1 - s) * (1 - s);
+        double s1 = 3.0 * (1 - s) * (1 - s) * s;
+        double s2 = 3.0 * (1 - s) * s * s;
+        double s3 = s * s * s;
+
+        double p = (s0 * p0 + s1 * p1 + s2 * p2 + s3 * p3);
+        
+        return p;
     }
 
     public static Vector3d getDerivative(Vector3d p0, Vector3d p1, Vector3d p2, Vector3d p3, double s) {
@@ -133,14 +145,14 @@ public class BezierCurve implements Curve {
         return points;
     }
 
-    private static List<CurvePoint> calculateControlPoints(List<Vector3d> interpolationPoints, List<Vector3d> orientations) {
+    private static List<CurvePoint> calculateControlPoints(List<Vector3d> interpolationPoints, List<Double> orientations) {
         int n = interpolationPoints.size();
         List<CurvePoint> controlPoints = new ArrayList<CurvePoint>(n);
 
         LUDecomposition decomposition = prepareDecomposition(n);
 
         List<Vector3d> cp = calculateControlPoints(decomposition, interpolationPoints);
-        List<Vector3d> op = calculateControlPoints(decomposition, orientations);
+        List<Double> op = calculateControlPointsOneDimension(decomposition, orientations);
 
         Vector3d dummy = new Vector3d(1.0, 1.0, 1.0);
 
@@ -150,10 +162,37 @@ public class BezierCurve implements Curve {
 
         return controlPoints;
     }
+    
+    private static List<Double> calculateControlPointsOneDimension(LUDecomposition decomposition, List<Double> points) {
+        int n = points.size();
+        List<Double> controlPoints = new ArrayList<Double>();
+
+        double[] b = new double[n * 2];
+        double[] by = new double[n * 2];
+        double[] bz = new double[n * 2];
+
+        for (int i = 0; i < n; i++) {
+            b[2 * i] = 2.0 * points.get((i + 1) % n);
+            b[2 * i + 1] = 0.0;
+        }
+
+        double[] x = decomposition.solve(b);
+        
+        
+        for (int i = 0; i < n; i++) {
+            controlPoints.add(points.get(i));
+            controlPoints.add(x[2 * i]);
+            controlPoints.add(x[2 * i + 1]);
+        }
+
+        controlPoints.add(points.get(0));
+
+        return controlPoints;  
+    }
 
     private static List<Vector3d> calculateControlPoints(LUDecomposition decomposition, List<Vector3d> points) {
         int n = points.size();
-        List<Vector3d> controlPoints = new ArrayList<Vector3d>(n);
+        List<Vector3d> controlPoints = new ArrayList<Vector3d>();
 
         double[] bx = new double[n * 2];
         double[] by = new double[n * 2];

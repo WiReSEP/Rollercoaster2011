@@ -16,7 +16,7 @@ public class SimpleTrajectoryPoint extends SimpleCurvePoint implements Trajector
     private final Vector3d jerk;
 
     public SimpleTrajectoryPoint(CurvePoint point, double time, Vector3d velocity, Vector3d acceleration, Vector3d jerk) {
-        super(point.getPosition(), point.getDerivative(), point.getSecondDerivative(), point.getYawAxis());
+        super(point.getPosition(), point.getDerivative(), point.getSecondDerivative(), point.getYawAngle());
 
         this.time = time;
         this.velocity = velocity;
