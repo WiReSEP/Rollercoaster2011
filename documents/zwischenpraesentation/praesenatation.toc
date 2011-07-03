@@ -1,0 +1,4 @@
+\beamer@endinputifotherversion {3.10pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Zielsetzungen}{2}{0}{1}
+\beamer@sectionintoc {2}{Komponenten}{5}{0}{2}
