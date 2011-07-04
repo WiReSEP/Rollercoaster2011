@@ -48,8 +48,8 @@ public class CameraControl {
      * initials rollercoaster car
      * @param start: startposition of the rollercoaster
      */
-    public void initCar(Vector3f start) {
-        Box box = new Box(start, 1, 1, 1);
+    public void initCar() {
+        Box box = new Box(new Vector3f(1,-1,1), 1, 1, 1);
         Geometry wagon = new Geometry("myBox", box);
         wagon.setMaterial(new Material(application.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
         application.getRootNode().attachChild(wagon);
@@ -84,7 +84,20 @@ public class CameraControl {
     }
 
     void setCarPosition(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
-        // Fallunterscheidung;
-        cam.setFrame(location, left, up, direction);
+				if (mode== CameraMode.OVERVIEW){
+					matrix.fromAxes(left.mult(-1),up,direction);
+					car.setLocalTranslation(location);
+					car.setLocalRotation(matrix); 
+				}
+				else if(mode==CameraMode.INTERIOR){
+			 // Fallunterscheidung;
+					cam.setFrame(location, left, up, direction);
+				}
+				
+            
+
+            
+				
+				
     }
 }
