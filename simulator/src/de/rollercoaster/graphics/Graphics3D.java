@@ -44,6 +44,7 @@ import com.jme3.input.controls.KeyTrigger;
 
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.util.SkyFactory;
+import com.jme3.scene.shape.Box;
 
 //Fremdpackete (java)
 import java.util.List;
@@ -58,50 +59,6 @@ public class Graphics3D extends SimpleApplication {
     private CameraControl cameraControl;
     private Achterbahn bahn;
     private int counter = 0;
-    private ActionListener actionListener = new ActionListener() {
-
-        private int pos = 0;
-
-        public void onAction(String name, boolean keyPressed, float tpf) {
-            if (name.equals("up") && !keyPressed) {
-                Spatial node;
-                pos++;
-                while (((node = rootNode.getChild("pole" + pos)) == null) && pos < 20000) {
-                    pos++;
-                }
-                System.out.printf("Selected Pole %d ...", pos);
-                if (node != null) {
-                    node.setMaterial(redMat);
-                }
-                int lastpos = pos - 1;
-                while (((node = rootNode.getChild("pole" + lastpos)) == null) && lastpos > -10) {
-                    lastpos--;
-                }
-                if (node != null) {
-                    node.setMaterial(showNormalsMaterial);
-                }
-                System.out.printf("done \n");
-            }
-
-            if (name.equals("down") && !keyPressed) {
-                Spatial node;
-                pos--;
-                while (((node = rootNode.getChild("pole" + pos)) == null) && pos > -10) {
-                    pos--;
-                }
-                if (node != null) {
-                    node.setMaterial(redMat);
-                }
-                int lastpos = pos + 1;
-                while (((node = rootNode.getChild("pole" + lastpos)) == null) && lastpos < 20000) {
-                    lastpos++;
-                }
-                if (node != null) {
-                    node.setMaterial(showNormalsMaterial);
-                }
-            }
-        }
-    };
     public boolean pause = false;
     private Material wireMaterial;
     private Material showNormalsMaterial;
@@ -110,10 +67,11 @@ public class Graphics3D extends SimpleApplication {
     private List<CurvePoint> points;
     private JmeCanvasContext ctx = null;
 
+    private Spatial car;
+
     public Graphics3D(RollercoasterView view) {
         super();
         this.view = view;
-        //simpleInitApp();
     }
     private boolean close = false;
 
@@ -192,32 +150,11 @@ public class Graphics3D extends SimpleApplication {
         rootNode.attachChild(terrain);
         terrain.setShadowMode(ShadowMode.Receive);  //Schattenwurf
 
-        //GeländeMaterial laden
-       /* Material mat_terrain = new Material(assetManager, "Common/MatDefs/Terrain/Terrain.j3md");
-         
-            // 1.1) Add ALPHA map (for red-blue-green coded splat textures) 
-            mat_terrain.setTexture("m_Alpha",
-                       assetManager.loadTexture("terrain_alpha.png"));
-         
-            // 1.2) Add GRASS texture into the red layer (m_Tex1). 
-            Texture grass = assetManager.loadTexture("grass.jpg");
-            grass.setWrap(WrapMode.Repeat);
-            mat_terrain.setTexture("m_Tex1", grass);
-            mat_terrain.setFloat("m_Tex1Scale", 64f);
-         
-            // 1.3) Add DIRT texture into the green layer (m_Tex2) 
-            Texture dirt = assetManager.loadTexture("dirt.jpg");
-            dirt.setWrap(WrapMode.Repeat);
-            mat_terrain.setTexture("m_Tex2", dirt);
-            mat_terrain.setFloat("m_Tex2Scale", 32f);
-         
-            // 1.4) Add ROAD texture into the blue layer (m_Tex3) 
-            Texture rock = assetManager.loadTexture("dirt.jpg");
-            rock.setWrap(WrapMode.Repeat);
-            mat_terrain.setTexture("m_Tex3", rock);
-            mat_terrain.setFloat("m_Tex3Scale", 128f);
-
-          terrain.setMaterial(mat_terrain);*/
+       
+        //Wagen bauen
+        car = new Geometry("carnode",new Box(1,0.5f,2));
+        car.setMaterial(mat1);
+        //rootNode.attachChild(car);
 
 
       //*********************************************************************************//
@@ -237,19 +174,6 @@ public class Graphics3D extends SimpleApplication {
         AmbientLight ambient = new AmbientLight();
         ambient.setColor(ColorRGBA.White.mult(0.9f));
         rootNode.addLight(ambient);
-//         rootNode.setShadowMode(ShadowMode.Off);
-// 
-//         PssmShadowRenderer pssmRenderer = new PssmShadowRenderer(
-//         assetManager,1024,4,PssmShadowRenderer.EDGE_FILTERING_PCF);
-//         pssmRenderer.setDirection(lightdirection);
-//         viewPort.addProcessor(pssmRenderer);
-
-//         rootNode.setShadowMode(ShadowMode.Off);
-//         BasicShadowRenderer bsr = new BasicShadowRenderer(assetManager, 256);
-//         bsr.setDirection(new Vector3f(-1, -1, -1).normalizeLocal());
-//         viewPort.addProcessor(bsr);
-
-
 
 
         //*********************************************************************************//
@@ -273,10 +197,7 @@ public class Graphics3D extends SimpleApplication {
         // Tastaturevents abfangen und umleiten                                            //
         //*********************************************************************************//
 
-        inputManager.addMapping("up", new KeyTrigger(KeyInput.KEY_ADD));
-        inputManager.addMapping("down", new KeyTrigger(KeyInput.KEY_SUBTRACT));
 
-        inputManager.addListener(actionListener, new String[]{"up", "down"});
 
         //*********************************************************************************//
         //***                             GUI                                           ***//
@@ -307,49 +228,6 @@ public class Graphics3D extends SimpleApplication {
         // Teile allen Observern den nächsten Zeitschritt mit                              //
         //*********************************************************************************//
         view.notifyObservers(tpf);
-
-
-
-//        if (!pause) { time+=tpf;}
-//         
-//         if (time > 1) {
-//           geom[counter].removeFromParent();
-//           rootNode.attachChild(geom[++counter]);
-//           time -=1;
-//         }
-
-        //Dies wird aufgerufen bevor ein Frame gerendert wird
-
-        /*Ein bisschen Bewegung: hier wird immer wieder die Bahn entlang gefahren*/
-
-        /*        if (points == null) return;
-        
-        if (!pause) {time += tpf*12.0;}
-        
-        int behind = (int) time;
-        int next = behind +1;
-        
-        float isnext = (float)time-behind;
-        
-        if (behind < 0) {behind = 0;}
-        if (next < 0) {next = 0;}
-        
-        while (behind> points.size()-1) {behind -= points.size()-1;}
-        while (next> points.size()-1) {next -= points.size()-1;}
-        
-        //System.out.printf ("<%d,%d>(%d)\n",behind,next,points.size());
-        
-        //setFrame nur mit  left, deshalb right spiegeln
-        
-        Vector3d pitch = points.get(behind).getPitchAxis().mult(1-isnext).add(points.get(next).getPitchAxis().mult(isnext)).mult(-1.0);
-        
-        Vector3d yaw = points.get(behind).getYawAxis().mult(1-isnext).add(points.get(next).getYawAxis().mult(isnext));
-        Vector3d roll =  points.get(behind).getRollAxis().mult(1-isnext).add(points.get(next).getRollAxis().mult(isnext));
-        Vector3d loc = points.get(behind).getPosition().mult(1-isnext).add(points.get(next).getPosition().mult(isnext)).add(yaw.normalize().mult(5));
-        
-        
-        this.getCamera().setFrame(loc.toF(),pitch.toF() ,yaw.toF() ,roll.toF());
-        cam.update();//*/
 
     }
 
