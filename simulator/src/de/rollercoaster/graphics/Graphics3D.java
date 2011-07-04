@@ -112,6 +112,9 @@ public class Graphics3D extends SimpleApplication {
         //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
         this.setPauseOnLostFocus(false);
 
+        this.setDisplayStatView(false);
+        this.setDisplayFps(false);
+
         //*********************************************************************************//
         //***                         Assets einrichten                                 ***//
         //*********************************************************************************//
@@ -187,14 +190,16 @@ public class Graphics3D extends SimpleApplication {
 
 
         //*********************************************************************************//
-        //***           Kurvendaten erhalten und Bah erzeugen                           ***//
+        //***           Kurvendaten erhalten und Bahn erzeugen                          ***//
         //*********************************************************************************//
         // In dieser Sektion werden die Kurvendaten geholt und das Achterbahnobjekt        //
         // dynamisch erzeugt                                                               //
         //*********************************************************************************//
 
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
-        bahn = new Achterbahn(view.getCurve(), bahn_material, joint,"../models/pattern.obj","../models/bounding_pattern.obj");
+        pattern_filename = "../models/pattern.obj";
+        bounding_pattern_filename = "../models/bounding_pattern.obj";
+        bahn = new Achterbahn(view.getCurve(), bahn_material, joint,pattern_filename,bounding_pattern_filename);
         rootNode.attachChild(bahn);
 
 
@@ -203,7 +208,7 @@ public class Graphics3D extends SimpleApplication {
 
         //*********************************************************************************//
         //***                   Userinteraktion                                         ***//
-        //*********************************************************************************//
+        //*********************************************************************************// 
         // Tastaturevents abfangen und umleiten                                            //
         //*********************************************************************************//
 
@@ -228,7 +233,6 @@ public class Graphics3D extends SimpleApplication {
 
         //*********************************************************************************//
         //*********************************************************************************//
-setShowStatePoles(false);
     }
 
     @Override
@@ -263,8 +267,9 @@ setShowStatePoles(false);
     }
 
     private void reinit () {
-
-
+      bahn.removeFromParent();
+      bahn = new Achterbahn(view.getCurve(), bahn_material, joint,pattern_filename,bounding_pattern_filename);
+      rootNode.attachChild(bahn);
     }
 
     //*********************************************************************************//
