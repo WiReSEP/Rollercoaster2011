@@ -72,7 +72,6 @@ public class Graphics3D extends SimpleApplication {
 
 
 
-    private Material wireMaterial;
     private Material showNormalsMaterial;
     private Material redMat;
     private JmeCanvasContext ctx = null;
@@ -127,8 +126,6 @@ public class Graphics3D extends SimpleApplication {
         assetManager.registerLocator("../models/", FileLocator.class.getName());  //Custom-Path einrichten
 
         //Materialien setzen
-//         wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
-//         wireMaterial.setColor("Color", ColorRGBA.Yellow);
         Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         mat1.setColor("Color", ColorRGBA.Red);
 
@@ -266,6 +263,7 @@ public class Graphics3D extends SimpleApplication {
         close = true;
     }
 
+    /**Sorgt für die Neuerzeugung der gesamten Achterbahn. Diese Methode wird intern benutzt wenn eine Veränderung das neu Generieren der Achterbahn notwendig macht*/
     private void reinit () {
       bahn.removeFromParent();
       bahn = new Achterbahn(view.getCurve(), bahn_material, joint,pattern_filename,bounding_pattern_filename);
@@ -334,11 +332,12 @@ public class Graphics3D extends SimpleApplication {
       }
     }
 
+    /**Liefert genau dann true wenn die Dekoration angezeigt wird*/
     public boolean getShowStateDekoration() {
-   
         return (deko.getCullHint()!=CullHint.Always);
     }
 
+    /** Zeigt die Dekoration an oder versteckt sie. Mit true wird die Dekoration angezeigt**/
     public void setShowStateDekoration(boolean state) {
       if (state)
         deko.setCullHint(CullHint.Dynamic);
@@ -346,13 +345,14 @@ public class Graphics3D extends SimpleApplication {
         deko.setCullHint(CullHint.Always);
     }
 
+    /**Liefert genau dann true wenn die Poles angezeigt wird*/
     public boolean getShowStatePoles() {
         Spatial poles = bahn.getChild("poles");
         if (poles == null) 
           return false;
         return (poles.getCullHint()!=CullHint.Always);
     }
-
+    /** Zeigt die Poles an oder versteckt sie. Mit true wird die Dekoration angezeigt**/
     public void setShowStatePoles(boolean state) {        
         Spatial poles = bahn.getChild("poles");
         if (poles != null) {
