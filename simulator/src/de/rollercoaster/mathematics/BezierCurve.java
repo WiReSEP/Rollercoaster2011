@@ -125,7 +125,7 @@ public class BezierCurve implements Curve {
         while (position < length) {
             CurvePoint current = getPoint(position + delta);
             double distance = current.getPosition().subtract(previous.getPosition()).length();
-            double angle = Math.acos(Vector3d.cos(current.getPosition(), previous.getPosition()));
+            double angle = Math.acos(Math.abs(Vector3d.cos(current.getDerivative(), previous.getDerivative())));
 
             if ((distance <= maxDistance && angle <= maxAngle) || delta < MINIMAL_DELTA) {
                 if (position + delta < length) {

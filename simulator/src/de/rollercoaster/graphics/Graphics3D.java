@@ -226,7 +226,7 @@ public class Graphics3D extends SimpleApplication {
         // Einrichtung des Cameracontroler zur Unterstützung unterschiedlicher Modi        //
         //*********************************************************************************//
 
-        this.cameraControl = new CameraControl(this, cam);
+        this.cameraControl = new CameraControl(this, cam, car);
 
         //*********************************************************************************//
         //*********************************************************************************//

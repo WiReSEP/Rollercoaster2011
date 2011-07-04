@@ -9,6 +9,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
+import com.jme3.scene.Spatial;
 
 /**
  *
@@ -18,19 +19,20 @@ public class CameraControl {
 
     private CameraMode mode = CameraMode.INTERIOR;//at  the beginning the interiror Cam is activated
     private Camera cam;
-    private Node car;
+    private Spatial car;
     private Matrix3f matrix = new Matrix3f();
     private final SimpleApplication application;
-    private Vector3f carPosition;
+    private Vector3f location;
 
     /**
      * Kontruktor
      *
      */
-    public CameraControl(SimpleApplication application, Camera cam) {
+    public CameraControl(SimpleApplication application, Camera cam, Spatial car) {
         this.application = application;
         this.cam = cam;
-        //  this.car = car;
+        this.car = car;
+				application.getRootNode().attachChild(car);
     }
 
     /**
@@ -38,7 +40,6 @@ public class CameraControl {
      * @return 2D vector 
      */
     public Vector2f getOverviewPosition() {
-        carPosition = cam.getLocation();
         Vector2f position2D = new Vector2f();
         //TODO: Vector3f in Vector 2f umwandeln
         return null;//carPosition;
@@ -48,12 +49,12 @@ public class CameraControl {
      * initials rollercoaster car
      * @param start: startposition of the rollercoaster
      */
-    public void initCar() {
+    /*public void initCar() {
         Box box = new Box(new Vector3f(1,-1,1), 1, 1, 1);
         Geometry wagon = new Geometry("myBox", box);
         wagon.setMaterial(new Material(application.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
         application.getRootNode().attachChild(wagon);
-    }
+    }*/
 
     public void updateCamera() {
         switch (mode) {
@@ -84,6 +85,7 @@ public class CameraControl {
     }
 
     void setCarPosition(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
+			this.location = location;
 				if (mode== CameraMode.OVERVIEW){
 					matrix.fromAxes(left.mult(-1),up,direction);
 					car.setLocalTranslation(location);
