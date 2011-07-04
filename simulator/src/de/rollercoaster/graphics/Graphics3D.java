@@ -127,8 +127,8 @@ public class Graphics3D extends SimpleApplication {
         assetManager.registerLocator("../models/", FileLocator.class.getName());  //Custom-Path einrichten
 
         //Materialien setzen
-        wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
-        wireMaterial.setColor("Color", ColorRGBA.Yellow);
+//         wireMaterial = new Material(assetManager, "/Common/MatDefs/Misc/WireColor.j3md");
+//         wireMaterial.setColor("Color", ColorRGBA.Yellow);
         Material mat1 = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         mat1.setColor("Color", ColorRGBA.Red);
 
@@ -301,10 +301,9 @@ public class Graphics3D extends SimpleApplication {
        
     }
 
-    /**Setzt die Bahnkurvendatenquelle.
+    /**Ruft ein Update auf. Die Curve wird tatsächlich nicht benutzt, da angenommen wird, dass diese Methode vom View aufgerufen wurde. 
      */
-    public void setView(RollercoasterView view) { 
-       this.view = view;
+    public void setCurve(Curve curve) { 
        reinit();
     }
 

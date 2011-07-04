@@ -55,9 +55,13 @@ public class Achterbahn extends Node {
       PatternCurve bahn = null;
       PatternCurve collisiondomain = null;
       //Bahn Extrude erzeugen
-      bahn = new PatternCurve(points,(pattern_filename!= null)? new FilePattern(pattern_filename): new SimplePattern());
-      collisiondomain = new PatternCurve(points,(bounding_pattern_filename!= null)? new FilePattern(bounding_pattern_filename): new SimplePattern());
-
+      try {
+        bahn = new PatternCurve(points,(pattern_filename!= null)? new FilePattern(pattern_filename): new SimplePattern());
+        collisiondomain = new PatternCurve(points,(bounding_pattern_filename!= null)? new FilePattern(bounding_pattern_filename): new SimplePattern());
+      }
+      catch (Exception e) {
+        throw new IllegalArgumentException ("At least one part of the initial Rollercoasterdata is invalid");
+      }
 
 
       geom_bahn = new Geometry("curve_geom", bahn);

@@ -59,13 +59,6 @@ public class RollercoasterView implements View {
         return context.getCanvas();
     }
 
-    //Temporäre Methode zum starten und stopen des Kameraflugs
-    //Diese Methode ist nur zur Präsentation eingefügt!!!
-    @Deprecated
-    public void pause(boolean state) {
-        graphics.pause = state;
-    }
-
     @Override
     public boolean addObserver(ViewObserver observer) {
         synchronized (observers) {
