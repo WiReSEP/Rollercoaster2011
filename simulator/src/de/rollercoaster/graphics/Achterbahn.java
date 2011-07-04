@@ -46,8 +46,8 @@ public class Achterbahn extends Node {
   private Node poles;
 
 
-  public Achterbahn(Curve curve, Material mat, Spatial joint3d ) {
-      super(); //alles was Node kann
+  public Achterbahn(Curve curve, Material mat, Spatial joint3d , String pattern_filename, String bounding_pattern_filename) {
+      super("achterbahn"); //alles was Node kann
 
       List<CurvePoint> points = curve.getPointSequence(MIN_JOINT_DISTANCE/2,0.0);  //Auflösung ausreichend wählen
       
@@ -55,15 +55,10 @@ public class Achterbahn extends Node {
       PatternCurve bahn = null;
       PatternCurve collisiondomain = null;
       //Bahn Extrude erzeugen
-      try {
-        bahn = new PatternCurve(points, new FilePattern("../models/pattern.obj"));
-        collisiondomain = new PatternCurve(points, new FilePattern("../models/bounding_pattern.obj"));
-      }
-      catch (Exception e) {
-        System.out.println (e);
-        e.printStackTrace();
-        System.exit(-1);
-      } 
+      bahn = new PatternCurve(points,(pattern_filename!= null)? new FilePattern(pattern_filename): new SimplePattern());
+      collisiondomain = new PatternCurve(points,(bounding_pattern_filename!= null)? new FilePattern(bounding_pattern_filename): new SimplePattern());
+
+
 
       geom_bahn = new Geometry("curve_geom", bahn);
       geom_bahn.setMaterial(mat);

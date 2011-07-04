@@ -19,8 +19,11 @@ import com.jme3.math.Matrix3f;
 import com.jme3.math.ColorRGBA;
 
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+
+
 
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.AmbientLight;
@@ -55,19 +58,27 @@ import java.io.File;
 
 public class Graphics3D extends SimpleApplication {
 
-    private final RollercoasterView view;
+    
     private CameraControl cameraControl;
-    private Achterbahn bahn;
-    private int counter = 0;
-    public boolean pause = false;
+
+    //Achterbahndaten
+    private RollercoasterView view;
+    private Achterbahn bahn = null;
+    private Material bahn_material = null;
+    private Spatial joint = null;
+    private String pattern_filename;
+    private String bounding_pattern_filename;
+
+
+
+
     private Material wireMaterial;
     private Material showNormalsMaterial;
     private Material redMat;
-    private double time = 0;
-    private List<CurvePoint> points;
     private JmeCanvasContext ctx = null;
 
     private Spatial car;
+    private Node deko;
 
     public Graphics3D(RollercoasterView view) {
         super();
@@ -123,8 +134,13 @@ public class Graphics3D extends SimpleApplication {
         redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         redMat.setColor("Color", ColorRGBA.Red);
 
-        //Skybox
-        rootNode.attachChild(SkyFactory.createSky(assetManager,
+
+        //Deko Knoten erzeugen
+        deko = new Node("deco_node");
+        rootNode.attachChild(deko);
+
+        //Skybox (Beispiel Dekoration)
+        deko.attachChild(SkyFactory.createSky(assetManager,
                 assetManager.loadTexture("skybox/west.png"), //west
                 assetManager.loadTexture("skybox/east.png"), //east
                 assetManager.loadTexture("skybox/north.png"), //north
@@ -133,23 +149,17 @@ public class Graphics3D extends SimpleApplication {
                 assetManager.loadTexture("skybox/down.png") //down
                 ));
 
-        //Joint laden
-        Spatial joint = assetManager.loadModel("joint.mesh.xml");
-        Material bahn_material = ((Geometry) ((Node) joint).getChild(0)).getMaterial();
-
-        //Gizzmo laden [DEBUG]
-        Spatial gizzmo = assetManager.loadModel("gizzmo.mesh.xml");
-        gizzmo.scale(20);
-        rootNode.attachChild(gizzmo);
-
-        //Gelände laden
+        //Gelände laden (Beispiel Dekoration)
         Spatial terrain = assetManager.loadModel("terrain.mesh.xml");
         terrain.setCullHint(Spatial.CullHint.Never); //nie verstecken
         terrain.scale(10, 6, 10);
         terrain.move(0, -15, 100);
-        rootNode.attachChild(terrain);
+        deko.attachChild(terrain);
         terrain.setShadowMode(ShadowMode.Receive);  //Schattenwurf
 
+        //Joint laden
+        joint = assetManager.loadModel("joint.mesh.xml");
+        bahn_material = ((Geometry) ((Node) joint).getChild(0)).getMaterial();
        
         //Wagen bauen
         car = new Geometry("carnode",new Box(1,0.5f,2));
@@ -184,7 +194,7 @@ public class Graphics3D extends SimpleApplication {
         //*********************************************************************************//
 
         //Kurve erzeugen, Bahn erzeugen, Geometrieknote erzeugen
-        bahn = new Achterbahn(view.getCurve(), bahn_material, joint);
+        bahn = new Achterbahn(view.getCurve(), bahn_material, joint,"../models/pattern.obj","../models/bounding_pattern.obj");
         rootNode.attachChild(bahn);
 
 
@@ -218,6 +228,7 @@ public class Graphics3D extends SimpleApplication {
 
         //*********************************************************************************//
         //*********************************************************************************//
+setShowStatePoles(false);
     }
 
     @Override
@@ -243,16 +254,17 @@ public class Graphics3D extends SimpleApplication {
         ctx = (JmeCanvasContext) this.getContext();
         Dimension dim = new Dimension(640, 480);
         ctx.getCanvas().setPreferredSize(dim);
-        // this.startCanvas(); // create canvas!
-
-
-
         return ctx;
     }
 
     //Bei closen unbedingt sowas bauen sonst wartet man ewig auf den lwjgl
     public void freeCanvas() {
         close = true;
+    }
+
+    private void reinit () {
+
+
     }
 
     //*********************************************************************************//
@@ -267,41 +279,84 @@ public class Graphics3D extends SimpleApplication {
     }
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
-    public void loadDeko(String filename) {//ImplementMe: Matthias
+    public void loadDeko(String filename) throws IllegalArgumentException {
+       deko.detachAllChildren();
+       File tmp_file = new File (filename);
+       String parent = tmp_file.getParent();
+       String file = tmp_file.getName();
+       try {
+          assetManager.registerLocator(parent, FileLocator.class.getName());  //Custom-Path einrichten
+          Spatial deko_content = assetManager.loadModel(file);
+          deko.attachChild(deko_content);
+       }
+       catch (Exception e) {
+          throw new IllegalArgumentException ("Unable to Load Dekoration");
+       }
+
+       
     }
 
-    /**Setzt die Bahnkurve. 
-    <br><br>
-    
-    <DEV> Es ist zu entscheiden ob wir hier dann auch die Physik initialisieren wenn wir sowieso als Pumpe zuständig sind
+    /**Setzt die Bahnkurvendatenquelle.
      */
-    public void setCurve(Curve curve) { //ImplementMe: Matthias
+    public void setView(RollercoasterView view) { 
+       this.view = view;
+       reinit();
     }
 
     /**Gibt das Pattern für die Achterbahn, also dessen Querschnitt vor. Das Pattern wird sofern verfügbar aus der Datei gelesen. 
     Gibt es die Datei nicht, wird eine FileNotFoundException geworfen.
     Wenn null anstatt eines String übergeben wird, dann wird ein SimplePattern initialisiert */
-    public void setPattern(String filename) throws FileNotFoundException {//ImplementMe: Matthias
+    public void setPattern(String pattern_filename, String bounding_pattern_filename) throws FileNotFoundException {
+      this.pattern_filename = pattern_filename;
+      this.bounding_pattern_filename = bounding_pattern_filename;
+      reinit();
     }
 
     /**Gibt einen Pfad für die Quelle der Joints vor. Der Pfad ist relativ zum Assetsverzeichnis models anzugeben. 
     Ist die Datei nicht auffindbar, wird eine Exception geworfen
      */
-    public void setJoint(String filename) throws FileNotFoundException {//ImplementMe: Matthias
+    public void setJoint(String filename) throws IllegalArgumentException {
+      File tmp_file = new File (filename);
+      String parent = tmp_file.getParent();
+      String file = tmp_file.getName();
+      try {
+        assetManager.registerLocator(parent, FileLocator.class.getName());  //Custom-Path einrichten
+        joint = assetManager.loadModel(file);
+        bahn_material = ((Geometry) ((Node) joint).getChild(0)).getMaterial();
+        reinit();
+      }
+      catch (Exception e) {
+        throw new IllegalArgumentException ("Unable to Load Joint.");
+      }
     }
 
     public boolean getShowStateDekoration() {
-        return true;//ImplementMe: Matthias
+   
+        return (deko.getCullHint()!=CullHint.Always);
     }
 
-    public void setShowStateDekoration(boolean state) {//ImplementMe: Matthias
+    public void setShowStateDekoration(boolean state) {
+      if (state)
+        deko.setCullHint(CullHint.Dynamic);
+      else
+        deko.setCullHint(CullHint.Always);
     }
 
     public boolean getShowStatePoles() {
-        return true;//ImplementMe: Matthias
+        Spatial poles = bahn.getChild("poles");
+        if (poles == null) 
+          return false;
+        return (poles.getCullHint()!=CullHint.Always);
     }
 
-    public void setShowStatePoles(boolean state) {//ImplementMe: Matthias
+    public void setShowStatePoles(boolean state) {        
+        Spatial poles = bahn.getChild("poles");
+        if (poles != null) {
+          if (state)
+            poles.setCullHint(CullHint.Dynamic);
+          else
+            poles.setCullHint(CullHint.Always);
+        }
     }
 
     public void setCameraMode(CameraMode mode) {

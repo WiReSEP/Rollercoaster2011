@@ -72,7 +72,7 @@ public class FilePattern implements Pattern {
   private Vertex3d [] vertexdata;
 
   /**Lädt das Pattern aus der Datei. Es werden Exceptions geworfen wenn das Pattern der Datei kein Kreis ist. Völlig unlesbare Zeilen werden ignoriert.*/
-  public FilePattern (String filename) throws Exception {
+  public FilePattern (String filename) throws IllegalArgumentException,FileNotFoundException,IOException {
     //Datei laden und öffnen
     File file_handle = new File(filename);
     FileReader filereader = new FileReader(file_handle);
@@ -94,7 +94,7 @@ public class FilePattern implements Pattern {
                       Vertex v = vertexcircle.get(0).pre;
                       for (int i = 0 ; i < vertexcircle.size(); i++) {
                         v= v.post;
-                        if (v== null) {throw new Exception ("Given Patten is no circle!");}
+                        if (v== null) {throw new IllegalArgumentException ("Given Patten is no circle!");}
                         cycle[i] = v.value;
                       }
                       trips.addLast(cycle);
@@ -130,7 +130,7 @@ public class FilePattern implements Pattern {
                               vb.turn_links(vertexcircle.size()); //umkehren dieses Strangs
                               vb.post = va;
                             }
-                              else {throw new Exception ("Nodes with degree > 2 not supported [0]"); }
+                              else {throw new IllegalArgumentException ("Nodes with degree > 2 not supported [0]"); }
                           }
                           else if (va.post == null) {
                             if (vb.pre == null) {
@@ -142,9 +142,9 @@ public class FilePattern implements Pattern {
                               vb.turn_links(vertexcircle.size()); //umkehren dieses Strangs
                               vb.pre = va;
                             }
-                              else {throw new Exception ("Nodes with degree > 2 not supported [1]");}
+                              else {throw new IllegalArgumentException ("Nodes with degree > 2 not supported [1]");}
                           }
-                          else {throw new Exception ("Nodes with degree > 2 not supported [2]"); }                    
+                          else {throw new IllegalArgumentException ("Nodes with degree > 2 not supported [2]"); }                    
                                                     
                        }
                        else {
@@ -160,7 +160,7 @@ public class FilePattern implements Pattern {
                             va.post = vb;
                             vertexcircle.addLast(vb);
                           } 
-                          else {throw new Exception ("Nodes with degree > 2 not supported [3]"); }    
+                          else {throw new IllegalArgumentException ("Nodes with degree > 2 not supported [3]"); }    
                        }
                     }
                     else if ((posb = vertexcircle.indexOf(new Vertex(b,null,null))) != -1) {
@@ -176,7 +176,7 @@ public class FilePattern implements Pattern {
                          vb.post = va;
                          vertexcircle.addLast(va);
                       } 
-                        else {throw new Exception ("Nodes with degree > 2 not supported [4]"); }    
+                        else {throw new IllegalArgumentException ("Nodes with degree > 2 not supported [4]"); }    
 
                     }
                     else {
@@ -199,7 +199,7 @@ public class FilePattern implements Pattern {
       Vertex v = vertexcircle.get(0).pre;
       for (int i = 0 ; i < vertexcircle.size(); i++) {
         v= v.post;
-        if (v== null) {throw new Exception ("Given Patten is no circle!");}
+        if (v== null) {throw new IllegalArgumentException ("Given Patten is no circle!");}
         cycle[i] = v.value;
       }
       trips.addLast(cycle);
@@ -210,12 +210,9 @@ public class FilePattern implements Pattern {
    pattern_index_trips = new int[trips.size()][] ;
    for (int i = 0; i < trips.size(); i++) {
       pattern_index_trips[i] = new int[trips.get(i).length];
-      System.out.printf ("|");
       for (int k = 0; k < trips.get(i).length; k++) {
         pattern_index_trips[i][k] = trips.get(i)[k]-1; //-1 da wir mit index 0 starten
-        System.out.printf ("%d|",trips.get(i)[k]);
       }
-      System.out.printf ("\n");
    }
 
   //Verticies kopieren
