@@ -220,7 +220,7 @@ public class Graphics3D extends SimpleApplication {
         // Einrichtung der HUD Anzeigekomponente                                           //
         //*********************************************************************************//
 		//TODO
-		hud = new CompleteHUD(this, assetManager, guiFont) ;
+        hud = new CompleteHUD(this, assetManager, guiFont) ;
 
         //*********************************************************************************//
         //***                 Cameracontroler                                           ***//
@@ -281,11 +281,10 @@ public class Graphics3D extends SimpleApplication {
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
     <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
     public void setHUDData(Vector3f rot, Vector3f acc) {//ImplementMe: Robin
-		//TODO duplicate class error
-		/*
-		this.hud.rotateTo(rot);
+	
+		this.hud.setRotation(rot);
 		this.hud.setAcceleration(acc);
-		*/
+		
     }
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
