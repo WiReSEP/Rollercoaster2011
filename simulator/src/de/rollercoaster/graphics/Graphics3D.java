@@ -4,7 +4,7 @@ import de.rollercoaster.mathematics.*;
 import de.rollercoaster.graphics.pattern.*;
 import de.rollercoaster.data.SerializedTrack;
 import de.rollercoaster.data.Track;
-import de.rollercoaster.graphics.hud.*;
+import de.rollercoaster.graphics.hud.CompleteHUD;
 
 //Fremdpackete (JMonkey)
 import com.jme3.app.SimpleApplication;
@@ -80,8 +80,7 @@ public class Graphics3D extends SimpleApplication {
     private Spatial car;
     private Node deko;
 	
-	//TODO duplicate class error
-	//private CompleteHUD hud;
+	private CompleteHUD hud;
 
     public Graphics3D(RollercoasterView view) {
         super();
@@ -220,8 +219,8 @@ public class Graphics3D extends SimpleApplication {
         //*********************************************************************************//
         // Einrichtung der HUD Anzeigekomponente                                           //
         //*********************************************************************************//
-		//TODO: duplicate class error
-		//hud = new CompleteHUD(this, assetManager, guiFont) ;
+		//TODO
+		hud = new CompleteHUD(this, assetManager, guiFont) ;
 
         //*********************************************************************************//
         //***                 Cameracontroler                                           ***//
