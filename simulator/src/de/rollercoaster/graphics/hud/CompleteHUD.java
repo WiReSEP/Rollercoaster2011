@@ -25,6 +25,8 @@ public class CompleteHUD extends Node{
         
         this.attachChild(zRot);
         this.attachChild(rHud);
+		
+		rHud.move(0, sa.getContext().getSettings().getHeight()/3.33333f, 0);
     }
     
     /**
@@ -40,7 +42,8 @@ public class CompleteHUD extends Node{
      * @param rot x,y,z rotation
      */
     public void setRotation(Vector3f rot){
-        zRot.rotateTo(rot.getZ());
+		//TODO rotateTo rein, sobald das geht
+        zRot.rotateBy(rot.getZ());
         rHud.setRotation(rot.getX(), rot.getY());
     }
     

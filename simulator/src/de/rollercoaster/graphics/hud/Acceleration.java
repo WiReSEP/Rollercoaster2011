@@ -85,7 +85,7 @@ public class Acceleration extends Node{
         this.xAccG.scale(1, 1+acc, 1);
         float newFloat = this.xAccG.getLocalScale().y*radius; 
         this.xAccG.move((newFloat-oldFloat)*1f ,0, 0);
-        System.out.printf("xAcc: %f\n", newFloat);
+        //System.out.printf("xAcc: %f\n", newFloat);
         if(newFloat > vsrX*xMax){
             mat_x.setColor("Color", ColorRGBA.Red);
         }
@@ -102,7 +102,7 @@ public class Acceleration extends Node{
         this.yAccG.scale(1, 1+acc, 1);
         float newFloat = this.yAccG.getLocalScale().y*radius; 
         this.yAccG.move((float)Math.sqrt(2)*acc*oldFloat/2 ,(float)Math.sqrt(2)*acc*oldFloat/2, 0);
-        System.out.printf("yAcc: %f\n", newFloat);
+       // System.out.printf("yAcc: %f\n", newFloat);
         if(newFloat > vsrY*yMax){
             mat_y.setColor("Color", ColorRGBA.Red);
         }
@@ -120,7 +120,7 @@ public class Acceleration extends Node{
         this.zAccG.scale(1, 1+acc, 1);
         float newFloat = this.zAccG.getLocalScale().y*radius; 
         this.zAccG.move(0,(newFloat-oldFloat)*1f ,0);
-        System.out.printf("zAcc: %f\n", newFloat);
+        //System.out.printf("zAcc: %f\n", newFloat);
         if(newFloat > vsrZ*zMax){
             mat_z.setColor("Color", ColorRGBA.Red);
         }

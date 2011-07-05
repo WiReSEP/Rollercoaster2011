@@ -123,7 +123,7 @@ public class Graph extends JPanel implements Runnable {
         
       }
       public void componentMoved(ComponentEvent arg0) {}
-      public void componentShown(ComponentEvent arg0) { System.out.println("shown"); }
+      public void componentShown(ComponentEvent arg0) {}
       public void componentHidden(ComponentEvent arg0) {}
     });
   }
@@ -160,6 +160,7 @@ public class Graph extends JPanel implements Runnable {
   public void removePoint(int curveID, double x) {
     if ((curveID>=0)&&(curveID<curves.size())) {
       curves.elementAt(curveID).removePoint(x);
+      repaint();
     }
     else throw new RuntimeException("Curve doesn't exist!");
   }
@@ -167,6 +168,7 @@ public class Graph extends JPanel implements Runnable {
   public void clearCurve(int curveID) {
     if ((curveID>=0)&&(curveID<curves.size())) {
       curves.elementAt(curveID).clear();
+      repaint();
     }
     else throw new RuntimeException("Curve doesn't exist!");
   }
@@ -174,6 +176,7 @@ public class Graph extends JPanel implements Runnable {
   public void removeCurve(int curveID) {
     if ((curveID>=0)&&(curveID<curves.size())) {
       curves.remove(curveID);
+      repaint();
     }
     else throw new RuntimeException("Curve doesn't exist!");
   }

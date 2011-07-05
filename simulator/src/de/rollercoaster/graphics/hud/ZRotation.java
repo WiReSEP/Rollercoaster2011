@@ -78,7 +78,7 @@ public class ZRotation extends Node{
         
         //get to the middle
         float xpos = (this.sa.getContext().getSettings().getWidth()-radius*0)/2;
-        float ypos = (this.sa.getContext().getSettings().getHeight()-radius*0)/2;
+        float ypos = (this.sa.getContext().getSettings().getHeight()+radius)/2;
         this.move(xpos, ypos, 0);
 
     }
@@ -104,7 +104,7 @@ public class ZRotation extends Node{
      * @param degree 
      */
     public void rotateTo(float degree){
-        System.out.printf("Rotate to: %f\n.", degree);
+        //System.out.printf("Rotate to: %f\n.", degree);
         innerRing.rotate(0,0,(float)(degree-myRot));
         myRot=(degree);
         //innerRing.rotate(Quaternion.fromAngleAxis(degree, new Vector3f(0, 0, 1))); 

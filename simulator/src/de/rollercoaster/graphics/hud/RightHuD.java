@@ -47,7 +47,7 @@ public class RightHuD extends Node{
         this.move(pWidth-radius, pHeight-radius, 0);
         this.xRot.move(0, -radius, 0); //Steigungsdreieck
         this.yRot.move(0, 0, 0);   //Kompass
-        this.acc.move(-radius*0.333f, -radius*2.5f, 0);//Diagramm
+        this.acc.move(-radius*0.333f, -radius*3.5f, 0);//Diagramm
         
     }
     

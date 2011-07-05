@@ -3,9 +3,7 @@ package de.rollercoaster.mathematics;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -23,18 +21,6 @@ public class BezierCurveTest {
     
     private CurvePoint fourth = new SimpleCurvePoint(
             new Vector3d(3.0, -0.5, -4.0), zeroPoint, zeroPoint, -3.0);
-    
- 
-    public BezierCurveTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
     
     @Before
     public void setUp() {
