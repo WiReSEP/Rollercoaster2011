@@ -1,4 +1,4 @@
-package mygame;
+package hud;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
@@ -15,7 +15,7 @@ import com.jme3.scene.Node;
  *
  * @author Robin
  */
-public class CompleteHUD extends com.jme3.scene.Node{
+public class CompleteHUD extends Node{
     private ZRotation zRot;
     private RightHuD rHud;
     

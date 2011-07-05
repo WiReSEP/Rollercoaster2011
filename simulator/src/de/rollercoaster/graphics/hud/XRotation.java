@@ -1,7 +1,7 @@
 /*
  * Eein einfacher Winkel gibt die Steigung an
  */
-package mygame;
+package hud;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
