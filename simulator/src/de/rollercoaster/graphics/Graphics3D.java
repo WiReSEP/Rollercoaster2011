@@ -281,7 +281,7 @@ public class Graphics3D extends SimpleApplication {
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
     <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
     public void setHUDData(Vector3f rot, Vector3f acc) {//ImplementMe: Robin
-		this.hud.setRotation(rot);
+		this.hud.rotateTo(rot);
 		this.hud.setAcceleration(acc);
     }
 
