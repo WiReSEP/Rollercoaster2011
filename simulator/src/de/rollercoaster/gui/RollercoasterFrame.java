@@ -69,20 +69,18 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JMenu simulation = new JMenu("Simulation");
     private JMenuItem sim1 = new JMenuItem("Simulation starten");
     private JMenuItem sim2 = new JMenuItem("Simulation stoppen");
-    //private JMenuItem sim1 = new JMenuItem("Simulation starten");
     private JMenu ansicht = new JMenu("Ansicht");
     private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken");
 		private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen");
-    //private JMenuItem ansicht2 = new JMenuItem("Simulation stoppen");
     private JMenu hilfe = new JMenu("Hilfe");
     private JMenuItem hilfe1 = new JMenuItem("Info");
 
 		private boolean isRunning = false;
 
     public RollercoasterFrame(String title, Simulation sim) {
-        super(title);
+			super(title);
 			javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-     this.sim = sim;
+			this.sim = sim;
 
         View view = sim.getView();
         this.graphics = view;
@@ -290,10 +288,6 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 									log.append("Simulation gestoppt.\n");
 								}
 								isRunning = false;
-						} else if (e.getSource() == ansicht1) {
-							
-						} else if (e.getSource() == ansicht2) {
-							
 						} 
         }
 
