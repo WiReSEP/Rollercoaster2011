@@ -240,19 +240,27 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
 
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == startButton) { //Simulation starten
+            if ((e.getSource() == startButton)||(e.getSource() == sim1)) { //Simulation starten/pausieren
                 if (!isRunning) {
                   sim.start();
                   log.append("Simulation gestartet.\n");
-                }
-                isRunning = true;
-            } else if (e.getSource() == stopButton) { //Simulation stoppen
-                // JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
-                if (isRunning) {
+                  startButton.setLabel("Pause");
+                  sim1.setLabel("Simulation pausieren");
+                } else {
                   sim.stop();
-                  log.append("Simulation gestoppt.\n");
+                  log.append("Simulation pausiert.\n");
+                  startButton.setLabel("Start");
+                  sim1.setLabel("Simulation starten");
                 }
-                isRunning = false;
+                
+                isRunning = !isRunning;
+            } else if (e.getSource() == stopButton) { //Simulation stoppen
+                //if (isRunning) {
+                  //sim.stop();
+                  //TODO: Wie BEENDE ich eine simulation
+                  log.append("Simulation soll gestoppt werden.\n");
+                //}
+                //isRunning = false;
             } else if (e.getSource() == datei1) { //Konstruktion laden
                 if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
