@@ -4,6 +4,7 @@ import de.rollercoaster.mathematics.*;
 import de.rollercoaster.graphics.pattern.*;
 import de.rollercoaster.data.SerializedTrack;
 import de.rollercoaster.data.Track;
+import de.rollercoaster.graphics.hud.*;
 
 //Fremdpackete (JMonkey)
 import com.jme3.app.SimpleApplication;
@@ -78,6 +79,8 @@ public class Graphics3D extends SimpleApplication {
 
     private Spatial car;
     private Node deko;
+	
+	private CompleteHUD hud;
 
     public Graphics3D(RollercoasterView view) {
         super();
@@ -217,8 +220,7 @@ public class Graphics3D extends SimpleApplication {
         // Einrichtung der HUD Anzeigekomponente                                           //
         //*********************************************************************************//
 
-        //TODO: HUD einfügen 
-
+		hud = new CompleteHUD(this, assetManager, guiFont) ;
 
         //*********************************************************************************//
         //***                 Cameracontroler                                           ***//
@@ -278,7 +280,9 @@ public class Graphics3D extends SimpleApplication {
     //*********************************************************************************//
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
     <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
-    public void setHUDData(/*Insert data here*/) {//ImplementMe: Robin
+    public void setHUDData(Vector3f rot, Vector3f acc) {//ImplementMe: Robin
+		this.hud.setRotation(rot);
+		this.hud.setAcceleration(acc);
     }
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
