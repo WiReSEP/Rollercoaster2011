@@ -43,7 +43,7 @@ public class XRotation extends Node {
         Box b_degree = new Box(radius*0.5f, radius, 0);
         Geometry geom_degree = new Geometry("needle", b_degree);
         Material mat_needle = new Material(asm, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_needle.setTexture("ColorMap", asm.loadTexture("Textures/Winkel.png"));
+        mat_needle.setTexture("ColorMap", asm.loadTexture("./Winkel.png"));
         mat_needle.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         geom_degree.setMaterial(mat_needle);
         

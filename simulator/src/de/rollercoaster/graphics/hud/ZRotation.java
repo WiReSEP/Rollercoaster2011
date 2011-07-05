@@ -65,7 +65,7 @@ public class ZRotation extends Node{
         Geometry cube_translucent = new Geometry("s2", s2);
         Material mat_tt = new Material(asm, "Common/MatDefs/Misc/Unshaded.j3md");
         mat_tt.setColor("m_Color", ColorRGBA.Blue);
-        mat_tt.setTexture("ColorMap", asm.loadTexture("Textures/nKreis2.png"));
+        mat_tt.setTexture("ColorMap", asm.loadTexture("./nKreis2.png"));
         mat_tt.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         cube_translucent.setMaterial(mat_tt); 
        
@@ -88,7 +88,7 @@ public class ZRotation extends Node{
         Box s2 = new Box(radius*1.1f,radius*1.1f,0);
         Geometry cube_translucent = new Geometry("s2", s2);
         Material mat_tt = new Material(asm, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_tt.setTexture("ColorMap", asm.loadTexture("Textures/nKreis2.png"));
+        mat_tt.setTexture("ColorMap", asm.loadTexture("./nKreis2.png"));
         mat_tt.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         cube_translucent.setMaterial(mat_tt);
         

@@ -33,7 +33,7 @@ public class YRotation extends Node{
         Box s2 = new Box(radius*1.1f,radius*1.1f,0);
         Geometry cube_translucent = new Geometry("s2", s2);
         Material mat_tt = new Material(asm, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_tt.setTexture("ColorMap", asm.loadTexture("Textures/Kompass_Hintergrund.png"));
+        mat_tt.setTexture("ColorMap", asm.loadTexture("./Kompass_Hintergrund.png"));
         mat_tt.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         cube_translucent.setMaterial(mat_tt);
     
@@ -43,7 +43,7 @@ public class YRotation extends Node{
         Box b_needle = new Box(radius, radius, 0);
         Geometry geom_needle = new Geometry("needle", b_needle);
         Material mat_needle = new Material(asm, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat_needle.setTexture("ColorMap", asm.loadTexture("Textures/Kompass_Nadel.png"));
+        mat_needle.setTexture("ColorMap", asm.loadTexture("./Kompass_Nadel.png"));
         mat_needle.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
         geom_needle.setMaterial(mat_needle);
         
