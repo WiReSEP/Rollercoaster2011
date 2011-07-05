@@ -10,6 +10,10 @@ public interface Simulation {
     void start();
 
     void stop();
+    
+    void reset();
+    
+    boolean isStarted();
 
     boolean addObserver(TrajectoryObserver observer);
 
