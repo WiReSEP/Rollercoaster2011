@@ -262,17 +262,17 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
                 //JOptionPane.showMessageDialog(RollercoasterFrame.this, "Datei schliessen.");
                     sim.setTrack(null);
-                    log.append("Konstruktion geschlossen.");
+                    log.append("Konstruktion geschlossen.\n");
             } else if (e.getSource() == datei3) { //beenden
                 System.exit(0);
             } else if (e.getSource() == cameraBox) { //Camera
                 int cam = cameraBox.getSelectedIndex();
                 if (cam == 0) {
 									//setCameraMode('o');
-									log.append("Kamera auf Außenansicht gesetzt.");
+									log.append("Kamera auf Außenansicht gesetzt.\n");
 								} else {
 									//setCameraMode('i');
-									log.append("Kamera auf Innenansicht gesetzt.");
+									log.append("Kamera auf Innenansicht gesetzt.\n");
 								}
             } else if (e.getSource() == sim1) { //Simulation starten
                 // JOptionPane.showMessageDialog(null, "Starte Simulation.");
