@@ -1,4 +1,4 @@
-package hud;
+package de.rollercoaster.graphics.hud;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
