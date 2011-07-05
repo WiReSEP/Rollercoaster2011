@@ -137,3 +137,109 @@ durchgeführt worden, so werden hier die erforderlichen Nacharbeiten aufgeführt
 (z.B. Bugfixes).} \\
 \hline
  \end{longtable}
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{Beispiel:
+                                                        /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{Achterbahn}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{In 5 Schritten wird eine Achterbahn gezeigt, die immer mehr Details zur Verfügung stellt. Dabei treten keine Ladefehler auf. Die am Schluss dargestellte Achterbahn entspricht den Spezifikiationen. } \\
+\hline
+\textbf{Einzelschritte} &  \textit{ Die Klasse AchterbahnTest muss mit den Bibliotheken der jMonkeyEngine kompiliert und dann ausgeführt werden. Durch Drücken der Leertaste werden die 5 Fälle durchgeschaltet bis das 
+Programm schließlich terminiert. Im Fehlerfall ist sicherzustellen, dass die verwendeten Bibliotheken zur 3D-Beschleunigung freigegeben wurden.
+} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Das Programm öffnet ein Fenster indem eine 3D-Anzeige stattfindet. In dem Fenster kann mit der Maus und den Tasten W,A,S,D navigiert werden um die Geometry näher zu betrachten \ldots} \\
+\hline
+\textbf{Besonderheiten } &  \textit{Da es sich um eine visuelle Komponente handelt, ist ein automatisierter Test mit jUnit nicht möglich. Daher wird die Testlösung über eine kleine Application verwendet.} \\
+\hline
+
+ \end{longtable}
+
+
+
+
+
+
+
+
+
+
+
+%%%%% Durchläufe  %%%%%%%%%%%%%%%%%
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Nach dem Druck auf die Leertaste wird eine Geometry angezeigt in der vier Eckpunkte eines Quadrats mit zylindrischen Zwischenstücken verbunden sind. Die Ecken sind abgeschrägt. Einfache Rechtecke liegen in den Eckpunkten.
+Nach Druck auf die Leertaste verändert sich die Art der Verbindung zu einem angegebenen Querschnitt (Standartachterbahnprofil skaliert). Ein weiterer Druck auf die Leertaste ersetzt die Rechtecke in den Eckpunkten durch 
+das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die Art der Oberflächenfärbung gemäß der Materialeigenschaften aus der Modelldatei. Ein weiterer Druck auf die Leertaste lädt die Beispielachterbahn Colossos und stellt diese dar.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die erwarteten 3D-Objekte werden angezeigt, jedoch sieht man die Innenseite der zylindrischen Verbindungen. Die Boxen bzw Joints werden nicht korrekt senkrecht zur Bahn eingefügt.} \\
+\hline
+\textbf{Ergebnis} & \textit{Die Teilfunktionalität des Extrudierens kann als funktionierend betrachtete werden. Der Test ist missglückt, da es offensichtlich zu Fehlern bei der Berechnung beim Clipping kommt. 
+Für die korrekte Rotation der Joints muss zwischen Rechts- und Linkssystem konvertiert werden.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Es müssen Abhängig von der Richtung und räumlichen Orientierung die Reihenfolge der Dreieckseckpunkte angepasst werden um dem OpenGl-Standart der CCW-Dreiecksübergabe zu genügen.
+Für die Konvertierung muss die RollAchse invertiert werden.} \\
+\hline
+ \end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{2} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Nach dem Druck auf die Leertaste wird eine Geometry angezeigt in der vier Eckpunkte eines Quadrats mit zylindrischen Zwischenstücken verbunden sind. Die Ecken sind abgeschrägt. Einfache Rechtecke liegen in den Eckpunkten.
+Nach Druck auf die Leertaste verändert sich die Art der Verbindung zu einem angegebenen Querschnitt (Standartachterbahnprofil skaliert). Ein weiterer Druck auf die Leertaste ersetzt die Rechtecke in den Eckpunkten durch 
+das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die Art der Oberflächenfärbung gemäß der Materialeigenschaften aus der Modelldatei. Ein weiterer Druck auf die Leertaste lädt die Beispielachterbahn Colossos und stellt diese dar.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Bis zur Colossos-Bahn entspricht die Ist-Reaktion den Erwartungen. Bei der Colossos-Bahn bricht die Bahn mitten im Verlauf ab} \\
+\hline
+\textbf{Ergebnis} & \textit{Offensichtlich existiert eine Hardwaregrenze die es verbietet, mehr als $2^{16}$ Dreiecke in einem Framebufferobject zu hinterlegen. Der Fehler ist somit Hardwareseitig.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Anpassen der Grundlage für die dynamische Generierung, sodass weniger Dreiecke entstehen} \\
+\hline
+ \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{3} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Nach dem Druck auf die Leertaste wird eine Geometry angezeigt in der vier Eckpunkte eines Quadrats mit zylindrischen Zwischenstücken verbunden sind. Die Ecken sind abgeschrägt. Einfache Rechtecke liegen in den Eckpunkten.
+Nach Druck auf die Leertaste verändert sich die Art der Verbindung zu einem angegebenen Querschnitt (Standartachterbahnprofil skaliert). Ein weiterer Druck auf die Leertaste ersetzt die Rechtecke in den Eckpunkten durch 
+das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die Art der Oberflächenfärbung gemäß der Materialeigenschaften aus der Modelldatei. Ein weiterer Druck auf die Leertaste lädt die Beispielachterbahn Colossos und stellt diese dar.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Darstellung entspricht den Erwartungen} \\
+\hline
+\textbf{Ergebnis} & \textit{Test erfolgreich abgeschlossen.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{} \\
+\hline
+ \end{longtable}
