@@ -81,7 +81,7 @@ public class Graphics3D extends SimpleApplication {
     private Node deko;
 	
 	//TODO duplicate class error
-	private CompleteHUD hud;
+	//private CompleteHUD hud;
 
     public Graphics3D(RollercoasterView view) {
         super();
