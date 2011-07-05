@@ -4,7 +4,7 @@ import de.rollercoaster.mathematics.*;
 import de.rollercoaster.graphics.pattern.*;
 import de.rollercoaster.data.SerializedTrack;
 import de.rollercoaster.data.Track;
-import de.rollercoaster.graphics.hud.*;
+import de.rollercoaster.graphics.hud.CompleteHUD;
 
 //Fremdpackete (JMonkey)
 import com.jme3.app.SimpleApplication;

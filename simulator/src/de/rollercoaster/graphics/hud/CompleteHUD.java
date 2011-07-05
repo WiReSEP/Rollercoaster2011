@@ -15,7 +15,7 @@ import com.jme3.scene.Node;
  *
  * @author Robin
  */
-public class CompleteHUD extends Node{
+public class CompleteHUD extends com.jme3.scene.Node{
     private ZRotation zRot;
     private RightHuD rHud;
     
