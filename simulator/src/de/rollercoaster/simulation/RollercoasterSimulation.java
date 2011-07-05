@@ -10,31 +10,47 @@ import de.rollercoaster.physics.RollercoasterTrajectory;
 import de.rollercoaster.physics.Trajectory;
 import de.rollercoaster.physics.TrajectoryObserver;
 import de.rollercoaster.physics.TrajectoryPoint;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
-public class RollercoasterSimulation implements Simulation, ViewObserver {
+public class RollercoasterSimulation implements Simulation, ViewObserver, TrajectoryObserver {
 
-    public Trajectory physics;
-    public View graphics;
-    public double timeScale;
-     
+    private final List<TrajectoryObserver> observers = new LinkedList<TrajectoryObserver>();
+    private Track track;
+    private Trajectory physics;
+    private View graphics;
+    private double timeScale;
+    private boolean isStarted;
+
     public RollercoasterSimulation(Track track) {
         Curve curve = track.getCurve();
         double s0 = 0;
         double v0 = 20.0;
 
+        this.track = track;
         this.graphics = new RollercoasterView(curve);
         this.physics = new RollercoasterTrajectory(curve, s0, v0);
         this.timeScale = 1.0;
+        this.isStarted = false;
     }
 
     @Override
-    public void start() {
-        this.graphics.addObserver(this);
+    public synchronized void start() {
+        if (!this.isStarted) {
+            this.isStarted = true;
+            this.graphics.addObserver(this);
+            this.physics.addObserver(this);
+        }
     }
 
     @Override
-    public void stop() {
-        this.graphics.removeObserver(this);
+    public synchronized void stop() {
+        if (this.isStarted) {
+            this.isStarted = false;
+            this.physics.removeObserver(this);
+            this.graphics.removeObserver(this);
+        }
     }
 
     public void setTimeScale(double timeScale) {
@@ -66,12 +82,26 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
 
     @Override
     public boolean addObserver(TrajectoryObserver observer) {
-        return physics.addObserver(observer);
+        synchronized (observers) {
+            return this.observers.add(observer);
+
+        }
     }
 
     @Override
     public boolean removeObserver(TrajectoryObserver observer) {
-        return physics.removeObserver(observer);
+        synchronized (observers) {
+            return this.observers.remove(observer);
+        }
+    }
+
+    @Override
+    public void update(TrajectoryPoint newState) {
+        synchronized (observers) {
+            for (TrajectoryObserver observer : observers) {
+                observer.update(newState);
+            }
+        }
     }
 
     @Override
@@ -86,11 +116,26 @@ public class RollercoasterSimulation implements Simulation, ViewObserver {
 
     @Override
     public void setTrack(Track track) {
+        stop();
+        
+        this.track = track;
         Curve curve = track.getCurve();
         double s0 = 0;
         double v0 = 0.01; // track.getInitialVelocity();
 
         graphics.setCurve(curve);
         physics = new RollercoasterTrajectory(curve, s0, v0);
+        
+        start();
+    }
+
+    @Override
+    public void reset() {
+        this.setTrack(track);
+    }
+
+    @Override
+    public boolean isStarted() {
+        return isStarted;
     }
 }
