@@ -5,10 +5,6 @@
 package de.rollercoaster.mathematics;
 
 import com.jme3.math.Vector3f;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,26 +13,6 @@ import static org.junit.Assert.*;
  * @author mangelsdorf
  */
 public class Vector3dTest {
-    
-    public Vector3dTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of mult method, of class Vector3d.
      */
