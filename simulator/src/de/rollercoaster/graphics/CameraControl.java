@@ -10,6 +10,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 
 /**
  *
@@ -60,12 +61,12 @@ public class CameraControl {
         switch (mode) {
             case OVERVIEW:
                 application.getFlyByCamera().setEnabled(true);
-                car.setMaterial(new Material(application.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
+                car.setCullHint(CullHint.Dynamic);
                 break;
 
             case INTERIOR:
                 application.getFlyByCamera().setEnabled(false);
-                car.setMaterial(new Material(application.getAssetManager(), "Common/MatDefs/Misc/Invisible.j3md"));
+                car.setCullHint(CullHint.Always);
                 break;
         }
     }
