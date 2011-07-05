@@ -3,6 +3,8 @@ package de.rollercoaster.gui;
 import de.rollercoaster.data.SerializedTrack;
 import de.rollercoaster.data.Track;
 import de.rollercoaster.graphics.View;
+import de.rollercoaster.graphics.CameraMode;
+
 
 //nur für die Präsentation wird dies importiert
 import de.rollercoaster.graphics.RollercoasterView;
@@ -44,7 +46,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     };
     String[] cameras = { "Outer", "Inner"};
     private final Simulation sim;
-    private final View graphics;
+    private final RollercoasterView graphics;
   //private final JPanel panel;
   private JFileChooser fc = new JFileChooser();
   private JPanel rightPanel = new JPanel();
@@ -71,32 +73,34 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JMenuItem sim2 = new JMenuItem("Simulation stoppen");
     private JMenu ansicht = new JMenu("Ansicht");
     private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken");
-		private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen");
+    private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen");
     private JMenu hilfe = new JMenu("Hilfe");
     private JMenuItem hilfe1 = new JMenuItem("Info");
 
-		private boolean isRunning = false;
+    private boolean isRunning = false;
 
     public RollercoasterFrame(String title, Simulation sim) {
-			super(title);
-			javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-			this.sim = sim;
+      super(title);
+      JPopupMenu.setDefaultLightWeightPopupEnabled(false);
+
+      this.sim = sim;
 
         View view = sim.getView();
-        this.graphics = view;
+        this.graphics = (RollercoasterView) view;
         //this.panel = new JPanel(new FlowLayout());
         view.init();
         Canvas graphicsCanvas = view.getCanvas();
         this.addWindowListener(new WindowAdapter() {
 
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 graphics.dispose();
+                //System.exit(0);
             }
         });
     int frameWidth = 800;
     int frameHeight = 600;
-    //setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setSize(frameWidth, frameHeight);
     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
     int x = (d.width - getSize().width) / 2;
@@ -130,6 +134,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     bottomPanel.add(stopButton);
     
     cameraBox.addActionListener(this);
+    cameraBox.setLightWeightPopupEnabled (false);
     bottomPanel.add(cameraBox);
     
     
@@ -186,7 +191,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         minMaxTable.getColumnModel().getColumn(0).setMinWidth(maxWidth + 5);
         minMaxTable.getColumnModel().getColumn(0).setMaxWidth(maxWidth + 5);
 
-			sp2.setDividerSize(8);
+      sp2.setDividerSize(8);
       sp2.setTopComponent(minMaxTable);
       sp2.setBottomComponent(log);
         rightPanel.add(sp1, BorderLayout.CENTER);
@@ -223,7 +228,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     ansicht2.addItemListener(this);
     ansicht2.setSelected(true);
     ansicht.add(ansicht1);
-		ansicht.add(ansicht2);
+    ansicht.add(ansicht2);
         jmb.add(ansicht);
 
         jmb.add(hilfe);
@@ -236,19 +241,18 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == startButton) { //Simulation starten
-                // JOptionPane.showMessageDialog(null, "Starte Simulation.");
-								if (!isRunning) {
-									sim.start();
-									log.append("Simulation gestartet.\n");
-								}
-								isRunning = true;
+                if (!isRunning) {
+                  sim.start();
+                  log.append("Simulation gestartet.\n");
+                }
+                isRunning = true;
             } else if (e.getSource() == stopButton) { //Simulation stoppen
                 // JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
-								if (isRunning) {
-									sim.stop();
-									log.append("Simulation gestoppt.\n");
-								}
-								isRunning = false;
+                if (isRunning) {
+                  sim.stop();
+                  log.append("Simulation gestoppt.\n");
+                }
+                isRunning = false;
             } else if (e.getSource() == datei1) { //Konstruktion laden
                 if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
@@ -268,27 +272,27 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             } else if (e.getSource() == cameraBox) { //Camera
                 int cam = cameraBox.getSelectedIndex();
                 if (cam == 0) {
-									//setCameraMode('o');
-									log.append("Kamera auf Außenansicht gesetzt.");
-								} else {
-									//setCameraMode('i');
-									log.append("Kamera auf Innenansicht gesetzt.");
-								}
+                  graphics.setCameraMode(CameraMode.OVERVIEW);
+                  log.append("Kamera auf Außenansicht gesetzt.");
+                } else {
+                  graphics.setCameraMode(CameraMode.INTERIOR);
+                  log.append("Kamera auf Innenansicht gesetzt.");
+                }
             } else if (e.getSource() == sim1) { //Simulation starten
                 // JOptionPane.showMessageDialog(null, "Starte Simulation.");
-								if (!isRunning) {
-									sim.start();
-									log.append("Simulation gestartet.\n");
-								}
-								isRunning = true;
+                if (!isRunning) {
+                  sim.start();
+                  log.append("Simulation gestartet.\n");
+                }
+                isRunning = true;
             } else if (e.getSource() == sim2) { //Simulation stoppen
                 // JOptionPane.showMessageDialog(null, "Stoppe Simulation.");
-								if (isRunning) {
-									sim.stop();
-									log.append("Simulation gestoppt.\n");
-								}
-								isRunning = false;
-						} 
+                if (isRunning) {
+                  sim.stop();
+                  log.append("Simulation gestoppt.\n");
+                }
+                isRunning = false;
+            } 
         }
 
         public void itemStateChanged(ItemEvent e) {
