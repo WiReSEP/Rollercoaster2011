@@ -28,7 +28,7 @@ public class YRotation extends Node{
     }
     
     private void init(){
-        System.out.println("YRot->Init");
+        //System.out.println("YRot->Init");
         backGround = new Node();
         Box s2 = new Box(radius*1.1f,radius*1.1f,0);
         Geometry cube_translucent = new Geometry("s2", s2);
