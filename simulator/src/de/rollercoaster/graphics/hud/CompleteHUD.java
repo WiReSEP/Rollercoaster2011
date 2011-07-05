@@ -22,6 +22,9 @@ public class CompleteHUD extends Node{
     public CompleteHUD(SimpleApplication sa, AssetManager asm, BitmapFont gFont){
         zRot = new ZRotation(sa);
         rHud = new RightHuD(sa, asm, gFont);
+        
+        this.attachChild(zRot);
+        this.attachChild(rHud);
     }
     
     /**
