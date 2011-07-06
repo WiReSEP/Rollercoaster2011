@@ -172,6 +172,7 @@ Programm schließlich terminiert. Im Fehlerfall ist sicherzustellen, dass die ve
 
 %%%%% Durchläufe  %%%%%%%%%%%%%%%%%
 
+\subsection{Visualisierung}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -239,6 +240,8 @@ das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die
 \hline
  \end{longtable}
 
+\subsection{Öffnen}
+
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{/T100/ Konstruktion öffnen/schließen } \\
@@ -296,6 +299,8 @@ sich am Startpunkt der Bahn mit Sicht aus dem Wagen.} \\
 \end{longtable}
 
 
+\subsection{Starten, Stoppen und Pausieren}
+
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{/T200/ Starten/Stoppen der Simulation} \\
@@ -317,7 +322,6 @@ kann nun die Simulation begonnen und beendet werden.} \\
 \textbf{Abhängigkeiten} &  \textit{Die Start und Stopfunktionen müssen auch funktionieren, wenn sich die Simulation im Pausemodus befindet.} \\
 \hline
  \end{longtable}
-
 
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
@@ -342,8 +346,6 @@ Das gleiche gilt in die andere Richtung. Wird zu Beginn der Stopbutton mehrmals 
 \textbf{Nacharbeiten } & \textit{Zu den Aktionen der Buttons wurde eine Abfrage hinzugefügt, ob schon ein Thread aktiv ist, oder nicht.} \\
 \hline
  \end{longtable}
-
-
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -403,6 +405,8 @@ ebenfalls mit dem aktuellen Stand festgehalten und dürfen sich nicht ändern.} 
 \hline
 \end{longtable}
 
+\subsection{Beenden}
+
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{/T400/ Beenden des Programms} \\
@@ -435,6 +439,8 @@ die Tastenkombination alt+F4 oder dem x oben rechts im Fenster beendet werden.} 
 \textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
 \hline
 \end{longtable}
+
+\subsection{2D-Graph}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -469,6 +475,7 @@ Graph Einstellungen nun die gewünschten Einstellungen vorgenommen werden, die a
 \hline
 \end{longtable}
 
+\subsection{Grafikeinstellungen}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -504,6 +511,7 @@ Rohre und Querstreben kann durch die Punkte Pattern und Boundingpattern laden ge
 \hline
 \end{longtable}
 
+\subsection{Interface}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -571,6 +579,7 @@ oder das Fenster über das Kreuz in der oberen rechten Ecke geschlossen, so wird
 \hline
 \end{longtable}
 
+\subsection{Kameraperspektive}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -607,13 +616,13 @@ oder das Fenster über das Kreuz in der oberen rechten Ecke geschlossen, so wird
 \end{longtable}
 
 
+\subsection{Modultests für die Mathematik}
 
-
-% --------------- 
+\subsubsection{Bézierkurve}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
-\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1000/ Berechnung der Bézierkurve} \\
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1000/ Bézierkurve} \\
 \hline
 \textbf{Zu testende Klasse} &  \textit{BezierCurve} \\
 \hline
@@ -754,6 +763,7 @@ Berechnet wird die Sequenz für den maximalen Abstand $0.1$ und den maximalen Wi
 \hline
 \end{longtable}
 
+\subsubsection{LU-Zerlegung}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -780,6 +790,8 @@ der Anwendung über das Buildskript.} \\
 Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
 \hline
 \end{longtable}
+
+\subsubsection{Vektorrechnung}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -957,6 +969,8 @@ Ungleichheit mit verschiedenen Vektoren getestet. Auch der Hashcode wird verglic
 \hline
 \end{longtable}
 
+\subsubsection{RungeKutta}
+
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1300/ RungeKutta} \\
@@ -983,6 +997,8 @@ der Anwendung über das Buildskript.} \\
 Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
 \hline
 \end{longtable}
+
+\subsection{Modultest für die Physik}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
