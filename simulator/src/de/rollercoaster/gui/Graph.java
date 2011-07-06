@@ -31,7 +31,7 @@ public class Graph extends JPanel implements Runnable {
     public void clear() {
       points.clear();
     }
-    
+
     public Curve(double yMax, double yMin, Color color, String name) {
       this.yMax = yMax;
       this.yMin = yMin;
@@ -181,6 +181,13 @@ public class Graph extends JPanel implements Runnable {
     else throw new RuntimeException("Curve doesn't exist!");
   }
   
+  public int getCurveID(String name) {
+    for (int i=0; i < curves.size();i++) {
+      if (curves.elementAt(i).name.equals(name)) return i;
+    }
+    return -1;
+  }
+  
   public void print() {
     int i = 0;
     for (Curve c: curves) {
@@ -192,6 +199,74 @@ public class Graph extends JPanel implements Runnable {
       System.out.println("");
     }
   }
+
+    public void setYMax(int curveID, double yMax) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.elementAt(curveID).yMax = yMax;
+      repaint();
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public void setYMin(int curveID, double yMin) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.elementAt(curveID).yMin = yMin;
+      repaint();
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public void setColor(int curveID, Color color) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.elementAt(curveID).color = color;
+      repaint();
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public void setName(int curveID, String name) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      curves.elementAt(curveID).name = name;
+      repaint();
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public double getYMax(int curveID) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      return curves.elementAt(curveID).yMax;
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public double getYMin(int curveID) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      return curves.elementAt(curveID).yMin;
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public Color getColor(int curveID) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      return curves.elementAt(curveID).color;
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+
+    public String getName(int curveID) {
+    if ((curveID>=0)&&(curveID<curves.size())) {
+      return curves.elementAt(curveID).name;
+    }
+    else throw new RuntimeException("Curve doesn't exist!");
+    }
+    
+    public double getStepDistance() {
+      return stepDistance;
+    }
+    
+    public void setStepDistance(double stepDistance) {
+      this.stepDistance = stepDistance;
+    }
 
   public static void main(String[] args) {
     JFrame f = new JFrame();
