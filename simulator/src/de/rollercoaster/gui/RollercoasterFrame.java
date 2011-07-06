@@ -80,7 +80,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JMenuItem ansicht11 = new JCheckBoxMenuItem("Graph andocken",true);
     private JMenuItem ansicht12 = new JCheckBoxMenuItem("Tabelle andocken",true);
     private JMenuItem ansicht13 = new JCheckBoxMenuItem("Uebersicht andocken",true);
-    private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen",true);
+    private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen",false);
     private JMenu ansicht3 = new JMenu("Kameraperspektive");
     private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("Uebersicht",true);
     private JRadioButtonMenuItem ansicht3b = new JRadioButtonMenuItem("Kamerafahrt");
@@ -263,6 +263,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                     //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
                    }
                    newMinMax = false;
+                   
+                   //HUD TODO:sollen wir das wirklich
+                   //graphics.setHUDData(newState.getVelocity(), newState.getAcceleration());
               }
 
           }
@@ -418,7 +421,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
               if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
                     try {
-                      graphics.setPattern(file.toString(),null);
+                      graphics.setPattern(file.toString());
                     } catch (FileNotFoundException f) {
                       log.append("Merkwürdigerweise ist die Datei nicht da");
                     }
@@ -428,7 +431,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
               if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
                     try {
-                      graphics.setPattern(null,file.toString());
+                      graphics.setBoundingPattern(file.toString());
                     } catch (FileNotFoundException f) {
                       log.append("Merkwürdigerweise ist die Datei nicht da");
                     }
@@ -703,6 +706,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
               graphics.setShowStateDekoration(ansicht5.isSelected());
             } else if (e.getSource() == ansicht10) {
               graphics.setShowStatePoles(ansicht10.isSelected());
+            } else if (e.getSource() == ansicht2) {
+              graphics.setEnableHUD(ansicht2.isSelected());
             }
         }
     
