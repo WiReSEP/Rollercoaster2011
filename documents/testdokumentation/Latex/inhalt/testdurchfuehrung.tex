@@ -484,3 +484,37 @@ die Tastenkombination alt+F4 oder dem x oben rechts im Fenster beendet werden.} 
 \textbf{Nacharbeiten } & \textit{} \\
 \hline
 \end{longtable}
+
+% --------------- 
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1000/ Berechnung der Bézierkurve} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{BezierCurve} \\
+\hline
+\textbf{Testklasse} &  \textit{BezierCurveTest} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
+\hline
+
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1001/ Länge der Bézierkurve} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getLength} \\
+\hline
+\textbf{Eingaben} & \textit{Béziercurve mit Stützstellen $(1.0, -2.0, 3.0)$,
+$(2.0, 1.5, -1.0)$, $(-1.0, +3.5, +2.0)$, $(3.0, -0.5, -4.0)$ und
+den Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$ }\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die zurückgegebene Länge sollte 4.0 (=Zahl der Stützstellen)
+betragen.} \\
+\hline
+\end{longtable}
