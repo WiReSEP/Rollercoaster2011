@@ -1,3 +1,5 @@
+package de.rollercoaster.graphics;
+
 import de.rollercoaster.mathematics.*;
 
 import java.util.List;

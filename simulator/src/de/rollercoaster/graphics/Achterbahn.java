@@ -6,26 +6,20 @@ import com.jme3.scene.Node;
 import com.jme3.math.Vector3f;
 import com.jme3.math.Matrix3f;
 
-import com.jme3.texture.Texture;
-import com.jme3.math.ColorRGBA;
 
 import com.jme3.material.Material;
 
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Mesh;
 
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
 
 import java.util.List;
-import com.jme3.collision.CollisionResults;
 
-import com.jme3.math.Triangle;
 
 import com.jme3.math.Ray;
 
 import com.jme3.collision.CollisionResults;
-import com.jme3.bullet.util.CollisionShapeFactory;
 
 //Eigene Pakete
 import de.rollercoaster.mathematics.*;

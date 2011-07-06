@@ -4,9 +4,10 @@
     </description>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
-  <property name="test" location="test/de/rollercoaster/graphics/"/>
+  <property name="test" location="test"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
+  <property name="reports" location="reports" />
 
   <fileset id="rollercoaster.libraries" dir="lib" >
       <include name="**/*.jar" />
@@ -27,10 +28,9 @@
                            </pathconvert>
 
   <target name="init">
-    <!-- Create the time stamp -->
     <tstamp/>
-    <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <mkdir dir="${reports}" />
   </target>
 
   <target name="compile" depends="init"
@@ -39,11 +39,9 @@
     <javac srcdir="${src}" destdir="${build}" includeantruntime="false" debug="true">
       <classpath refid="build.classpath" />
     </javac>
-    <!--Testfiles -->
-    <javac srcdir="${test}" destdir="${build}" includeantruntime="false" debug="true">
+   <javac srcdir="${test}" destdir="${build}" includeantruntime="false" debug="true">
       <classpath refid="build.classpath" />
-    </javac>
-    
+    </javac>   
   </target>
 
   <target name="dist" depends="compile"
@@ -62,7 +60,7 @@
     <!-- Test Files -->
     <jar jarfile="${dist}/GraphicsTest.jar" basedir="${build}">
       <manifest>
-        <attribute name="Main-class" value="AchterbahnTest" />
+        <attribute name="Main-class" value="de.rollercoaster.graphics.AchterbahnMock" />
         <attribute name="Class-Path" value="${manifest.classpath}"/>
       </manifest>
     </jar>
@@ -74,6 +72,7 @@
     <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
+    <delete dir="${reports}"/>
   </target>
 
   <target name="run" depends="dist" description="start the application"> 
@@ -82,7 +81,26 @@
       <fileset refid="rollercoaster.libraries" />
     </copy>
   </target>
-  
+
+<path id="test.classpath">
+  <path refid="build.classpath"/>
+  <pathelement location="${junit.jar}"/>
+  <pathelement location="${build}" />
+</path>
+
+
+<target name="test" depends="compile" description="runs the junit test cases"> 
+<junit printsummary="yes" haltonfailure="yes">
+        <formatter type="xml"/>
+        <classpath refid="test.classpath"/>
+        <batchtest fork="yes" todir="${reports}">
+                <fileset dir="test">
+                        <include name="**/*Test*.java"/>
+                </fileset>
+        </batchtest>
+</junit>
+</target>
+
  <target name="test-graphics" depends="dist" description="runs the GraphicTestAopplication"> 
     <java jar="${dist}/GraphicsTest.jar" fork="true" />
     <copy todir="${dist}/lib" flatten="true">
