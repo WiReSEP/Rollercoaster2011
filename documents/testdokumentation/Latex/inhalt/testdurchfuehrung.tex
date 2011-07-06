@@ -33,6 +33,8 @@ Softwareversionen mehrmals durchgeführt werden.\\
 \textbf{Testfall ID und Bezeichnung} &  \textbf {Zu testende Komponente} &
 \textbf {Zu testende Funktion}\\
 \hline
+/F533o/ Kameraperspektive ändern &  Kamera  & /F533o/ Kameraperspektive ändern \\
+\hline
 z.B. /T100/ Lager anlegen &  z.B. Lagerdatenbank  & z.B. /F100/ Lager anlegen \\
 \hline
 &&
@@ -44,6 +46,8 @@ Im Folgenden sind so viele Unterkapitel einzufügen, wie es Testfälle gibt.\\
 Jeder Testfall erhält eine eindeutige Identifikation mit Kurzbezeichnung.\\
 Beispiel: /T100/ Lager anlegen\\
 Die folgende Tabelle beschreibt den Testfall. \\
+
+
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{Beispiel:
@@ -85,7 +89,6 @@ Ist dieser Testfall von der Ausführung anderer Testfälle abhängig, so werden
 diese Testfälle hier aufgelistet und kurz beschrieben, worin die Abhängigkeit
 besteht.} \\
 \hline
-
  \end{longtable}
 
 Die folgenden Tabellen beschreiben, wie der Testfall ausgeführt wurde und
@@ -137,3 +140,401 @@ durchgeführt worden, so werden hier die erforderlichen Nacharbeiten aufgeführt
 (z.B. Bugfixes).} \\
 \hline
  \end{longtable}
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{Beispiel:
+                                                        /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{Achterbahn}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{In 5 Schritten wird eine Achterbahn gezeigt, die immer mehr Details zur Verfügung stellt. Dabei treten keine Ladefehler auf. Die am Schluss dargestellte Achterbahn entspricht den Spezifikiationen. } \\
+\hline
+\textbf{Einzelschritte} &  \textit{ Die Klasse AchterbahnTest muss mit den Bibliotheken der jMonkeyEngine kompiliert und dann ausgeführt werden. Durch Drücken der Leertaste werden die 5 Fälle durchgeschaltet bis das 
+Programm schließlich terminiert. Im Fehlerfall ist sicherzustellen, dass die verwendeten Bibliotheken zur 3D-Beschleunigung freigegeben wurden.
+} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Das Programm öffnet ein Fenster indem eine 3D-Anzeige stattfindet. In dem Fenster kann mit der Maus und den Tasten W,A,S,D navigiert werden um die Geometry näher zu betrachten \ldots} \\
+\hline
+\textbf{Besonderheiten } &  \textit{Da es sich um eine visuelle Komponente handelt, ist ein automatisierter Test mit jUnit nicht möglich. Daher wird die Testlösung über eine kleine Application verwendet.} \\
+\hline
+
+ \end{longtable}
+
+
+
+
+%%%%% Durchläufe  %%%%%%%%%%%%%%%%%
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Nach dem Druck auf die Leertaste wird eine Geometry angezeigt in der vier Eckpunkte eines Quadrats mit zylindrischen Zwischenstücken verbunden sind. Die Ecken sind abgeschrägt. Einfache Rechtecke liegen in den Eckpunkten.
+Nach Druck auf die Leertaste verändert sich die Art der Verbindung zu einem angegebenen Querschnitt (Standartachterbahnprofil skaliert). Ein weiterer Druck auf die Leertaste ersetzt die Rechtecke in den Eckpunkten durch 
+das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die Art der Oberflächenfärbung gemäß der Materialeigenschaften aus der Modelldatei. Ein weiterer Druck auf die Leertaste lädt die Beispielachterbahn Colossos und stellt diese dar.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die erwarteten 3D-Objekte werden angezeigt, jedoch sieht man die Innenseite der zylindrischen Verbindungen. Die Boxen bzw Joints werden nicht korrekt senkrecht zur Bahn eingefügt.} \\
+\hline
+\textbf{Ergebnis} & \textit{Die Teilfunktionalität des Extrudierens kann als funktionierend betrachtete werden. Der Test ist missglückt, da es offensichtlich zu Fehlern bei der Berechnung beim Clipping kommt. 
+Für die korrekte Rotation der Joints muss zwischen Rechts- und Linkssystem konvertiert werden.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Es müssen Abhängig von der Richtung und räumlichen Orientierung die Reihenfolge der Dreieckseckpunkte angepasst werden um dem OpenGl-Standart der CCW-Dreiecksübergabe zu genügen.
+Für die Konvertierung muss die RollAchse invertiert werden.} \\
+\hline
+ \end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{2} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Nach dem Druck auf die Leertaste wird eine Geometry angezeigt in der vier Eckpunkte eines Quadrats mit zylindrischen Zwischenstücken verbunden sind. Die Ecken sind abgeschrägt. Einfache Rechtecke liegen in den Eckpunkten.
+Nach Druck auf die Leertaste verändert sich die Art der Verbindung zu einem angegebenen Querschnitt (Standartachterbahnprofil skaliert). Ein weiterer Druck auf die Leertaste ersetzt die Rechtecke in den Eckpunkten durch 
+das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die Art der Oberflächenfärbung gemäß der Materialeigenschaften aus der Modelldatei. Ein weiterer Druck auf die Leertaste lädt die Beispielachterbahn Colossos und stellt diese dar.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Bis zur Colossos-Bahn entspricht die Ist-Reaktion den Erwartungen. Bei der Colossos-Bahn bricht die Bahn mitten im Verlauf ab} \\
+\hline
+\textbf{Ergebnis} & \textit{Offensichtlich existiert eine Hardwaregrenze die es verbietet, mehr als $2^{16}$ Dreiecke in einem Framebufferobject zu hinterlegen. Der Fehler ist somit Hardwareseitig.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Anpassen der Grundlage für die dynamische Generierung, sodass weniger Dreiecke entstehen} \\
+\hline
+ \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /TXYZ/ Achterbahn visualisieren} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{3} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Nach dem Druck auf die Leertaste wird eine Geometry angezeigt in der vier Eckpunkte eines Quadrats mit zylindrischen Zwischenstücken verbunden sind. Die Ecken sind abgeschrägt. Einfache Rechtecke liegen in den Eckpunkten.
+Nach Druck auf die Leertaste verändert sich die Art der Verbindung zu einem angegebenen Querschnitt (Standartachterbahnprofil skaliert). Ein weiterer Druck auf die Leertaste ersetzt die Rechtecke in den Eckpunkten durch 
+das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die Art der Oberflächenfärbung gemäß der Materialeigenschaften aus der Modelldatei. Ein weiterer Druck auf die Leertaste lädt die Beispielachterbahn Colossos und stellt diese dar.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Darstellung entspricht den Erwartungen} \\
+\hline
+\textbf{Ergebnis} & \textit{Test erfolgreich abgeschlossen.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{} \\
+\hline
+ \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T150/ Konstruktion öffnen/schließen } \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Es können verschiedene Konstruktionen aus dem gestellten Editor geöffnet werden. Dabei werden die Daten vom XML-Loader geladen, der Streckenverlauf von der Physik berechnet
+ und von der 3D-Engine interpretiert. Die 3D-Darstellung der Bahn wird im Canvas Container initialisiert. Beim schliessen werden alle Daten verworfen und die 3D-Darstellung wird beendet.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Durch die Benutzung der MenuItmes
+Konstruktion öffnen/schliessen wird ein FileChooser geöffnet, mit dem die zu öffnende Datei angegeben werden kann. Ist die Datei ausgewählt, wird die 3D-Anzeige initialisiert und man befindet
+sich am Startpunkt der Bahn mit Sicht aus dem Wagen.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Es wird die 3D-Anzeige im Canvas Feld initialisiert und der Wagen steht an seinem Startpunkt.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Das Öffnen der Konstruktion ist abhängig vom XML-Loader und der Verarbeitung der daraus resultierenden Daten in der Physik und der 3D-Engine.} \\
+\hline
+ \end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T150/ Konstruktion öffnen/schließen} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Konstruktion öffnen/schliessen Buttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{ Die 3D-Anzeige soll fehlerfrei initialisiert werden.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{ Der Test konnte nicht ausgeführt werden, da der Canvas Container die MenuItems und die Checkbox überlagert.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde nicht bestanden, da AWT die Swing-Komponenten überlagert hat.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Es wurden Flags für die MenuItems und die Checkboxen gesetzt, damit sie nicht mehr überlagert werden.} \\
+\hline
+ \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T150/ Konstruktion öffnen/schließen} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{2} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Konstruktion öffnen/schliessen Buttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{ Die 3D-Anzeige soll fehlerfrei initialisiert werden.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{ Die Anwendung hat so reagiert wie erwartet.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T200/ Starten/Stoppen der Simulation} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Durch die Benutzung der Startbuttons, sowohl aus der GUI-Oberfläche sowie aus dem Menü, soll im Canvas-Container die 3D-Darstellung der Achterbahn vom Ausgangspunkt gestartet werden.
+Desweiteren wird im Log eine Nachricht ausgegeben, dass die Simulation gestartet worden ist. Der Graph und die Minima/Maxima Tabelle werden mit Daten befüllt und stetig aktualisiert.
+Der Stoppbutton beendet die 3D-Anzeige, die Befüllung des Graphens und der Minima/Maxima Tabelle mit Daten und gibt im Log die Nachricht aus, dass die Simulation beendet wurde. Die Daten im Graph
+und der Tabelle werden weiter gehalten, bis ein neuer Startbefehl kommt.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Durch die Benutzung der Start- Stoppbuttons
+kann nun die Simulation begonnen und beendet werden.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Es wird die 3D-Anzeige im Canvas Feld gestartet, bzw. gestoppt. Der Graph und die Tabelle werden mit Daten befüllt, die dann dort ausgegeben werden.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Die Start und Stopfunktionen müssen auch funktionieren, wenn sich die Simulation im Pausemodus befindet.} \\
+\hline
+ \end{longtable}
+
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Start- Stopbuttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die 3D-Anzeige wird im Canvas Feld fehlerfrei ausgeführt und gestoppt. Im Log werden die Nachrichten Simulation gestartet, bzw. Simulation gestoppt ausgegeben.
+Der Graph gibt die Werte für Geschwindigkeit und Beschleunigung über die Zeit aus. In der Minima/Maxima Tabelle werden sowohl die aktuellen Werte für die Beschleunigung und Geschwindigkeit mit 
+Zeit- und Winkelangabe zum aktuellen Berechnungszeitpunkt als Zahl ausgegeben, sowie den Minimal- und Maximalwert der auf dem gesamten Verlauf der Bahn erreicht worden ist.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Anzeige startet korrekt, der Graph und die Tabelle werden mit den richtigen Daten befüllt. Nach mehrmaligem drücken auf den Startbutton stellt sich allerdings 
+eine Erhöhung der Simulationsgeschwindigkeit ein. Desweiteren muss nach mehrmaligem drücken des Startbuttons, der Stopbutton genauso häufig gedrückt werden, bis die Anzeige tatsächlich beendet wird.
+Das gleiche gilt in die andere Richtung. Wird zu Beginn der Stopbutton mehrmals gedrückt, muss der Startbutton ebenso häufig gedrückt werden, damit die Simualtion gestartet wird.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde nicht bestanden, da bei jedem Druck auf den Startbutton ein neuer Thread der 3D-Anzeige erzeugt wurde, die wiederum alle einzeln abgebrochen werden mussten.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Zu den Aktionen der Buttons wurde eine Abfrage hinzugefügt, ob schon ein Thread aktiv ist, oder nicht.} \\
+\hline
+ \end{longtable}
+
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{2} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Start- Stopbuttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die 3D-Anzeige wird im Canvas Feld fehlerfrei ausgeführt und gestoppt. Im Log werden die Nachrichten Simulation gestartet, bzw. Simulation gestoppt ausgegeben.
+Der Graph gibt die Werte für Geschwindigkeit und Beschleunigung über die Zeit aus. In der Minima/Maxima Tabelle werden sowohl die aktuellen Werte für die Beschleunigung und Geschwindigkeit mit 
+Zeit- und Winkelangabe zum aktuellen Berechnungszeitpunkt als Zahl ausgegeben, sowie den Minimal- und Maximalwert der auf dem gesamten Verlauf der Bahn erreicht worden ist.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Anzeige startet korrekt, der Graph und die Tabellen werden mit den richtigen Daten befüllt und auch die Reaktionen der Buttons sind nun so, wie man es zu
+erwarten hat.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T300/ Pausieren der Simulation} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Die 3D-Darstellung soll pausiert, der Graph angehalten und die Befüllung der Minima/Maxima Tabelle unterbrochen werden. Die Daten des Graphen, der Tabelle und deren Anzeige sollen
+derweil gehalten werden. Kehrt man aus dem Pausemodus zurück in den Playmodus, wird die 3D-Anzeige weitergeführt und der Graph und die Tabelle werden weiter mit Daten befüllt.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Nachdem die Simulation gestartet worden ist,
+erscheint der Pause Button in der GUI und kann betätigt werden.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Wurde der Pause Button betätigt, muss die 3D-Anzeige in dem jeweiligen Frame verweilen. Der Graph und die Tabelle bleiben ebenfalls mit ihren derzeitigen
+Daten stehen. Im Log wird die Nachricht ausgegeben, dass die Simulation pausiert. Nachdem man aus dem Pausenmodus wieder zurückkehrt, fährt die 3D-Anzeige ohne sichtliche lags mit der Fahrt 
+der Bahn fort. Der Graph und die Tabelle werden wieder mit neuen Daten befüllt und im Log erscheint die Nachricht, dass die Simulation wieder gestartet ist. } \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T300 / Pausieren der Simulation} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Beliebig häufige Benutzung des Start/Pause Buttons sowohl in der Menüleiste, als auch auf der GUI Oberfläche} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die 3D-Anzeige hält den derzeitigen Frame lagfrei und fährt nicht weiter. Auf der Konsole wird die Nachricht Simualtion pausiert ausgegeben werden. 
+Die Befüllung der Tabelle und des Graphen stoppen. Die Darstellung des Graphen hält ebenfalls mit den bis dahin erhaltenen Daten an und wird nicht weitergeführt. Die Daten der Tabelle werden 
+ebenfalls mit dem aktuellen Stand festgehalten und dürfen sich nicht ändern.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die einzelnen Teile reagieren wie erwartet.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T400/ Beenden des Programms} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Das Fenster soll geschlossen und alle laufenden Java Anwendungen sollen beendet werden, ohne das eine Excepiton ausgelöst wird.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Danach kann das Programm durch das MenuItem,
+die Tastenkombination alt+F4 oder dem x oben rechts im Fenster beendet werden.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Das Fenster soll geschlossen werden und in der Konsole alle Java Programme, ohne das auslösen einer Exception, beendet werden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T400 / Beenden des Programms} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Nach dem Start soll das Programm in jedem erdenklichen Zustand, mit jeder möglichen Art beendet werden.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Das Fenster schließt und in der Konsole werden keine Exceptions ausgegeben.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Das Verhalten ist wie erwartet.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T533o/ Kameraperspektive ändern} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{Getestet wird die komplette Klasse CameraControl}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Erfolgreich ist der Testfall, wenn man die Kamera über die GUI einstellt und das gewünschte Ergebnis sieht: Bei der Übersicht bewegt sich die Kamera nicht selbst, man sieht einen Wagen selbständig fahren und die Kamera kann per Maus bzw. Tastatur selber gesteuert werden. } \\
+\hline
+\textbf{Einzelschritte} &  \textit{Man muss den Test manuell über die GUI starten und wenn man nicht das erwartete Ergebnis sieht, wird der Test per GUI Einstellung beendet.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Man entscheidet nach eigenem Ermessen, ob die Funktion den gewünschten Anforderungen entsprechen.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Der Test ist von der GUI abhängig, da man die GUI bedienen muss, um den Test starten zu können. Der erforderliche Test ist das Starten und Stoppen der Simulation (T200).} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T533o/ Kameraperspektive ändern} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Verstellen der einzelnen Kameraperspektiven in jeder erdenklichen Situation.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die Kamera ändern jedes Mal in den gewünschten Zustand.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Kamera wechselt wie erwartet in die vorgegebenen Modi.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T/ ...} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{} \\
+\hline
+\textbf{Einzelschritte} &  \textit{} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T / ...} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{} \\
+\hline
+\textbf{Ergebnis} & \textit{} \\
+\hline
+\textbf{Nacharbeiten } & \textit{} \\
+\hline
+\end{longtable}
+
+% --------------- 
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1000/ Berechnung der Bézierkurve} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{BezierCurve} \\
+\hline
+\textbf{Testklasse} &  \textit{BezierCurveTest} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
+\hline
+
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1001/ Länge der Bézierkurve} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getLength} \\
+\hline
+\textbf{Eingaben} & \textit{Béziercurve mit Stützstellen $(1.0, -2.0, 3.0)$,
+$(2.0, 1.5, -1.0)$, $(-1.0, +3.5, +2.0)$, $(3.0, -0.5, -4.0)$ und
+den Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$ }\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die zurückgegebene Länge sollte 4.0 (=Zahl der Stützstellen)
+betragen.} \\
+\hline
+\end{longtable}

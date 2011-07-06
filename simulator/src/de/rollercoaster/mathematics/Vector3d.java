@@ -3,6 +3,7 @@ package de.rollercoaster.mathematics;
 import com.jme3.math.Vector3f;
 
 public class Vector3d {
+  public final static Vector3d ZERO = new Vector3d(0.0, 0.0, 0.0);
 
     public final double x, y, z;
 

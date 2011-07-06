@@ -25,6 +25,8 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
 
     this.positions = new double[]{s0, v0 / startPoint.getDerivative().length()};
     this.time = 0.0;
+    
+    updateState();
   }
 
   @Override

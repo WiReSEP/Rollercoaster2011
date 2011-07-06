@@ -12,6 +12,7 @@ import java.awt.Canvas;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -87,5 +88,37 @@ public class RollercoasterView implements View {
 
     public CameraMode getCameraMode() {
         return graphics.getCameraMode();
+    }
+    
+    public void setHUDData(Vector3f rot, Vector3f acc) {
+      graphics.setHUDData(rot, acc);
+    }
+    
+    public void loadDeko(String filename) throws IllegalArgumentException {
+      graphics.loadDeko(filename);
+    }
+    
+    public void setPattern(String pattern_filename, String bounding_pattern_filename) throws FileNotFoundException {
+       graphics.setPattern(pattern_filename, bounding_pattern_filename);
+    }
+    
+    public void setJoint(String filename) throws IllegalArgumentException {
+       graphics.setJoint(filename);
+    }
+    
+    public boolean getShowStateDekoration() {
+      return graphics.getShowStateDekoration();
+    }
+    
+    public void setShowStateDekoration(boolean state) {
+      graphics.setShowStateDekoration(state);
+    }
+    
+    public boolean getShowStatePoles() {
+      return graphics.getShowStatePoles();
+    }
+    
+    public void setShowStatePoles(boolean state) {
+      graphics.setShowStatePoles(state);
     }
 }

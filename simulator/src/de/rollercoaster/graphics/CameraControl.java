@@ -34,6 +34,7 @@ public class CameraControl {
         this.cam = cam;
         this.car = car;
 				application.getRootNode().attachChild(car);
+        car.setCullHint(CullHint.Always);
     }
 
     /**
@@ -94,7 +95,7 @@ public class CameraControl {
 				}
 				else if(mode==CameraMode.INTERIOR){
 			 // Fallunterscheidung;
-					cam.setFrame(location, left, up, direction);
+					cam.setFrame(location, left.mult(-1), up, direction);
 				}
 				
             

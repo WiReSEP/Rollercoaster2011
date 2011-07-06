@@ -8,13 +8,19 @@ import de.rollercoaster.physics.TrajectoryObserver;
 public interface Simulation {
 
     void start();
-
-    void stop();
+    void stop();    
+    void pause();    
+    void reset(); 
     
-    void reset();
+    boolean isRunning();
+    boolean isPaused();
+    boolean isStopped();
+                
+    SimulationState getState();
     
-    boolean isStarted();
-
+    double getTimeScale();
+    void setTimeScale(double timeScale);
+  
     boolean addObserver(TrajectoryObserver observer);
 
     boolean removeObserver(TrajectoryObserver observer);
