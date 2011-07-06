@@ -168,13 +168,6 @@ Programm schließlich terminiert. Im Fehlerfall ist sicherzustellen, dass die ve
 
 
 
-
-
-
-
-
-
-
 %%%%% Durchläufe  %%%%%%%%%%%%%%%%%
 
 
@@ -241,5 +234,115 @@ das Standartmodell für Joints. Ein weiterer Druck auf die Leertaste ändert die
 \textbf{Ergebnis} & \textit{Test erfolgreich abgeschlossen.} \\
 \hline
 \textbf{Nacharbeiten } & \textit{} \\
+\hline
+ \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T150/ Konstruktion öffnen/schließen } \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Es können verschiedene Konstruktionen aus dem gestellten Editor geöffnet werden. Dabei werden die Daten vom XML-Loader geladen, der Streckenverlauf von der Physik berechnet
+ und von der 3D-Engine interpretiert. Die 3D-Darstellung der Bahn wird im Canvas Container initialisiert. Beim schliessen werden alle Daten verworfen und die 3D-Darstellung wird beendet.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Durch die Benutzung der MenuItmes
+Konstruktion öffnen/schliessen wird ein FileChooser geöffnet, mit dem die zu öffnende Datei angegeben werden kann. Ist die Datei ausgewählt, wird die 3D-Anzeige initialisiert und man befindet
+sich am Startpunkt der Bahn mit Sicht aus dem Wagen.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Es wird die 3D-Anzeige im Canvas Feld initialisiert und der Wagen steht an seinem Startpunkt.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Das Öffnen der Konstruktion ist abhängig vom XML-Loader und der Verarbeitung der daraus resultierenden Daten in der Physik und der 3D-Engine.} \\
+\hline
+ \end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T150/ Konstruktion öffnen/schließen} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Konstruktion öffnen/schliessen Buttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{ Die 3D-Anzeige soll fehlerfrei initialisiert werden.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{ Alle Aktionen wurden wie erwartet ausgeführt.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+ \end{longtable}
+
+
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T200/ Starten/Stoppen der Simulation aus der GUI} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Durch die Benutzung der Startbuttons, sowohl aus der GUI-Oberfläche sowie aus dem Menü, soll im Canvas-Container die 3D-Darstellung der Achterbahn vom Ausgangspunkt gestartet werden.
+Desweiteren wird im Log eine Nachricht ausgegeben, dass die Simulation gestartet worden ist. Der Graph und die Minima/Maxima Tabelle werden mit Daten befüllt und stetig aktualisiert.
+Der Stoppbutton beendet die 3D-Anzeige, die Befüllung des Graphens und der Minima/Maxima Tabelle mit Daten und gibt im Log die Nachricht aus, dass die Simulation beendet wurde. Die Daten im Graph
+und der Tabelle werden weiter gehalten, bis ein neuer Startbefehl kommt.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Durch die Benutzung der Start- Stoppbuttons
+kann nun die Simulation begonnen und beendet werden.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Es wird die 3D-Anzeige im Canvas Feld gestartet, bzw. gestoppt. Der Graph und die Tabelle werden mit Daten befüllt, die dann dort ausgegeben werden.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Die Start und Stopfunktionen müssen auch funktionieren, wenn sich die Simulation im Pausemodus befindet.} \\
+\hline
+ \end{longtable}
+
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation aus der GUI} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Start- Stopbuttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die 3D-Anzeige wird im Canvas Feld fehlerfrei ausgeführt und gestoppt. Im Log werden die Nachrichten Simulation gestartet, bzw. Simulation gestoppt ausgegeben.
+Der Graph gibt die Werte für Geschwindigkeit und Beschleunigung über die Zeit aus. In der Minima/Maxima Tabelle werden sowohl die aktuellen Werte für die Beschleunigung und Geschwindigkeit mit 
+Zeit- und Winkelangabe zum aktuellen Berechnungszeitpunkt als Zahl ausgegeben, sowie den Minimal- und Maximalwert der auf dem gesamten Verlauf der Bahn erreicht worden ist.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Anzeige startet korrekt, der Graph und die Tabelle werden mit den richtigen Daten befüllt. Nach mehrmaligem drücken auf den Startbutton stellt sich allerdings 
+eine Erhöhung der Simulationsgeschwindigkeit ein. Desweiteren muss nach mehrmaligem drücken des Startbuttons, der Stopbutton genauso häufig gedrückt werden, bis die Anzeige tatsächlich beendet wird.
+Das gleiche gilt in die andere Richtung. Wird zu Beginn der Stopbutton mehrmals gedrückt, muss der Startbutton ebenso häufig gedrückt werden, damit die Simualtion gestartet wird.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde nicht bestanden, da bei jedem Druck auf den Startbutton ein neuer Thread der 3D-Anzeige erzeugt wurde, die wiederum alle einzeln abgebrochen werden mussten.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Zu den Aktionen der Buttons wurde eine Abfrage hinzugefügt, ob schon ein Thread aktiv ist, oder nicht.} \\
+\hline
+ \end{longtable}
+
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation aus der GUI} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{2} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Start- Stopbuttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die 3D-Anzeige wird im Canvas Feld fehlerfrei ausgeführt und gestoppt. Im Log werden die Nachrichten Simulation gestartet, bzw. Simulation gestoppt ausgegeben.
+Der Graph gibt die Werte für Geschwindigkeit und Beschleunigung über die Zeit aus. In der Minima/Maxima Tabelle werden sowohl die aktuellen Werte für die Beschleunigung und Geschwindigkeit mit 
+Zeit- und Winkelangabe zum aktuellen Berechnungszeitpunkt als Zahl ausgegeben, sowie den Minimal- und Maximalwert der auf dem gesamten Verlauf der Bahn erreicht worden ist.
+} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Anzeige startet korrekt, der Graph und die Tabellen werden mit den richtigen Daten befüllt und auch die Reaktionen der Buttons sind nun so, wie man es zu
+erwarten hat.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
 \hline
  \end{longtable}
