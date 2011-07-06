@@ -28,7 +28,27 @@ public class CompleteHUD extends Node{
 		
 		rHud.move(0, sa.getContext().getSettings().getHeight()/3.33333f, 0);
     }
-    
+	
+	
+	/**
+	* Turns the HUD on or off
+	*
+	* @param enable or disable the HUD
+	*
+	*/
+    public void setEnable(boolean enable){
+        this.detachAllChildren();
+        if(enable){
+            this.attachChild(zRot);
+            this.attachChild(rHud);
+        }
+        else{
+            
+        }
+    }
+	
+	
+	
     /**
      * sets the speedUp for each direction
      * @param acc 

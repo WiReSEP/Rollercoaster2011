@@ -79,8 +79,8 @@ public class Graphics3D extends SimpleApplication {
 
     private Spatial car;
     private Node deko;
-	
-	private CompleteHUD hud;
+  
+  private CompleteHUD hud;
 
     public Graphics3D(RollercoasterView view) {
         super();
@@ -219,8 +219,9 @@ public class Graphics3D extends SimpleApplication {
         //*********************************************************************************//
         // Einrichtung der HUD Anzeigekomponente                                           //
         //*********************************************************************************//
-		//TODO
         hud = new CompleteHUD(this, assetManager, guiFont) ;
+    guiNode.attachChild(hud);
+    hud.setEnable(false);
 
         //*********************************************************************************//
         //***                 Cameracontroler                                           ***//
@@ -279,13 +280,21 @@ public class Graphics3D extends SimpleApplication {
     //3D-Komponente.                                                                   //
     //*********************************************************************************//
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
-    <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
+    *
+  * @param rot der Rotationsvektor
+  * @param acc der Beschleunigungsvektor
+  */
+  
     public void setHUDData(Vector3f rot, Vector3f acc) {//ImplementMe: Robin
-	
-		this.hud.setRotation(rot);
-		this.hud.setAcceleration(acc);
-		
+  
+    this.hud.setRotation(rot);
+    this.hud.setAcceleration(acc);
+    
     }
+  
+  public void setEnableHUD(boolean arg){
+    this.hud.setEnable(arg);
+  }
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
     public void loadDeko(String filename) throws IllegalArgumentException {
@@ -314,8 +323,14 @@ public class Graphics3D extends SimpleApplication {
     /**Gibt das Pattern für die Achterbahn, also dessen Querschnitt vor. Das Pattern wird sofern verfügbar aus der Datei gelesen. 
     Gibt es die Datei nicht, wird eine FileNotFoundException geworfen.
     Wenn null anstatt eines String übergeben wird, dann wird ein SimplePattern initialisiert */
-    public void setPattern(String pattern_filename, String bounding_pattern_filename) throws FileNotFoundException {
+    public void setPattern(String pattern_filename) throws FileNotFoundException {
       this.pattern_filename = pattern_filename;
+      //this.bounding_pattern_filename = bounding_pattern_filename;
+      reinit();
+    }
+    
+   public void setBoundingPattern(String bounding_pattern_filename) throws FileNotFoundException {
+      //this.pattern_filename = pattern_filename;
       this.bounding_pattern_filename = bounding_pattern_filename;
       reinit();
     }
