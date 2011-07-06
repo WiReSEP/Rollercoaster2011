@@ -71,6 +71,11 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
   public boolean isRunning() {
     return SimulationState.RUNNING.equals(this.state);
   }
+  
+  @Override
+  public boolean isStopped() {
+    return SimulationState.STOPPED.equals(this.state);
+  }
 
   @Override
   public boolean isPaused() {

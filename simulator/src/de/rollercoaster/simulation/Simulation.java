@@ -14,6 +14,7 @@ public interface Simulation {
     
     boolean isRunning();
     boolean isPaused();
+    boolean isStopped();
                 
     SimulationState getState();
     

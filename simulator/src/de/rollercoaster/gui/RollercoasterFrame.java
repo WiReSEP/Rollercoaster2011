@@ -329,8 +329,6 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
 
     public void reset() {
-       startButton.setLabel("Start");
-       sim1.setLabel("Simulation starten");
        graph.clearCurve(0);
        graph.clearCurve(1);
        for (int i=0; i < 9; i++) {
@@ -357,7 +355,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         public void actionPerformed(ActionEvent e) {
             if ((e.getSource() == startButton)||(e.getSource() == sim1)) { //Simulation starten/pausieren
                 if (!sim.isRunning()) {
-                  //if sim.isStopped() reset();
+                  if (sim.isStopped()) reset();
                   sim.start();
                   setCam(graphics.getCameraMode());
                   log.append("Simulation gestartet.\n");
@@ -370,9 +368,15 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                   sim1.setLabel("Simulation starten");
                 }
             } else if ((e.getSource() == stopButton)||(e.getSource() == sim2)) { //Simulation stoppen 
-                startButton.setLabel("Start");
-                sim.stop(); //das soll weg                
-                log.append("Simulation gestoppt.\n");
+                if (!sim.isStopped()) {
+                  startButton.setLabel("Start");
+                  sim1.setLabel("Simulation starten");
+                  sim.stop();
+                  log.append("Simulation gestoppt.\n");
+                } else {
+                  reset();
+                  log.append("Simulation ist gestoppt. Daten rücksetzen.\n");
+                }
             } else if (e.getSource() == datei1) { //Konstruktion laden
                 if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
