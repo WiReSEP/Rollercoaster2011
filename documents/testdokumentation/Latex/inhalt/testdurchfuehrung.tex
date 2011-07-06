@@ -957,3 +957,29 @@ Ungleichheit mit verschiedenen Vektoren getestet. Auch der Hashcode wird verglic
 \hline
 \end{longtable}
 
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1300/ RungeKutta} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{RungeKutta} \\
+\hline
+\textbf{Testklasse} &  \textit{RungeKuttaTest} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{integrate(system, t0, x0, t1)}\\
+\hline
+\textbf{Eingaben} & \textit{Gelöst wird das Differentialgleichungssystem $\ddot{x} = 3.0$ mit
+den Anfangswerten $x_0 = 1.0$, $\dot{x}_0 = 2.0$}. Gesucht sind die Werte für den Zeitpunkt
+$t_1 = 1.0$. Exakte Lösung dieses Anfangswertproblems ist $x = 1.5 * t^2 + 2.0 * t + 1.0$ und $\dot{x} = 3.0 * t + 2.0$. \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Numerische Lösung für $t_1$ ist $x_1 = 4.5$, $\dot{x}_1 = 5.0$}. \\
+\hline
+\textbf{Anmerkung} & \textit{Für die Prüfung der numerischen Lösung ist eine kleine 
+Toleranz von $1E-5$ erforderlich.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
+\hline
+\end{longtable}
