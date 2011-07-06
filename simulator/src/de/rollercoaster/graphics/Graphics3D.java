@@ -219,8 +219,8 @@ public class Graphics3D extends SimpleApplication {
         //*********************************************************************************//
         // Einrichtung der HUD Anzeigekomponente                                           //
         //*********************************************************************************//
-		//TODO
         hud = new CompleteHUD(this, assetManager, guiFont) ;
+		guiNode.attachCild(hud);
 
         //*********************************************************************************//
         //***                 Cameracontroler                                           ***//
