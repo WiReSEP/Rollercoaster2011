@@ -33,6 +33,8 @@ Softwareversionen mehrmals durchgeführt werden.\\
 \textbf{Testfall ID und Bezeichnung} &  \textbf {Zu testende Komponente} &
 \textbf {Zu testende Funktion}\\
 \hline
+/F533o/ Kameraperspektive ändern &  Kamera  & /F533o/ Kameraperspektive ändern \\
+\hline
 z.B. /T100/ Lager anlegen &  z.B. Lagerdatenbank  & z.B. /F100/ Lager anlegen \\
 \hline
 &&
@@ -46,6 +48,21 @@ Beispiel: /T100/ Lager anlegen\\
 Die folgende Tabelle beschreibt den Testfall. \\
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T533o/ Kameraperspektive ändern} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{Getestet wird die komplette Klasse CameraControl}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Erfolgreich ist der Testfall, wenn man die Kamera über die GUI einstellt und das gewünschte Ergebnis sieht: Bei der Übersicht bewegt sich die Kamera nicht selbst, man sieht einen Wagen selbständig fahren und die Kamera kann per Maus bzw. Tastatur selber gesteuert werden. } \\
+\hline
+\textbf{Einzelschritte} &  \textit{Man muss den Test manuell über die GUI starten und wenn man nicht das erwartete Ergebnis sieht, wird der Test per GUI Einstellung beendet.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Man entscheidet nach eigenem Ermessen, ob die Funktion den gewünschten Anforderungen entsprechen.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Der Test ist von der GUI abhängig, da man die GUI bedienen muss, um den Test starten zu können. Der erforderliche Test ist das Starten und Stoppen der Simulation.} \\
+\hline
+
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{Beispiel:
                                                         /T100/ Lager anlegen} \\
 \hline
@@ -85,7 +102,6 @@ Ist dieser Testfall von der Ausführung anderer Testfälle abhängig, so werden
 diese Testfälle hier aufgelistet und kurz beschrieben, worin die Abhängigkeit
 besteht.} \\
 \hline
-
  \end{longtable}
 
 Die folgenden Tabellen beschreiben, wie der Testfall ausgeführt wurde und
@@ -269,18 +285,34 @@ sich am Startpunkt der Bahn mit Sicht aus dem Wagen.} \\
 \hline
 \textbf{Soll - Reaktion} & \textit{ Die 3D-Anzeige soll fehlerfrei initialisiert werden.} \\
 \hline
-\textbf{Ist -- Reaktion} & \textit{ Alle Aktionen wurden wie erwartet ausgeführt.} \\
+\textbf{Ist -- Reaktion} & \textit{ Der Test konnte nicht ausgeführt werden, da der Canvas Container die MenuItems und die Checkbox überlagert.} \\
 \hline
-\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\textbf{Ergebnis} & \textit{Der Test wurde nicht bestanden, da AWT die Swing-Komponenten überlagert hat.} \\
+\hline
+\textbf{Nacharbeiten } & \textit{Es wurden Flags für die MenuItems und die Checkboxen gesetzt, damit sie nicht mehr überlagert werden.} \\
 \hline
  \end{longtable}
 
-
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T150/ Konstruktion öffnen/schließen} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{2} \\
+\hline
+\textbf{Eingaben} & \textit{Benutzung der Konstruktion öffnen/schliessen Buttons in beliebiger Kombination.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{ Die 3D-Anzeige soll fehlerfrei initialisiert werden.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{ Die Anwendung hat so reagiert wie erwartet.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
 
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
-\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T200/ Starten/Stoppen der Simulation aus der GUI} \\
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T200/ Starten/Stoppen der Simulation} \\
 \hline
 \textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
 \\
@@ -304,7 +336,7 @@ kann nun die Simulation begonnen und beendet werden.} \\
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
-\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation aus der GUI} \\
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation} \\
 \hline
 \textbf{Testlauf Nr.} & \textit{1} \\
 \hline
@@ -329,7 +361,7 @@ Das gleiche gilt in die andere Richtung. Wird zu Beginn der Stopbutton mehrmals 
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
-\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation aus der GUI} \\
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T200 / Starten/Stoppen der Simulation} \\
 \hline
 \textbf{Testlauf Nr.} & \textit{2} \\
 \hline
@@ -345,4 +377,110 @@ erwarten hat.} \\
 \hline
 \textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
 \hline
- \end{longtable}
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T300/ Pausieren der Simulation} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Die 3D-Darstellung soll pausiert, der Graph angehalten und die Befüllung der Minima/Maxima Tabelle unterbrochen werden. Die Daten des Graphen, der Tabelle und deren Anzeige sollen
+derweil gehalten werden. Kehrt man aus dem Pausemodus zurück in den Playmodus, wird die 3D-Anzeige weitergeführt und der Graph und die Tabelle werden weiter mit Daten befüllt.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Nachdem die Simulation gestartet worden ist,
+erscheint der Pause Button in der GUI und kann betätigt werden.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Wurde der Pause Button betätigt, muss die 3D-Anzeige in dem jeweiligen Frame verweilen. Der Graph und die Tabelle bleiben ebenfalls mit ihren derzeitigen
+Daten stehen. Im Log wird die Nachricht ausgegeben, dass die Simulation pausiert. Nachdem man aus dem Pausenmodus wieder zurückkehrt, fährt die 3D-Anzeige ohne sichtliche lags mit der Fahrt 
+der Bahn fort. Der Graph und die Tabelle werden wieder mit neuen Daten befüllt und im Log erscheint die Nachricht, dass die Simulation wieder gestartet ist. } \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T300 / Pausieren der Simulation} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Beliebig häufige Benutzung des Start/Pause Buttons sowohl in der Menüleiste, als auch auf der GUI Oberfläche} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die 3D-Anzeige hält den derzeitigen Frame lagfrei und fährt nicht weiter. Auf der Konsole wird die Nachricht Simualtion pausiert ausgegeben werden. 
+Die Befüllung der Tabelle und des Graphen stoppen. Die Darstellung des Graphen hält ebenfalls mit den bis dahin erhaltenen Daten an und wird nicht weitergeführt. Die Daten der Tabelle werden 
+ebenfalls mit dem aktuellen Stand festgehalten und dürfen sich nicht ändern.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die einzelnen Teile reagieren wie erwartet.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T400/ Beenden des Programms} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Das Fenster soll geschlossen und alle laufenden Java Anwendungen sollen beendet werden, ohne das eine Excepiton ausgelöst wird.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Die Klasse RollercoasterFrame muss mit den restlichen Komponenten des Programms kompiliert und ausgeführt werden. Danach kann das Programm durch das MenuItem,
+die Tastenkombination alt+F4 oder dem x oben rechts im Fenster beendet werden.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Das Fenster soll geschlossen werden und in der Konsole alle Java Programme, ohne das auslösen einer Exception, beendet werden.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T400 / Beenden des Programms} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Nach dem Start soll das Programm in jedem erdenklichen Zustand, mit jeder möglichen Art beendet werden.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Das Fenster schließt und in der Konsole werden keine Exceptions ausgegeben.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Das Verhalten ist wie erwartet.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T/ ...} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{RollercoasterFrame}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{} \\
+\hline
+\textbf{Einzelschritte} &  \textit{} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T / ...} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{} \\
+\hline
+\textbf{Ergebnis} & \textit{} \\
+\hline
+\textbf{Nacharbeiten } & \textit{} \\
+\hline
+\end{longtable}

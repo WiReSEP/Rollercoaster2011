@@ -4,18 +4,22 @@
 %----------------------------------------------------------------------------
 
 \chapter{Testplan}
+
 Der Testplan ist das zentrale Dokument der Qualitätssicherung und wird daher
 frühzeitig erstellt. Hier wird Umfang und Vorgehensweise der Qualitätssicherung
-beschrieben. Außer-dem werden Testgegenstände und deren zu testenden
-Eigenschaften bzw. Funktionen iden-tifiziert. Ferner werden die
+beschrieben. Außerdem werden Testgegenstände und deren zu testenden
+Eigenschaften bzw. Funktionen identifiziert. Ferner werden die
 durchzuführenden Maßnahmen und die dafür verantwortlichen Personen definiert.
 Falls erforderlich sollte hier auch auf allgemeine Risiken eingegangen werden.
 
 \section{Zu testende Komponenten}
-Die Simulatorkomponente liegt als monolithisches System vor. Weitere Komponenten im Sinne getrennter Software sind nich vorhanden. 
+Der Achterbahnsimulator ist eine Einzelplatzanwendung. Das fertige Produkt wird als monolitisches System abgenommen und ist deswegen im strengen Sinne keine verteile Anwendung. Da jedoch zu den Anforderungen an den Simulator das Einlesen der Achterbahndaten aus dem Editor zählt, muss dieses Zusammenspiel geprüft werden.
+
+Der Achterbahnsimulator setzt sich gemäß Entwurf aus verschiedenen Komponenten zusammen, deren Aufteilung bei der Implementierung zur Beibehaltung der Konhärenz inenrhalb der Komponenten und Vermeidung von zwischen den Komponenten beizubehalten war.
+Entsprechend können diese Komponenten getrennt geprüft werden. 
+
 Da die Software eine 3D-Anzeige beeinhaltet ist es vor dem Test sicherzustellen, dass die Grafikkarte entsprechend inklusive 3D-Beschleunigung eingerichtet ist.
-Die Software kann online (im Repository) oder lokal auf Festplatte oder CD vorliegen. In jedem Fall ist dafür Sorge zu tragen, dass die Software die Möglichkeit hat
-in dem lokalen Pfad Dateien anzulegen.
+Die Software kann online (im Repository) oder lokal auf Festplatte oder CD vorliegen. In jedem Fall ist dafür Sorge zu tragen, dass die Software die Möglichkeit hat in dem lokalen Pfad Dateien anzulegen.
 
 \section{Zu testende Funktionen}
 % Dieser Punkt beinhaltet alle Eigenschaften bzw. Funktionen und deren
@@ -43,6 +47,8 @@ Im folgenden findet sich eine Liste über die Funktionen des Programms die zu te
 \\
 /F532/ : Ein-/Ausblenden von Beschleunigungsdaten\\
 \\
+/F533o/ : Kameraperspektive ändern\\
+\\
 /F1000/ : Warnung vor zu hoher Beschleunigung\\
 \\
 /F1100/ : Erkennung von Veränderungen an der Ursprungsdatei
@@ -62,17 +68,12 @@ versteht sich von selber, dass alle Muss-Funktionalitäten des Pflichtenheftes
 (Abschnitt 1.1) getestet werden müssen.
 
 \section{Vorgehen}
-Die allgemeinen Vorgehensweisen für die einzelnen zu testenden Funktionen und
-Funkti-onskombinationen werden hier beschrieben. Die Beschreibung sollte
-detailliert genug sein, um die Hauptaktivitäten und deren Zeitbedarf abschätzen
-zu können.
 
-Es ist zu beachten, dass für alle wichtigen Funktionalitäten das Verfahren
-angegeben wird. Dies gewährleistet, dass diese Funktionalitäten adäquat
-getestet werden.
+Während sich für den mathematisch-physikalischen Kern der Anwendung eine Prüfung mit automatisierten Tests umsetzen lässt, müssen diese für die visuellen Komponenten der GUI und 3D-Grafik weitestgehend händische vorgenommen werden.
 
-Es ist zu dokumentieren, welche Aktivitäten, Techniken und Werkzeuge benötigt
-werden, damit die Funktionalitäten getestet werden können.
+Für die Durchführung der JUnit-Testfälle wurde ein \textbf{ant}-Task in der \textbf{build.xml} angelegt, dessen Prüfprotokolle als XML-Dateien generiert und nachbearbeitet werden können.
+
+Für die Prüfung des 3D-Grafikmoduls wird eine reduzierte Variante des Simulators kompiliert und ausgeführt. Auch dafür steht ein passender \textbf{ant}-Task zur Verfügung.
 
 Beispiel für Vorgehen (unvollständige Liste):\\
 a) Komponenten- und Integrationstests\\
