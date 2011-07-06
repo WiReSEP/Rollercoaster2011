@@ -700,13 +700,190 @@ Berechnet wird die Sequenz für den maximalen Abstand $0.1$ und den maximalen Wi
 \hline
 \textbf{Soll - Reaktion} & \textit{Lösungsvektor $(2.0, 3.0, -1.0)$} \\
 \hline
+\textbf{Anmerkung} & \textit{Für die Prüfung der Gleitkommazahlen ist eine 
+Toleranz erforderlich.} \\
+\hline
 \textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
 der Anwendung über das Buildskript.} \\
 \hline
 \textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
 Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
-\textbf{Anmerkung} & \textit{Für die Prüfung der Gleitkommazahlen ist eine 
-Toleranz erforderlich.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1200/ Vektorrechnung} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{Vector3d} \\
+\hline
+\textbf{Testklasse} &  \textit{Vector3dTest} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
 \hline
 
 \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T 1201/ Skalare Multiplikation} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{mult(scalar)} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor $(1.0, -2.0, 3.5)$ wird die skalare
+Multiplikation mit $-1.5$ berechnet.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor  $(-1.5, 3.0, -5.2)$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1202/ Skalare Division} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{div(scalar)} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor $(1.0, -2.0, 3.5)$ wird die skalare
+Division mit $-2.0$ berechnet.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor  $(-0.5, 1.0, -1.75)$} \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1203/ Vektorlänge} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{length()} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor $(-2.0, 3.0, -6.0)$ wird die Vektorlänge 
+bestimmt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Skalar $7.0$} \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1204/ Längenquadrat} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{lengthSquared()} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor $(6.0, -3.0, 2.0)$ wird das Quadrat der
+Vektorlänge bestimmt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Skalar $49.0$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1205/ Vektoraddition} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{add(other)} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor  $(0.0, 1.0, 2.0)$ wird die Addition mit
+dem Vektor  $(1.0, -2.0, 3.0)$ durchgeführt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(1.0, -1.0, 5.0)$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1206/ Vektorsubtraktion} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{add(other)} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor  $(0.0, 1.0, 2.0)$ wird die Subtraktion mit
+dem Vektor $(1.0, -2.0, 3.0)$ durchgeführt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(-1.0, 3.0, -1.0)$} \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1207/ Inneres Produkt} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{dot(other)} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor  $(-1.0, 1.0, 2.0)$ wird das innere Produkt mit
+dem Vektor $(1.0, -2.0, 3.0)$ bestimmt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Skalar $3.0$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1208/ Kreuzprodukt} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{cross(other)} \\
+\hline
+\textbf{Eingaben} & \textit{Für den Vektor  $(-1.5, 0.5, 2.5)$ wird das äußere Produkt
+mit dem Vektor $(1.0, -2.0, 3.0)$ bestimmt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(6.5, 7.0, 2.5)$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1209/ Normierung} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{normalize()} \\
+\hline
+\textbf{Eingaben} & \textit{Der Vektor  $(0.0, -3.0, 4.0)$ normiert.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(0.0, -0.6, 0.8)$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1210/ Fließkommakonvertierung} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{toF()} \\
+\hline
+\textbf{Eingaben} & \textit{Der Vektor $(1.0,-2.0, 3.0)$ normiert.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor mit einfacher Genauigkeit $(1.0f, -2.0f, 3.0f)$} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1211/ Winkel zwischen Vektoren} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{cos(x,y)} \\
+\hline
+\textbf{Eingaben} & \textit{Der Cosinus des Winkels zwischen den Vektoren 
+$x=(1.0, -1.0, 2.0)$ und $y=(-1.0, 1.0, 2.0)$ wird bestimmt.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Skalar $1.0/3.0$} \\
+\hline
+\textbf{Anmerkung} & \textit{Für die Prüfung der Gleitkommazahl ist eine 
+Toleranz erforderlich.} \\
+\hline
+\end{longtable}
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1212/ Gleichheit von Vektoren} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{equals(other), hashCode()} \\
+\hline
+\textbf{Eingaben} & \textit{Der Vektor $(1.0, 2.0, -3.0)$ wird auf Gleichheit und
+Ungleichheit mit verschiedenen Vektoren getestet. Auch der Hashcode wird verglichen.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Gleichheit muss komponentenweise gelten.} \\
+\hline
+\end{longtable}
+
