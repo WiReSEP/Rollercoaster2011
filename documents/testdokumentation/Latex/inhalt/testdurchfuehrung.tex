@@ -508,7 +508,7 @@ Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report ausl
 \hline
 \textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1001/ Länge der Bézierkurve} \\
 \hline
-\textbf{Zu testende Methode} &  \textit{getLength} \\
+\textbf{Zu testende Methode} &  \textit{getLength()} \\
 \hline
 \textbf{Eingaben} & \textit{Béziercurve mit Stützstellen $(1.0, -2.0, 3.0)$,
 $(2.0, 1.5, -1.0)$, $(-1.0, +3.5, +2.0)$, $(3.0, -0.5, -4.0)$ und
@@ -516,5 +516,116 @@ den Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$ }\\
 \hline
 \textbf{Soll - Reaktion} & \textit{Die zurückgegebene Länge sollte 4.0 (=Zahl der Stützstellen)
 betragen.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1002/ Punkt auf der Bézierkurve} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getPoint(position)} \\
+\hline
+\textbf{Eingaben} & \textit{Béziercurve mit Stützstellen $(1.0, -2.0, 3.0)$,
+$(2.0, 1.5, -1.0)$, $(-1.0, +3.5, +2.0)$, $(3.0, -0.5, -4.0)$ und
+den Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$. Berechnet werden die Punkte für
+die Positionen $0$, $1$, $2$, $3$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die Positionen der Punkte müssen den
+jeweiligen Stützstellen entsprechen.} \\
+\hline
+\textbf{Anmerkung} & \textit{Die Prüfung der Interpolation folgt in anderen Testfällen.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1003/ Interpolation} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{cubicInterpolation(p0, p1, p2, p3, s} \\
+\hline
+\textbf{Eingaben} & \textit{Vier Stützstellen bzw. Kontrollpunkte $p_0 = (1.0, -2.0, 3.0)$,
+$p_1 = (2.0, 1.5, -1.0)$, $p_2 = (-1.0, +3.5, +2.0)$, $p_3 = (3.0, -0.5, -4.0)$ mit den
+Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$. Berechnet wird die Interpolation für
+den Parameter $s = 0.25$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Kurvenpunkt mit der Position $(1.171875, 0.2734375, 1.0625)$,
+ der Ableitung $(-0.9375,7.40625, -4.5)$, der zweiten Ableitung $(-7.5, -15.75, 18.0)$
+ un der Orientierung $-1.171875$.}\\
+\hline
+\textbf{Anmerkung} & \textit{Für die Prüfung der Gleitkommazahlen ist keine 
+Toleranz erforderlich.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1004/ Interpolation zwischen Vektoren} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getInterpolation(p0, p1, p2, p3, s} \\
+\hline
+\textbf{Eingaben} & \textit{Vier Vektoren $p_0 = (1.0, -2.0, 3.0)$,
+$p_1 = (2.0, 1.5, -1.0)$, $p_2 = (-1.0, +3.5, +2.0)$, $p_3 = (3.0, -0.5, -4.0)$. 
+Berechnet wird die Interpolation für den Parameter $s = 0.75$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(1.140625, 1.4453125, -0.9375)$}\\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1005/ Interpolation zwischen Skalaren} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getInterpolation(p0, p1, p2, p3, s} \\
+\hline
+\textbf{Eingaben} & \textit{Vier Skalare $-1.0$,$-2.0$,$1.0$,$3.0$ und der Parameter $s=0.7$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Skalar $1.065$}\\
+\hline
+\textbf{Anmerkung} & \textit{Für die Prüfung der Gleitkommazahlen ist eine 
+Toleranz von $1E-10$ erlaubt} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1006/ Berechnung der Ableitung} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getDerivative(p0, p1, p2, p3, s} \\
+\hline
+\textbf{Eingaben} & \textit{Vier Vektoren $p_0 = (1.0, -2.0, 3.0)$,
+$p_1 = (2.0, 1.5, -1.0)$, $p_2 = (-1.0, +3.5, +2.0)$, $p_3 = (3.0, -0.5, -4.0)$. 
+Berechnet wird die Interpolation für den Parameter $s = 0.75$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(3.5625,-3.84375, -7.5)$}\\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1007/ Berechnung der 2. Ableitung} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getSecondDerivative(p0, p1, p2, p3, s} \\
+\hline
+\textbf{Eingaben} & \textit{Vier Vektoren $p_0 = (1.0, -2.0, 3.0)$,
+$p_1 = (2.0, 1.5, -1.0)$, $p_2 = (-1.0, +3.5, +2.0)$, $p_3 = (3.0, -0.5, -4.0)$. 
+Berechnet wird die Interpolation für den Parameter $s = 0.75$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Vektor $(25.5,-29.25, -30.0$}\\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1008/ Berechnung der Punktsequenz} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getPointSequence(maxDistance, maxAngle)} \\
+\hline
+\textbf{Eingaben} & \textit{Béziercurve mit Stützstellen $(1.0, -2.0, 3.0)$,
+$(2.0, 1.5, -1.0)$, $(-1.0, +3.5, +2.0)$, $(3.0, -0.5, -4.0)$ und
+den Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$.
+Berechnet wird die Sequenz für den maximalen Abstand $0.1$ und den maximalen Winkel $\pi/16$.}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Eine Kurve mit den entsprechenden Höchstwerte zwischen benachbarten
+ Punkten. Geprüft wird auch zwischen letztem und ersten Punkt (Zyklusbedingung). } \\
 \hline
 \end{longtable}
