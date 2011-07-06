@@ -94,12 +94,20 @@ public class RollercoasterView implements View {
       graphics.setHUDData(rot, acc);
     }
     
+    public void setEnableHUD(boolean arg){
+      graphics.setEnableHUD(arg);
+    }
+    
     public void loadDeko(String filename) throws IllegalArgumentException {
       graphics.loadDeko(filename);
     }
     
-    public void setPattern(String pattern_filename, String bounding_pattern_filename) throws FileNotFoundException {
-       graphics.setPattern(pattern_filename, bounding_pattern_filename);
+    public void setPattern(String pattern_filename) throws FileNotFoundException {
+       graphics.setPattern(pattern_filename);
+    }
+    
+    public void setBoundingPattern(String bounding_pattern_filename) throws FileNotFoundException {
+       graphics.setBoundingPattern(bounding_pattern_filename);
     }
     
     public void setJoint(String filename) throws IllegalArgumentException {
