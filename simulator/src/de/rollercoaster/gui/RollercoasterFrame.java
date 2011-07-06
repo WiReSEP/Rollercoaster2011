@@ -77,6 +77,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JMenuItem sim2 = new JMenuItem("Simulation stoppen");
     private JMenu ansicht = new JMenu("Ansicht");
     private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken",true);
+    private JMenuItem ansicht11 = new JCheckBoxMenuItem("Graph andocken",true);
+    private JMenuItem ansicht12 = new JCheckBoxMenuItem("Tabelle andocken",true);
+    private JMenuItem ansicht13 = new JCheckBoxMenuItem("Uebersicht andocken",true);
     private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen",true);
     private JMenu ansicht3 = new JMenu("Kameraperspektive");
     private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("Uebersicht",true);
@@ -91,6 +94,11 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     
     private JMenu hilfe = new JMenu("Hilfe");
     private JMenuItem hilfe1 = new JMenuItem("Info");
+    
+    private JFrame logframe;
+    private JFrame graphframe;
+    private JFrame tabelleframe;
+    private JFrame uebersichtframe;
 
     public RollercoasterFrame(String title, Simulation sim) {
       super(title);
@@ -277,6 +285,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       hilfe.add(hilfe1);
 
       ansicht1.addItemListener(this);
+      ansicht11.addItemListener(this);
+      ansicht12.addItemListener(this);
+      ansicht13.addItemListener(this);
       ansicht2.addItemListener(this);
       ansicht5.addItemListener(this);
       ansicht10.addItemListener(this);
@@ -295,6 +306,10 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       ansicht3.add(ansicht3a);
       ansicht3.add(ansicht3b);
       ansicht.add(ansicht1);
+      ansicht.add(ansicht11);
+      ansicht.add(ansicht12);
+      ansicht.add(ansicht13);
+      ansicht.addSeparator();
       ansicht.add(ansicht2);
       ansicht.add(ansicht3);
       ansicht.add(ansicht4);
@@ -433,10 +448,94 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
         public void itemStateChanged(ItemEvent e) {
             if (e.getSource() == ansicht1) {
+                JScrollPane box = (JScrollPane)log.getParent().getParent();
                 if (ansicht1.isSelected()) {
-
+                  logframe.remove(box);
+                  ((Container)sp2.getTopComponent()).add(box,BorderLayout.CENTER);
+                  sp2.repaint();
+                  logframe.dispose();
                 } else {
-
+                  box.getParent().remove(box);
+                  logframe = new JFrame("Log");
+                  logframe.setSize(400,400);
+                  logframe.setLayout(new BorderLayout());
+                  logframe.add(box,BorderLayout.CENTER);
+                  logframe.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            ansicht1.doClick();
+                        }
+                  });
+                  logframe.setResizable(true);
+                  logframe.setVisible(true);
+                  sp2.repaint();
+                }
+            } else if (e.getSource() == ansicht11) { //Graph andocken
+                if (ansicht11.isSelected()) {
+                  graphframe.remove(graph);
+                  sp1.setTopComponent(graph);
+                  sp1.repaint();
+                  graphframe.dispose();
+                } else {
+                  sp1.setTopComponent(null);
+                  graphframe = new JFrame("Graph");
+                  graphframe.setSize(400,400);
+                  graphframe.setLayout(new BorderLayout());
+                  graphframe.add(graph,BorderLayout.CENTER);
+                  graphframe.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            ansicht11.doClick();
+                        }
+                  });
+                  graphframe.setResizable(true);
+                  graphframe.setVisible(true);
+                  sp2.repaint();
+                }
+            } else if (e.getSource() == ansicht12) { //Tabelle andocken
+                JScrollPane box = (JScrollPane)minMaxTable.getParent().getParent();
+                if (ansicht12.isSelected()) {
+                  tabelleframe.remove(minMaxTable);
+                  ((Container)sp2.getTopComponent()).add(box,BorderLayout.NORTH);
+                  sp2.repaint();
+                  tabelleframe.dispose();
+                } else {
+                  box.getParent().remove(box);
+                  tabelleframe = new JFrame("Tabelle");
+                  tabelleframe.setSize(400,400);
+                  tabelleframe.setLayout(new BorderLayout());
+                  tabelleframe.add(box,BorderLayout.CENTER);
+                  tabelleframe.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            ansicht12.doClick();
+                        }
+                  });
+                  tabelleframe.setResizable(true);
+                  tabelleframe.setVisible(true);
+                  sp2.repaint();
+                }
+            } else if (e.getSource() == ansicht13) {  //Uebersicht andocken
+                if (ansicht13.isSelected()) {
+                  uebersichtframe.remove(overview);
+                  sp2.setBottomComponent(overview);
+                  sp2.repaint();
+                  uebersichtframe.dispose();
+                } else {
+                  sp2.setBottomComponent(null);
+                  uebersichtframe = new JFrame("Uebersicht");
+                  uebersichtframe.setSize(400,400);
+                  uebersichtframe.setLayout(new BorderLayout());
+                  uebersichtframe.add(overview,BorderLayout.CENTER);
+                  uebersichtframe.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosing(WindowEvent e) {
+                            ansicht13.doClick();
+                        }
+                  });
+                  uebersichtframe.setResizable(true);
+                  uebersichtframe.setVisible(true);
+                  sp2.repaint();
                 }
             } else if (e.getSource() == ansicht5) {
               graphics.setShowStateDekoration(ansicht5.isSelected());
