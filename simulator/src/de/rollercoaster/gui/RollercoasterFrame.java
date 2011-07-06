@@ -31,6 +31,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.io.FileNotFoundException;
+import javax.swing.table.DefaultTableModel;
 
 public class RollercoasterFrame extends JFrame implements ActionListener, ItemListener {
     
@@ -38,13 +39,13 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     Object[] [] data = {
     {"Geschwindigkeit", new Double(0),new Double(0),new Double(0)},
     {">Zeit", new Double(0),new Double(0),new Double(0)},
-    {">Beschl.", new Double(0),new Double(0),new Double(0)},
-    {">Winkel", new Double(0),new Double(0),new Double(0)},
+    {">Beschl.", "",new Double(0),new Double(0)},
+    {">Winkel", "",new Double(0),new Double(0)},
     {"-----------------------","","",""},
     {"Beschleunigung", new Double(0),new Double(0),new Double(0)},
     {">Zeit", new Double(0),new Double(0),new Double(0)},
-    {">Geschw.", new Double(0),new Double(0),new Double(0)},
-    {">Winkel", new Double(0),new Double(0),new Double(0)},
+    {">Geschw.", "",new Double(0),new Double(0)},
+    {">Winkel", "",new Double(0),new Double(0)},
     };
     String[] cameras = { "Uebersicht", "Kamerafahrt"};
     private final Simulation sim;
@@ -211,29 +212,39 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                   graph.addPoint(0, newState.getTime(), newState.getVelocity().length());
                   graph.addPoint(1, newState.getTime(), newState.getAcceleration().length());
 
-                  minMaxTable.setValueAt(newState.getTime(), 1 ,1);
-                  minMaxTable.setValueAt(newState.getVelocity().length(), 2, 1);
-                  //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+                  //aktuell
+                  minMaxTable.setValueAt(newState.getVelocity().length(), 0, 1);
+                  minMaxTable.setValueAt(newState.getTime(), 1, 1);
+                  minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 1);
                   minMaxTable.setValueAt(newState.getTime(), 6, 1);
-                  minMaxTable.setValueAt(newState.getAcceleration().length(), 7, 1);
+                  //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+                  //minMaxTable.setValueAt(newState.getTime(), 6, 1);
+                  //minMaxTable.setValueAt(newState.getAcceleration().length(), 7, 1);
                   //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
 
-                  if (newState.getVelocity().length() < ((Double)minMaxTable.getValueAt(2, 2))) {
+                  //Geschwindigkeit
+                  if (newState.getVelocity().length() < ((Double)minMaxTable.getValueAt(0, 2))) {
+                   minMaxTable.setValueAt(newState.getVelocity().length(), 0, 2);
                    minMaxTable.setValueAt(newState.getTime(), 1, 2);
-                   minMaxTable.setValueAt(newState.getVelocity().length(), 3, 2);
+                   minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 2);
                    //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
-                  } else if (newState.getVelocity().length() > ((Double)minMaxTable.getValueAt(2, 3))) {
-                   minMaxTable.setValueAt(newState.getTime(), 1 , 3);
-                   minMaxTable.setValueAt(newState.getVelocity().length(), 3, 3);
+                  } else if (newState.getVelocity().length() > ((Double)minMaxTable.getValueAt(0, 3))) {
+                   minMaxTable.setValueAt(newState.getVelocity().length(), 0, 3);
+                   minMaxTable.setValueAt(newState.getTime(), 1, 3);
+                   minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 3);
                    //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
                    }
-                   if (newState.getAcceleration().length() < ((Double)minMaxTable.getValueAt(7, 2))) {
+                   
+                   //Beschleunigung
+                   if (newState.getAcceleration().length() < ((Double)minMaxTable.getValueAt(5, 2))) {
+                    minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 2);
                     minMaxTable.setValueAt(newState.getTime(), 6, 2);
-                    minMaxTable.setValueAt(newState.getAcceleration().length(), 7, 2);
+                    minMaxTable.setValueAt(newState.getVelocity().length(), 7, 2);
                     //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
-                   } else if (newState.getAcceleration().length() > ((Double)minMaxTable.getValueAt(7, 3))) {
-                    minMaxTable.setValueAt(newState.getTime(), 6 , 3);
-                    minMaxTable.setValueAt(newState.getAcceleration().length(), 7, 3);
+                   } else if (newState.getAcceleration().length() > ((Double)minMaxTable.getValueAt(5, 3))) {
+                    minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 3);
+                    minMaxTable.setValueAt(newState.getTime(), 6, 3);
+                    minMaxTable.setValueAt(newState.getVelocity().length(), 7, 3);
                     //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
                    }
               }
@@ -307,9 +318,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
        sim1.setLabel("Simulation starten");
        graph.clearCurve(0);
        graph.clearCurve(1);
-       for (int i=0; i <= 7; i++) {
+       for (int i=0; i < 9; i++) {
          if (i==4) continue;
-         for (int j=1; j < 4; j++) minMaxTable.setValueAt(new Double(0),i,j);
+         for (int j=1; j < 4; j++) {
+           if ((j==1)&&((i==2)||(i==3)||(i==7)||i==8)) continue;
+           minMaxTable.setValueAt(new Double(0),i,j);
+         }
        }
 
     }
