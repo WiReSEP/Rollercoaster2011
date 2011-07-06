@@ -595,7 +595,7 @@ jeweiligen Stützstellen entsprechen.} \\
 \hline
 \textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1003/ Interpolation} \\
 \hline
-\textbf{Zu testende Methode} &  \textit{cubicInterpolation(p0, p1, p2, p3, s} \\
+\textbf{Zu testende Methode} &  \textit{cubicInterpolation(p0, p1, p2, p3, s)} \\
 \hline
 \textbf{Eingaben} & \textit{Vier Stützstellen bzw. Kontrollpunkte $p_0 = (1.0, -2.0, 3.0)$,
 $p_1 = (2.0, 1.5, -1.0)$, $p_2 = (-1.0, +3.5, +2.0)$, $p_3 = (3.0, -0.5, -4.0)$ mit den
@@ -615,7 +615,7 @@ Toleranz erforderlich.} \\
 \hline
 \textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1004/ Interpolation zwischen Vektoren} \\
 \hline
-\textbf{Zu testende Methode} &  \textit{getInterpolation(p0, p1, p2, p3, s} \\
+\textbf{Zu testende Methode} &  \textit{getInterpolation(p0, p1, p2, p3, s)} \\
 \hline
 \textbf{Eingaben} & \textit{Vier Vektoren $p_0 = (1.0, -2.0, 3.0)$,
 $p_1 = (2.0, 1.5, -1.0)$, $p_2 = (-1.0, +3.5, +2.0)$, $p_3 = (3.0, -0.5, -4.0)$. 
@@ -629,7 +629,7 @@ Berechnet wird die Interpolation für den Parameter $s = 0.75$.}\\
 \hline
 \textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1005/ Interpolation zwischen Skalaren} \\
 \hline
-\textbf{Zu testende Methode} &  \textit{getInterpolation(p0, p1, p2, p3, s} \\
+\textbf{Zu testende Methode} &  \textit{getInterpolation(p0, p1, p2, p3, s)} \\
 \hline
 \textbf{Eingaben} & \textit{Vier Skalare $-1.0$,$-2.0$,$1.0$,$3.0$ und der Parameter $s=0.7$.}\\
 \hline
@@ -682,4 +682,31 @@ Berechnet wird die Sequenz für den maximalen Abstand $0.1$ und den maximalen Wi
 \textbf{Soll - Reaktion} & \textit{Eine Kurve mit den entsprechenden Höchstwerte zwischen benachbarten
  Punkten. Geprüft wird auch zwischen letztem und ersten Punkt (Zyklusbedingung). } \\
 \hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1100/ LU-Zerlegung} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{LUDecomposition} \\
+\hline
+\textbf{Testklasse} &  \textit{LUDecompositionTest} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{solve(b)} \\
+\hline
+\textbf{Eingaben} & \textit{Berechnung der Zerlegung für Matrix $A = ((2.0, 1.0, -1.0),
+(-3.0, -1.0, 2.0), (-2.0, 1.0, 2.0))$, Lösung für Vektor $ b= (8.0, -11.0, -3.0)$. } \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Lösungsvektor $(2.0, 3.0, -1.0)$} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
+\textbf{Anmerkung} & \textit{Für die Prüfung der Gleitkommazahlen ist eine 
+Toleranz erforderlich.} \\
+\hline
+
 \end{longtable}
