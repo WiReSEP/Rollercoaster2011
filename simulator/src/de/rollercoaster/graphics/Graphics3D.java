@@ -219,8 +219,9 @@ public class Graphics3D extends SimpleApplication {
         //*********************************************************************************//
         // Einrichtung der HUD Anzeigekomponente                                           //
         //*********************************************************************************//
-		//TODO
         hud = new CompleteHUD(this, assetManager, guiFont) ;
+		guiNode.attachChild(hud);
+		hud.setEnable(false);
 
         //*********************************************************************************//
         //***                 Cameracontroler                                           ***//
@@ -279,13 +280,21 @@ public class Graphics3D extends SimpleApplication {
     //3D-Komponente.                                                                   //
     //*********************************************************************************//
     /** Setzt die HUD-Daten die nicht sowieso intern bekannt sind. Insbesondere müssen hier dinge wie die maximalen Beschleunigungen etc übergeben werden.
-    <br> <DEV> @Robin: Bitte definieren welche Daten benötigt werden*/
+    *
+	* @param rot der Rotationsvektor
+	* @param acc der Beschleunigungsvektor
+	*/
+	
     public void setHUDData(Vector3f rot, Vector3f acc) {//ImplementMe: Robin
 	
 		this.hud.setRotation(rot);
 		this.hud.setAcceleration(acc);
 		
     }
+	
+	public void setEnableHUD(boolean arg){
+		this.hud.setEnable(arg);
+	}
 
     /**Läd die Dekorationsscene aus einer Datei. Die Datei muss vom Modelloader von jMonkey verarbeitbar sein, also als OgreMesh, gepackte Scene (zip) oder obj-Wavefront vorliegen*/
     public void loadDeko(String filename) throws IllegalArgumentException {
