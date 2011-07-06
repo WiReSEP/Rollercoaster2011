@@ -46,23 +46,10 @@ Im Folgenden sind so viele Unterkapitel einzufügen, wie es Testfälle gibt.\\
 Jeder Testfall erhält eine eindeutige Identifikation mit Kurzbezeichnung.\\
 Beispiel: /T100/ Lager anlegen\\
 Die folgende Tabelle beschreibt den Testfall. \\
+
+
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
-\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T533o/ Kameraperspektive ändern} \\
-\hline
-\textbf{Zu testende Objekte und Methoden} &  \textit{Getestet wird die komplette Klasse CameraControl}
-\\
-\hline
-\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
-\textit{Erfolgreich ist der Testfall, wenn man die Kamera über die GUI einstellt und das gewünschte Ergebnis sieht: Bei der Übersicht bewegt sich die Kamera nicht selbst, man sieht einen Wagen selbständig fahren und die Kamera kann per Maus bzw. Tastatur selber gesteuert werden. } \\
-\hline
-\textbf{Einzelschritte} &  \textit{Man muss den Test manuell über die GUI starten und wenn man nicht das erwartete Ergebnis sieht, wird der Test per GUI Einstellung beendet.} \\
-\hline
-\textbf{Beobachtungen / Log} &  \textit{Man entscheidet nach eigenem Ermessen, ob die Funktion den gewünschten Anforderungen entsprechen.} \\
-\hline
-\textbf{Abhängigkeiten} &  \textit{Der Test ist von der GUI abhängig, da man die GUI bedienen muss, um den Test starten zu können. Der erforderliche Test ist das Starten und Stoppen der Simulation.} \\
-\hline
-
 \textbf{Testfall -- ID und Bezeichnung} &  \textit{Beispiel:
                                                         /T100/ Lager anlegen} \\
 \hline
@@ -450,6 +437,39 @@ die Tastenkombination alt+F4 oder dem x oben rechts im Fenster beendet werden.} 
 \hline
 \end{longtable}
 
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T533o/ Kameraperspektive ändern} \\
+\hline
+\textbf{Zu testende Objekte und Methoden} &  \textit{Getestet wird die komplette Klasse CameraControl}
+\\
+\hline
+\textbf{Kriterien für erfolgreiche bzw. fehlgeschlagene Testfälle} &
+\textit{Erfolgreich ist der Testfall, wenn man die Kamera über die GUI einstellt und das gewünschte Ergebnis sieht: Bei der Übersicht bewegt sich die Kamera nicht selbst, man sieht einen Wagen selbständig fahren und die Kamera kann per Maus bzw. Tastatur selber gesteuert werden. } \\
+\hline
+\textbf{Einzelschritte} &  \textit{Man muss den Test manuell über die GUI starten und wenn man nicht das erwartete Ergebnis sieht, wird der Test per GUI Einstellung beendet.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Man entscheidet nach eigenem Ermessen, ob die Funktion den gewünschten Anforderungen entsprechen.} \\
+\hline
+\textbf{Abhängigkeiten} &  \textit{Der Test ist von der GUI abhängig, da man die GUI bedienen muss, um den Test starten zu können. Der erforderliche Test ist das Starten und Stoppen der Simulation (T200).} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{/T533o/ Kameraperspektive ändern} \\
+\hline
+\textbf{Testlauf Nr.} & \textit{1} \\
+\hline
+\textbf{Eingaben} & \textit{Verstellen der einzelnen Kameraperspektiven in jeder erdenklichen Situation.} \\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die Kamera ändern jedes Mal in den gewünschten Zustand.} \\
+\hline
+\textbf{Ist -- Reaktion} & \textit{Die Kamera wechselt wie erwartet in die vorgegebenen Modi.} \\
+\hline
+\textbf{Ergebnis} & \textit{Der Test wurde bestanden.} \\
+\hline
+\end{longtable}
 
 \begin{longtable}{|p{7cm}|p{10cm}|}
 \hline
@@ -533,5 +553,39 @@ oder das Fenster über das Kreuz in der oberen rechten Ecke geschlossen, so wird
 \textbf{Ergebnis} & \textit{} \\
 \hline
 \textbf{Nacharbeiten } & \textit{} \\
+\hline
+\end{longtable}
+
+% --------------- 
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1000/ Berechnung der Bézierkurve} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{BezierCurve} \\
+\hline
+\textbf{Testklasse} &  \textit{BezierCurveTest} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
+\hline
+
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1001/ Länge der Bézierkurve} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getLength} \\
+\hline
+\textbf{Eingaben} & \textit{Béziercurve mit Stützstellen $(1.0, -2.0, 3.0)$,
+$(2.0, 1.5, -1.0)$, $(-1.0, +3.5, +2.0)$, $(3.0, -0.5, -4.0)$ und
+den Orientierungen $-1.0$, $-2.0$, $1.0$, $-3.0$ }\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die zurückgegebene Länge sollte 4.0 (=Zahl der Stützstellen)
+betragen.} \\
 \hline
 \end{longtable}
