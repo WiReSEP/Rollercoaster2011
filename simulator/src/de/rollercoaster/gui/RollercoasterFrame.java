@@ -91,6 +91,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JMenuItem ansicht9 = new JMenuItem("Jointverzeichnis setzen");
     private JCheckBoxMenuItem ansicht10 = new JCheckBoxMenuItem("Stuetzen anzeigen",true);
     private JMenuItem ansicht15 = new JMenuItem("Graph-Einstellungen");
+    private JMenu ansicht16 = new JMenu("Look&Feel");
     private JMenu hilfe = new JMenu("Hilfe");
     private JMenuItem hilfe1 = new JMenuItem("Info");
     
@@ -103,19 +104,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
     public RollercoasterFrame(String title, Simulation sim) {
       super(title);
+
       JPopupMenu.setDefaultLightWeightPopupEnabled(false);
-      
-      try {
-        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-          if ("Nimbus".equals(info.getName())) {
-            UIManager.setLookAndFeel(info.getClassName());
-            break;
-          }
-        }
-      } catch (Exception e) {
-        // If Nimbus is not available, you can set the GUI to another look and feel.
-      }
-      
+
       this.sim = sim;
 
       this.graphics = (RollercoasterView) sim.getView();
@@ -340,6 +331,21 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
       setResizable(true);
       setVisible(true);
+
+      ansicht.addSeparator();
+      ansicht.add(ansicht16);
+      
+      try {
+        for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+          ansicht16.add(new JMenuItem(info.getName()) {
+            {
+              addActionListener(RollercoasterFrame.this);
+              setActionCommand("lookandfeel");
+            }
+          });
+        }
+      } catch (Exception e) {
+      }
     }
 
     public void reset() {
@@ -417,6 +423,19 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                     graphics.loadDeko(file.toString());
                     log.append("Deko "+file+" geladen.");
                 }
+            } else if (e.getActionCommand().equals("lookandfeel")) { //Look&Feel
+              try {
+                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                  if (((AbstractButton)e.getSource()).getLabel().equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                  }
+                }
+              } catch (Exception f) {
+              }
+
+              SwingUtilities.updateComponentTreeUI(this);
+              pack();
             } else if (e.getSource() == ansicht6) { //Pattern laden
               if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
                     File file = fc.getSelectedFile();
