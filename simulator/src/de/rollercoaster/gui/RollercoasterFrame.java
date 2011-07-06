@@ -341,7 +341,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
         public void actionPerformed(ActionEvent e) {
             if ((e.getSource() == startButton)||(e.getSource() == sim1)) { //Simulation starten/pausieren
-                if (!sim.isStarted()) {
+                if (!sim.isRunning()) {
                   //if sim.isStopped() reset();
                   sim.start();
                   setCam(graphics.getCameraMode());
@@ -349,15 +349,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                   startButton.setLabel("Pause");
                   sim1.setLabel("Simulation pausieren");
                 } else {
-                  sim.stop();
+                  sim.pause();
                   log.append("Simulation pausiert.\n");
                   startButton.setLabel("Start");
                   sim1.setLabel("Simulation starten");
                 }
-            } else if ((e.getSource() == stopButton)||(e.getSource() == sim2)) { //Simulation stoppen
-                sim.reset();
-                sim.stop(); //das soll weg
-                reset(); //das soll hier raus
+            } else if ((e.getSource() == stopButton)||(e.getSource() == sim2)) { //Simulation stoppen 
+                startButton.setLabel("Start");
+                sim.stop(); //das soll weg                
                 log.append("Simulation gestoppt.\n");
             } else if (e.getSource() == datei1) { //Konstruktion laden
                 if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
