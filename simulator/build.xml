@@ -4,6 +4,7 @@
     </description>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
+  <property name="test" location="test/de/rollercoaster/graphics/"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
 
@@ -38,6 +39,11 @@
     <javac srcdir="${src}" destdir="${build}" includeantruntime="false" debug="true">
       <classpath refid="build.classpath" />
     </javac>
+    <!--Testfiles -->
+    <javac srcdir="${test}" destdir="${build}" includeantruntime="false" debug="true">
+      <classpath refid="build.classpath" />
+    </javac>
+    
   </target>
 
   <target name="dist" depends="compile"
@@ -52,6 +58,15 @@
         <attribute name="Class-Path" value="${manifest.classpath}"/>
       </manifest>
     </jar>
+    
+    <!-- Test Files -->
+    <jar jarfile="${dist}/GraphicsTest.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-class" value="AchterbahnTest" />
+        <attribute name="Class-Path" value="${manifest.classpath}"/>
+      </manifest>
+    </jar>
+    
   </target>
 
   <target name="clean"
@@ -63,6 +78,13 @@
 
   <target name="run" depends="dist" description="start the application"> 
     <java jar="${dist}/Rollercoaster.jar" fork="true" />
+    <copy todir="${dist}/lib" flatten="true">
+      <fileset refid="rollercoaster.libraries" />
+    </copy>
+  </target>
+  
+ <target name="test-graphics" depends="dist" description="runs the GraphicTestAopplication"> 
+    <java jar="${dist}/GraphicsTest.jar" fork="true" />
     <copy todir="${dist}/lib" flatten="true">
       <fileset refid="rollercoaster.libraries" />
     </copy>

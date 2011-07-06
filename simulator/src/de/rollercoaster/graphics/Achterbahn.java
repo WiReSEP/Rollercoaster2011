@@ -49,7 +49,7 @@ public class Achterbahn extends Node {
   public Achterbahn(Curve curve, Material mat, Spatial joint3d , String pattern_filename, String bounding_pattern_filename) {
       super("achterbahn"); //alles was Node kann
 
-      List<CurvePoint> points = curve.getPointSequence(MIN_JOINT_DISTANCE/2,0.0);  //Auflösung ausreichend wählen
+      List<CurvePoint> points = curve.getPointSequence(0.1*MIN_JOINT_DISTANCE,0.0);  //Auflösung ausreichend wählen
       
 
       PatternCurve bahn = null;
@@ -114,14 +114,14 @@ public class Achterbahn extends Node {
           Vector3f y = points.get(poscounter).getYawAxis().normalize().toF();
           Vector3f z = points.get(poscounter).getRollAxis().normalize().toF();
         
-          Geometry geom = new Geometry("Box"+poscounter, b);
+          Geometry geom = new Geometry("joint"+poscounter, b);
           geom.setMaterial(mat);
           geom.setLocalTranslation(pos);
           Matrix3f matrix = new Matrix3f();
           //matrix.fromAxes(x.mult(-1),z,y);
           matrix.fromAxes(x.mult(-1),y,z);
 
-          //System.out.printf ("Determinante (%d) %f [%s,%s,%s]\n",poscounter,matrix.determinant(),x.mult(-1),y,z);
+//           System.out.printf ("Determinante (%d) %f [%s,%s,%s]\n",poscounter,matrix.determinant(),x.mult(-1),y,z); 
           geom.setLocalRotation(matrix);
           joints.attachChild(geom);
           
@@ -183,7 +183,9 @@ public class Achterbahn extends Node {
         //Bis 0.6 Abstandsmaß geht in Ordnung (empirischer Wert)
 
         if (getGroundDistance(points.get(0).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE*0.6) {
-          poles.getChild("pole"+lastposcounter).removeFromParent();
+          Spatial tmp = poles.getChild("pole"+lastposcounter);
+          if (tmp != null )
+            tmp.removeFromParent();
         }
         
 
