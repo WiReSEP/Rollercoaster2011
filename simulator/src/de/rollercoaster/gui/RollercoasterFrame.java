@@ -57,9 +57,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private Graph graph = new Graph();
     private JTextArea log = new JTextArea("");
     private final JTable minMaxTable = new JTable(data, columnNames)  {
-   public boolean isCellEditable(int x, int y) {
-    return false;
-   }};
+     public boolean isCellEditable(int x, int y) {
+      return false;
+     }};
     private JLabel overview = new JLabel("Uebersicht\n(Funktion noch nicht vorhanden)");
     
     private JPanel bottomPanel = new JPanel(null);
@@ -85,13 +85,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("Uebersicht",true);
     private JRadioButtonMenuItem ansicht3b = new JRadioButtonMenuItem("Kamerafahrt");
     private JMenuItem ansicht4 = new JMenuItem("Deko laden");
-    private JMenuItem ansicht5 = new JCheckBoxMenuItem("Deko anzeigen",true);
+    private JCheckBoxMenuItem ansicht5 = new JCheckBoxMenuItem("Deko anzeigen",true);
     private JMenuItem ansicht6 = new JMenuItem("Pattern laden");
     private JMenuItem ansicht7 = new JMenuItem("Boundingpattern laden");
     private JMenuItem ansicht9 = new JMenuItem("Jointverzeichnis setzen");
-    private JMenuItem ansicht10 = new JCheckBoxMenuItem("Stuetzen anzeigen",true);
-    
-    
+    private JCheckBoxMenuItem ansicht10 = new JCheckBoxMenuItem("Stuetzen anzeigen",true);
+    private JMenuItem ansicht15 = new JMenuItem("Graph-Einstellungen");
     private JMenu hilfe = new JMenu("Hilfe");
     private JMenuItem hilfe1 = new JMenuItem("Info");
     
@@ -99,6 +98,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     private JFrame graphframe;
     private JFrame tabelleframe;
     private JFrame uebersichtframe;
+    private JFrame grapheinstellungen;
+    private boolean newMinMax;
 
     public RollercoasterFrame(String title, Simulation sim) {
       super(title);
@@ -217,8 +218,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
               if (newState.getTime() > lastTime + 1.0) {
                   lastTime = newState.getTime();
 
-                  graph.addPoint(0, newState.getTime(), newState.getVelocity().length());
-                  graph.addPoint(1, newState.getTime(), newState.getAcceleration().length());
+                  int val = graph.getCurveID("v");
+                  if (val>=0) graph.addPoint(val, newState.getTime(), newState.getVelocity().length());
+                  val = graph.getCurveID("a");
+                  if (val>=0) graph.addPoint(val, newState.getTime(), newState.getAcceleration().length());
+                  val = graph.getCurveID("j");
+                  if (val>=0) graph.addPoint(val, newState.getTime(), newState.getJerk().length());
 
                   //aktuell
                   minMaxTable.setValueAt(newState.getVelocity().length(), 0, 1);
@@ -231,12 +236,13 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                   //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
 
                   //Geschwindigkeit
-                  if (newState.getVelocity().length() < ((Double)minMaxTable.getValueAt(0, 2))) {
+                  if ((newState.getVelocity().length() < ((Double)minMaxTable.getValueAt(0, 2)))||(newMinMax)) {
                    minMaxTable.setValueAt(newState.getVelocity().length(), 0, 2);
                    minMaxTable.setValueAt(newState.getTime(), 1, 2);
                    minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 2);
                    //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
-                  } else if (newState.getVelocity().length() > ((Double)minMaxTable.getValueAt(0, 3))) {
+                  }
+                  if ((newState.getVelocity().length() > ((Double)minMaxTable.getValueAt(0, 3)))||(newMinMax)) {
                    minMaxTable.setValueAt(newState.getVelocity().length(), 0, 3);
                    minMaxTable.setValueAt(newState.getTime(), 1, 3);
                    minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 3);
@@ -244,17 +250,19 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
                    }
                    
                    //Beschleunigung
-                   if (newState.getAcceleration().length() < ((Double)minMaxTable.getValueAt(5, 2))) {
+                   if ((newState.getAcceleration().length() < ((Double)minMaxTable.getValueAt(5, 2)))||(newMinMax)) {
                     minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 2);
                     minMaxTable.setValueAt(newState.getTime(), 6, 2);
                     minMaxTable.setValueAt(newState.getVelocity().length(), 7, 2);
                     //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
-                   } else if (newState.getAcceleration().length() > ((Double)minMaxTable.getValueAt(5, 3))) {
+                   }
+                   if ((newState.getAcceleration().length() > ((Double)minMaxTable.getValueAt(5, 3)))||(newMinMax)) {
                     minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 3);
                     minMaxTable.setValueAt(newState.getTime(), 6, 3);
                     minMaxTable.setValueAt(newState.getVelocity().length(), 7, 3);
                     //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
                    }
+                   newMinMax = false;
               }
 
           }
@@ -298,6 +306,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       ansicht7.addActionListener(this);
       //ansicht8.addActionListener(this);
       ansicht9.addActionListener(this);
+      ansicht15.addActionListener(this);
       //ansicht5.setSelected(graphics.getShowStateDekoration());
       //ansicht10.setSelected(graphics.getShowStatePoles());
       ButtonGroup bgcam = new ButtonGroup();
@@ -319,6 +328,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       //ansicht.add(ansicht8);
       ansicht.add(ansicht9);
       ansicht.add(ansicht10);
+      ansicht.addSeparator();
+      ansicht.add(ansicht15);
       jmb.add(ansicht);
 
       jmb.add(hilfe);
@@ -338,6 +349,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
            minMaxTable.setValueAt(new Double(0),i,j);
          }
        }
+       newMinMax = true;
 
     }
     
@@ -445,6 +457,153 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
               if ((s != null) && (s.length() > 0)) {
                   graphics.setJoint(s);
               }
+
+            } else if (e.getSource() == ansicht15) {
+              //TODO:layout
+              grapheinstellungen = new JFrame("Grapheinstellungen");
+              grapheinstellungen.setSize(520,300);
+              grapheinstellungen.setLayout(new FlowLayout());
+              JPanel kurven = new JPanel(new GridLayout(0,3,10,5));
+              kurven.add(new JLabel("Geschwindigkeit"));
+              kurven.add(new JLabel("Beschleunigung"));
+              kurven.add(new JLabel("Ruck"));
+              final JCheckBox anz1 = new JCheckBox("anzeigen",graph.getCurveID("v")>=0);
+              final JCheckBox anz2 = new JCheckBox("anzeigen",graph.getCurveID("a")>=0);
+              final JCheckBox anz3 = new JCheckBox("anzeigen",graph.getCurveID("j")>=0);
+              kurven.add(anz1);
+              kurven.add(anz2);
+              kurven.add(anz3);
+              final JButton farb1 =  new JButton("Farbe");
+              if (graph.getCurveID("v")>=0) farb1.setBackground(graph.getColor(graph.getCurveID("v")));
+              farb1.addActionListener( new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                 Color newColor = JColorChooser.showDialog(RollercoasterFrame.this, "Farbe für Geschwindigkeit", farb1.getBackground());
+                 if (newColor != null) {
+                    farb1.setBackground(newColor);
+                 }
+               }
+              });
+              final JButton farb2 =  new JButton("Farbe");
+              final JButton farb3 =  new JButton("Farbe");
+              kurven.add(farb1);
+              kurven.add(farb2);
+              kurven.add(farb3);
+              double val = 0;
+              if (graph.getCurveID("v")>=0) val = graph.getYMin(graph.getCurveID("v"));
+              final JSpinner min1 = new JSpinner(new SpinnerNumberModel(val, -10000, 10000,10));
+              if (graph.getCurveID("a")>=0) val = graph.getYMin(graph.getCurveID("a"));
+              final JSpinner min2 = new JSpinner(new SpinnerNumberModel(val, -10000, 10000,10));
+              if (graph.getCurveID("j")>=0) val = graph.getYMin(graph.getCurveID("j"));
+              final JSpinner min3 = new JSpinner(new SpinnerNumberModel(val, -10000, 10000,10));
+              kurven.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("y Min."));
+                  add(min1);
+                }
+              });
+              kurven.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("y Min."));
+                  add(min2);
+                }
+              });
+              kurven.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("y Min."));
+                  add(min3);
+                }
+              });
+              if (graph.getCurveID("v")>=0) val = graph.getYMax(graph.getCurveID("v"));
+              final JSpinner max1 = new JSpinner(new SpinnerNumberModel(val, -10000, 10000,10));
+              if (graph.getCurveID("a")>=0) val = graph.getYMax(graph.getCurveID("a"));
+              final JSpinner max2 = new JSpinner(new SpinnerNumberModel(val, -10000, 10000,10));
+              if (graph.getCurveID("j")>=0) val = graph.getYMax(graph.getCurveID("j"));
+              final JSpinner max3 = new JSpinner(new SpinnerNumberModel(val, -10000, 10000,10));
+              kurven.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("y Max."));
+                  add(max1);
+                }
+              });
+              kurven.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("y Max."));
+                  add(max2);
+                }
+              });
+              kurven.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("y Max."));
+                  add(max3);
+                }
+              });
+              grapheinstellungen.add(kurven);
+              final JSpinner breite = new JSpinner(new SpinnerNumberModel(10, 1, 100,1));
+              //grapheinstellungen.add(breite);
+              final JSpinner step = new JSpinner(new SpinnerNumberModel(graph.getStepDistance(), 0.1, 100,0.1));
+              grapheinstellungen.add(new JPanel(new FlowLayout()) {
+                {
+                  add(new JLabel("Schrittweite"));
+                  add(step);
+                }
+              });
+              final JCheckBox names = new JCheckBox("Namen anzeigen",false);
+              //grapheinstellungen.add(names);
+
+              final JButton ok = new JButton("OK");
+              ok.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                int id = graph.getCurveID("v");
+                if (id>=0) {
+                  if (!anz1.isSelected()) graph.removeCurve(id);
+                  else {
+                    graph.setYMax(id,(Double)max1.getValue());
+                    graph.setYMin(id,(Double)min1.getValue());
+                    graph.setColor(id,farb1.getBackground());
+                  }
+                } else {
+                  if (anz1.isSelected())
+                    graph.addCurve((Double)max1.getValue(),(Double)min1.getValue(),farb1.getBackground(),"v");
+                }
+                id = graph.getCurveID("a");
+                if (id>=0) {
+                  if (!anz2.isSelected()) graph.removeCurve(id);
+                  else {
+                    graph.setYMax(id,(Double)max2.getValue());
+                    graph.setYMin(id,(Double)min2.getValue());
+                    graph.setColor(id,farb2.getBackground());
+                  }
+                } else {
+                  if (anz2.isSelected())
+                    graph.addCurve((Double)max2.getValue(),(Double)min2.getValue(),farb2.getBackground(),"a");
+                }
+                id = graph.getCurveID("j");
+                if (id>=0) {
+                  if (!anz3.isSelected()) graph.removeCurve(id);
+                  else {
+                    graph.setYMax(id,(Double)max3.getValue());
+                    graph.setYMin(id,(Double)min3.getValue());
+                    graph.setColor(id,farb3.getBackground());
+                  }
+                } else {
+                  if (anz3.isSelected())
+                    graph.addCurve((Double)max3.getValue(),(Double)min3.getValue(),farb3.getBackground(),"j");
+                }
+                graph.setStepDistance((Double)step.getValue());
+                grapheinstellungen.dispose();
+               }
+              });
+              grapheinstellungen.add(ok);
+              
+              final JButton abb = new JButton("Abbrechen");
+              abb.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                grapheinstellungen.dispose();
+               }
+              });
+              grapheinstellungen.add(abb);
+              grapheinstellungen.setResizable(false);
+              grapheinstellungen.setVisible(true);
 
             }
         }
