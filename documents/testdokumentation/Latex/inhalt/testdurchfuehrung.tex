@@ -983,3 +983,70 @@ der Anwendung über das Buildskript.} \\
 Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
 \hline
 \end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} &  \textit{/T1400/ Berechnung der Bahnkurve} \\
+\hline
+\textbf{Zu testende Klasse} &  \textit{RollercoasterTrajectory} \\
+\hline
+\textbf{Testklasse} &  \textit{RollercoasterTrajectoryTest} \\
+\hline
+\textbf{Vorbereitung} & \textit{Getestet wird mit dem freien Fall $g = (0, -9.81. 0) $ 
+entlang einer schiefen Stange $s = (0.0, 1.0, 1.0)$. Die Bewegung muss also entlang 
+der Stange erfolgen, wobei die effektive Beschleunigung $g_s = (g \cdot \hat s) \hat s$ einwirkt.
+Zum Zeitpunkt $t = 0$ befinde sich der Massenpunkt im Ursprung in Ruhe.} \\
+\hline
+\textbf{Einzelschritte} &  \textit{Automatische Ausführung der JUnit-Testklasse beim Erstellen
+der Anwendung über das Buildskript.} \\
+\hline
+\textbf{Beobachtungen / Log} &  \textit{Im Fehlerfall scheitert das Erstellen der Anwendung.
+Eine genaue Beschreibung des Fehlerfalls lässt sich im zugehörigen Report auslesen.} \\
+\hline
+\end{longtable}
+
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1401/ Bestimmung des Bahnkurvenpunktes} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getState()} \\
+\hline
+\textbf{Eingaben} & \textit{Bahnkurve (s.o.)}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Der berechnete Bahnkurvenpunkt muss mangels
+Zeitprogression gerade dem Anfangswert entsprechen und die effektive Gravitation
+als Beschleunigung erfahren. } \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1402/ Berechnung der Zeitprogession} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{computeTimeStep(deltaTime), getState()} \\
+\hline
+\textbf{Eingaben} & \textit{Bahnkurve (s.o.), $deltaTime = 1.0$. Bestimmt wird der
+Bahnkurvenpunkt nach der Zeitprogession}\\
+\hline
+\textbf{Soll - Reaktion} & \textit{
+Der berechnete Bahnkurvenpunkt muss sich gemäß der Formel $0.5 t^2 g_s$ entlang
+der Stange bewegen. Dies wird numerisch geprüft.} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|p{7cm}|p{10cm}|}
+\hline
+\textbf{Testfall -- ID und Bezeichnung} & \textit{ /T 1403/ Berechnung der Ableitungen} \\
+\hline
+\textbf{Zu testende Methode} &  \textit{getDerivatives(t,x)} \\
+\hline
+\textbf{Eingaben} & \textit{Bahnkurve (s.o.). Bestimmt werden die Ableitungen $(\dot s, \ddot s)$
+des Bahnparameters $s$ zum Zeitpunkt $t$ und zu gegebenen Bahnparametern $(s, \dot s$). Berechnung
+erfolgt zu verschiedenen Zeiten. }\\
+\hline
+\textbf{Soll - Reaktion} & \textit{Die Ableitung $\dot s$ wird durchgereicht. 
+Außerdem muss in diesem Fall 
+$\ddot s = - \frac{x'(s) \cdot g}{x'(s) \cdot x'(s)}$ gelten.} \\
+\hline
+\end{longtable}
