@@ -20,6 +20,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
   private View graphics;
   private double timeScale;
   private SimulationState state;
+  private TrajectoryPoint physicsState;
 
   public RollercoasterSimulation(Track track) {
     Curve curve = track.getCurve();
@@ -71,7 +72,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
   public boolean isRunning() {
     return SimulationState.RUNNING.equals(this.state);
   }
-  
+
   @Override
   public boolean isStopped() {
     return SimulationState.STOPPED.equals(this.state);
@@ -86,7 +87,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
   public double getTimeScale() {
     return this.timeScale;
   }
-  
+
   @Override
   public void setTimeScale(double timeScale) {
     this.timeScale = timeScale;
@@ -94,29 +95,30 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
 
   @Override
   public void update(double timeStep) {
-    if (!isRunning()) {
-      return;
+    if (isRunning()) {
+      double scaledTimeStep = this.timeScale * timeStep;
+      updatePhysics(scaledTimeStep);
     }
 
-    double scaledTimeStep = this.timeScale * timeStep;
-
-    updatePhysics(scaledTimeStep);
     updateCameraPosition();
   }
-    
+
   private void updatePhysics(double timeStep) {
     physics.computeTimeStep(timeStep);
   }
 
   private void updateCameraPosition() {
-    TrajectoryPoint physicsState = physics.getState();
+    TrajectoryPoint previousState = physicsState;
+    physicsState = physics.getState();
 
-    Vector3f location = physicsState.getPosition().toF();
-    Vector3f left = physicsState.getPitchAxis().toF();
-    Vector3f up = physicsState.getYawAxis().toF();
-    Vector3f direction = physicsState.getRollAxis().toF();
+    if (physicsState != previousState) {
+      Vector3f location = physicsState.getPosition().toF();
+      Vector3f left = physicsState.getPitchAxis().toF();
+      Vector3f up = physicsState.getYawAxis().toF();
+      Vector3f direction = physicsState.getRollAxis().toF();
 
-    graphics.setCamera(location, left, up, direction);
+      graphics.setCamera(location, left, up, direction);
+    }
   }
 
   @Override
@@ -166,7 +168,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
     physics = new RollercoasterTrajectory(curve, s0, v0);
 
     bind();
-       
+
     updateCameraPosition();
   }
 
