@@ -15,7 +15,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
   private Integrator integrator;
   private final double DEFAULT_STEP = 0.01;
   private final List<TrajectoryObserver> observers = Collections.synchronizedList(new LinkedList<TrajectoryObserver>());
-
+ 
   public RollercoasterTrajectory(Curve curve, double s0, double v0) {
     this.curve = curve;
     this.gravitation = new Vector3d(0, 9.81f, 0);
@@ -25,8 +25,12 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
 
     this.positions = new double[]{s0, v0 / startPoint.getDerivative().length()};
     this.time = 0.0;
-    
+
     updateState();
+  }
+
+  public double getEnergy() {
+    return 0.5 * state.getVelocity().lengthSquared() + state.getPosition().dot(gravitation);
   }
 
   @Override
@@ -39,7 +43,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     positions = integrator.integrate(this, time, positions, time + deltaTime);
     time = time + deltaTime;
 
-    updateState();
+    updateState();   
   }
 
   private void updateState() {
@@ -55,9 +59,9 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     Vector3d velocity = point.getDerivative().mult(sDot);
     Vector3d acceleration = point.getDerivative().mult(sDotDot).add(point.getSecondDerivative().mult(sDot * sDot));
     Vector3d jerk = null; // acceleration.subtract(previousState.getAcceleration()).divide(deltaTime);
-    
+
     state = new SimpleTrajectoryPoint(point, time, velocity, acceleration, jerk);
-    
+
     notifyObservers(state);
   }
 
@@ -73,7 +77,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
 
     return new double[]{sDot, sDotDot};
   }
- 
+
   @Override
   public boolean addObserver(TrajectoryObserver observer) {
     return this.observers.add(observer);
