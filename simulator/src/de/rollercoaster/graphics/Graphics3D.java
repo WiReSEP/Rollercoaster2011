@@ -122,7 +122,6 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
   
           
   public void initialize(RenderManager rm, ViewPort vp) {
-    System.out.println ("Init caught[1]");
     renderer = rm.getRenderer();
     reshape(vp, vp.getCamera().getWidth(), vp.getCamera().getHeight());
     filter_init = true;
@@ -153,17 +152,12 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
 
   private void screenshot (FrameBuffer fb) {
-      System.out.println ("Action caught[0]"+renderer+"<|>"+fb);
       renderer.readFrameBuffer(fb, outBuf);
-      System.out.println ("Action caught[1]");
       Screenshots.convertScreenShot(outBuf, awtImage);
-      System.out.println ("Action caught[2]");
       try {ImageIO.write(awtImage, "png", new File("screenshot.png"));}
       catch (IOException e) {
-        //this.logger.log(Level.SEVERE,"Unable to save screenshot", e);
         System.err.println ("Error creating Screenshot");
       }
-      System.out.println ("Action caught[3]");
   }
 
   @Override
