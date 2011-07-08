@@ -36,6 +36,7 @@ public class RollercoasterView implements View {
 
   @Override
   public void setCurve(Curve curve) {
+    this.curve = curve;
     graphics.setCurve(curve);
   }
 
