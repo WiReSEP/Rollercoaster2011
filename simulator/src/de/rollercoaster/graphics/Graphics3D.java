@@ -165,8 +165,9 @@ public class Graphics3D extends SimpleApplication {
         bahn_material = ((Geometry) ((Node) joint).getChild(0)).getMaterial();
        
         //Wagen bauen
-        car = new Geometry("carnode",new Box(1,0.5f,2));
-        car.setMaterial(mat1);
+        //car = new Geometry("carnode",new Box(1,0.5f,2));
+        car = assetManager.loadModel("car.mesh.xml");
+       // car.setMaterial(mat1);
         //rootNode.attachChild(car);
 
 
