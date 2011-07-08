@@ -12,21 +12,19 @@ import com.jme3.scene.shape.Box;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 
-/**
- *
- * @author Simon
- */
 public class CameraControl {
 
-    private CameraMode mode = CameraMode.INTERIOR;//at  the beginning the interiror Cam is activated
+    private CameraMode mode = CameraMode.INTERIOR;	//at  the beginning the interiror Cam is activated
     private Camera cam;
     private Spatial car;
     private Matrix3f matrix = new Matrix3f();
     private final SimpleApplication application;
     private Vector3f location;
-
+    private Vector3f direction;
+		private boolean isOverview = false;
     /**
      * Kontruktor
+		* @param application: application of Graphics3D,  cam: Camera,  car: Car 
      *
      */
     public CameraControl(SimpleApplication application, Camera cam, Spatial car) {
@@ -34,7 +32,7 @@ public class CameraControl {
         this.cam = cam;
         this.car = car;
 				application.getRootNode().attachChild(car);
-        car.setCullHint(CullHint.Always);
+        car.setCullHint(CullHint.Always);	//at the beginning the car is hidden
     }
 
     /**
@@ -47,27 +45,26 @@ public class CameraControl {
         return null;//carPosition;
     }
 
-    /**
-     * initials rollercoaster car
-     * @param start: startposition of the rollercoaster
-     */
-    /*public void initCar() {
-        Box box = new Box(new Vector3f(1,-1,1), 1, 1, 1);
-        Geometry wagon = new Geometry("myBox", box);
-        wagon.setMaterial(new Material(application.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md"));
-        application.getRootNode().attachChild(wagon);
-    }*/
-
+		/**
+			*updates the Camera mode: Interior view or overview
+			*
+		*/
     public void updateCamera() {
         switch (mode) {
             case OVERVIEW:
-                application.getFlyByCamera().setEnabled(true);
-                car.setCullHint(CullHint.Dynamic);
+							if(!isOverview){	//if Overview is chosen the cameraposition won't change if start is pushed again
+                this.cam.getRotation().lookAt(direction, new Vector3f(0,1,0) );	//the camera is straight, not rotated
+                this.cam.update();
+                application.getFlyByCamera().setEnabled(true);	//control the camera by own
+                car.setCullHint(CullHint.Dynamic);	//car is visible
+								isOverview= true;
+							}
                 break;
 
             case INTERIOR:
                 application.getFlyByCamera().setEnabled(false);
                 car.setCullHint(CullHint.Always);
+								isOverview = false;
                 break;
         }
     }
@@ -82,26 +79,30 @@ public class CameraControl {
 
     }
 
+			/**
+			 * returns the camera mode
+			 * @return mode: The caera mode
+			*/
     public CameraMode getCameraMode() {
         return mode;
     }
 
+		/**
+		 * in interior mode the method control the camera and in overview mode the method control the car
+		 * @param location: position of camera or car,  left: left vector,  up: up vector, direction: the direction of car or camera
+		 *
+		*/
     void setCarPosition(Vector3f location, Vector3f left, Vector3f up, Vector3f direction) {
 			this.location = location;
+      this.direction = direction;
 				if (mode== CameraMode.OVERVIEW){
 					matrix.fromAxes(left.mult(-1),up,direction);
 					car.setLocalTranslation(location);
 					car.setLocalRotation(matrix); 
 				}
 				else if(mode==CameraMode.INTERIOR){
-			 // Fallunterscheidung;
 					cam.setFrame(location, left.mult(-1), up, direction);
 				}
-				
-            
 
-            
-				
-				
     }
 }
