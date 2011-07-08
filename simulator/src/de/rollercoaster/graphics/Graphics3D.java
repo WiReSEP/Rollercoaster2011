@@ -102,6 +102,10 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
   private boolean filter_init = false;
 
+  private Material wire;
+
+  private int shotnumber= 0;
+
 
   public Graphics3D(RollercoasterView view) {
     super();
@@ -114,8 +118,21 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
   }
 
   public void onAction(String name, boolean keyPressed, float tpf) {
+    if (name.equals("wire") && !keyPressed) {
+      rootNode.setMaterial(wire);
+    }
     if (name.equals("screenshot") && !keyPressed) {
       capture_ss = true;
+    }
+    if (name.equals("hide") && !keyPressed) {
+      if (bahn.getCullHint() != CullHint.Always) {
+        bahn.setCullHint(CullHint.Always);
+        car.setCullHint(CullHint.Always);
+      }
+      else {
+        bahn.setCullHint(CullHint.Dynamic);
+        car.setCullHint(CullHint.Dynamic);
+      }
     }
   }
 
@@ -154,10 +171,11 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
   private void screenshot (FrameBuffer fb) {
       renderer.readFrameBuffer(fb, outBuf);
       Screenshots.convertScreenShot(outBuf, awtImage);
-      try {ImageIO.write(awtImage, "png", new File("screenshot.png"));}
+      try {ImageIO.write(awtImage, "png", new File("screenshot"+shotnumber+".png"));}
       catch (IOException e) {
         System.err.println ("Error creating Screenshot");
       }
+      shotnumber++;
   }
 
   @Override
@@ -179,7 +197,7 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
     //Cameraeinstellungen
     cam.setFrustumFar(20000);  //Farclipping ein bisschen erhöhen (damit unsere Landschaft bleibt
-    viewPort.setBackgroundColor(ColorRGBA.Red); //Hintergrundfarbe setzen (für Debug auf auffällige Farbe setzen damit Lücken sichtbar werden; Release auf Schwarz oä)
+    viewPort.setBackgroundColor(ColorRGBA.Black); //Hintergrundfarbe setzen (für Debug auf auffällige Farbe setzen damit Lücken sichtbar werden; Release auf Schwarz oä)
 
     //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
     this.setPauseOnLostFocus(false);
@@ -203,9 +221,12 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
     mat1.setColor("Color", ColorRGBA.Red);
 
     //Debug-Materialien[DEBUG]
-    showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
+    showNormalsMaterial = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
     redMat.setColor("Color", ColorRGBA.Red);
+
+    wire = new Material(assetManager,"WireColor.j3md");
+    wire.setColor("Color", ColorRGBA.White);
 
 
     //Deko Knoten erzeugen
@@ -285,7 +306,9 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
     inputManager.addMapping("screenshot", new KeyTrigger(KeyInput.KEY_SYSRQ));
     inputManager.addMapping("screenshot", new KeyTrigger(KeyInput.KEY_SPACE));
-    inputManager.addListener(this , new String[] {"screenshot"});
+    inputManager.addMapping("wire", new KeyTrigger(KeyInput.KEY_T));
+    inputManager.addMapping("hide", new KeyTrigger(KeyInput.KEY_H));
+    inputManager.addListener(this , new String[] {"screenshot","wire","hide"});
 
 //Screenshotfilter einbauen
                 List<ViewPort> vps = this.getRenderManager().getPostViews();
@@ -329,6 +352,8 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
   public JmeCanvasContext getCanvasObject() {
     AppSettings settings = new AppSettings(true);
+//     settings.setWidth(640);
+//     settings.setHeight(480);
     settings.setWidth(640);
     settings.setHeight(480);
     settings.setFrameRate(30);
@@ -338,7 +363,7 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
     this.createCanvas(); // create canvas!
     ctx = (JmeCanvasContext) this.getContext();
-    Dimension dim = new Dimension(640, 480);
+    Dimension dim = new Dimension(1280, 2560);
     ctx.getCanvas().setPreferredSize(dim);
     return ctx;
   }
