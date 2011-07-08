@@ -5,9 +5,9 @@ import java.util.List;
 
 public class BezierCurve implements Curve {
 
-    private final double MAXIMAL_DISTANCE_LOWER_LIMIT = 10.0;
-    private final double MINIMAL_DELTA = 0.01;
-    private final double DEFAULT_DELTA = 0.05;
+    private final double MAXIMAL_DISTANCE_LOWER_LIMIT = 1.0;    
+    private final double DEFAULT_DELTA = 0.02;
+    private final double MINIMAL_DELTA = DEFAULT_DELTA / 4;
     private final List<CurvePoint> controlPoints;
     private final double length;
     private double MAXIMAL_ANGLE_LOWER_LIMIT = Math.PI / 72.0;
