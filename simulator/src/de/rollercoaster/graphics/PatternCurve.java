@@ -145,7 +145,7 @@ public class PatternCurve extends Mesh {
         int segmentlength = pattern.getVertexCount(); //wir merken uns, wieviele ecken wir überspringen müssen um zur "gleichen" Ecke im Pattern an der nächsten Position zu kommen
 
         
-        for (int poscounter = 0; poscounter < points.size(); poscounter++) {   //für jede Psoition
+        for (int poscounter = 0; poscounter < points.size()-1; poscounter++) {   //für jede Psoition
           Vector3f roll = points.get(poscounter).getRollAxis().normalize().toF();
           for (int tripcounter = 0; tripcounter < pattern.getTripCount(); tripcounter++) { //für jeden Trip
             for (int indexcounter = 0; indexcounter < pattern.getTripLength(tripcounter); indexcounter++) { //für jeden Knoten

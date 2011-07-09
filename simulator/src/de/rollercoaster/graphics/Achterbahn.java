@@ -35,46 +35,90 @@ public class Achterbahn extends Node {
   final static float POLE_UPPER_DIAMETER = 0.2f;
   final static float POLE_LOWER_DIAMETER = 2.5f;
 
-  private Geometry geom_bahn;
+//   private Geometry geom_bahn;
   private Node joints;
   private Node poles;
+
+  private Node bounding_bahn = new Node ("bounding_vol");
+
+  private Pattern patt =  null;
+  private Pattern bounding_patt =  null;
 
 
   public Achterbahn(Curve curve, Material mat, Spatial joint3d , String pattern_filename, String bounding_pattern_filename) {
       super("achterbahn"); //alles was Node kann
 
-      List<CurvePoint> points = curve.getPointSequence(0.1*MIN_JOINT_DISTANCE,0.0);  //Auflösung ausreichend wählen
-      
-
-      PatternCurve bahn = null;
-      PatternCurve collisiondomain = null;
-      //Bahn Extrude erzeugen
+      //Pattern vorbereiten
       try {
-        bahn = new PatternCurve(points,(pattern_filename!= null)? new FilePattern(pattern_filename): new SimplePattern());
-        collisiondomain = new PatternCurve(points,(bounding_pattern_filename!= null)? new FilePattern(bounding_pattern_filename): new SimplePattern());
+        patt = (pattern_filename!= null)? new FilePattern(pattern_filename): new SimplePattern();
+        bounding_patt = (bounding_pattern_filename!= null)? new FilePattern(bounding_pattern_filename): new SimplePattern();
       }
       catch (Exception e) {
         throw new IllegalArgumentException ("At least one part of the initial Rollercoasterdata is invalid");
       }
 
+      //Punkteliste erzeugen
+      List<CurvePoint> points = curve.getPointSequence(0.1*MIN_JOINT_DISTANCE,0.0);  //Auflösung ausreichend wählen
 
-      geom_bahn = new Geometry("curve_geom", bahn);
-      geom_bahn.setMaterial(mat);
+      
+      int maxpoints = (1<<16)/patt.getVertexCount() -2; //maximale anzahl an Stützstellen in einem FBO
 
-      Geometry bounding_bahn = new Geometry("collision_volume", collisiondomain);
+      if (maxpoints < 2)
+        throw new IllegalArgumentException ("Unable to Display Pattern. Pattern has too much detail");
+
+      //System.out.printf ("<<<DEBUG>>>MaxPoints calculated as %d, doing %d Displaylists (Points %d)\n",maxpoints, points.size()/maxpoints-1, points.size() );
+
+      boolean at_end  = false; //sind wir am ende der punkteliste angekommen
+      int counter = 0;
+      List<CurvePoint> points_sublist = null;
+
+      /* Wir erzeugen Patterncurves immer so, dass das FBO fast voll ist. Dann wird das nächste angehängt. Wenn wir am ende der Hauptpunkteliste ankommen darf die Schleife enden.
+        Um den Kreis zu schließen muss der Startpunkt in die letzte Liste eingefügt werden. Da nur referenzen kopiert werden muss diese entfernt werden. Da die Schleife nur dann beendet wenn 
+        mindestens einmal die bool Variable umgesetzt wurde und somit auch der Punkt extra eingefügt wurde kann einfach immer im Anschluss entfernt werden*/
+
+      while (!at_end) {
+        //Bahn Extrude vorbereiten
+        PatternCurve bahn = null;
+        PatternCurve collisiondomain = null;
+
+        //unterliste erzeugen
+        if ((counter+1)*(maxpoints+1) < points.size()) {
+           points_sublist = points.subList(counter*(maxpoints+1),(counter+1)*(maxpoints+1)+1); 
+        }
+        else {
+          points_sublist = points.subList(counter*(maxpoints+1),points.size()); 
+          points_sublist.add(points.get(0));
+          at_end = true;
+        }
+
+        //Extrudeobjekt erzeugen
+        bahn = new PatternCurve(points_sublist,patt);
+        collisiondomain = new PatternCurve(points_sublist,bounding_patt);
+        Geometry geom_bahn = new Geometry("curve_geom"+counter, bahn);
+        geom_bahn.setMaterial(mat);
+
+        Geometry bounding_bahn_geom = new Geometry("collision_volume", collisiondomain);
+
+        //in den Scenegraphen einhängen
+        bounding_bahn.attachChild(bounding_bahn_geom);
+        attachChild(geom_bahn);
+        counter++;
+      }
+
+      points_sublist.remove(points_sublist.size()-1); //das eingefügte wieder entfernen
       
 
-      attachChild(geom_bahn);
-      // attachChild(bounding_bahn);  //nur debug kommt das in die anzeige
-      // bounding_bahn.setMaterial(mat);
-      //Joints erzeugen
+      //*********************************************************************************//
+      //***                         Joints einfügen                                   ***//
+      //*********************************************************************************//
+      //Die Punkteliste wird durchlaufen wobei der nächste Punkt für das Einfügen        //
+      //eines Joints gewählt wird, der zum letzten Joint mindestens MIN_JOINT_DISTANCE   //
+      //Abstand hält                                                                     //
+      //*********************************************************************************//      
+
+     //Joints erzeugen
       joints = new Node("joints");
       this.attachChild(joints);
-
-
-
-
-
 
       double curvelength = points.get(0).getPosition().toF().subtract(points.get(points.size()-1).getPosition().toF()).length();
       for (int poscounter = 0; poscounter < points.size()-1; poscounter++) {
@@ -84,16 +128,6 @@ public class Achterbahn extends Node {
       int jointCount = (int)(curvelength/MIN_JOINT_DISTANCE);
       double realJointDistance = curvelength/(jointCount);
       
-
-         
-
-      //*********************************************************************************//
-      //***                         Joints einfügen                                   ***//
-      //*********************************************************************************//
-      //Die Punkteliste wird durchlaufen wobei der nächste Punkt für das Einfügen        //
-      //eines Joints gewählt wird, der zum letzten Joint mindestens MIN_JOINT_DISTANCE   //
-      //Abstand hält                                                                     //
-      //*********************************************************************************//
 
         //Mesh b = new Box(Vector3f.ZERO, 4, 2, 0.1f);                        // Debug joint
         Mesh b = ((Geometry)((Node)joint3d).getChild(0)).getMesh();   //designed Joint  
