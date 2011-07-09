@@ -179,10 +179,6 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
         // Die Einstellungen die für unsere Zwecke angepasst werden müssen werden in dieer //
         // Sektion getätigt                                                                //
         //*********************************************************************************//
-
-        //lwjgl für ein AWT Canvas Objekt vorbereiten
-        //start(Type.Canvas);  //wird nicht benötigt
-
         //Debug-FlyByCamera-Controler einrichten
         flyCam.setDragToRotate(true);
         flyCam.setMoveSpeed(50);  //mehr speed
@@ -217,8 +213,8 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
         redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
         redMat.setColor("Color", ColorRGBA.Red);
 
-        // wire = new Material(assetManager, "WireColor.j3md");
-        // wire.setColor("Color", ColorRGBA.White);
+        wire = new Material(assetManager, "WireColor.j3md");
+        wire.setColor("Color", ColorRGBA.White);
 
 
         //Deko Knoten erzeugen
