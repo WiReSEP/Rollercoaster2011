@@ -363,7 +363,7 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
 
     this.createCanvas(); // create canvas!
     ctx = (JmeCanvasContext) this.getContext();
-    Dimension dim = new Dimension(1280, 2560);
+    Dimension dim = new Dimension(640, 480);
     ctx.getCanvas().setPreferredSize(dim);
     return ctx;
   }
