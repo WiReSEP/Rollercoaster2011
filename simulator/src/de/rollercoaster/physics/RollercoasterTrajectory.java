@@ -7,18 +7,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class RollercoasterTrajectory implements Trajectory, DifferentialEquations {
+  public final static Vector3d GRAVITATION = new Vector3d(0, 9.81f, 0);
+  
   private final Curve curve;
   private TrajectoryPoint state;
   private double[] positions;
   private double time;
-  private Vector3d gravitation;
   private Integrator integrator;
   private final double DEFAULT_STEP = 0.01;
   private final List<TrajectoryObserver> observers = Collections.synchronizedList(new LinkedList<TrajectoryObserver>());
  
   public RollercoasterTrajectory(Curve curve, double s0, double v0) {
     this.curve = curve;
-    this.gravitation = new Vector3d(0, 9.81f, 0);
     this.integrator = new RungeKutta(DEFAULT_STEP);
 
     CurvePoint startPoint = curve.getPoint(s0);
@@ -30,7 +30,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
   }
 
   public double getEnergy() {
-    return 0.5 * state.getVelocity().lengthSquared() + state.getPosition().dot(gravitation);
+    return 0.5 * state.getVelocity().lengthSquared() + state.getPosition().dot(GRAVITATION);
   }
 
   @Override
@@ -73,7 +73,7 @@ public class RollercoasterTrajectory implements Trajectory, DifferentialEquation
     Vector3d secondDerivative = point.getSecondDerivative();
 
     double sDot = x[1];
-    double sDotDot = -(derivative.dot(gravitation) + sDot * sDot * derivative.dot(secondDerivative)) / (derivative.lengthSquared());
+    double sDotDot = -(derivative.dot(GRAVITATION) + sDot * sDot * derivative.dot(secondDerivative)) / (derivative.lengthSquared());
 
     return new double[]{sDot, sDotDot};
   }

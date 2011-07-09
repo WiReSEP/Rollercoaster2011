@@ -59,5 +59,10 @@ public class DummyCurve implements Curve{
     public List<CurvePoint> getPointSequence(double maxDistance, double maxAngle) {
       return pointlist; 
     }
+
+    @Override
+    public Curve translate(Vector3d translation) {
+        return null;
+    }
 }
  

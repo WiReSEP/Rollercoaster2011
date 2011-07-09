@@ -6,4 +6,6 @@ public interface Curve {
     double getLength();
     CurvePoint getPoint(double length);    
     List<CurvePoint> getPointSequence(double maxDistance, double maxAngle);
+    
+    Curve translate(Vector3d translation);
 }

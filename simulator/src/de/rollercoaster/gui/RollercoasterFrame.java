@@ -45,7 +45,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {">Zeit", new Double(0), new Double(0), new Double(0)},
     {">Geschw.", "", new Double(0), new Double(0)},
     {">Winkel", "", new Double(0), new Double(0)},};
-  String[] cameras = {"Uebersicht", "Kamerafahrt"};
+  String[] cameras = {"Übersicht", "Kamerafahrt"};
   private final Simulation sim;
   private final RollercoasterView graphics;
   private JFileChooser fc = new JFileChooser();
@@ -66,9 +66,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   private JComboBox cameraBox = new JComboBox(cameras);
   private JMenuBar jmb = new JMenuBar();
   private JMenu datei = new JMenu("Datei");
-  private JMenuItem datei1 = new JMenuItem("Konstruktion oeffnen");
+  private JMenuItem datei1 = new JMenuItem("Konstruktion öffnen");
   private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
-  private JMenuItem datei3 = new JMenuItem("beenden");
+  private JMenuItem datei3 = new JMenuItem("Beenden");
   private JMenu simulation = new JMenu("Simulation");
   private JMenuItem sim1 = new JMenuItem("Simulation starten");
   private JMenuItem sim2 = new JMenuItem("Simulation stoppen");
@@ -76,17 +76,17 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken", true);
   private JMenuItem ansicht11 = new JCheckBoxMenuItem("Graph andocken", true);
   private JMenuItem ansicht12 = new JCheckBoxMenuItem("Tabelle andocken", true);
-  private JMenuItem ansicht13 = new JCheckBoxMenuItem("Uebersicht andocken", true);
+  private JMenuItem ansicht13 = new JCheckBoxMenuItem("Übersicht andocken", true);
   private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen", false);
   private JMenu ansicht3 = new JMenu("Kameraperspektive");
-  private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("Uebersicht", true);
+  private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("Übersicht", true);
   private JRadioButtonMenuItem ansicht3b = new JRadioButtonMenuItem("Kamerafahrt");
   private JMenuItem ansicht4 = new JMenuItem("Deko laden");
   private JCheckBoxMenuItem ansicht5 = new JCheckBoxMenuItem("Deko anzeigen", true);
   private JMenuItem ansicht6 = new JMenuItem("Pattern laden");
   private JMenuItem ansicht7 = new JMenuItem("Boundingpattern laden");
   private JMenuItem ansicht9 = new JMenuItem("Jointverzeichnis setzen");
-  private JCheckBoxMenuItem ansicht10 = new JCheckBoxMenuItem("Stuetzen anzeigen", true);
+  private JCheckBoxMenuItem ansicht10 = new JCheckBoxMenuItem("Stützen anzeigen", true);
   private JMenuItem ansicht15 = new JMenuItem("Graph-Einstellungen");
   private JMenu ansicht16 = new JMenu("Look&Feel");
   private JMenu hilfe = new JMenu("Hilfe");
@@ -273,9 +273,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     datei2.addActionListener(this);
     datei.add(datei2);
     datei3.addActionListener(this);
-    datei.add(datei3);
     datei.addSeparator();
-
+    datei.add(datei3);
+    
     sim1.addActionListener(this);
     simulation.add(sim1);
 

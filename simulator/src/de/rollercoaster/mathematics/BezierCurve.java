@@ -17,6 +17,11 @@ public class BezierCurve implements Curve {
         this.length = interpolationPoints.size();
     }
 
+    private BezierCurve(List<CurvePoint> controlPoints) {
+        this.controlPoints = controlPoints;
+        this.length = (controlPoints.size() - 1) / 3;
+    }
+    
     @Override
     public double getLength() {
         return length;
@@ -241,5 +246,22 @@ public class BezierCurve implements Curve {
         }
 
         return new LUDecomposition(A);
+    }
+
+     private CurvePoint translate(CurvePoint point, Vector3d translation) {
+        return new SimpleCurvePoint(point.getPosition().add(translation), point.getDerivative(),
+                point.getSecondDerivative(), point.getYawAngle());
+    }
+
+     
+    @Override
+    public Curve translate(Vector3d translation) {
+        List<CurvePoint> translatedPoints = new ArrayList<CurvePoint>(controlPoints.size());
+        
+        for (CurvePoint point : controlPoints) {
+            translatedPoints.add(translate(point, translation));
+        }
+        
+        return new BezierCurve(translatedPoints);
     }
 }
