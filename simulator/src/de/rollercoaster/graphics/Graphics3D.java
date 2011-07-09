@@ -51,13 +51,36 @@ import com.jme3.network.Client;
 import com.jme3.util.SkyFactory;
 import com.jme3.scene.shape.Box;
 
+        import com.jme3.texture.FrameBuffer;
+        import com.jme3.util.BufferUtils;
+        import com.jme3.util.Screenshots;
+        import com.jme3.input.InputManager;
+        import com.jme3.post.SceneProcessor;
+
+        import com.jme3.renderer.RenderManager;
+        import com.jme3.renderer.Renderer;
+        import com.jme3.renderer.ViewPort;
+        import com.jme3.renderer.queue.RenderQueue;
+
+
+
 //Fremdpackete (java)
 import java.util.List;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.File;
+import javax.imageio.ImageIO;
 
-public class Graphics3D extends SimpleApplication {
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
+//Fremdpackete (native-java)
+        import java.nio.ByteBuffer;
+
+
+public class Graphics3D extends SimpleApplication implements SceneProcessor, ActionListener{
   private CameraControl cameraControl;
   //Achterbahndaten
   private RollercoasterView view;
@@ -73,14 +96,86 @@ public class Graphics3D extends SimpleApplication {
   private Node deko;
   private CompleteHUD hud;
 
+  private BufferedImage awtImage;
+  private ByteBuffer outBuf;
+  private Renderer renderer;
+
+  private boolean filter_init = false;
+
+  private Material wire;
+
+  private int shotnumber= 0;
+
+
   public Graphics3D(RollercoasterView view) {
     super();
     this.view = view;
   }
-  private boolean close = false;
+  private boolean capture_ss = false;
 
   @Override
   public void handleError(java.lang.String errMsg, java.lang.Throwable t) {
+  }
+
+  public void onAction(String name, boolean keyPressed, float tpf) {
+    if (name.equals("wire") && !keyPressed) {
+      rootNode.setMaterial(wire);
+    }
+    if (name.equals("screenshot") && !keyPressed) {
+      capture_ss = true;
+    }
+    if (name.equals("hide") && !keyPressed) {
+      if (bahn.getCullHint() != CullHint.Always) {
+        bahn.setCullHint(CullHint.Always);
+        car.setCullHint(CullHint.Always);
+      }
+      else {
+        bahn.setCullHint(CullHint.Dynamic);
+        car.setCullHint(CullHint.Dynamic);
+      }
+    }
+  }
+
+  
+          
+  public void initialize(RenderManager rm, ViewPort vp) {
+    renderer = rm.getRenderer();
+    reshape(vp, vp.getCamera().getWidth(), vp.getCamera().getHeight());
+    filter_init = true;
+  }
+
+
+ public void preFrame(float tpf) {}
+ public void postQueue(RenderQueue rq) {}
+ 
+
+ public void postFrame(FrameBuffer out) {
+   if (capture_ss) {
+     capture_ss = false;
+      screenshot (out);
+   }
+ }
+
+ public void cleanup() {}
+ @Override
+ public boolean isInitialized() {
+   return filter_init;
+ }
+           
+ public void reshape(ViewPort vp, int w, int h) {
+   outBuf = BufferUtils.createByteBuffer(w * h * 4);
+   awtImage = new BufferedImage(w, h,BufferedImage.TYPE_4BYTE_ABGR);
+ }
+
+
+  private void screenshot (FrameBuffer fb) {
+      renderer.readFrameBuffer(fb, outBuf);
+      Screenshots.convertScreenShot(outBuf, awtImage);
+      try {ImageIO.write(awtImage, "png", new File("screenshot"+shotnumber+".png"));}
+      catch (IOException e) {
+        System.err.println ("Error creating Screenshot");
+      }
+      shotnumber++;
   }
 
   @Override
@@ -93,10 +188,8 @@ public class Graphics3D extends SimpleApplication {
     // Sektion getätigt                                                                //
     //*********************************************************************************//
 
-
-
     //lwjgl für ein AWT Canvas Objekt vorbereiten
-    start(Type.Canvas);  //TODO:  Prüfen ob diese Zeile hier wirklich so reingehört
+    //start(Type.Canvas);  //wird nicht benötigt
 
     //Debug-FlyByCamera-Controler einrichten
     flyCam.setDragToRotate(true);
@@ -104,7 +197,7 @@ public class Graphics3D extends SimpleApplication {
 
     //Cameraeinstellungen
     cam.setFrustumFar(20000);  //Farclipping ein bisschen erhöhen (damit unsere Landschaft bleibt
-    viewPort.setBackgroundColor(ColorRGBA.Red); //Hintergrundfarbe setzen (für Debug auf auffällige Farbe setzen damit Lücken sichtbar werden; Release auf Schwarz oä)
+    viewPort.setBackgroundColor(ColorRGBA.Black); //Hintergrundfarbe setzen (für Debug auf auffällige Farbe setzen damit Lücken sichtbar werden; Release auf Schwarz oä)
 
     //nichts kann uns aufhalten  (auch nicht der verlust des fokus)
     this.setPauseOnLostFocus(false);
@@ -128,9 +221,12 @@ public class Graphics3D extends SimpleApplication {
     mat1.setColor("Color", ColorRGBA.Red);
 
     //Debug-Materialien[DEBUG]
-    showNormalsMaterial = new Material(assetManager, "/Common/MatDefs/Misc/ShowNormals.j3md");
+    showNormalsMaterial = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     redMat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");  //ohne Licht
     redMat.setColor("Color", ColorRGBA.Red);
+
+    wire = new Material(assetManager,"WireColor.j3md");
+    wire.setColor("Color", ColorRGBA.White);
 
 
     //Deko Knoten erzeugen
@@ -160,8 +256,9 @@ public class Graphics3D extends SimpleApplication {
     bahn_material = ((Geometry) ((Node) joint).getChild(0)).getMaterial();
 
     //Wagen bauen
-    car = new Geometry("carnode", new Box(1, 0.5f, 2));
-    car.setMaterial(mat1);
+    //car = new Geometry("carnode", new Box(1, 0.5f, 2));
+    //car.setMaterial(mat1);
+    car = assetManager.loadModel("car.mesh.xml");
     //rootNode.attachChild(car);
 
 
@@ -207,6 +304,18 @@ public class Graphics3D extends SimpleApplication {
     // Tastaturevents abfangen und umleiten                                            //
     //*********************************************************************************//
 
+    inputManager.addMapping("screenshot", new KeyTrigger(KeyInput.KEY_SYSRQ));
+    inputManager.addMapping("screenshot", new KeyTrigger(KeyInput.KEY_SPACE));
+    inputManager.addMapping("wire", new KeyTrigger(KeyInput.KEY_T));
+    inputManager.addMapping("hide", new KeyTrigger(KeyInput.KEY_H));
+    inputManager.addListener(this , new String[] {"screenshot","wire","hide"});
+
+//Screenshotfilter einbauen
+                List<ViewPort> vps = this.getRenderManager().getPostViews();
+                ViewPort last = vps.get(vps.size() - 1);
+                last.addProcessor(this );
+
+
 
 
     //*********************************************************************************//
@@ -243,22 +352,25 @@ public class Graphics3D extends SimpleApplication {
 
   public JmeCanvasContext getCanvasObject() {
     AppSettings settings = new AppSettings(true);
+//     settings.setWidth(640);
+//     settings.setHeight(480);
     settings.setWidth(640);
     settings.setHeight(480);
     settings.setFrameRate(30);
+    settings.setSamples(4);
 
     this.setSettings(settings);
 
     this.createCanvas(); // create canvas!
     ctx = (JmeCanvasContext) this.getContext();
-    Dimension dim = new Dimension(640, 480);
+    Dimension dim = new Dimension(1280, 2560);
     ctx.getCanvas().setPreferredSize(dim);
     return ctx;
   }
 
   //Bei closen unbedingt sowas bauen sonst wartet man ewig auf den lwjgl
   public void freeCanvas() {
-    close = true;
+    this.stop(true); //wir warten auf das beenden der game engine
   }
 
   /**Sorgt für die Neuerzeugung der gesamten Achterbahn. Diese Methode wird intern benutzt wenn eine Veränderung das neu Generieren der Achterbahn notwendig macht*/
@@ -267,6 +379,8 @@ public class Graphics3D extends SimpleApplication {
     bahn = new Achterbahn(view.getCurve(), bahn_material, joint, pattern_filename, bounding_pattern_filename);
     rootNode.attachChild(bahn);
   }
+
+
 
   //*********************************************************************************//
   //***                 Interaktionsmethoden zur GUI                              ***//
