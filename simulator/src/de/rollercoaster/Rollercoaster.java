@@ -15,7 +15,7 @@ public class Rollercoaster {
 
         Logger.getLogger("com.jme3").setLevel(Level.SEVERE); //shut up stupid Monkey
 
-        Simulation simulation = new RollercoasterSimulation(new SerializedTrack(new File("examples/colossos.xml")));
+        Simulation simulation = new RollercoasterSimulation(new SerializedTrack(new File("examples/bigloop.xml")));
         // Starte Swing
 
         RollercoasterFrame frame = new RollercoasterFrame("Rollercoaster 2011", simulation);

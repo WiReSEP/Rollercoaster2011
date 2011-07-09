@@ -145,7 +145,9 @@ public class Achterbahn extends Node {
         
         lastposcounter = 0;// wir merken uns wann das letzte mal ein Pole gesetzt wurde    
         for (int poscounter = 0; poscounter < points.size(); poscounter++) {
-          if ((poscounter != 0) && (getGroundDistance(points.get(poscounter).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE)) continue; //Abstandscheck
+          if ((poscounter == 0) || (getGroundDistance(points.get(poscounter).getPosition().toF(),points.get(lastposcounter).getPosition().toF()) < MIN_POLE_DISTANCE) || //Abstandscheck
+            (projection(points.get(poscounter).getYawAxis().normalize().toF(),Vector3f.UNIT_Y) < 0))  //Wenn die Bahn nach unten gedreht ist
+            continue; 
 
           //CollisionCheck: (an 4 Ecken der BoundingBox wird gesampelt)
           CollisionResults results= new CollisionResults();
@@ -192,6 +194,10 @@ public class Achterbahn extends Node {
     v1clone.y = 0;
     v2clone.y = 0;
     return v1clone.subtract(v2clone).length();
+  }
+
+  private static double projection (Vector3f onto, Vector3f vec) {
+    return onto.dot(vec)/onto.lengthSquared();
   }
 
 } 
