@@ -42,14 +42,14 @@ public class SerializedTrack implements Track {
     private void parseData() {
         List<Pillar> pillars = getPillars();
         List<Vector3d> points = new ArrayList<Vector3d>();
-        List<Double> orientations = new ArrayList<Double>();
+        List<Vector3d> orientations = new ArrayList<Vector3d>();
 
         for (Pillar pillar : pillars) {
             Vector3d position = new Vector3d(pillar.getPosX(), pillar.getPosZ(), pillar.getPosY());
-            double yawAngle = pillar.getYawAngle();
-
+            Vector3d orientation = new Vector3d(pillar.getYawX(), pillar.getYawZ(), pillar.getYawY());
+          
             points.add(position);
-            orientations.add(Math.PI / 180 * yawAngle);
+            orientations.add(orientation);
         }
 
         this.curve = new BezierCurve(points, orientations);
