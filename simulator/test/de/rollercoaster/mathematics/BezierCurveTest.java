@@ -31,12 +31,12 @@ public class BezierCurveTest {
         points.add(new Vector3d(2.0, 0.0, 0.0));
         points.add(new Vector3d(3.0, 0.0, 0.0));
         
-        List<Double> orientations = new ArrayList<Double>();
+        List<Vector3d> orientations = new ArrayList<Vector3d>();
         
-        orientations.add(0.0);
-        orientations.add(1.0);
-        orientations.add(2.0);
-        orientations.add(3.0);
+        orientations.add(zeroPoint);
+        orientations.add(new Vector3d(1.0, 0.0, 0.0));
+        orientations.add(new Vector3d(2.0, 0.0, 0.0));
+        orientations.add(new Vector3d(3.0, 0.0, 0.0));
         
         this.testCurve = new BezierCurve(points, orientations);
     }
