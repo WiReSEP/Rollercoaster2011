@@ -71,7 +71,7 @@ public class XRotation extends Node {
         this.degree.setLocalScale(1, scale, 1);
         this.degree.setLocalTranslation(0, radius * scale - radius, 0);
        
-        this.string.setText(String.format("%1.1f°", degree));
+        this.string.setText(String.format("%1.1f", degree));
     }
     
 }

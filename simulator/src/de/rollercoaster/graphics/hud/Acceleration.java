@@ -25,14 +25,14 @@ public class Acceleration extends Node{
     private float radius = 5;
     
     //max g-values
-    private float   xMax = 10,
-                    yMax = 10,
-                    zMax = 10;
+    private float   xMax = 9,
+                    yMax = 17,
+                    zMax = 9;
     
     //value to size ratio
-    private float   vsrX = 3,   
-                    vsrY = 3,
-                    vsrZ = 3;
+    private float   vsrX = 1.5f,   
+                    vsrY = 1.5f,
+                    vsrZ = 1.5f;
      
     private Material mat_x, mat_y, mat_z;
     
