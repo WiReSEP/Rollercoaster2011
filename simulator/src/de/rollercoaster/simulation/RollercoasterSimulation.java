@@ -175,8 +175,11 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
             Vector3f left = physicsState.getPitchAxis().toF();
             Vector3f up = physicsState.getYawAxis().toF();
             Vector3f direction = physicsState.getRollAxis().toF();
+            Vector3f yaw = physicsState.getYawAxis().toF();
+            Vector3f acceleration = physicsState.getAcceleration().toF();
 
             graphics.setCamera(location, left, up, direction);
+            graphics.setHUDData(direction, yaw, acceleration);
         }
     }
 

@@ -33,8 +33,10 @@ public class Acceleration extends Node{
     private float   vsrX = 3,   
                     vsrY = 3,
                     vsrZ = 3;
-    
+     
     private Material mat_x, mat_y, mat_z;
+    
+    private final static float DIAGF = (float)(1.0 /Math.sqrt(2));
     
     private AssetManager asm;
     
@@ -60,7 +62,7 @@ public class Acceleration extends Node{
         mat_y.setColor("m_Color", ColorRGBA.Blue);
         yAccG.setMaterial(mat_y);
         yAccG.rotate(0, 0, -(float)Math.PI*0.25f);
-        yAccG.move((float)Math.sqrt(1)*radius, (float)Math.sqrt(2) * radius, 0) ;
+        yAccG.move(DIAGF * radius, DIAGF * radius, 0) ;
         
         //z-Box 
         zAccB = new Box(radius*0.5f, radius, 0);
@@ -77,16 +79,12 @@ public class Acceleration extends Node{
     }
     
     public void setXAcc(float acc){
-
-        float oldFloat = this.xAccG.getLocalScale().y*radius;
-        if(oldFloat > 1.5*xMax*vsrX && acc > 0){
-            return;
-        }
-        this.xAccG.scale(1, 1+acc, 1);
-        float newFloat = this.xAccG.getLocalScale().y*radius; 
-        this.xAccG.move((newFloat-oldFloat)*1f ,0, 0);
-        //System.out.printf("xAcc: %f\n", newFloat);
-        if(newFloat > vsrX*xMax){
+ float value = vsrX * acc;
+        this.xAccG.setLocalScale(1, value, 1);
+        this.xAccG.setLocalTranslation(radius * value, 0, 0);
+        
+      
+        if(Math.abs(acc) > xMax){
             mat_x.setColor("Color", ColorRGBA.Red);
         }
         else{
@@ -95,33 +93,26 @@ public class Acceleration extends Node{
     }
     
     public void setYAcc(float acc){
-        float oldFloat = this.yAccG.getLocalScale().y*radius;
-        if(oldFloat > 1.5*yMax*vsrY && acc > 0){
-            return;
-        }      
-        this.yAccG.scale(1, 1+acc, 1);
-        float newFloat = this.yAccG.getLocalScale().y*radius; 
-        this.yAccG.move((float)Math.sqrt(2)*acc*oldFloat/2 ,(float)Math.sqrt(2)*acc*oldFloat/2, 0);
-       // System.out.printf("yAcc: %f\n", newFloat);
-        if(newFloat > vsrY*yMax){
+          float value = vsrY * acc;
+        this.yAccG.setLocalScale(1, value, 1);
+        this.yAccG.setLocalTranslation(DIAGF*radius * value, DIAGF*radius * value, 0);
+        
+      
+        if(Math.abs(acc) > yMax){
             mat_y.setColor("Color", ColorRGBA.Red);
         }
         else{
             mat_y.setColor("Color", ColorRGBA.Blue);
-        };
-        
+        } 
     }
     
     public void setZAcc(float acc){
-        float oldFloat = this.zAccG.getLocalScale().y*radius;
-        if(oldFloat > 1.5*zMax*vsrZ && acc > 0){
-            return;
-        }
-        this.zAccG.scale(1, 1+acc, 1);
-        float newFloat = this.zAccG.getLocalScale().y*radius; 
-        this.zAccG.move(0,(newFloat-oldFloat)*1f ,0);
-        //System.out.printf("zAcc: %f\n", newFloat);
-        if(newFloat > vsrZ*zMax){
+        float value = vsrZ * acc;
+        this.zAccG.setLocalScale(1, value, 1);
+        this.zAccG.setLocalTranslation(0, radius * value, 0);
+        
+      
+        if(Math.abs(acc) > zMax){
             mat_z.setColor("Color", ColorRGBA.Red);
         }
         else{

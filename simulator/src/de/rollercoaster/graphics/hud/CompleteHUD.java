@@ -61,9 +61,8 @@ public class CompleteHUD extends Node{
      * Sets the rotation to be shown in the hud
      * @param rot x,y,z rotation
      */
-    public void setRotation(Vector3f rot){
-		//TODO rotateTo rein, sobald das geht
-        zRot.rotateBy(rot.getZ());
+    public void setRotation(Vector3f rot) {
+        zRot.rotateTo(rot.getZ());
         rHud.setRotation(rot.getX(), rot.getY());
     }
     

@@ -58,7 +58,7 @@ public class RightHuD extends Node{
      */
     public void setRotation(float x, float y){
         this.xRot.setDegreeTo(x);
-        this.yRot.rotateBy(y);
+        this.yRot.rotateTo(y);
     }
     
     /**

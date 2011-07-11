@@ -21,6 +21,7 @@ public class YRotation extends Node{
     private Node backGround, needle;
     
     private float radius=50;
+    private float myRot = 0.0f;
     
     public YRotation(AssetManager asm){
         this.asm = asm;
@@ -60,7 +61,8 @@ public class YRotation extends Node{
      * @param degree 
      */
     public void rotateTo(float degree){
-        
+        this.needle.rotate(0,0,(float)(degree-myRot));
+        myRot=(degree);
     }
     
     /**
@@ -69,6 +71,7 @@ public class YRotation extends Node{
      */
     public void rotateBy(float degree){
         this.needle.rotate(0, 0, degree);
+        myRot += degree;
     }
     
 }

@@ -67,18 +67,11 @@ public class XRotation extends Node {
      * @param degree 
      */
     public void setDegreeTo(float degree){
-
-        //this.degree.scale(degree);
-        float oldFloat = this.degree.getLocalScale().y*radius;
-        
-        if(oldFloat > 5*radius && degree >0){
-            return;
-        }
-                
-        this.degree.scale(1, degree, 1);
-        float newFloat = this.degree.getLocalScale().y*radius; 
-        this.degree.move(0,(newFloat-oldFloat)*1f,0);
-        this.string.setText(degree + "°");
+        float scale = (float)Math.tan(Math.PI / 180 * degree);
+        this.degree.setLocalScale(1, scale, 1);
+        this.degree.setLocalTranslation(0, radius * scale - radius, 0);
+       
+        this.string.setText(String.format("%1.1f°", degree));
     }
     
 }
