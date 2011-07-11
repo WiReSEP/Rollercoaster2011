@@ -6,7 +6,7 @@ import de.rollercoaster.graphics.View;
 import de.rollercoaster.graphics.CameraMode;
 
 
-//nur für die Präsentation wird dies importiert
+//nur f\u00dcr die Pr\u00c4sentation wird dies importiert
 import de.rollercoaster.graphics.RollercoasterView;
 import de.rollercoaster.physics.TrajectoryObserver;
 import de.rollercoaster.physics.TrajectoryPoint;
@@ -45,7 +45,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {">Zeit", new Double(0), new Double(0), new Double(0)},
     {">Geschw.", "", new Double(0), new Double(0)},
     {">Winkel", "", new Double(0), new Double(0)},};
-  String[] cameras = {"Übersicht", "Kamerafahrt"};
+  String[] cameras = {"\u00dcbersicht", "Kamerafahrt"};
   private final Simulation sim;
   private final RollercoasterView graphics;
   private JFileChooser fc = new JFileChooser();
@@ -59,14 +59,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       return false;
     }
   };
-  private JLabel overview = new JLabel("Uebersicht\n(Funktion noch nicht vorhanden)");
+  private JLabel overview = new JLabel("\u00dcbersicht\n(Funktion noch nicht vorhanden)");
   private JPanel bottomPanel = new JPanel(null);
   private JButton startButton = new JButton("Start");
   private JButton stopButton = new JButton("Stop");
   private JComboBox cameraBox = new JComboBox(cameras);
   private JMenuBar jmb = new JMenuBar();
   private JMenu datei = new JMenu("Datei");
-  private JMenuItem datei1 = new JMenuItem("Konstruktion öffnen");
+  private JMenuItem datei1 = new JMenuItem("Konstruktion  \u00F6ffnen");
   private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
   private JMenuItem datei3 = new JMenuItem("Beenden");
   private JMenu simulation = new JMenu("Simulation");
@@ -76,17 +76,17 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   private JMenuItem ansicht1 = new JCheckBoxMenuItem("Log andocken", true);
   private JMenuItem ansicht11 = new JCheckBoxMenuItem("Graph andocken", true);
   private JMenuItem ansicht12 = new JCheckBoxMenuItem("Tabelle andocken", true);
-  private JMenuItem ansicht13 = new JCheckBoxMenuItem("Übersicht andocken", true);
+  private JMenuItem ansicht13 = new JCheckBoxMenuItem("\u00dcbersicht andocken", true);
   private JMenuItem ansicht2 = new JCheckBoxMenuItem("HUD anzeigen", false);
   private JMenu ansicht3 = new JMenu("Kameraperspektive");
-  private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("Übersicht", true);
+  private JRadioButtonMenuItem ansicht3a = new JRadioButtonMenuItem("\u00dcbersicht", true);
   private JRadioButtonMenuItem ansicht3b = new JRadioButtonMenuItem("Kamerafahrt");
   private JMenuItem ansicht4 = new JMenuItem("Deko laden");
   private JCheckBoxMenuItem ansicht5 = new JCheckBoxMenuItem("Deko anzeigen", true);
   private JMenuItem ansicht6 = new JMenuItem("Pattern laden");
   private JMenuItem ansicht7 = new JMenuItem("Boundingpattern laden");
   private JMenuItem ansicht9 = new JMenuItem("Jointverzeichnis setzen");
-  private JCheckBoxMenuItem ansicht10 = new JCheckBoxMenuItem("Stützen anzeigen", true);
+  private JCheckBoxMenuItem ansicht10 = new JCheckBoxMenuItem("St\u00fctzen anzeigen", true);
   private JMenuItem ansicht15 = new JMenuItem("Graph-Einstellungen");
   private JMenu ansicht16 = new JMenu("Look&Feel");
   private JMenu hilfe = new JMenu("Hilfe");
@@ -222,23 +222,23 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           minMaxTable.setValueAt(newState.getTime(), 1, 1);
           minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 1);
           minMaxTable.setValueAt(newState.getTime(), 6, 1);
-          //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+          //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
           //minMaxTable.setValueAt(newState.getTime(), 6, 1);
           //minMaxTable.setValueAt(newState.getAcceleration().length(), 7, 1);
-          //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+          //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
 
           //Geschwindigkeit
           if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
             minMaxTable.setValueAt(newState.getVelocity().length(), 0, 2);
             minMaxTable.setValueAt(newState.getTime(), 1, 2);
             minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 2);
-            //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
           }
           if ((newState.getVelocity().length() > ((Double) minMaxTable.getValueAt(0, 3))) || (newMinMax)) {
             minMaxTable.setValueAt(newState.getVelocity().length(), 0, 3);
             minMaxTable.setValueAt(newState.getTime(), 1, 3);
             minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 3);
-            //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
           }
 
           //Beschleunigung
@@ -246,13 +246,13 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 2);
             minMaxTable.setValueAt(newState.getTime(), 6, 2);
             minMaxTable.setValueAt(newState.getVelocity().length(), 7, 2);
-            //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
           }
           if ((newState.getAcceleration().length() > ((Double) minMaxTable.getValueAt(5, 3))) || (newMinMax)) {
             minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 3);
             minMaxTable.setValueAt(newState.getTime(), 6, 3);
             minMaxTable.setValueAt(newState.getVelocity().length(), 7, 3);
-            //minMaxTable.setValueAt(newState.get   Methode für den Winkel fehlt noch
+            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
           }
           newMinMax = false;
 
@@ -263,7 +263,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
     });
 
-    /////////////////////////////////Menü/////////////////////////////////////
+    /////////////////////////////////Men\u00dc/////////////////////////////////////
     setJMenuBar(jmb);
     jmb.add(datei);
 
@@ -408,7 +408,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
       else {
         reset();
-        log.append("Simulation ist gestoppt. Daten rücksetzen.\n");
+        log.append("Simulation ist gestoppt. Daten r\u00dccksetzen.\n");
       }
     }
     else if (e.getSource() == datei1) { //Konstruktion laden
@@ -472,7 +472,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           graphics.setPattern(file.toString());
         }
         catch (FileNotFoundException f) {
-          log.append("Merkwürdigerweise ist die Datei nicht da");
+          log.append("Merkw\u00dcrdigerweise ist die Datei nicht da");
         }
         log.append("Pattern " + file + " geladen.");
       }
@@ -484,7 +484,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           graphics.setBoundingPattern(file.toString());
         }
         catch (FileNotFoundException f) {
-          log.append("Merkwürdigerweise ist die Datei nicht da");
+          log.append("Merkw\u00dcrdigerweise ist die Datei nicht da");
         }
         log.append("Boundingpattern " + file + " geladen.");
       }
@@ -493,7 +493,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       /*final JFrame frame = new JFrame("Lade Joint");
       frame.setSize(200,120);
       frame.setLayout(new BorderLayout());
-      frame.add(new JLabel("relativen Pfad für Joints"),BorderLayout.NORTH);
+      frame.add(new JLabel("relativen Pfad f\u00dcr Joints"),BorderLayout.NORTH);
       final JTextField txt = new JTextField();
       txt.setHorizontalAlignment(JTextField.CENTER);
       frame.add(txt,BorderLayout.CENTER);
@@ -535,7 +535,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
       farb1.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-          Color newColor = JColorChooser.showDialog(RollercoasterFrame.this, "Farbe für Geschwindigkeit", farb1.getBackground());
+          Color newColor = JColorChooser.showDialog(RollercoasterFrame.this, "Farbe f\u00dcr Geschwindigkeit", farb1.getBackground());
           if (newColor != null) {
             farb1.setBackground(newColor);
           }

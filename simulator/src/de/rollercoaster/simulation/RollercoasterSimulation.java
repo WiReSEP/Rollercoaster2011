@@ -29,11 +29,11 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
     public RollercoasterSimulation(Track track) {
         Curve curve = track.getCurve();
         
-        /*Vector3d displacement = calculateDisplacement(curve);
+        Vector3d displacement = calculateDisplacement(curve);
         
-        if (!displacement.equals(Vector3d.ZERO)) {
-            curve = curve.translate(displacement);
-        }*/
+       // if (!displacement.equals(Vector3d.ZERO)) {
+       //     curve = curve.translate(displacement);
+       // }
         
         double s0 = calculateStartPosition(curve);
         double v0 = 1.0;
@@ -47,7 +47,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
         bind();
     }
 
-   /* private Vector3d calculateDisplacement(Curve curve) {
+    private Vector3d calculateDisplacement(Curve curve) {
         double length = curve.getLength();
         double position = 0.0;
 
@@ -70,7 +70,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
         } else {
             return Vector3d.ZERO;
         }
-    }*/
+    }
 
     private double calculateStartPosition(Curve curve) {
         double length = curve.getLength();
