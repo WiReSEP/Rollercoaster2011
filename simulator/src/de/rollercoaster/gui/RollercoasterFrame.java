@@ -99,23 +99,23 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
   public RollercoasterFrame(String title, Simulation sim) {
     super(title);
-		
-		fc.setFileFilter(new FileFilter() {
-			public boolean accept(File f) {
-				return f.getName().toLowerCase().endsWith(".xml") || f.isDirectory();
-			}
-			public String getDescription() {
-				return "XML-Dateien(*.xml)";
-			}
-		});
-		
+    
+    fc.setFileFilter(new FileFilter() {
+      public boolean accept(File f) {
+        return f.getName().toLowerCase().endsWith(".xml") || f.isDirectory();
+      }
+      public String getDescription() {
+        return "XML-Dateien(*.xml)";
+      }
+    });
+    
     JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
     this.sim = sim;
 
     this.graphics = (RollercoasterView) sim.getView();
     graphics.init();
-    Canvas graphicsCanvas = graphics.getCanvas();
+    final Canvas graphicsCanvas = graphics.getCanvas();
     this.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosing(WindowEvent e) {
@@ -135,15 +135,21 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     cp.setLayout(new BorderLayout());
     // Anfang Komponenten
 
-    //TODO: Resize mit Splipane funktioniert nicht anst�ndig
-    cp.add(graphicsCanvas, BorderLayout.WEST);
-    //sp0.setLeftComponent(graphicsCanvas);
+    //cp.add(graphicsCanvas, BorderLayout.WEST);
+    sp0.setLeftComponent(new JPanel() {
+      {
+        setLayout(new GridLayout(1, 1, 3, 3));
+        add(graphicsCanvas);
+        setMinimumSize(new Dimension(0, 0));
+        setMaximumSize(new Dimension(0, 0));
+      }
+    });
 
     rightPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     rightPanel.setLayout(new BorderLayout());
-    cp.add(rightPanel, BorderLayout.CENTER);
-    //sp0.setRightComponent(rightPanel);
-    //cp.add(sp0, BorderLayout.CENTER);
+    //cp.add(rightPanel, BorderLayout.CENTER);
+    sp0.setRightComponent(rightPanel);
+    cp.add(sp0, BorderLayout.CENTER);
 
     bottomPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     bottomPanel.setLayout(new FlowLayout());
