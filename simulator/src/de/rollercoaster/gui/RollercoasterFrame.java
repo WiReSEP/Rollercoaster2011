@@ -172,7 +172,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
     log.setEditable(false);
     log.setLineWrap(true);
-    log.setPreferredSize(new Dimension(100, 100));
+    //log.setPreferredSize(new Dimension(100, 100));
     log.setBorder(new SoftBevelBorder(BevelBorder.LOWERED));
 
     minMaxTable.setShowHorizontalLines(false);
@@ -364,6 +364,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
     catch (Exception e) {
     }
+    sp2.setDividerLocation(0.9);
   }
 
   private void reset() {
