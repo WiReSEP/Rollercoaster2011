@@ -58,7 +58,7 @@ public class Graph extends JPanel implements Runnable {
       g2d.drawLine(0,h,w,h);
       int i = 0;
       while (i < getWidth()) {
-        String step = Integer.toString((int)Math.floor(i*stepDistance));
+        String step = Integer.toString((int)Math.floor(i/stepDistance));
         g2d.drawString(step,i,h+11);
         i += SwingUtilities.computeStringWidth(g2d.getFontMetrics(), step)+10;
       }
