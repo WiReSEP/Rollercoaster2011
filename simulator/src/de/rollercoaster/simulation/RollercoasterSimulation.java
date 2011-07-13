@@ -7,17 +7,19 @@ import de.rollercoaster.graphics.View;
 import de.rollercoaster.graphics.ViewObserver;
 import de.rollercoaster.mathematics.Curve;
 import de.rollercoaster.mathematics.CurvePoint;
+import de.rollercoaster.mathematics.SimpleCurvePoint;
 import de.rollercoaster.mathematics.Vector3d;
 import de.rollercoaster.physics.RollercoasterTrajectory;
+import de.rollercoaster.physics.SimpleTrajectoryPoint;
 import de.rollercoaster.physics.Trajectory;
 import de.rollercoaster.physics.TrajectoryObserver;
 import de.rollercoaster.physics.TrajectoryPoint;
+import de.rollercoaster.physics.TrivialPhysics;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class RollercoasterSimulation implements Simulation, ViewObserver, TrajectoryObserver {
-
     private final List<TrajectoryObserver> observers = new LinkedList<TrajectoryObserver>();
     private Track track;
     private Trajectory physics;
@@ -28,15 +30,15 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
 
     public RollercoasterSimulation(Track track) {
         Curve curve = track.getCurve();
-        
-        Vector3d displacement = calculateDisplacement(curve);
-        
-       // if (!displacement.equals(Vector3d.ZERO)) {
-       //     curve = curve.translate(displacement);
-       // }
-        
-        double s0 = calculateStartPosition(curve);
-        double v0 = 1.0;
+
+        // Vector3d displacement = calculateDisplacement(curve);
+
+        // if (!displacement.equals(Vector3d.ZERO)) {
+        //     curve = curve.translate(displacement);
+        // }
+
+        double s0 = 0.0; // calculateStartPosition(curve);
+        double v0 = track.getInitialSpeed();
 
         this.track = track;
         this.graphics = new RollercoasterView(curve);
@@ -168,8 +170,9 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
 
     private void updateCameraPosition() {
         TrajectoryPoint previousState = physicsState;
-        physicsState = physics.getState();
 
+        physicsState = physics.getState();
+       
         if (physicsState != previousState) {
             Vector3f location = physicsState.getPosition().toF();
             Vector3f left = physicsState.getPitchAxis().toF();
@@ -221,13 +224,20 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
     public void setTrack(Track track) {
         unbind();
 
+        this.state = null;
         this.track = track;
-        Curve curve = track.getCurve();
-        double s0 = calculateStartPosition(curve);
-        double v0 = 1.0;
 
-        graphics.setCurve(curve);
-        physics = new RollercoasterTrajectory(curve, s0, v0);
+        if (null != track) {
+            Curve curve = track.getCurve();
+            double s0 = 0; // calculateStartPosition(curve);
+            double v0 = track.getInitialSpeed();
+
+            graphics.setCurve(curve);
+            physics = new RollercoasterTrajectory(curve, s0, v0);
+        } else {
+            graphics.setCurve(null);
+            physics = new TrivialPhysics();
+        }
 
         bind();
 
@@ -235,12 +245,22 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
     }
 
     private void bind() {
-        this.graphics.addObserver(this);
-        this.physics.addObserver(this);
+        if (null != graphics) {
+            this.graphics.addObserver(this);
+        }
+
+        if (null != physics) {
+            this.physics.addObserver(this);
+        }
     }
 
     private void unbind() {
-        this.physics.removeObserver(this);
-        this.graphics.removeObserver(this);
+        if (null != physics) {
+            this.physics.removeObserver(this);
+        }
+
+        if (null != graphics) {
+            this.graphics.removeObserver(this);
+        }
     }
 }

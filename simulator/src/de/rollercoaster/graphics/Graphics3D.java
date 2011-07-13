@@ -366,8 +366,10 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
         if (null != bahn) {
             bahn.removeFromParent();
         }
-        bahn = new Achterbahn(view.getCurve(), bahn_material, joint, pattern_filename, bounding_pattern_filename);
-        rootNode.attachChild(bahn);
+        if (null != view.getCurve()) {
+            bahn = new Achterbahn(view.getCurve(), bahn_material, joint, pattern_filename, bounding_pattern_filename);
+            rootNode.attachChild(bahn);
+        }
     }
 
     //*********************************************************************************//

@@ -9,7 +9,7 @@
 <Comment/>
 </General>
 <SimulationParameters>
-<Speed>0.0</Speed>
+<Speed>36.0</Speed>
 <Scale>0.5</Scale>
 <Direction>forward</Direction>
 </SimulationParameters>
