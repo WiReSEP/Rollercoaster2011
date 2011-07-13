@@ -35,9 +35,9 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
        //     curve = curve.translate(displacement);
        // }
         
-        double s0 = calculateStartPosition(curve);
-        double v0 = 1.0;
-
+        double s0 = 0.0; // calculateStartPosition(curve);
+        double v0 = track.getInitialSpeed();
+        
         this.track = track;
         this.graphics = new RollercoasterView(curve);
         this.physics = new RollercoasterTrajectory(curve, s0, v0);
@@ -224,8 +224,8 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
         this.state = null;
         this.track = track;
         Curve curve = track.getCurve();
-        double s0 = calculateStartPosition(curve);
-        double v0 = 1.0;
+        double s0 = 0; // calculateStartPosition(curve);
+        double v0 = track.getInitialSpeed();
 
         graphics.setCurve(curve);
         physics = new RollercoasterTrajectory(curve, s0, v0);
