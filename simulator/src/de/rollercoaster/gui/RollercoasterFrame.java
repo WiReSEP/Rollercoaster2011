@@ -38,13 +38,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   Object[][] data = {
     {"Geschwindigkeit", new Double(0), new Double(0), new Double(0)},
     {">Zeit", new Double(0), new Double(0), new Double(0)},
-    {">Beschl.", "", new Double(0), new Double(0)},
-    {">Winkel", "", new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
     {"Beschleunigung", new Double(0), new Double(0), new Double(0)},
     {">Zeit", new Double(0), new Double(0), new Double(0)},
-    {">Geschw.", "", new Double(0), new Double(0)},
-    {">Winkel", "", new Double(0), new Double(0)},};
+    {"-----------------------", "", "", ""},
+    {">Winkel", new Double(0), new Double(0), new Double(0)},
+    {">Zeit", new Double(0), new Double(0), new Double(0)}};
   String[] cameras = {"\u00dcbersicht", "Kamerafahrt"};
   private final Simulation sim;
   private final RollercoasterView graphics;
@@ -166,7 +165,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     minMaxTable.setShowHorizontalLines(false);
     minMaxTable.setShowVerticalLines(false);
     int maxWidth = 0;
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 8; i++) {
       Object cellValue = minMaxTable.getValueAt(i, 0);
       if (cellValue != null) {
         maxWidth = Math.max(minMaxTable.getCellRenderer(i, 0).getTableCellRendererComponent(minMaxTable, cellValue, false, false, i, 0).getPreferredSize().width + minMaxTable.getIntercellSpacing().width, maxWidth);
@@ -200,7 +199,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       private double lastTime = 0.0;
 
       @Override
-      public void update(TrajectoryPoint newState) {
+      public void update(TrajectoryPoint newState) throws NullPointerException {
+				try {
         if (newState.getTime() > lastTime + 1.0) {
           lastTime = newState.getTime();
 
@@ -217,50 +217,53 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             graph.addPoint(val, newState.getTime(), newState.getJerk().length());
           }
 
+					
           //aktuell
-          minMaxTable.setValueAt(newState.getVelocity().length(), 0, 1);
-          minMaxTable.setValueAt(newState.getTime(), 1, 1);
-          minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 1);
-          minMaxTable.setValueAt(newState.getTime(), 6, 1);
-          //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
-          //minMaxTable.setValueAt(newState.getTime(), 6, 1);
-          //minMaxTable.setValueAt(newState.getAcceleration().length(), 7, 1);
-          //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
+					minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 1);
+          minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 1);
+					minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 1);
+          minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 1);
+// 					minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
+//           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
+					
+          
 
           //Geschwindigkeit
-          if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
-            minMaxTable.setValueAt(newState.getVelocity().length(), 0, 2);
-            minMaxTable.setValueAt(newState.getTime(), 1, 2);
-            minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 2);
-            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
+					if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
+						minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 2);
+            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 2);
           }
           if ((newState.getVelocity().length() > ((Double) minMaxTable.getValueAt(0, 3))) || (newMinMax)) {
-            minMaxTable.setValueAt(newState.getVelocity().length(), 0, 3);
-            minMaxTable.setValueAt(newState.getTime(), 1, 3);
-            minMaxTable.setValueAt(newState.getAcceleration().length(), 2, 3);
-            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
+						minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 3);
+            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 3);
           }
 
           //Beschleunigung
-          if ((newState.getAcceleration().length() < ((Double) minMaxTable.getValueAt(5, 2))) || (newMinMax)) {
-            minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 2);
-            minMaxTable.setValueAt(newState.getTime(), 6, 2);
-            minMaxTable.setValueAt(newState.getVelocity().length(), 7, 2);
-            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
+          if ((newState.getAcceleration().length() < ((Double) minMaxTable.getValueAt(3, 2))) || (newMinMax)) {
+						minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 2);
+            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 2);
           }
-          if ((newState.getAcceleration().length() > ((Double) minMaxTable.getValueAt(5, 3))) || (newMinMax)) {
-            minMaxTable.setValueAt(newState.getAcceleration().length(), 5, 3);
-            minMaxTable.setValueAt(newState.getTime(), 6, 3);
-            minMaxTable.setValueAt(newState.getVelocity().length(), 7, 3);
-            //minMaxTable.setValueAt(newState.get   Methode f\u00dcr den Winkel fehlt noch
+          if ((newState.getAcceleration().length() > ((Double) minMaxTable.getValueAt(3, 3))) || (newMinMax)) {
+						minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 3);
+            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 3);
           }
+          
+          //Winkel
+//           if ((newState.getJerk().length() < ((Double)minMaxTable.getValueAt(6, 2))) || (newMinMax)) {
+// 						minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
+// 						minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
+//           }
+//           if ((newState.getJerk().length() > ((Double) minMaxTable.getValueAt(6, 3))) || (newMinMax)) {
+// 						minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
+// 						minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
+// 					}
           newMinMax = false;
 
           //HUD TODO:sollen wir das wirklich
           //graphics.setHUDData(newState.getVelocity(), newState.getAcceleration());
-        }
+        }}catch (NullPointerException e){/*log.append("getJerk() "+newState.getJerk());*/}
 
-      }
+      } 
     });
 
     /////////////////////////////////Men\u00dc/////////////////////////////////////
@@ -353,14 +356,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   public void reset() {
     graph.clearCurve(0);
     graph.clearCurve(1);
-    for (int i = 0; i < 9; i++) {
-      if (i == 4) {
+    for (int i = 0; i < 8; i++) {
+      if (i == 2 || i == 5) {
         continue;
       }
       for (int j = 1; j < 4; j++) {
-        if ((j == 1) && ((i == 2) || (i == 3) || (i == 7) || i == 8)) {
-          continue;
-        }
+//         if ((j == 1) && ((i == 2) || (i == 3) || (i == 7) || i == 8)) {
+//           continue;
+//         }
         minMaxTable.setValueAt(new Double(0), i, j);
       }
     }
@@ -404,17 +407,20 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         startButton.setLabel("Start");
         sim1.setLabel("Simulation starten");
         sim.stop();
+				newMinMax = true;
         log.append("Simulation gestoppt.\n");
       }
       else {
         reset();
-        log.append("Simulation ist gestoppt. Daten r\u00dccksetzen.\n");
+        log.append("Simulation ist gestoppt. Daten zur\u00dccksetzen.\n");
       }
     }
     else if (e.getSource() == datei1) { //Konstruktion laden
       if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         Track track = new SerializedTrack(file);
+				newMinMax = true;
+				startButton.setLabel("Start");
         sim.setTrack(track);
         log.append("Konstruktion " + file + " geladen.");
       }
