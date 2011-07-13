@@ -38,10 +38,10 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {"Geschwindigkeit [m/s]", new Double(0), new Double(0), new Double(0)},
     {">Zeit [s]", new Double(0), new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
-    {"Beschleunigung [m/s²]", new Double(0), new Double(0), new Double(0)},
+    {"Beschleunigung [m/s\u00b2]", new Double(0), new Double(0), new Double(0)},
     {">Zeit [s]", new Double(0), new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
-    {"Ruck [m/s³]", new Double(0), new Double(0), new Double(0)},
+    {"Ruck [m/s\u00b3]", new Double(0), new Double(0), new Double(0)},
     {">Zeit [s]", new Double(0), new Double(0), new Double(0)}};
   String[] cameras = {"\u00dcbersicht", "Kamerafahrt"};
   private final Simulation sim;
@@ -61,7 +61,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   private JLabel overview = new JLabel("\u00dcbersicht\n(Funktion noch nicht vorhanden)");
   private JPanel bottomPanel = new JPanel(null);
   private JButton startButton = new JButton("Start");
-  private JButton stopButton = new JButton("Stop");
+  private JButton stopButton = new JButton("Stopp");
   private JComboBox cameraBox = new JComboBox(cameras);
   private JMenuBar jmb = new JMenuBar();
   private JMenu datei = new JMenu("Datei");
@@ -218,8 +218,6 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       @Override
       public void update(TrajectoryPoint newState) throws NullPointerException {
         try {
-        if (newState.getTime() > lastTime + 1.0) {
-          lastTime = newState.getTime();
 
           int val = graph.getCurveID("v");
           if (val >= 0) {
@@ -233,6 +231,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           if (val >= 0) {
             graph.addPoint(val, newState.getTime(), newState.getJerk().length());
           }
+        
+        if (newState.getTime() > lastTime + 1.0) {
+           lastTime = newState.getTime();
 
           
           //aktuell
@@ -276,8 +277,6 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           }
           newMinMax = false;
 
-          //HUD TODO:sollen wir das wirklich
-          //graphics.setHUDData(newState.getVelocity(), newState.getAcceleration());
         }}catch (NullPointerException e){/*log.append("getJerk() "+newState.getJerk());*/}
 
       } 
@@ -456,6 +455,10 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
     else if (e.getSource() == datei2) { //Konstruktion schließen
       sim.setTrack(null);
+      if (!sim.isStopped()) {
+        stop();
+      }
+      reset();
       log.append("Konstruktion geschlossen.\n");
     }
     else if (e.getSource() == datei3) { //beenden

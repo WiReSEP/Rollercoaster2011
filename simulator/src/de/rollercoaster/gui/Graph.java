@@ -102,7 +102,7 @@ public class Graph extends JPanel implements Runnable {
   
   public Graph() {
     super();
-    stepDistance = 2;
+    stepDistance = 10;
     curves =  new Vector<Curve>();
 
     final GraphContent g = new GraphContent();
