@@ -48,6 +48,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   private final Simulation sim;
   private final RollercoasterView graphics;
   private JFileChooser fc = new JFileChooser();
+  private JSplitPane sp0 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
   private JPanel rightPanel = new JPanel();
   private JSplitPane sp1 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
   private JSplitPane sp2 = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
@@ -126,13 +127,15 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     cp.setLayout(new BorderLayout());
     // Anfang Komponenten
 
+    //TODO: Resize mit Splipane funktioniert nicht anständig
     cp.add(graphicsCanvas, BorderLayout.WEST);
+    //sp0.setLeftComponent(graphicsCanvas);
 
     rightPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     rightPanel.setLayout(new BorderLayout());
-    //ResizeListener rl = new ResizeListener();
-    //rightPanel.addComponentListener(rl);
     cp.add(rightPanel, BorderLayout.CENTER);
+    //sp0.setRightComponent(rightPanel);
+    //cp.add(sp0, BorderLayout.CENTER);
 
     bottomPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     bottomPanel.setLayout(new FlowLayout());
@@ -200,7 +203,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
       @Override
       public void update(TrajectoryPoint newState) throws NullPointerException {
-				try {
+        try {
         if (newState.getTime() > lastTime + 1.0) {
           lastTime = newState.getTime();
 
@@ -217,46 +220,46 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             graph.addPoint(val, newState.getTime(), newState.getJerk().length());
           }
 
-					
+          
           //aktuell
-					minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 1);
+          minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 1);
-					minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 1);
+          minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 1);
-// 					minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
+//          minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
 //           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
-					
+          
           
 
           //Geschwindigkeit
-					if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 2);
+          if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
+            minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 2);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 2);
           }
           if ((newState.getVelocity().length() > ((Double) minMaxTable.getValueAt(0, 3))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 3);
+            minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 3);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 3);
           }
 
           //Beschleunigung
           if ((newState.getAcceleration().length() < ((Double) minMaxTable.getValueAt(3, 2))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 2);
+            minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 2);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 2);
           }
           if ((newState.getAcceleration().length() > ((Double) minMaxTable.getValueAt(3, 3))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 3);
+            minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 3);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 3);
           }
           
           //Winkel
 //           if ((newState.getJerk().length() < ((Double)minMaxTable.getValueAt(6, 2))) || (newMinMax)) {
-// 						minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
-// 						minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
+//            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
+//            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
 //           }
 //           if ((newState.getJerk().length() > ((Double) minMaxTable.getValueAt(6, 3))) || (newMinMax)) {
-// 						minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
-// 						minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
-// 					}
+//            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
+//            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
+//          }
           newMinMax = false;
 
           //HUD TODO:sollen wir das wirklich
@@ -353,7 +356,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
   }
 
-  public void reset() {
+  private void reset() {
     graph.clearCurve(0);
     graph.clearCurve(1);
     for (int i = 0; i < 8; i++) {
@@ -368,6 +371,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
     }
     newMinMax = true;
+
+  }
+  
+  private void stop() {
+        startButton.setLabel("Start");
+        sim1.setLabel("Simulation starten");
+        sim.stop();
+        newMinMax = true;
 
   }
 
@@ -404,10 +415,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
     else if ((e.getSource() == stopButton) || (e.getSource() == sim2)) { //Simulation stoppen 
       if (!sim.isStopped()) {
-        startButton.setLabel("Start");
-        sim1.setLabel("Simulation starten");
-        sim.stop();
-				newMinMax = true;
+        stop();
         log.append("Simulation gestoppt.\n");
       }
       else {
@@ -423,8 +431,10 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         Track track = new SerializedTrack(file);
-				newMinMax = true;
-				startButton.setLabel("Start");
+        if (!sim.isStopped()) {
+          stop();
+        }
+        reset();
         sim.setTrack(track);
         log.append("Konstruktion " + file + " geladen.\n");
       }
@@ -457,7 +467,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         graphics.loadDeko(file.toString());
-        log.append("Deko " + file + " geladen.");
+        log.append("Deko " + file + " geladen.\n");
       }
     }
     else if (e.getActionCommand().equals("lookandfeel")) { //Look&Feel
@@ -482,9 +492,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           graphics.setPattern(file.toString());
         }
         catch (FileNotFoundException f) {
-          log.append("Merkw\u00dcrdigerweise ist die Datei nicht da");
+          log.append("Merkw\u00dcrdigerweise ist die Datei nicht da\n");
         }
-        log.append("Pattern " + file + " geladen.");
+        log.append("Pattern " + file + " geladen.\n");
       }
     }
     else if (e.getSource() == ansicht7) { //Boundingpattern laden
@@ -494,9 +504,9 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           graphics.setBoundingPattern(file.toString());
         }
         catch (FileNotFoundException f) {
-          log.append("Merkw\u00dcrdigerweise ist die Datei nicht da");
+          log.append("Merkw\u00dcrdigerweise ist die Datei nicht da\n");
         }
-        log.append("Boundingpattern " + file + " geladen.");
+        log.append("Boundingpattern " + file + " geladen.\n");
       }
     }
     else if (e.getSource() == ansicht9) {
@@ -525,7 +535,6 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
     }
     else if (e.getSource() == ansicht15) {
-      //TODO:layout
       grapheinstellungen = new JFrame("Grapheinstellungen");
       grapheinstellungen.setSize(520, 300);
       grapheinstellungen.setLayout(new FlowLayout());
@@ -552,7 +561,29 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         }
       });
       final JButton farb2 = new JButton("Farbe");
+      if (graph.getCurveID("a") >= 0) {
+        farb2.setBackground(graph.getColor(graph.getCurveID("a")));
+      }
+      farb2.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          Color newColor = JColorChooser.showDialog(RollercoasterFrame.this, "Farbe f\u00dcr Beschleunigung", farb2.getBackground());
+          if (newColor != null) {
+            farb2.setBackground(newColor);
+          }
+        }
+      });
       final JButton farb3 = new JButton("Farbe");
+      if (graph.getCurveID("j") >= 0) {
+        farb3.setBackground(graph.getColor(graph.getCurveID("j")));
+      }
+      farb3.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+          Color newColor = JColorChooser.showDialog(RollercoasterFrame.this, "Farbe f\u00dcr Ruck", farb3.getBackground());
+          if (newColor != null) {
+            farb3.setBackground(newColor);
+          }
+        }
+      });
       kurven.add(farb1);
       kurven.add(farb2);
       kurven.add(farb3);
