@@ -43,7 +43,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {"Beschleunigung", new Double(0), new Double(0), new Double(0)},
     {">Zeit", new Double(0), new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
-    {"Winkel", new Double(0), new Double(0), new Double(0)},
+    {"Ruck", new Double(0), new Double(0), new Double(0)},
     {">Zeit", new Double(0), new Double(0), new Double(0)}};
   String[] cameras = {"\u00dcbersicht", "Kamerafahrt"};
   private final Simulation sim;
@@ -137,7 +137,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     cp.setLayout(new BorderLayout());
     // Anfang Komponenten
 
-    //TODO: Resize mit Splipane funktioniert nicht anst�ndig
+    //TODO: Resize mit Splipane funktioniert nicht anständig
     cp.add(graphicsCanvas, BorderLayout.WEST);
     //sp0.setLeftComponent(graphicsCanvas);
 
@@ -261,7 +261,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 3);
           }
           
-          //Winkel
+          //Ruck
 //           if ((newState.getJerk().length() < ((Double)minMaxTable.getValueAt(6, 2))) || (newMinMax)) {
 //            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
 //            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
@@ -450,7 +450,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         log.append("Konstruktion " + file + " geladen.\n");
       }
     }
-    else if (e.getSource() == datei2) { //Konstruktion schließen
+    else if (e.getSource() == datei2) { //Konstruktion schlieÃen
       sim.setTrack(null);
       log.append("Konstruktion geschlossen.\n");
     }
