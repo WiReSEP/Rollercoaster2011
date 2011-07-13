@@ -200,7 +200,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
       @Override
       public void update(TrajectoryPoint newState) throws NullPointerException {
-				try {
+        try {
         if (newState.getTime() > lastTime + 1.0) {
           lastTime = newState.getTime();
 
@@ -217,46 +217,46 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             graph.addPoint(val, newState.getTime(), newState.getJerk().length());
           }
 
-					
+          
           //aktuell
-					minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 1);
+          minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 1);
-					minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 1);
+          minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 1);
-// 					minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
+//          minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
 //           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
-					
+          
           
 
           //Geschwindigkeit
-					if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 2);
+          if ((newState.getVelocity().length() < ((Double) minMaxTable.getValueAt(0, 2))) || (newMinMax)) {
+            minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 2);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 2);
           }
           if ((newState.getVelocity().length() > ((Double) minMaxTable.getValueAt(0, 3))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 3);
+            minMaxTable.setValueAt(Math.round((newState.getVelocity().length())*100.)/100., 0, 3);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 3);
           }
 
           //Beschleunigung
           if ((newState.getAcceleration().length() < ((Double) minMaxTable.getValueAt(3, 2))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 2);
+            minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 2);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 2);
           }
           if ((newState.getAcceleration().length() > ((Double) minMaxTable.getValueAt(3, 3))) || (newMinMax)) {
-						minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 3);
+            minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 3);
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 3);
           }
           
           //Winkel
 //           if ((newState.getJerk().length() < ((Double)minMaxTable.getValueAt(6, 2))) || (newMinMax)) {
-// 						minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
-// 						minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
+//            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
+//            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
 //           }
 //           if ((newState.getJerk().length() > ((Double) minMaxTable.getValueAt(6, 3))) || (newMinMax)) {
-// 						minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
-// 						minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
-// 					}
+//            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
+//            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
+//          }
           newMinMax = false;
 
           //HUD TODO:sollen wir das wirklich
@@ -353,7 +353,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
   }
 
-  public void reset() {
+  private void reset() {
     graph.clearCurve(0);
     graph.clearCurve(1);
     for (int i = 0; i < 8; i++) {
@@ -368,6 +368,14 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
     }
     newMinMax = true;
+
+  }
+  
+  private void stop() {
+        startButton.setLabel("Start");
+        sim1.setLabel("Simulation starten");
+        sim.stop();
+        newMinMax = true;
 
   }
 
@@ -404,10 +412,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
     else if ((e.getSource() == stopButton) || (e.getSource() == sim2)) { //Simulation stoppen 
       if (!sim.isStopped()) {
-        startButton.setLabel("Start");
-        sim1.setLabel("Simulation starten");
-        sim.stop();
-				newMinMax = true;
+        stop();
         log.append("Simulation gestoppt.\n");
       }
       else {
@@ -419,10 +424,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         Track track = new SerializedTrack(file);
-				newMinMax = true;
-				startButton.setLabel("Start");
+        if (!sim.isStopped()) {
+          stop();
+          reset();
+        }
         sim.setTrack(track);
-        log.append("Konstruktion " + file + " geladen.");
+        log.append("Konstruktion " + file + " geladen.\n");
       }
     }
     else if (e.getSource() == datei2) { //Konstruktion schließen
