@@ -221,6 +221,7 @@ public class RollercoasterSimulation implements Simulation, ViewObserver, Trajec
     public void setTrack(Track track) {
         unbind();
 
+        this.state = null;
         this.track = track;
         Curve curve = track.getCurve();
         double s0 = calculateStartPosition(curve);

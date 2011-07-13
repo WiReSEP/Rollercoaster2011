@@ -5,8 +5,6 @@ import de.rollercoaster.data.Track;
 import de.rollercoaster.graphics.View;
 import de.rollercoaster.graphics.CameraMode;
 
-
-//nur f\u00dcr die Pr\u00c4sentation wird dies importiert
 import de.rollercoaster.graphics.RollercoasterView;
 import de.rollercoaster.physics.TrajectoryObserver;
 import de.rollercoaster.physics.TrajectoryPoint;
@@ -37,14 +35,14 @@ import javax.swing.filechooser.FileFilter;
 public class RollercoasterFrame extends JFrame implements ActionListener, ItemListener {
   String[] columnNames = {"", "aktuell", "Minimum", "Maximum"};
   Object[][] data = {
-    {"Geschwindigkeit", new Double(0), new Double(0), new Double(0)},
-    {">Zeit", new Double(0), new Double(0), new Double(0)},
+    {"Geschwindigkeit [m/s]", new Double(0), new Double(0), new Double(0)},
+    {">Zeit [s]", new Double(0), new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
-    {"Beschleunigung", new Double(0), new Double(0), new Double(0)},
-    {">Zeit", new Double(0), new Double(0), new Double(0)},
+    {"Beschleunigung [m/s²]", new Double(0), new Double(0), new Double(0)},
+    {">Zeit [s]", new Double(0), new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
-    {"Winkel", new Double(0), new Double(0), new Double(0)},
-    {">Zeit", new Double(0), new Double(0), new Double(0)}};
+    {"Ruck [m/s³]", new Double(0), new Double(0), new Double(0)},
+    {">Zeit [s]", new Double(0), new Double(0), new Double(0)}};
   String[] cameras = {"\u00dcbersicht", "Kamerafahrt"};
   private final Simulation sim;
   private final RollercoasterView graphics;
@@ -67,7 +65,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
   private JComboBox cameraBox = new JComboBox(cameras);
   private JMenuBar jmb = new JMenuBar();
   private JMenu datei = new JMenu("Datei");
-  private JMenuItem datei1 = new JMenuItem("Konstruktion  \u00F6ffnen");
+  private JMenuItem datei1 = new JMenuItem("Konstruktion \u00F6ffnen");
   private JMenuItem datei2 = new JMenuItem("Konstruktion schliessen");
   private JMenuItem datei3 = new JMenuItem("Beenden");
   private JMenu simulation = new JMenu("Simulation");
@@ -137,7 +135,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     cp.setLayout(new BorderLayout());
     // Anfang Komponenten
 
-    //TODO: Resize mit Splipane funktioniert nicht anst�ndig
+    //TODO: Resize mit Splipane funktioniert nicht anst�ndig
     cp.add(graphicsCanvas, BorderLayout.WEST);
     //sp0.setLeftComponent(graphicsCanvas);
 
@@ -203,7 +201,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         add(new JScrollPane(log), BorderLayout.CENTER);
       }
     });
-    sp2.setBottomComponent(overview);
+   // sp2.setBottomComponent(overview);
     rightPanel.add(sp1, BorderLayout.CENTER);
 
     /////////////////////////////////Bewegung/////////////////////////////////
@@ -236,8 +234,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 1, 1);
           minMaxTable.setValueAt(Math.round((newState.getAcceleration().length())*100.)/100., 3, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 1);
-//          minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
-//           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
+          minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
+          minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
           
           
 
@@ -261,15 +259,15 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 3);
           }
           
-          //Winkel
-//           if ((newState.getJerk().length() < ((Double)minMaxTable.getValueAt(6, 2))) || (newMinMax)) {
-//            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
-//            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
-//           }
-//           if ((newState.getJerk().length() > ((Double) minMaxTable.getValueAt(6, 3))) || (newMinMax)) {
-//            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
-//            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
-//          }
+          //Ruck
+           if ((newState.getJerk().length() < ((Double)minMaxTable.getValueAt(6, 2))) || (newMinMax)) {
+            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 2);
+            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 2);
+           }
+           if ((newState.getJerk().length() > ((Double) minMaxTable.getValueAt(6, 3))) || (newMinMax)) {
+            minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 3);
+            minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 3);
+          }
           newMinMax = false;
 
           //HUD TODO:sollen wir das wirklich
