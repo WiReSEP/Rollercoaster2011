@@ -35,16 +35,6 @@ public class CameraControl {
         car.setCullHint(CullHint.Always);	//at the beginning the car is hidden
     }
 
-    /**
-     * returns position of car for overview of way
-     * @return 2D vector 
-     */
-    public Vector2f getOverviewPosition() {
-        Vector2f position2D = new Vector2f();
-        //TODO: Vector3f in Vector 2f umwandeln
-        return null;//carPosition;
-    }
-
 		/**
 			*updates the Camera mode: Interior view or overview
 			*

@@ -135,6 +135,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     cp.setLayout(new BorderLayout());
     // Anfang Komponenten
 
+
     //cp.add(graphicsCanvas, BorderLayout.WEST);
     sp0.setLeftComponent(new JPanel() {
       {
@@ -144,6 +145,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         setMaximumSize(new Dimension(0, 0));
       }
     });
+
 
     rightPanel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
     rightPanel.setLayout(new BorderLayout());
@@ -453,7 +455,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         log.append("Konstruktion " + file + " geladen.\n");
       }
     }
-    else if (e.getSource() == datei2) { //Konstruktion schließen
+    else if (e.getSource() == datei2) { //Konstruktion schlieÃen
       sim.setTrack(null);
       if (!sim.isStopped()) {
         stop();
