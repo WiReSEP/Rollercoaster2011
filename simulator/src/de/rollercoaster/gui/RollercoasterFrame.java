@@ -32,6 +32,7 @@ import java.io.File;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.io.FileNotFoundException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.filechooser.FileFilter;
 
 public class RollercoasterFrame extends JFrame implements ActionListener, ItemListener {
   String[] columnNames = {"", "aktuell", "Minimum", "Maximum"};
@@ -100,7 +101,16 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
   public RollercoasterFrame(String title, Simulation sim) {
     super(title);
-    
+		
+		fc.setFileFilter(new FileFilter() {
+			public boolean accept(File f) {
+				return f.getName().toLowerCase().endsWith(".xml") || f.isDirectory();
+			}
+			public String getDescription() {
+				return "XML-Dateien(*.xml)";
+			}
+		});
+		
     JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
     this.sim = sim;
