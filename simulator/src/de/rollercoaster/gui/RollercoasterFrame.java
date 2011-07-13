@@ -99,7 +99,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
   public RollercoasterFrame(String title, Simulation sim) {
     super(title);
-
+		
     JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
     this.sim = sim;
@@ -416,13 +416,17 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
     }
     else if (e.getSource() == datei1) { //Konstruktion laden
+			try {
+				String curDir = System.getProperty("user.dir");
+				fc.setCurrentDirectory(new File(curDir+"/examples/"));
+			} catch (Exception x) {}
       if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         Track track = new SerializedTrack(file);
 				newMinMax = true;
 				startButton.setLabel("Start");
         sim.setTrack(track);
-        log.append("Konstruktion " + file + " geladen.");
+        log.append("Konstruktion " + file + " geladen.\n");
       }
     }
     else if (e.getSource() == datei2) { //Konstruktion schließen
