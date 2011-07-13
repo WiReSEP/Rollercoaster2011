@@ -42,7 +42,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     {"Beschleunigung", new Double(0), new Double(0), new Double(0)},
     {">Zeit", new Double(0), new Double(0), new Double(0)},
     {"-----------------------", "", "", ""},
-    {">Winkel", new Double(0), new Double(0), new Double(0)},
+    {"Winkel", new Double(0), new Double(0), new Double(0)},
     {">Zeit", new Double(0), new Double(0), new Double(0)}};
   String[] cameras = {"\u00dcbersicht", "Kamerafahrt"};
   private final Simulation sim;
@@ -100,7 +100,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
 
   public RollercoasterFrame(String title, Simulation sim) {
     super(title);
-		
+    
     JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 
     this.sim = sim;
@@ -187,7 +187,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         setLayout(new BorderLayout());
         add(new JScrollPane(minMaxTable) {
           {
-            setPreferredSize(new Dimension(minMaxTable.getWidth(), minMaxTable.getRowHeight() * 11));
+            setPreferredSize(new Dimension(minMaxTable.getWidth(), minMaxTable.getRowHeight() * 9 + 5));
           }
         }, BorderLayout.NORTH);
         add(new JScrollPane(log), BorderLayout.CENTER);
@@ -424,10 +424,10 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
     }
     else if (e.getSource() == datei1) { //Konstruktion laden
-			try {
-				String curDir = System.getProperty("user.dir");
-				fc.setCurrentDirectory(new File(curDir+"/examples/"));
-			} catch (Exception x) {}
+      try {
+        String curDir = System.getProperty("user.dir");
+        fc.setCurrentDirectory(new File(curDir+"/examples/"));
+      } catch (Exception x) {}
       if (fc.showOpenDialog(RollercoasterFrame.this) == JFileChooser.APPROVE_OPTION) {
         File file = fc.getSelectedFile();
         Track track = new SerializedTrack(file);
