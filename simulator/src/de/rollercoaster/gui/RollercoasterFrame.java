@@ -334,7 +334,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     ansicht.add(ansicht1);
     ansicht.add(ansicht11);
     ansicht.add(ansicht12);
-    ansicht.add(ansicht13);
+    //ansicht.add(ansicht13);
     ansicht.addSeparator();
     ansicht.add(ansicht2);
     ansicht.add(ansicht3);
