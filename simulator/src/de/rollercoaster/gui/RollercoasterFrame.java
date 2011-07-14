@@ -220,6 +220,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       @Override
       public void update(TrajectoryPoint newState) throws NullPointerException {
         try {
+          if (newMinMax) lastTime = 0.0;
 
           int val = graph.getCurveID("v");
           if (val >= 0) {
@@ -245,7 +246,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 4, 1);
           minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
-          
+        }
           
 
           //Geschwindigkeit
@@ -279,7 +280,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           }
           newMinMax = false;
 
-        }}catch (NullPointerException e){/*log.append("getJerk() "+newState.getJerk());*/}
+        }catch (NullPointerException e){/*log.append("getJerk() "+newState.getJerk());*/}
 
       } 
     });
