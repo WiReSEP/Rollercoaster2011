@@ -247,6 +247,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
           minMaxTable.setValueAt(Math.round((newState.getJerk().length())*100.)/100., 6, 1);
           minMaxTable.setValueAt(Math.round((newState.getTime())*100.)/100., 7, 1);
         }
+        
+        if ((newState.getAcceleration().dot(newState.getYawAxis())/9.81>17)
+          || (newState.getAcceleration().dot(newState.getPitchAxis())/9.81>9)
+          || (newState.getAcceleration().dot(newState.getRollAxis())/9.81>9) ) {
+            log.append("Warnung: Zu hohe Beschleunigung bei "+(Math.round((newState.getTime())*100.)/100.)+"\n");
+          }
           
 
           //Geschwindigkeit
@@ -462,10 +468,10 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       }
     }
     else if (e.getSource() == datei2) { //Konstruktion schlieÃen
-      sim.setTrack(null);
       if (!sim.isStopped()) {
         stop();
       }
+      sim.setTrack(null);
       reset();
       log.append("Konstruktion geschlossen.\n");
     }
@@ -559,6 +565,8 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
         graphics.setJoint(s);
       }
 
+    } else if (e.getSource() == hilfe1) {
+      JOptionPane.showMessageDialog(this,"SEP 2011\nKonstruktion, Simulation und Visualisierung von Achterbahnen\n\nDaniel Bahn, Konstantin Birker, Simon Hahne, Robin Hofman, Marco M\u00e4lzer, Matthias \u00dcberheide\nBetreuer: Elmar Zander\n\nInstitut f\u00fcr wissenschaftliches Rechnen","Info",JOptionPane.INFORMATION_MESSAGE);
     }
     else if (e.getSource() == ansicht15) {
       grapheinstellungen = new JFrame("Grapheinstellungen");
@@ -676,7 +684,12 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
       });
       grapheinstellungen.add(kurven);
       final JSpinner breite = new JSpinner(new SpinnerNumberModel(10, 1, 100, 1));
-      //grapheinstellungen.add(breite);
+      /*grapheinstellungen.add(new JPanel(new FlowLayout()) {
+        {
+          add(new JLabel("y-Achse Breite"));
+          add(breite);
+        }
+      });*/
       final JSpinner step = new JSpinner(new SpinnerNumberModel(graph.getStepDistance(), 0.1, 100, 0.1));
       grapheinstellungen.add(new JPanel(new FlowLayout()) {
         {
@@ -739,6 +752,7 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
             }
           }
           graph.setStepDistance((Double) step.getValue());
+          //graph.setRightSpace((Integer) breite.getValue());
           grapheinstellungen.dispose();
         }
       });

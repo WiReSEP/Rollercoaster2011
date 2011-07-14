@@ -414,6 +414,7 @@ public class Graphics3D extends SimpleApplication implements SceneProcessor, Act
     /**Ruft ein Update auf. Die Curve wird tatsächlich nicht benutzt, da angenommen wird, dass diese Methode vom View aufgerufen wurde. 
      */
     public void setCurve(Curve curve) {
+        //if (curve == null) car.setCullHint(CullHint.Always);
         reinit();
     }
 

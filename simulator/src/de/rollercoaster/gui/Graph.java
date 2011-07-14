@@ -98,11 +98,13 @@ public class Graph extends JPanel implements Runnable {
   }
 
   private double stepDistance;   //! x-Wert sind stepDistance Pixel
+  private int rightSpace;
   private Vector<Curve> curves;
   
   public Graph() {
     super();
     stepDistance = 10;
+    rightSpace = 25;
     curves =  new Vector<Curve>();
 
     final GraphContent g = new GraphContent();
@@ -110,7 +112,7 @@ public class Graph extends JPanel implements Runnable {
     add(new JPanel() {
       {
       setLayout(null);
-      setBounds(20,0,20,20);
+      setBounds(rightSpace,0,rightSpace,20);
       //setBorder(new BevelBorder(BevelBorder.RAISED));
       add(g, null);
       };
@@ -118,7 +120,7 @@ public class Graph extends JPanel implements Runnable {
     addComponentListener(new ComponentListener() {
       public void componentResized(ComponentEvent arg0) {
         if (getComponent(0) != null) {
-           getComponent(0).setSize(getWidth()-20,getHeight());
+           getComponent(0).setSize(getWidth()-rightSpace,getHeight());
         }
         
       }
@@ -141,7 +143,7 @@ public class Graph extends JPanel implements Runnable {
       g2d.drawString(Double.toString(c.yMin),0,h-11*i++);
     }
     g2d.setColor(Color.BLACK);
-    g2d.drawLine(19,0,19,h-11);
+    g2d.drawLine(rightSpace-1,0,rightSpace-1,h-11);
   }
     
   public void addPoint(int curveID, double x, double y) {
@@ -266,6 +268,15 @@ public class Graph extends JPanel implements Runnable {
     
     public void setStepDistance(double stepDistance) {
       this.stepDistance = stepDistance;
+    }
+
+    public int getRightSpace() {
+      return rightSpace;
+    }
+    
+    public void setRightSpace(int rightSpace) {
+      this.rightSpace = rightSpace;
+      //this.resize();
     }
 
   public static void main(String[] args) {
