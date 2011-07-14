@@ -78,7 +78,6 @@ import java.util.logging.Level;
 import java.nio.ByteBuffer;
 
 public class Graphics3D extends SimpleApplication implements SceneProcessor, ActionListener {
-
     private CameraControl cameraControl;
     //Achterbahndaten
     private RollercoasterView view;
