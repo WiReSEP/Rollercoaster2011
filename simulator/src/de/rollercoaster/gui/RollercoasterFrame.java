@@ -442,6 +442,11 @@ public class RollercoasterFrame extends JFrame implements ActionListener, ItemLi
     }
     else if (e.getSource() == datei1) { //Konstruktion laden
       try {
+        if (sim.isRunning()) {
+          sim.pause();
+          startButton.setLabel("Start");
+          sim1.setLabel("Simulation starten");
+        }
         String curDir = System.getProperty("user.dir");
         fc.setCurrentDirectory(new File(curDir+"/examples/"));
       } catch (Exception x) {}
